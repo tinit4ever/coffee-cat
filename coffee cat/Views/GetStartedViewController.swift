@@ -8,9 +8,13 @@
 import UIKit
 
 class GetStartedViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+    }
+    
+    func setupUI() {
+        view.backgroundColor = .systemBackground
     }
 }
 
