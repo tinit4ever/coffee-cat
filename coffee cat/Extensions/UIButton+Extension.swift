@@ -16,16 +16,20 @@ extension UIButton {
     func makeTitle(title: String, fontName: String, size: CGFloat, color: UIColor) {
         self.setTitle(title, for: .normal)
         self.setTitleColor(color, for: .normal)
+        self.setTitleColor(.darkGray, for: .highlighted)
         
         var configuration = UIButton.Configuration.gray()
         configuration.titleTextAttributesTransformer =
         UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
             outgoing.font = UIFont(name: fontName, size: size)
+            
+            if let descriptor = outgoing.font?.fontDescriptor {
+                outgoing.font = UIFont(descriptor: descriptor.withSymbolicTraits(.traitBold)!, size: size)
+            }
+            
             return outgoing
         }
         self.configuration = configuration
-        
-        
     }
 }

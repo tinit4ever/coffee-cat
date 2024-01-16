@@ -9,9 +9,9 @@ import UIKit
 
 enum ImageNames {
     static let gettingStartedBackground = "getting-started-background"
+    static let signUpBackground = "signup-background"
 }
 
 enum FontNames {
-    static let arialRounded = "Arial Rounded MT Bold"
-    static let chalkboard = "Chalkboard"
+    static let avenir = "Avenir"
 }

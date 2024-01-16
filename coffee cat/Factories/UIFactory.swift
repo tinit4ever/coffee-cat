@@ -10,7 +10,8 @@ import UIKit
 protocol UIFactory {
     func makeLabel() -> UILabel
     func makeButton() -> UIButton
-    func makeTextField() -> UITextField
+    func makeTextField(placeholder: String) -> UITextField
+    func makeRoundedTextFieldContainer() -> UIView
 }
 
 extension UIFactory {
@@ -27,9 +28,19 @@ extension UIFactory {
         return button
     }
     
-    func makeTextField() -> UITextField {
+    func makeTextField(placeholder: String) -> UITextField {
         let textField = UITextField()
+        textField.borderStyle = .none
+        textField.placeholder = placeholder
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
+    }
+    
+    func makeRoundedTextFieldContainer() -> UIView {
+        let container = UIView()
+        container.layer.cornerRadius = 30
+        container.layer.masksToBounds = true
+        container.translatesAutoresizingMaskIntoConstraints = false
+        return container
     }
 }

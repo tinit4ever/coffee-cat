@@ -8,9 +8,5 @@
 import UIKit
 
 extension UITextField {
-    func customizeTextField(cornerRadius: CGFloat) {
-        self.layer.cornerRadius = cornerRadius
-        self.layer.masksToBounds = true
-        self.borderStyle = .roundedRect
-    }
+
 }

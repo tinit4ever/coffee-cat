@@ -17,28 +17,6 @@ class GettingStartedViewController: UIViewController, UIFactory {
     
     private lazy var getStartedButton: UIButton = makeButton()
     
-    //    private lazy var getStartedButton: UIButton = {
-    //        let button = UIButton()
-    //        button.setTitle("Get Started", for: .normal)
-    //        button.setTitleColor(.white, for: .normal)
-    //
-    //        var configuration = UIButton.Configuration.gray()
-    //        configuration.baseBackgroundColor = .red
-    //        configuration.titleTextAttributesTransformer =
-    //        UIConfigurationTextAttributesTransformer { incoming in
-    //            var outgoing = incoming
-    //            outgoing.font = UIFont.systemFont(ofSize: 50)
-    //            return outgoing
-    //        }
-    //        button.configuration = configuration
-    //
-    //        button.layer.cornerRadius = 20
-    //        button.layer.masksToBounds = true
-    //
-    //        button.translatesAutoresizingMaskIntoConstraints = false
-    //        return button
-    //    }()
-    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,33 +34,27 @@ class GettingStartedViewController: UIViewController, UIFactory {
         
         //getStartedTitleLabel
         view.addSubview(getStartedTitleLabel)
-        
-        getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.arialRounded , size: 20, textColor: .black)
-        
+        getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: 29, textColor: .black)
+        getStartedTitleLabel.setBoldText()
         getStartedTitleLabelContrains()
         
         //getStartedContentLabel
         view.addSubview(getStartedContentLabel)
-        
-        getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.chalkboard, size: 16, textColor: .black)
-        
+        getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.avenir, size: 20, textColor: .black)
         getStartedContentLabelContrains()
         
         //getStartedButtonContrains
         view.addSubview(getStartedButton)
-        
         getStartedButton.makeCornerRadius(cornerRadius: 20)
-        getStartedButton.makeTitle(title: GettingStartedScreenText.getStartedButtonTitle, fontName: FontNames.arialRounded, size: 30, color: .white)
+        getStartedButton.makeTitle(title: GettingStartedScreenText.getStartedButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
         getStartedButton.backgroundColor = .customPink
-        
         getStartedButtonContrains()
-        
     }
     
     func getStartedTitleLabelContrains() {
         NSLayoutConstraint.activate([
             getStartedTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            getStartedTitleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 7 * 4)
+            getStartedTitleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 2)
         ])
     }
     
@@ -96,10 +68,10 @@ class GettingStartedViewController: UIViewController, UIFactory {
     
     func getStartedButtonContrains() {
         NSLayoutConstraint.activate([
-            getStartedButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15),
             getStartedButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             getStartedButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            getStartedButton.heightAnchor.constraint(equalToConstant: 50)
+            getStartedButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            getStartedButton.heightAnchor.constraint(equalToConstant: 70)
         ])
     }
 }
