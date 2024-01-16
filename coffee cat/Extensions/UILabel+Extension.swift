@@ -8,10 +8,11 @@
 import UIKit
 
 extension UILabel {
-    func customizeLabel(fontName: String, size: CGFloat, textColor: UIColor) {
-        var font = UIFont(name: fontName, size: size)
+    func setupTitle(text: String, fontName: String, size: CGFloat, textColor: UIColor) {
+        let font = UIFont(name: fontName, size: size)
         self.textAlignment = .center
         self.font = font
         self.textColor = textColor
+        self.text = text
     }
 }

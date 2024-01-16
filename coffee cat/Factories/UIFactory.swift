@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol GettingStartedFactory {
+protocol UIFactory {
     func makeLabel() -> UILabel
-    func makeButton(backgroundColor: UIColor) -> UIButton
-    func makeTextField(placeholder: String) -> UITextField
+    func makeButton() -> UIButton
+    func makeTextField() -> UITextField
 }
 
-extension GettingStartedFactory {
+extension UIFactory {
     func makeLabel() -> UILabel {
         let label = UILabel()
         label.numberOfLines = 0
@@ -21,18 +21,14 @@ extension GettingStartedFactory {
         return label
     }
     
-    func makeButton(backgroundColor: UIColor) -> UIButton {
+    func makeButton() -> UIButton {
         let button = UIButton()
-        var configuration = UIButton.Configuration.gray()
-        configuration.baseBackgroundColor = backgroundColor
-        button.configuration = configuration
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }
     
-    func makeTextField(placeholder: String) -> UITextField {
+    func makeTextField() -> UITextField {
         let textField = UITextField()
-        textField.placeholder = placeholder
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }

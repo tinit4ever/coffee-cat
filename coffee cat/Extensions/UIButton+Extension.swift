@@ -8,16 +8,24 @@
 import UIKit
 
 extension UIButton {
-    func customizeButton(cornerRadius: CGFloat) {
+    func makeCornerRadius(cornerRadius: CGFloat) {
         self.layer.cornerRadius = 20
         self.layer.masksToBounds = true
-        self.setTitle("Get Started", for: .normal)
-        self.setTitleColor(.white, for: .normal)
+    }
+    
+    func makeTitle(title: String, fontName: String, size: CGFloat, color: UIColor) {
+        self.setTitle(title, for: .normal)
+        self.setTitleColor(color, for: .normal)
+        
+        var configuration = UIButton.Configuration.gray()
+        configuration.titleTextAttributesTransformer =
+        UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont(name: fontName, size: size)
+            return outgoing
+        }
+        self.configuration = configuration
+        
+        
     }
 }
-
-//        getStartedButton.layer.cornerRadius = 20
-//        getStartedButton.layer.masksToBounds = true
-//        getStartedButton.setTitle("Get Started", for: .normal)
-//        getStartedButton.setTitleColor(.white, for: .normal)
-//        getStartedButton.titleLabel?.font = UIFont(name: "Arial Rounded MT Bold", size: 20)
