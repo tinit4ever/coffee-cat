@@ -20,3 +20,9 @@ struct SignUpScreenText {
     static let confirmPasswordTextFieldPlaceholder = "Confirm password"
     static let registerButtonTitle = "Register"
 }
+
+struct SignInScreenText {
+    static let emailTextFieldPlaceholder = "Enter your email"
+    static let passwordTextFieldPlaceholder = "Enter your password"
+    static let signInButtonTitle = "Login"
+}

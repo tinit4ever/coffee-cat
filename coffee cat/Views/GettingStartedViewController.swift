@@ -21,6 +21,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAction()
     }
     
     // -MARK: SetupUI
@@ -73,6 +74,18 @@ class GettingStartedViewController: UIViewController, UIFactory {
             getStartedButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             getStartedButton.heightAnchor.constraint(equalToConstant: 70)
         ])
+    }
+    
+    // -MARK: Setup Action
+    func setupAction() {
+        getStartedButton.addTarget(self, action: #selector(getStartedButtonTapped), for: .touchUpInside)
+    }
+    
+    // -MARK: Catch Action
+    @objc
+    func getStartedButtonTapped() {
+        let signUpViewController = SignUpViewController()
+        self.navigationController?.pushViewController(signUpViewController, animated: true)
     }
 }
 

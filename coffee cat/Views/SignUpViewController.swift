@@ -33,10 +33,15 @@ class SignUpViewController: UIViewController, UIFactory {
     
     lazy var signInButton: UIButton = makeButton()
     
+    lazy var alternativeStackView: UIStackView = makeHorizontalStackView()
+    lazy var alternativeLabel: UILabel = makeLabel()
+    lazy var alternativeButton: UIButton = makeButton()
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAction()
     }
     
     // -MARK: SetupUI
@@ -65,10 +70,13 @@ class SignUpViewController: UIViewController, UIFactory {
         view.addSubview(registerButton)
         configRegisterButton()
         
+        view.addSubview(alternativeStackView)
+        configAlternativeStackView()
+        
     }
     
     func configBackground() {
-        let backgroundImage = UIImageView(image: UIImage(named: ImageNames.signUpBackground))
+        let backgroundImage = UIImageView(image: UIImage(named: ImageNames.signupBackground))
         backgroundImage.contentMode = .scaleAspectFill
         backgroundImage.frame = view.bounds
         view.insertSubview(backgroundImage, at: 0)
@@ -150,6 +158,35 @@ class SignUpViewController: UIViewController, UIFactory {
             registerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             registerButton.heightAnchor.constraint(equalToConstant: 70)
         ])
+    }
+    
+    func configAlternativeStackView() {
+        alternativeStackView.addArrangedSubview(alternativeLabel)
+        alternativeLabel.setupTitle(text: "Already have an account?", fontName: FontNames.avenir, size: 20, textColor: .black)
+        alternativeLabel.numberOfLines = 1
+        
+        alternativeStackView.addArrangedSubview(alternativeButton)
+        alternativeButton.makeNoBorderButton()
+        alternativeButton.makeTitle(title: "Sign In", fontName: FontNames.avenir, size: 20, color: .systemBlue)
+        
+        NSLayoutConstraint.activate([
+            alternativeStackView.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 10),
+            alternativeStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 55),
+            alternativeStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -55)
+        ])
+    }
+    
+    
+    // -MARK: Setup Action
+    func setupAction() {
+        alternativeButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
+    }
+    
+    // -MARK: Catch Action
+    @objc
+    func signUpButtonTapped() {
+        let signInViewController = SignInViewController()
+        self.navigationController?.pushViewController(signInViewController, animated: true)
     }
 }
 

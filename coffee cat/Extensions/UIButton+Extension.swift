@@ -17,8 +17,8 @@ extension UIButton {
         self.setTitle(title, for: .normal)
         self.setTitleColor(color, for: .normal)
         self.setTitleColor(.darkGray, for: .highlighted)
-        
-        var configuration = UIButton.Configuration.gray()
+
+        var configuration = self.configuration ?? UIButton.Configuration.gray()
         configuration.titleTextAttributesTransformer =
         UIConfigurationTextAttributesTransformer { incoming in
             var outgoing = incoming
@@ -30,6 +30,12 @@ extension UIButton {
             
             return outgoing
         }
+        
+        self.configuration = configuration
+    }
+    
+    func makeNoBorderButton() {
+        let configuration = UIButton.Configuration.plain()
         self.configuration = configuration
     }
 }
