@@ -8,17 +8,17 @@
 import UIKit
 
 extension UIButton {
-    func makeCornerRadius(cornerRadius: CGFloat) {
+    func cornerRadius(cornerRadius: CGFloat) {
         self.layer.cornerRadius = cornerRadius
         self.layer.masksToBounds = true
     }
     
-    func makeBorder(width: CGFloat, color: UIColor) {
+    func addBorder(width: CGFloat, color: UIColor) {
         layer.borderWidth = width
         layer.borderColor = color.cgColor
     }
     
-    func makeTitle(title: String, fontName: String, size: CGFloat, color: UIColor) {
+    func setTitle(title: String, fontName: String, size: CGFloat, color: UIColor) {
         self.setTitle(title, for: .normal)
         self.setTitleColor(color, for: .normal)
         self.setTitleColor(.darkGray, for: .highlighted)
@@ -39,9 +39,14 @@ extension UIButton {
         self.configuration = configuration
     }
     
-    func makeNoBorderButton() {
+    func removeBackground() {
         let configuration = UIButton.Configuration.plain()
         self.configuration = configuration
+    }
+    
+    func showPasswordButton() {
+        self.setImage(UIImage(systemName: SystemImageNames.eye), for: .normal)
+        self.tintColor = .gray
     }
 
 }

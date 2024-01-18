@@ -7,6 +7,11 @@
 
 import UIKit
 
+enum SystemImageNames {
+    static let eye = "eye"
+    static let eyeSlash = "eye.slash"
+}
+
 enum ImageNames {
     static let gettingStartedBackground = "getting-started-background"
     static let signupBackground = "signup-background"

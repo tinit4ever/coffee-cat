@@ -12,6 +12,7 @@ protocol UIFactory {
     func makeButton() -> UIButton
     func makeTextField(placeholder: String) -> UITextField
     func makeRoundedTextFieldContainer() -> UIView
+    func makeView() -> UIView
     func makeVerticalStackView() -> UIStackView
     func makeHorizontalStackView() -> UIStackView
 }
@@ -34,6 +35,7 @@ extension UIFactory {
         let textField = UITextField()
         textField.borderStyle = .none
         textField.placeholder = placeholder
+        textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }
@@ -44,6 +46,12 @@ extension UIFactory {
         container.layer.masksToBounds = true
         container.translatesAutoresizingMaskIntoConstraints = false
         return container
+    }
+    
+    func makeView() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }
     
     func makeVerticalStackView() -> UIStackView {
