@@ -14,9 +14,12 @@ struct GettingStartedScreenText {
 struct SignUpScreenText {
     static let welcome = "Welcome Onboard!"
     static let invitation = "Let's sign up to see the world of cats"
+    static let emailLabel = "Email address"
     static let emailTextFieldPlaceholder = "name@domain.com"
     static let nextButtonTitle = "Next"
     static let signUpWithGoogleButtonTitle = "Sign up with Google"
+    static let alternativeLabel = "Already have an account?"
+    static let alternativeButtonTitle = "Sign in"
 }
 
 struct SignInScreenText {

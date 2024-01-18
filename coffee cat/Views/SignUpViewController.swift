@@ -22,6 +22,10 @@ class SignUpViewController: UIViewController, UIFactory {
     
     lazy var nextButton: UIButton = makeButton()
     
+    lazy var leftDividerSubView: UIView = makeView()
+    lazy var dividerLabel: UILabel = makeLabel()
+    lazy var rightDividerSubView: UIView = makeView()
+    
     lazy var signUpWithGoogleButton: UIButton = makeButton()
     
     lazy var alternativeStackView: UIStackView = makeHorizontalStackView()
@@ -46,14 +50,19 @@ class SignUpViewController: UIViewController, UIFactory {
         view.addSubview(invitationLabel)
         configInvitationLabel()
         
-        //        view.addSubview(emailTextFieldContainer)
-        //        configEmailTextFieldContainer()
         view.addSubview(emailStackView)
         configEmailStackView()
         
-        
         view.addSubview(nextButton)
         configNextButton()
+        
+        view.addSubview(leftDividerSubView)
+        configLeftDividerSubView()
+        view.addSubview(dividerLabel)
+        configDivideLabel()
+        view.addSubview(rightDividerSubView)
+        configRightDividerSubView()
+        
         
         view.addSubview(signUpWithGoogleButton)
         configSignUpWithGoogleButton()
@@ -95,7 +104,7 @@ class SignUpViewController: UIViewController, UIFactory {
         emailStackView.spacing = 10
         emailStackView.contentMode = .topLeft
         emailStackView.addArrangedSubview(emailLabel)
-        emailLabel.setupTitle(text: "Email address", fontName: FontNames.avenir, size: 20, textColor: .black)
+        emailLabel.setupTitle(text: SignUpScreenText.emailLabel, fontName: FontNames.avenir, size: 20, textColor: .black)
         emailLabel.setBoldText()
         emailLabel.textAlignment = .left
         
@@ -108,17 +117,10 @@ class SignUpViewController: UIViewController, UIFactory {
             emailStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             emailStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             emailStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-//            emailStackView.heightAnchor.constraint(equalToConstant: 60)
         ])
         NSLayoutConstraint.activate([
-//            emailTextFieldContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 2.5),
-//            emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-//            emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             emailTextFieldContainer.heightAnchor.constraint(equalToConstant: 60)
         ])
-//        emailLabel.backgroundColor = .red
-//        emailTextFieldContainer.backgroundColor = .black
-//        emailStackView.backgroundColor = .gray
     }
     
     func configNextButton() {
@@ -131,6 +133,34 @@ class SignUpViewController: UIViewController, UIFactory {
             nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             nextButton.heightAnchor.constraint(equalToConstant: 60)
+        ])
+    }
+    
+    func configLeftDividerSubView() {
+        leftDividerSubView.backgroundColor = .gray
+        NSLayoutConstraint.activate([
+            leftDividerSubView.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: 60),
+            leftDividerSubView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            leftDividerSubView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.bounds.width / 2 + 25)),
+            leftDividerSubView.heightAnchor.constraint(equalToConstant: 2)
+        ])
+    }
+    
+    func configDivideLabel() {
+        dividerLabel.text = "Or"
+        NSLayoutConstraint.activate([
+            dividerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dividerLabel.centerYAnchor.constraint(equalTo: leftDividerSubView.centerYAnchor)
+        ])
+    }
+    
+    func configRightDividerSubView() {
+        rightDividerSubView.backgroundColor = .gray
+        NSLayoutConstraint.activate([
+            rightDividerSubView.topAnchor.constraint(equalTo: leftDividerSubView.topAnchor),
+            rightDividerSubView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: view.bounds.width / 2 + 25),
+            rightDividerSubView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            rightDividerSubView.heightAnchor.constraint(equalToConstant: 2)
         ])
     }
     
@@ -148,21 +178,22 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
         
         NSLayoutConstraint.activate([
+            signUpWithGoogleButton.topAnchor.constraint(equalTo: dividerLabel.bottomAnchor, constant: 60),
             signUpWithGoogleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             signUpWithGoogleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            signUpWithGoogleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+//            signUpWithGoogleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
             signUpWithGoogleButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
     func configAlternativeStackView() {
         alternativeStackView.addArrangedSubview(alternativeLabel)
-        alternativeLabel.setupTitle(text: "Already have an account?", fontName: FontNames.avenir, size: 20, textColor: .black)
+        alternativeLabel.setupTitle(text: SignUpScreenText.alternativeLabel, fontName: FontNames.avenir, size: 20, textColor: .black)
         alternativeLabel.numberOfLines = 1
         
         alternativeStackView.addArrangedSubview(alternativeButton)
         alternativeButton.makeNoBorderButton()
-        alternativeButton.makeTitle(title: "Sign In", fontName: FontNames.avenir, size: 20, color: .systemBlue)
+        alternativeButton.makeTitle(title: SignUpScreenText.alternativeButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemBlue)
         
         NSLayoutConstraint.activate([
             alternativeStackView.topAnchor.constraint(equalTo: signUpWithGoogleButton.bottomAnchor, constant: 10),
