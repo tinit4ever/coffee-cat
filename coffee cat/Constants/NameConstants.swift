@@ -11,6 +11,7 @@ enum ImageNames {
     static let gettingStartedBackground = "getting-started-background"
     static let signupBackground = "signup-background"
     static let signinBackground = "signin-background"
+    static let googleLogo = "google-logo"
 }
 
 enum FontNames {

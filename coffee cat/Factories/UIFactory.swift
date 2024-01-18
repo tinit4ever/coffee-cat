@@ -40,7 +40,7 @@ extension UIFactory {
     
     func makeRoundedTextFieldContainer() -> UIView {
         let container = UIView()
-        container.layer.cornerRadius = 30
+        container.layer.cornerRadius = 10
         container.layer.masksToBounds = true
         container.translatesAutoresizingMaskIntoConstraints = false
         return container
@@ -58,5 +58,14 @@ extension UIFactory {
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
+    }
+    
+    func makeSquareImageView(imageName: String, size: CGFloat) -> UIImageView {
+        let imageView = UIImageView(frame: .zero)
+        if let image = UIImage(named: imageName) {
+            imageView.image = image.resized(to: CGSize(width: size, height: size))
+        }
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }
 }
