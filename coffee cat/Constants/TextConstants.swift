@@ -14,15 +14,13 @@ struct GettingStartedScreenText {
 struct SignUpScreenText {
     static let welcome = "Welcome Onboard!"
     static let invitation = "Let's sign up to see the world of cats"
-    static let fullNameTextFieldPlaceholder = "Enter your full name"
-    static let emailTextFieldPlaceholder = "Enter your email"
-    static let passwordTextFieldPlaceholder = "Enter your password"
-    static let confirmPasswordTextFieldPlaceholder = "Confirm password"
-    static let registerButtonTitle = "Register"
+    static let emailTextFieldPlaceholder = "name@domain.com"
+    static let nextButtonTitle = "Next"
+    static let signUpWithGoogleButtonTitle = "Sign up with Google"
 }
 
 struct SignInScreenText {
     static let emailTextFieldPlaceholder = "Enter your email"
     static let passwordTextFieldPlaceholder = "Enter your password"
-    static let signInButtonTitle = "Login"
+    static let signInButtonTitle = "Sign In"
 }

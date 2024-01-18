@@ -15,23 +15,14 @@ class SignUpViewController: UIViewController, UIFactory {
     
     lazy var invitationLabel: UILabel = makeLabel()
     
-    lazy var fullNameTextFieldContainer: UIView = makeRoundedTextFieldContainer()
-    lazy var fullNameTextField: UITextField = makeTextField(placeholder: SignUpScreenText.fullNameTextFieldPlaceholder)
-    
+    lazy var emailStackView: UIStackView = makeVerticalStackView()
+    lazy var emailLabel: UILabel = makeLabel()
     lazy var emailTextFieldContainer: UIView = makeRoundedTextFieldContainer()
     lazy var emailTextField: UITextField = makeTextField(placeholder: SignUpScreenText.emailTextFieldPlaceholder)
     
-    lazy var passwordTextFieldContainer: UIView = makeRoundedTextFieldContainer()
-    lazy var passwordTextField: UITextField = makeTextField(placeholder: SignUpScreenText.passwordTextFieldPlaceholder)
+    lazy var nextButton: UIButton = makeButton()
     
-    lazy var confirmPasswordTextFieldContainer: UIView = makeRoundedTextFieldContainer()
-    lazy var confirmPasswordTextField: UITextField = makeTextField(placeholder: SignUpScreenText.confirmPasswordTextFieldPlaceholder)
-    
-    lazy var registerButton: UIButton = makeButton()
-    
-    lazy var signInHintLabel: UILabel = makeLabel()
-    
-    lazy var signInButton: UIButton = makeButton()
+    lazy var signUpWithGoogleButton: UIButton = makeButton()
     
     lazy var alternativeStackView: UIStackView = makeHorizontalStackView()
     lazy var alternativeLabel: UILabel = makeLabel()
@@ -55,20 +46,17 @@ class SignUpViewController: UIViewController, UIFactory {
         view.addSubview(invitationLabel)
         configInvitationLabel()
         
-        view.addSubview(fullNameTextFieldContainer)
-        configFullNameTextFieldContainer()
+        //        view.addSubview(emailTextFieldContainer)
+        //        configEmailTextFieldContainer()
+        view.addSubview(emailStackView)
+        configEmailStackView()
         
-        view.addSubview(emailTextFieldContainer)
-        configEmailTextFieldContainer()
         
-        view.addSubview(passwordTextFieldContainer)
-        configPasswordTextFieldContainer()
+        view.addSubview(nextButton)
+        configNextButton()
         
-        view.addSubview(confirmPasswordTextFieldContainer)
-        configConfirmPasswordTextFieldContainer()
-        
-        view.addSubview(registerButton)
-        configRegisterButton()
+        view.addSubview(signUpWithGoogleButton)
+        configSignUpWithGoogleButton()
         
         view.addSubview(alternativeStackView)
         configAlternativeStackView()
@@ -103,60 +91,67 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configFullNameTextFieldContainer() {
-        fullNameTextFieldContainer.addRoundedTextField(fullNameTextField)
-        fullNameTextFieldContainer.backgroundColor = .systemBackground
-        NSLayoutConstraint.activate([
-            fullNameTextFieldContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 2.5),
-            fullNameTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            fullNameTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            fullNameTextFieldContainer.heightAnchor.constraint(equalToConstant: 60)
-        ])
-    }
-    
-    func configEmailTextFieldContainer() {
+    func configEmailStackView() {
+        emailStackView.spacing = 10
+        emailStackView.contentMode = .topLeft
+        emailStackView.addArrangedSubview(emailLabel)
+        emailLabel.setupTitle(text: "Email address", fontName: FontNames.avenir, size: 20, textColor: .black)
+        emailLabel.setBoldText()
+        emailLabel.textAlignment = .left
+        
+        emailStackView.addArrangedSubview(emailTextFieldContainer)
         emailTextFieldContainer.addRoundedTextField(emailTextField)
         emailTextFieldContainer.backgroundColor = .systemBackground
-        NSLayoutConstraint.activate([
-            emailTextFieldContainer.topAnchor.constraint(equalTo: fullNameTextFieldContainer.bottomAnchor, constant: 30),
-            emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            emailTextFieldContainer.heightAnchor.constraint(equalToConstant: 60)
-        ])
-    }
-    
-    func configPasswordTextFieldContainer() {
-        passwordTextFieldContainer.addRoundedTextField(passwordTextField)
-        passwordTextFieldContainer.backgroundColor = .systemBackground
-        NSLayoutConstraint.activate([
-            passwordTextFieldContainer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: 30),
-            passwordTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            passwordTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            passwordTextFieldContainer.heightAnchor.constraint(equalToConstant: 60)
-        ])
-    }
-    
-    func configConfirmPasswordTextFieldContainer() {
-        confirmPasswordTextFieldContainer.addRoundedTextField(confirmPasswordTextField)
-        confirmPasswordTextFieldContainer.backgroundColor = .systemBackground
-        NSLayoutConstraint.activate([
-            confirmPasswordTextFieldContainer.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
-            confirmPasswordTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            confirmPasswordTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            confirmPasswordTextFieldContainer.heightAnchor.constraint(equalToConstant: 60)
-        ])
-    }
-    
-    func configRegisterButton() {
-        registerButton.makeCornerRadius(cornerRadius: 30)
-        registerButton.makeTitle(title: SignUpScreenText.registerButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
-        registerButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
-            registerButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            registerButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            registerButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            registerButton.heightAnchor.constraint(equalToConstant: 70)
+            emailStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 2.5),
+            emailStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            emailStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            emailStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+//            emailStackView.heightAnchor.constraint(equalToConstant: 60)
+        ])
+        NSLayoutConstraint.activate([
+//            emailTextFieldContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 2.5),
+//            emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+//            emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            emailTextFieldContainer.heightAnchor.constraint(equalToConstant: 60)
+        ])
+//        emailLabel.backgroundColor = .red
+//        emailTextFieldContainer.backgroundColor = .black
+//        emailStackView.backgroundColor = .gray
+    }
+    
+    func configNextButton() {
+        nextButton.makeTitle(title: SignUpScreenText.nextButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
+        nextButton.makeCornerRadius(cornerRadius: 30)
+        nextButton.backgroundColor = .customPink
+        
+        NSLayoutConstraint.activate([
+            nextButton.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 90),
+            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            nextButton.heightAnchor.constraint(equalToConstant: 60)
+        ])
+    }
+    
+    func configSignUpWithGoogleButton() {
+        let logoImageView: UIImageView = makeSquareImageView(imageName: ImageNames.googleLogo, size: 30)
+        signUpWithGoogleButton.addSubview(logoImageView)
+        signUpWithGoogleButton.makeNoBorderButton()
+        signUpWithGoogleButton.makeBorder(width: 2, color: .black)
+        signUpWithGoogleButton.makeCornerRadius(cornerRadius: 30)
+        signUpWithGoogleButton.makeTitle(title: SignUpScreenText.signUpWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .black)
+        
+        NSLayoutConstraint.activate([
+            logoImageView.leadingAnchor.constraint(equalTo: signUpWithGoogleButton.leadingAnchor, constant: 30),
+            logoImageView.centerYAnchor.constraint(equalTo: signUpWithGoogleButton.centerYAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            signUpWithGoogleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            signUpWithGoogleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            signUpWithGoogleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            signUpWithGoogleButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
@@ -170,12 +165,11 @@ class SignUpViewController: UIViewController, UIFactory {
         alternativeButton.makeTitle(title: "Sign In", fontName: FontNames.avenir, size: 20, color: .systemBlue)
         
         NSLayoutConstraint.activate([
-            alternativeStackView.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 10),
+            alternativeStackView.topAnchor.constraint(equalTo: signUpWithGoogleButton.bottomAnchor, constant: 10),
             alternativeStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 55),
             alternativeStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -55)
         ])
     }
-    
     
     // -MARK: Setup Action
     func setupAction() {

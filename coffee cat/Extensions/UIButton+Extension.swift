@@ -9,15 +9,20 @@ import UIKit
 
 extension UIButton {
     func makeCornerRadius(cornerRadius: CGFloat) {
-        self.layer.cornerRadius = 20
+        self.layer.cornerRadius = cornerRadius
         self.layer.masksToBounds = true
+    }
+    
+    func makeBorder(width: CGFloat, color: UIColor) {
+        layer.borderWidth = width
+        layer.borderColor = color.cgColor
     }
     
     func makeTitle(title: String, fontName: String, size: CGFloat, color: UIColor) {
         self.setTitle(title, for: .normal)
         self.setTitleColor(color, for: .normal)
         self.setTitleColor(.darkGray, for: .highlighted)
-
+        
         var configuration = self.configuration ?? UIButton.Configuration.gray()
         configuration.titleTextAttributesTransformer =
         UIConfigurationTextAttributesTransformer { incoming in
@@ -38,4 +43,5 @@ extension UIButton {
         let configuration = UIButton.Configuration.plain()
         self.configuration = configuration
     }
+
 }
