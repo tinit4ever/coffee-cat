@@ -19,9 +19,11 @@ class SignInViewController: UIViewController, UIFactory {
     lazy var passwordTextFieldContainer: UIView = makeRoundedTextFieldContainer()
     lazy var passwordTextField: UITextField = makeTextField(placeholder: SignInScreenText.passwordTextFieldPlaceholder)
     
+    lazy var signInButton: UIButton = makeButton()
+    
     lazy var forgetPasswordButton: UIButton = makeButton()
     
-    lazy var signInButton: UIButton = makeButton()
+    lazy var signInWithGoogleButton: UIButton = makeButton()
     
     lazy var alternativeStackView: UIStackView = makeHorizontalStackView()
     lazy var alternativeLabel: UILabel = makeLabel()
@@ -48,11 +50,14 @@ class SignInViewController: UIViewController, UIFactory {
         view.addSubview(passwordTextFieldContainer)
         configPasswordTextFieldContainer()
         
+        view.addSubview(signInButton)
+        configSignInButton()
+        
         view.addSubview(forgetPasswordButton)
         configForgetPasswordButton()
         
-        view.addSubview(signInButton)
-        configSignInButton()
+        view.addSubview(signInWithGoogleButton)
+        configSignInWithGoogleButton()
         
         view.addSubview(alternativeStackView)
         configAlternativeStackView()
@@ -66,7 +71,7 @@ class SignInViewController: UIViewController, UIFactory {
     }
     
     func configWelcomeLabel() {
-        welcomeLabel.setupTitle(text: "Welcome Back!", fontName: FontNames.avenir, size: 29, textColor: .black)
+        welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 29, textColor: .black)
         welcomeLabel.setBoldText()
         
         NSLayoutConstraint.activate([
@@ -78,9 +83,11 @@ class SignInViewController: UIViewController, UIFactory {
     
     func configEmailTextFieldContainer() {
         emailTextFieldContainer.addRoundedTextField(emailTextField)
+        emailTextField.keyboardType = .emailAddress
+        
         emailTextFieldContainer.backgroundColor = .systemBackground
         NSLayoutConstraint.activate([
-            emailTextFieldContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 2),
+            emailTextFieldContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 430),
             emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             emailTextFieldContainer.heightAnchor.constraint(equalToConstant: 60)
@@ -88,7 +95,16 @@ class SignInViewController: UIViewController, UIFactory {
     }
     
     func configPasswordTextFieldContainer() {
+        let showPasswordButton = makeButton()
+        
+        showPasswordButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
+        
+        passwordTextField.rightView = showPasswordButton
+        passwordTextField.rightViewMode = .always
+        
         passwordTextFieldContainer.addRoundedTextField(passwordTextField)
+        passwordTextField.isSecureTextEntry = true
+        
         passwordTextFieldContainer.backgroundColor = .systemBackground
         NSLayoutConstraint.activate([
             passwordTextFieldContainer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: 30),
@@ -98,43 +114,66 @@ class SignInViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configForgetPasswordButton() {
-        forgetPasswordButton.makeNoBorderButton()
-        forgetPasswordButton.makeTitle(title: "Forget Password?", fontName: FontNames.avenir, size: 20, color: .systemBlue)
-        
-        NSLayoutConstraint.activate([
-            forgetPasswordButton.topAnchor.constraint(equalTo: passwordTextFieldContainer.bottomAnchor, constant: 40),
-            forgetPasswordButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            forgetPasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-        ])
-    }
-    
     func configSignInButton() {
-        signInButton.makeCornerRadius(cornerRadius: 20)
-        signInButton.makeTitle(title: SignInScreenText.signInButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
+        signInButton.cornerRadius(cornerRadius: 30)
+        signInButton.setTitle(title: SignInScreenText.signInButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
         signInButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
+            signInButton.topAnchor.constraint(equalTo: passwordTextFieldContainer.bottomAnchor, constant: 40),
             signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            signInButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            signInButton.heightAnchor.constraint(equalToConstant: 70)
+            signInButton.heightAnchor.constraint(equalToConstant: 60)
+        ])
+    }
+    
+    func configForgetPasswordButton() {
+        forgetPasswordButton.removeBackground()
+        forgetPasswordButton.setTitle(title: SignInScreenText.forgetPasswordButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemBlue)
+        NSLayoutConstraint.activate([
+            forgetPasswordButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 20),
+            forgetPasswordButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            forgetPasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            //            forgetPasswordButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30)
+        ])
+    }
+    
+    func configSignInWithGoogleButton() {
+        let logoImageView: UIImageView = makeSquareImageView(imageName: ImageNames.googleLogo, size: 30)
+        signInWithGoogleButton.addSubview(logoImageView)
+        signInWithGoogleButton.removeBackground()
+        signInWithGoogleButton.addBorder(width: 2, color: .black)
+        signInWithGoogleButton.cornerRadius(cornerRadius: 30)
+        signInWithGoogleButton.setTitle(title: SignInScreenText.signInWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .black)
+        
+        NSLayoutConstraint.activate([
+            logoImageView.leadingAnchor.constraint(equalTo: signInWithGoogleButton.leadingAnchor, constant: 30),
+            logoImageView.centerYAnchor.constraint(equalTo: signInWithGoogleButton.centerYAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            //            signInWithGoogleButton.topAnchor.constraint(equalTo: forgetPasswordButton.bottomAnchor, constant: 20),
+            signInWithGoogleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            signInWithGoogleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            signInWithGoogleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60),
+            signInWithGoogleButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     
     func configAlternativeStackView() {
         alternativeStackView.addArrangedSubview(alternativeLabel)
-        alternativeLabel.setupTitle(text: "Dont's have an account?", fontName: FontNames.avenir, size: 20, textColor: .black)
+        alternativeLabel.setupTitle(text: SignInScreenText.alternativeLabel, fontName: FontNames.avenir, size: 20, textColor: .black)
         alternativeLabel.numberOfLines = 1
         
         alternativeStackView.addArrangedSubview(alternativeButton)
-        alternativeButton.makeNoBorderButton()
-        alternativeButton.makeTitle(title: "Sign Up", fontName: FontNames.avenir, size: 20, color: .systemBlue)
+        alternativeButton.removeBackground()
+        alternativeButton.setTitle(title: SignInScreenText.alternativeButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemBlue)
         
         NSLayoutConstraint.activate([
-            alternativeStackView.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 10),
+            //            alternativeStackView.topAnchor.constraint(equalTo: signInWithGoogleButton.bottomAnchor, constant: 10),
             alternativeStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 55),
-            alternativeStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -55)
+            alternativeStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -55),
+            alternativeStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
         ])
     }
     
@@ -149,6 +188,16 @@ class SignInViewController: UIViewController, UIFactory {
         let signUpViewController = SignUpViewController()
         self.navigationController?.pushViewController(signUpViewController, animated: true)
     }
+    
+    @objc
+    func togglePasswordVisibility() {
+        passwordTextField.isSecureTextEntry.toggle()
+        let eyeSymbol = passwordTextField.isSecureTextEntry ? SystemImageNames.eye : SystemImageNames.eyeSlash
+        if let showPasswordButton = passwordTextField.rightView as? UIButton {
+            showPasswordButton.setImage(UIImage(systemName: eyeSymbol), for: .normal)
+        }
+        
+    }
 }
 
 // -MARK: Preview
@@ -160,4 +209,3 @@ struct SignInViewControllerPreview: PreviewProvider {
         }
     }
 }
-

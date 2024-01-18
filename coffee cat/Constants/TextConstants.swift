@@ -17,13 +17,19 @@ struct SignUpScreenText {
     static let emailLabel = "Email address"
     static let emailTextFieldPlaceholder = "name@domain.com"
     static let nextButtonTitle = "Next"
+    static let dividerLabel = "Or"
     static let signUpWithGoogleButtonTitle = "Sign up with Google"
     static let alternativeLabel = "Already have an account?"
     static let alternativeButtonTitle = "Sign in"
 }
 
 struct SignInScreenText {
-    static let emailTextFieldPlaceholder = "Enter your email"
+    static let welcomeLabel = "Welcome Back!"
+    static let emailTextFieldPlaceholder = "name@domain.com"
     static let passwordTextFieldPlaceholder = "Enter your password"
     static let signInButtonTitle = "Sign In"
+    static let forgetPasswordButtonTitle = "Forget Password?"
+    static let signInWithGoogleButtonTitle = "Sign in with Google"
+    static let alternativeLabel = "Dont's have an account?"
+    static let alternativeButtonTitle = "Sign up"
 }

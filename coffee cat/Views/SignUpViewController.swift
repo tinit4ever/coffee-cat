@@ -63,7 +63,6 @@ class SignUpViewController: UIViewController, UIFactory {
         view.addSubview(rightDividerSubView)
         configRightDividerSubView()
         
-        
         view.addSubview(signUpWithGoogleButton)
         configSignUpWithGoogleButton()
         
@@ -124,12 +123,12 @@ class SignUpViewController: UIViewController, UIFactory {
     }
     
     func configNextButton() {
-        nextButton.makeTitle(title: SignUpScreenText.nextButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
-        nextButton.makeCornerRadius(cornerRadius: 30)
+        nextButton.setTitle(title: SignUpScreenText.nextButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
+        nextButton.cornerRadius(cornerRadius: 30)
         nextButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
-            nextButton.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 90),
+            nextButton.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 70),
             nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             nextButton.heightAnchor.constraint(equalToConstant: 60)
@@ -139,7 +138,7 @@ class SignUpViewController: UIViewController, UIFactory {
     func configLeftDividerSubView() {
         leftDividerSubView.backgroundColor = .gray
         NSLayoutConstraint.activate([
-            leftDividerSubView.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: 60),
+            leftDividerSubView.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: 80),
             leftDividerSubView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             leftDividerSubView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.bounds.width / 2 + 25)),
             leftDividerSubView.heightAnchor.constraint(equalToConstant: 2)
@@ -167,10 +166,10 @@ class SignUpViewController: UIViewController, UIFactory {
     func configSignUpWithGoogleButton() {
         let logoImageView: UIImageView = makeSquareImageView(imageName: ImageNames.googleLogo, size: 30)
         signUpWithGoogleButton.addSubview(logoImageView)
-        signUpWithGoogleButton.makeNoBorderButton()
-        signUpWithGoogleButton.makeBorder(width: 2, color: .black)
-        signUpWithGoogleButton.makeCornerRadius(cornerRadius: 30)
-        signUpWithGoogleButton.makeTitle(title: SignUpScreenText.signUpWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .black)
+        signUpWithGoogleButton.removeBackground()
+        signUpWithGoogleButton.addBorder(width: 2, color: .black)
+        signUpWithGoogleButton.cornerRadius(cornerRadius: 30)
+        signUpWithGoogleButton.setTitle(title: SignUpScreenText.signUpWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .black)
         
         NSLayoutConstraint.activate([
             logoImageView.leadingAnchor.constraint(equalTo: signUpWithGoogleButton.leadingAnchor, constant: 30),
@@ -178,10 +177,10 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
         
         NSLayoutConstraint.activate([
-            signUpWithGoogleButton.topAnchor.constraint(equalTo: dividerLabel.bottomAnchor, constant: 60),
+            //            signUpWithGoogleButton.topAnchor.constraint(equalTo: dividerLabel.bottomAnchor, constant: 60),
             signUpWithGoogleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             signUpWithGoogleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-//            signUpWithGoogleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
+            signUpWithGoogleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60),
             signUpWithGoogleButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
@@ -192,13 +191,13 @@ class SignUpViewController: UIViewController, UIFactory {
         alternativeLabel.numberOfLines = 1
         
         alternativeStackView.addArrangedSubview(alternativeButton)
-        alternativeButton.makeNoBorderButton()
-        alternativeButton.makeTitle(title: SignUpScreenText.alternativeButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemBlue)
+        alternativeButton.removeBackground()
+        alternativeButton.setTitle(title: SignUpScreenText.alternativeButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemBlue)
         
         NSLayoutConstraint.activate([
-            alternativeStackView.topAnchor.constraint(equalTo: signUpWithGoogleButton.bottomAnchor, constant: 10),
             alternativeStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 55),
-            alternativeStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -55)
+            alternativeStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -55),
+            alternativeStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
         ])
     }
     

@@ -46,8 +46,8 @@ class GettingStartedViewController: UIViewController, UIFactory {
         
         //getStartedButtonContrains
         view.addSubview(getStartedButton)
-        getStartedButton.makeCornerRadius(cornerRadius: 20)
-        getStartedButton.makeTitle(title: GettingStartedScreenText.getStartedButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
+        getStartedButton.cornerRadius(cornerRadius: 20)
+        getStartedButton.setTitle(title: GettingStartedScreenText.getStartedButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
         getStartedButton.backgroundColor = .customPink
         getStartedButtonContrains()
     }

@@ -35,6 +35,7 @@ extension UIFactory {
         let textField = UITextField()
         textField.borderStyle = .none
         textField.placeholder = placeholder
+        textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }
