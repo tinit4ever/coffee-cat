@@ -16,6 +16,7 @@ enum ImageNames {
     static let googleLogo = "google-logo"
     static let lightCircleGroup = "light-circle-group"
     static let darkCircleGroup = "dark-circle-group"
+    static let coffeeCat = "coffee-cat"
 }
 
 enum FontNames {

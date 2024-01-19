@@ -6,7 +6,18 @@ Chào mừng đến với ứng dụng Coffee Cat - Nơi gặp gỡ những quá
 
 Ứng dụng Coffee Cat giúp các chủ quán cà phê đăng ký quán của mình và cho phép người yêu mèo khám phá, đánh giá và tìm kiếm những quán cà phê tuyệt vời.
 
+## Ảnh Màn Hình
+
+### Màn hình Login
+
 ## Chức Năng
+<div style="display: flex; justify-content: space-between;">
+
+<img src="https://github.com/tinit4ever/coffee-cat/blob/screen-shots/screen-shots/light-signin-screen.png" width="400">
+
+<img src="https://github.com/tinit4ever/coffee-cat/blob/screen-shots/screen-shots/dark-signin-screen.png" width="400">
+
+</div>
 
 - **Đăng Ký Quán Cà Phê:**
   - Chủ quán có thể đăng ký thông tin về quán, bao gồm hình ảnh, địa chỉ, giờ mở cửa và thông tin liên hệ.

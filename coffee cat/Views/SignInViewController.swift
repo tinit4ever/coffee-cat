@@ -13,6 +13,8 @@ class SignInViewController: UIViewController, UIFactory {
     // -MARK: Create UI Components
     lazy var welcomeLabel: UILabel = makeLabel()
     
+    lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: 260)
+    
     lazy var emailTextFieldContainer: UIView = makeRoundedTextFieldContainer()
     lazy var emailTextField: UITextField = makeTextField(placeholder: SignInScreenText.emailTextFieldPlaceholder)
     
@@ -56,6 +58,9 @@ class SignInViewController: UIViewController, UIFactory {
         view.addSubview(welcomeLabel)
         configWelcomeLabel()
         
+        view.addSubview(coffeeCatImageView)
+        configCoffeeCatImageView()
+        
         view.addSubview(emailTextFieldContainer)
         configEmailTextFieldContainer()
         
@@ -78,17 +83,21 @@ class SignInViewController: UIViewController, UIFactory {
     func configAppearance() {
         view.backgroundColor = .systemGray5
         
-        removeSubviews()
+        removeCircleGroupImageView()
         checkAndChangeAppearancceMode()
     }
     
-    func removeSubviews() {
+    func removeCircleGroupImageView() {
         for subview in view.subviews {
-            if subview is UIImageView {
-                subview.removeFromSuperview()
+            if let imageView = subview as? UIImageView,
+               imageView.image == UIImage(named: ImageNames.darkCircleGroup) ||
+                imageView.image == UIImage(named: ImageNames.lightCircleGroup)
+            {
+                imageView.removeFromSuperview()
             }
         }
     }
+
     
     func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
@@ -113,6 +122,13 @@ class SignInViewController: UIViewController, UIFactory {
             welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 5),
             welcomeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             welcomeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+        ])
+    }
+    
+    func configCoffeeCatImageView() {
+        NSLayoutConstraint.activate([
+            coffeeCatImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+            coffeeCatImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
