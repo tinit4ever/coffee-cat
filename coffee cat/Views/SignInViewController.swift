@@ -133,6 +133,7 @@ class SignInViewController: UIViewController, UIFactory {
         let showPasswordButton = makeButton()
         
         showPasswordButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
+        showPasswordButton.setImage(UIImage(systemName: SystemImageNames.eye), for: .normal)
         
         passwordTextField.rightView = showPasswordButton
         passwordTextField.rightViewMode = .always
