@@ -22,3 +22,11 @@ enum ImageNames {
 enum FontNames {
     static let avenir = "Avenir"
 }
+
+enum ColorName {
+//    static let backButton = "BackButton"
+}
+
+enum SymbolNames {
+    static let chevronBackward = "chevron.backward"
+}

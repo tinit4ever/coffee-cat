@@ -26,7 +26,7 @@ struct SignUpScreenText {
 struct SignInScreenText {
     static let welcomeLabel = "Welcome Back!"
     static let emailTextFieldPlaceholder = "name@domain.com"
-    static let passwordTextFieldPlaceholder = "Enter your password"
+    static let passwordTextFieldPlaceholder = "m#P52s@ap$V"
     static let signInButtonTitle = "Sign In"
     static let forgetPasswordButtonTitle = "Forget Password?"
     static let signInWithGoogleButtonTitle = "Sign in with Google"

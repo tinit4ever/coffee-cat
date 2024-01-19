@@ -36,10 +36,24 @@ class SignInViewController: UIViewController, UIFactory {
         setupAction()
     }
     
+    // -MARK: Override
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        // Check if the user interface style changed
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            // Update the background image for the new mode
+            configBackground()
+        }
+    }
+    
     // -MARK: SetupUI
     
     func setupUI() {
         configBackground()
+        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(customView: emailTextFieldContainer)
+        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
         
         view.addSubview(welcomeLabel)
         configWelcomeLabel()
@@ -64,10 +78,20 @@ class SignInViewController: UIViewController, UIFactory {
     }
     
     func configBackground() {
-        let backgroundImage = UIImageView(image: UIImage(named: ImageNames.signinBackground))
+        view.backgroundColor = .systemBackground
+        var backgroundImage = UIImageView(image: UIImage(named: ImageNames.signinBackground))
         backgroundImage.contentMode = .scaleAspectFill
         backgroundImage.frame = view.bounds
-        view.insertSubview(backgroundImage, at: 0)
+        //        view.insertSubview(backgroundImage, at: 0)
+        if traitCollection.userInterfaceStyle == .dark {
+            // Set the dark mode background image
+            backgroundImage.image = UIImage(named: ImageNames.signinBackground)
+            view.insertSubview(backgroundImage, at: 0)
+        } else {
+            // Set the light mode background image
+            backgroundImage.image = UIImage(named: ImageNames.gettingStartedBackground)
+            view.insertSubview(backgroundImage, at: 0)
+        }
     }
     
     func configWelcomeLabel() {
@@ -196,7 +220,6 @@ class SignInViewController: UIViewController, UIFactory {
         if let showPasswordButton = passwordTextField.rightView as? UIButton {
             showPasswordButton.setImage(UIImage(systemName: eyeSymbol), for: .normal)
         }
-        
     }
 }
 
