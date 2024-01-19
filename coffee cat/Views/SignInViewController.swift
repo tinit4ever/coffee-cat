@@ -151,7 +151,7 @@ class SignInViewController: UIViewController, UIFactory {
     
     func configSignInButton() {
         signInButton.cornerRadius(cornerRadius: 30)
-        signInButton.setTitle(title: SignInScreenText.signInButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
+        signInButton.setTitle(title: SignInScreenText.signInButtonTitle, fontName: FontNames.avenir, size: 30, color: .systemGray5)
         signInButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
