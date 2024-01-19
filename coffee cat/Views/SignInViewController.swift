@@ -47,7 +47,6 @@ class SignInViewController: UIViewController, UIFactory {
         }
     }
     
-    
     // -MARK: SetupUI
     
     func setupUI() {
@@ -97,7 +96,7 @@ class SignInViewController: UIViewController, UIFactory {
             }
         }
     }
-
+    
     func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
             let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
