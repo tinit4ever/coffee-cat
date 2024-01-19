@@ -12,15 +12,16 @@ Chào mừng đến với ứng dụng Coffee Cat - Nơi gặp gỡ những quá
 
 <div style="display: flex; justify-content: space-between;">
 
-<img src="https://github.com/tinit4ever/coffee-cat/blob/screen-shots/screen-shots/light-signin-screen.png" width="400" style="margin-right: 40px;">
+<img src="https://github.com/tinit4ever/coffee-cat/blob/screen-shots/screen-shots/light-signin-screen.png" width="400" style="margin-right: 100px;">
 
 <img src="https://github.com/tinit4ever/coffee-cat/blob/screen-shots/screen-shots/dark-signin-screen.png" width="400">
 
 </div>
+
 ### Màn hình Sign Up
 <div style="display: flex; justify-content: space-between;">
 
-<img src="https://github.com/tinit4ever/coffee-cat/blob/screen-shots/screen-shots/light-signup-screen.png" width="400" style="margin-right: 40px;">
+<img src="https://github.com/tinit4ever/coffee-cat/blob/screen-shots/screen-shots/light-signup-screen.png" width="400" style="margin-right: 100px;">
 
 <img src="https://github.com/tinit4ever/coffee-cat/blob/screen-shots/screen-shots/dark-signup-screen.png" width="400">
 
