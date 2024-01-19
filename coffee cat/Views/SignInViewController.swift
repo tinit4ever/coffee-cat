@@ -177,9 +177,9 @@ class SignInViewController: UIViewController, UIFactory {
         let logoImageView: UIImageView = makeSquareImageView(imageName: ImageNames.googleLogo, size: 30)
         signInWithGoogleButton.addSubview(logoImageView)
         signInWithGoogleButton.removeBackground()
-        signInWithGoogleButton.addBorder(width: 2, color: .black)
+        signInWithGoogleButton.addBorder(width: 2, color: .systemGray)
         signInWithGoogleButton.cornerRadius(cornerRadius: 30)
-        signInWithGoogleButton.setTitle(title: SignInScreenText.signInWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .black)
+        signInWithGoogleButton.setTitle(title: SignInScreenText.signInWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemGray)
         
         NSLayoutConstraint.activate([
             logoImageView.leadingAnchor.constraint(equalTo: signInWithGoogleButton.leadingAnchor, constant: 30),
