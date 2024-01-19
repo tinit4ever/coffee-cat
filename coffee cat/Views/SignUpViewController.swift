@@ -111,7 +111,7 @@ class SignUpViewController: UIViewController, UIFactory {
     }
     
     func configNavigation() {
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(customView: emailTextFieldContainer)
+        self.navigationItem.backButtonTitle = GeneralTexts.emptyString
         self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
     }
     
