@@ -39,10 +39,22 @@ class SignUpViewController: UIViewController, UIFactory {
         setupAction()
     }
     
+    // -MARK: Override
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            configAppearance()
+        }
+    }
+    
     // -MARK: SetupUI
     
     func setupUI() {
-        configBackground()
+        
+        configAppearance()
+        
+        configNavigation()
         
         view.addSubview(welcomeLabel)
         configWelcomeLabel()
@@ -68,19 +80,43 @@ class SignUpViewController: UIViewController, UIFactory {
         
         view.addSubview(alternativeStackView)
         configAlternativeStackView()
-        
     }
     
-    func configBackground() {
-        view.backgroundColor = .systemMint
-//        let backgroundImage = UIImageView(image: UIImage(named: ImageNames.signupBackground))
-//        backgroundImage.contentMode = .scaleAspectFill
-//        backgroundImage.frame = view.bounds
-//        view.insertSubview(backgroundImage, at: 0)
+    func configAppearance() {
+        view.backgroundColor = .systemGray5
+        
+        removeCircleGroupImageView()
+        checkAndChangeAppearancceMode()
+    }
+    
+    func removeCircleGroupImageView() {
+        for subview in view.subviews {
+            if let imageView = subview as? UIImageView,
+               imageView.image == UIImage(named: ImageNames.darkCircleGroup) ||
+                imageView.image == UIImage(named: ImageNames.lightCircleGroup)
+            {
+                imageView.removeFromSuperview()
+            }
+        }
+    }
+
+    func checkAndChangeAppearancceMode() {
+        if traitCollection.userInterfaceStyle == .dark {
+            let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
+            view.addSubview(imageView)
+        } else {
+            let imageView = UIImageView(image: UIImage(named: ImageNames.lightCircleGroup))
+            view.addSubview(imageView)
+        }
+    }
+    
+    func configNavigation() {
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(customView: emailTextFieldContainer)
+        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
     }
     
     func configWelcomeLabel() {
-        welcomeLabel.setupTitle(text: SignUpScreenText.welcome, fontName: FontNames.avenir, size: 29, textColor: .black)
+        welcomeLabel.setupTitle(text: SignUpScreenText.welcome, fontName: FontNames.avenir, size: 29, textColor: .systemBrown)
         welcomeLabel.setBoldText()
         
         NSLayoutConstraint.activate([
@@ -91,7 +127,7 @@ class SignUpViewController: UIViewController, UIFactory {
     }
     
     func configInvitationLabel() {
-        invitationLabel.setupTitle(text: SignUpScreenText.invitation, fontName: FontNames.avenir, size: 20, textColor: .black)
+        invitationLabel.setupTitle(text: SignUpScreenText.invitation, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
         
         NSLayoutConstraint.activate([
             invitationLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20),
@@ -104,7 +140,7 @@ class SignUpViewController: UIViewController, UIFactory {
         emailStackView.spacing = 10
         emailStackView.contentMode = .topLeft
         emailStackView.addArrangedSubview(emailLabel)
-        emailLabel.setupTitle(text: SignUpScreenText.emailLabel, fontName: FontNames.avenir, size: 20, textColor: .black)
+        emailLabel.setupTitle(text: SignUpScreenText.emailLabel, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
         emailLabel.setBoldText()
         emailLabel.textAlignment = .left
         
@@ -124,7 +160,7 @@ class SignUpViewController: UIViewController, UIFactory {
     }
     
     func configNextButton() {
-        nextButton.setTitle(title: SignUpScreenText.nextButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
+        nextButton.setTitle(title: SignUpScreenText.nextButtonTitle, fontName: FontNames.avenir, size: 30, color: .systemGray5)
         nextButton.cornerRadius(cornerRadius: 30)
         nextButton.backgroundColor = .customPink
         
@@ -147,7 +183,8 @@ class SignUpViewController: UIViewController, UIFactory {
     }
     
     func configDivideLabel() {
-        dividerLabel.text = "Or"
+//        dividerLabel.text = SignUpScreenText.dividerLabel
+        dividerLabel.setupTitle(text: SignUpScreenText.dividerLabel, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
         NSLayoutConstraint.activate([
             dividerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             dividerLabel.centerYAnchor.constraint(equalTo: leftDividerSubView.centerYAnchor)
@@ -168,9 +205,9 @@ class SignUpViewController: UIViewController, UIFactory {
         let logoImageView: UIImageView = makeSquareImageView(imageName: ImageNames.googleLogo, size: 30)
         signUpWithGoogleButton.addSubview(logoImageView)
         signUpWithGoogleButton.removeBackground()
-        signUpWithGoogleButton.addBorder(width: 2, color: .black)
+        signUpWithGoogleButton.addBorder(width: 2, color: .systemGray)
         signUpWithGoogleButton.cornerRadius(cornerRadius: 30)
-        signUpWithGoogleButton.setTitle(title: SignUpScreenText.signUpWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .black)
+        signUpWithGoogleButton.setTitle(title: SignUpScreenText.signUpWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .customBlack)
         
         NSLayoutConstraint.activate([
             logoImageView.leadingAnchor.constraint(equalTo: signUpWithGoogleButton.leadingAnchor, constant: 30),
@@ -188,7 +225,7 @@ class SignUpViewController: UIViewController, UIFactory {
     
     func configAlternativeStackView() {
         alternativeStackView.addArrangedSubview(alternativeLabel)
-        alternativeLabel.setupTitle(text: SignUpScreenText.alternativeLabel, fontName: FontNames.avenir, size: 20, textColor: .black)
+        alternativeLabel.setupTitle(text: SignUpScreenText.alternativeLabel, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
         alternativeLabel.numberOfLines = 1
         
         alternativeStackView.addArrangedSubview(alternativeButton)
