@@ -39,21 +39,19 @@ class SignInViewController: UIViewController, UIFactory {
     // -MARK: Override
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-
-        // Check if the user interface style changed
+        
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            // Update the background image for the new mode
-            configBackground()
+            configAppearance()
         }
     }
+    
     
     // -MARK: SetupUI
     
     func setupUI() {
-        configBackground()
+        configAppearance()
         
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(customView: emailTextFieldContainer)
-        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
+        configNavigation()
         
         view.addSubview(welcomeLabel)
         configWelcomeLabel()
@@ -77,25 +75,38 @@ class SignInViewController: UIViewController, UIFactory {
         configAlternativeStackView()
     }
     
-    func configBackground() {
-        view.backgroundColor = .systemBackground
-        var backgroundImage = UIImageView(image: UIImage(named: ImageNames.signinBackground))
-        backgroundImage.contentMode = .scaleAspectFill
-        backgroundImage.frame = view.bounds
-        //        view.insertSubview(backgroundImage, at: 0)
-        if traitCollection.userInterfaceStyle == .dark {
-            // Set the dark mode background image
-            backgroundImage.image = UIImage(named: ImageNames.signinBackground)
-            view.insertSubview(backgroundImage, at: 0)
-        } else {
-            // Set the light mode background image
-            backgroundImage.image = UIImage(named: ImageNames.gettingStartedBackground)
-            view.insertSubview(backgroundImage, at: 0)
+    func configAppearance() {
+        view.backgroundColor = .systemGray5
+        
+        removeSubviews()
+        checkAndChangeAppearancceMode()
+    }
+    
+    func removeSubviews() {
+        for subview in view.subviews {
+            if subview is UIImageView {
+                subview.removeFromSuperview()
+            }
         }
     }
     
+    func checkAndChangeAppearancceMode() {
+        if traitCollection.userInterfaceStyle == .dark {
+            let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
+            view.addSubview(imageView)
+        } else {
+            let imageView = UIImageView(image: UIImage(named: ImageNames.lightCircleGroup))
+            view.addSubview(imageView)
+        }
+    }
+    
+    func configNavigation() {
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(customView: emailTextFieldContainer)
+        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
+    }
+    
     func configWelcomeLabel() {
-        welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 29, textColor: .black)
+        welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 29, textColor: .systemBrown)
         welcomeLabel.setBoldText()
         
         NSLayoutConstraint.activate([
@@ -140,7 +151,7 @@ class SignInViewController: UIViewController, UIFactory {
     
     func configSignInButton() {
         signInButton.cornerRadius(cornerRadius: 30)
-        signInButton.setTitle(title: SignInScreenText.signInButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
+        signInButton.setTitle(title: SignInScreenText.signInButtonTitle, fontName: FontNames.avenir, size: 30, color: .systemGray5)
         signInButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
@@ -166,9 +177,9 @@ class SignInViewController: UIViewController, UIFactory {
         let logoImageView: UIImageView = makeSquareImageView(imageName: ImageNames.googleLogo, size: 30)
         signInWithGoogleButton.addSubview(logoImageView)
         signInWithGoogleButton.removeBackground()
-        signInWithGoogleButton.addBorder(width: 2, color: .black)
+        signInWithGoogleButton.addBorder(width: 2, color: .systemGray)
         signInWithGoogleButton.cornerRadius(cornerRadius: 30)
-        signInWithGoogleButton.setTitle(title: SignInScreenText.signInWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .black)
+        signInWithGoogleButton.setTitle(title: SignInScreenText.signInWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemGray)
         
         NSLayoutConstraint.activate([
             logoImageView.leadingAnchor.constraint(equalTo: signInWithGoogleButton.leadingAnchor, constant: 30),

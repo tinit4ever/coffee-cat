@@ -28,10 +28,10 @@ class GettingStartedViewController: UIViewController, UIFactory {
     
     func setupUI() {
         view.backgroundColor = .systemMint
-        let backgroundImage = UIImageView(image: UIImage(named: ImageNames.gettingStartedBackground))
-        backgroundImage.contentMode = .scaleAspectFill
-        backgroundImage.frame = view.bounds
-        view.insertSubview(backgroundImage, at: 0)
+//        let backgroundImage = UIImageView(image: UIImage(named: ImageNames.gettingStartedBackground))
+//        backgroundImage.contentMode = .scaleAspectFill
+//        backgroundImage.frame = view.bounds
+//        view.insertSubview(backgroundImage, at: 0)
         
         //getStartedTitleLabel
         view.addSubview(getStartedTitleLabel)

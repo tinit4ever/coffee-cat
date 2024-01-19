@@ -34,7 +34,7 @@ extension UIFactory {
     func makeTextField(placeholder: String) -> UITextField {
         let textField = UITextField()
         textField.borderStyle = .none
-        textField.placeholder = placeholder
+        textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
         textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
