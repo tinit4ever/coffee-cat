@@ -179,7 +179,7 @@ class SignInViewController: UIViewController, UIFactory {
         signInWithGoogleButton.removeBackground()
         signInWithGoogleButton.addBorder(width: 2, color: .systemGray)
         signInWithGoogleButton.cornerRadius(cornerRadius: 30)
-        signInWithGoogleButton.setTitle(title: SignInScreenText.signInWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemGray)
+        signInWithGoogleButton.setTitle(title: SignInScreenText.signInWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .customBlack)
         
         NSLayoutConstraint.activate([
             logoImageView.leadingAnchor.constraint(equalTo: signInWithGoogleButton.leadingAnchor, constant: 30),
@@ -187,7 +187,6 @@ class SignInViewController: UIViewController, UIFactory {
         ])
         
         NSLayoutConstraint.activate([
-            //            signInWithGoogleButton.topAnchor.constraint(equalTo: forgetPasswordButton.bottomAnchor, constant: 20),
             signInWithGoogleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             signInWithGoogleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             signInWithGoogleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60),
@@ -197,7 +196,7 @@ class SignInViewController: UIViewController, UIFactory {
     
     func configAlternativeStackView() {
         alternativeStackView.addArrangedSubview(alternativeLabel)
-        alternativeLabel.setupTitle(text: SignInScreenText.alternativeLabel, fontName: FontNames.avenir, size: 20, textColor: .black)
+        alternativeLabel.setupTitle(text: SignInScreenText.alternativeLabel, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
         alternativeLabel.numberOfLines = 1
         
         alternativeStackView.addArrangedSubview(alternativeButton)
@@ -205,7 +204,6 @@ class SignInViewController: UIViewController, UIFactory {
         alternativeButton.setTitle(title: SignInScreenText.alternativeButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemBlue)
         
         NSLayoutConstraint.activate([
-            //            alternativeStackView.topAnchor.constraint(equalTo: signInWithGoogleButton.bottomAnchor, constant: 10),
             alternativeStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 55),
             alternativeStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -55),
             alternativeStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
