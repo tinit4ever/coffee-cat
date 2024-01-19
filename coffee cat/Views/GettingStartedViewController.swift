@@ -11,6 +11,8 @@ import SwiftUI
 class GettingStartedViewController: UIViewController, UIFactory {
     
     // -MARK: Create UI Components
+    lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: 260)
+    
     private lazy var getStartedTitleLabel: UILabel = makeLabel()
     
     private lazy var getStartedContentLabel: UILabel = makeLabel()
@@ -27,39 +29,76 @@ class GettingStartedViewController: UIViewController, UIFactory {
     // -MARK: SetupUI
     
     func setupUI() {
-        view.backgroundColor = .systemMint
-//        let backgroundImage = UIImageView(image: UIImage(named: ImageNames.gettingStartedBackground))
-//        backgroundImage.contentMode = .scaleAspectFill
-//        backgroundImage.frame = view.bounds
-//        view.insertSubview(backgroundImage, at: 0)
+        configAppearance()
         
-        //getStartedTitleLabel
+        configNavigation()
+        
+        view.addSubview(coffeeCatImageView)
+        configCoffeeCatImageView()
+        
         view.addSubview(getStartedTitleLabel)
-        getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: 29, textColor: .black)
-        getStartedTitleLabel.setBoldText()
-        getStartedTitleLabelContrains()
+        configGetStartedTitleLabel()
         
-        //getStartedContentLabel
         view.addSubview(getStartedContentLabel)
-        getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.avenir, size: 20, textColor: .black)
-        getStartedContentLabelContrains()
+        configGetStartedContentLabel()
         
-        //getStartedButtonContrains
         view.addSubview(getStartedButton)
-        getStartedButton.cornerRadius(cornerRadius: 20)
-        getStartedButton.setTitle(title: GettingStartedScreenText.getStartedButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
-        getStartedButton.backgroundColor = .customPink
-        getStartedButtonContrains()
+        configGetStartedButton()
     }
     
-    func getStartedTitleLabelContrains() {
+    func configAppearance() {
+        view.backgroundColor = .systemGray5
+        
+        removeCircleGroupImageView()
+        checkAndChangeAppearancceMode()
+    }
+    
+    func removeCircleGroupImageView() {
+        for subview in view.subviews {
+            if let imageView = subview as? UIImageView,
+               imageView.image == UIImage(named: ImageNames.darkCircleGroup) ||
+                imageView.image == UIImage(named: ImageNames.lightCircleGroup)
+            {
+                imageView.removeFromSuperview()
+            }
+        }
+    }
+
+    func checkAndChangeAppearancceMode() {
+        if traitCollection.userInterfaceStyle == .dark {
+            let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
+            view.addSubview(imageView)
+        } else {
+            let imageView = UIImageView(image: UIImage(named: ImageNames.lightCircleGroup))
+            view.addSubview(imageView)
+        }
+    }
+    
+    func configNavigation() {
+        self.navigationItem.backButtonTitle = ""
+        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
+    }
+    
+    func configCoffeeCatImageView() {
+        NSLayoutConstraint.activate([
+            coffeeCatImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+            coffeeCatImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    func configGetStartedTitleLabel() {
+        getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: 29, textColor: .black)
+        getStartedTitleLabel.setBoldText()
+        
         NSLayoutConstraint.activate([
             getStartedTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             getStartedTitleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 2)
         ])
     }
     
-    func getStartedContentLabelContrains() {
+    func configGetStartedContentLabel() {
+        getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.avenir, size: 20, textColor: .black)
+        
         NSLayoutConstraint.activate([
             getStartedContentLabel.topAnchor.constraint(equalTo: getStartedTitleLabel.bottomAnchor, constant: 20),
             getStartedContentLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
@@ -67,7 +106,11 @@ class GettingStartedViewController: UIViewController, UIFactory {
         ])
     }
     
-    func getStartedButtonContrains() {
+    func configGetStartedButton() {
+        getStartedButton.cornerRadius(cornerRadius: 20)
+        getStartedButton.setTitle(title: GettingStartedScreenText.getStartedButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
+        getStartedButton.backgroundColor = .customPink
+        
         NSLayoutConstraint.activate([
             getStartedButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             getStartedButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),

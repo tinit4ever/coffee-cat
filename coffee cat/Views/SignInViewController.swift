@@ -96,7 +96,7 @@ class SignInViewController: UIViewController, UIFactory {
             }
         }
     }
-    
+
     func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
             let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
@@ -108,7 +108,7 @@ class SignInViewController: UIViewController, UIFactory {
     }
     
     func configNavigation() {
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(customView: emailTextFieldContainer)
+        self.navigationItem.backButtonTitle = ""
         self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
     }
     
