@@ -11,7 +11,8 @@ Chào mừng đến với ứng dụng Coffee Cat - Nơi gặp gỡ những quá
 ### Màn hình Login
 
 ## Chức Năng
-<img src="https://github.com/tinit4ever/coffee-cat/blob/screen-shots/screen-shots/light-signin-screen.png" alt="Màn hình Login" style="max-width:200px;"><img src="https://github.com/tinit4ever/coffee-cat/blob/screen-shots/screen-shots/dark-signin-screen.png" alt="Màn hình Login (Chế độ tối)" style="max-width:200px;">
+<img src="https://github.com/tinit4ever/coffee-cat/blob/screen-shots/screen-shots/light-signin-screen.png" width="300">
+<img src="https://github.com/tinit4ever/coffee-cat/blob/screen-shots/screen-shots/dark-signin-screen.png" width="300">
 
 - **Đăng Ký Quán Cà Phê:**
   - Chủ quán có thể đăng ký thông tin về quán, bao gồm hình ảnh, địa chỉ, giờ mở cửa và thông tin liên hệ.
