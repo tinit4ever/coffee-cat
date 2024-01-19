@@ -13,10 +13,9 @@ enum SystemImageNames {
 }
 
 enum ImageNames {
-    static let gettingStartedBackground = "getting-started-background"
-    static let signupBackground = "signup-background"
-    static let signinBackground = "signin-background"
     static let googleLogo = "google-logo"
+    static let lightCircleGroup = "light-circle-group"
+    static let darkCircleGroup = "dark-circle-group"
 }
 
 enum FontNames {

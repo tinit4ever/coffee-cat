@@ -39,21 +39,19 @@ class SignInViewController: UIViewController, UIFactory {
     // -MARK: Override
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-
-        // Check if the user interface style changed
+        
         if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            // Update the background image for the new mode
-            configBackground()
+            configAppearance()
         }
     }
+    
     
     // -MARK: SetupUI
     
     func setupUI() {
-        configBackground()
+        configAppearance()
         
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(customView: emailTextFieldContainer)
-        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
+        configNavigation()
         
         view.addSubview(welcomeLabel)
         configWelcomeLabel()
@@ -77,25 +75,38 @@ class SignInViewController: UIViewController, UIFactory {
         configAlternativeStackView()
     }
     
-    func configBackground() {
-        view.backgroundColor = .systemBackground
-        var backgroundImage = UIImageView(image: UIImage(named: ImageNames.signinBackground))
-        backgroundImage.contentMode = .scaleAspectFill
-        backgroundImage.frame = view.bounds
-        //        view.insertSubview(backgroundImage, at: 0)
-        if traitCollection.userInterfaceStyle == .dark {
-            // Set the dark mode background image
-            backgroundImage.image = UIImage(named: ImageNames.signinBackground)
-            view.insertSubview(backgroundImage, at: 0)
-        } else {
-            // Set the light mode background image
-            backgroundImage.image = UIImage(named: ImageNames.gettingStartedBackground)
-            view.insertSubview(backgroundImage, at: 0)
+    func configAppearance() {
+        view.backgroundColor = .systemGray5
+        
+        removeSubviews()
+        checkAndChangeAppearancceMode()
+    }
+    
+    func removeSubviews() {
+        for subview in view.subviews {
+            if subview is UIImageView {
+                subview.removeFromSuperview()
+            }
         }
     }
     
+    func checkAndChangeAppearancceMode() {
+        if traitCollection.userInterfaceStyle == .dark {
+            let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
+            view.addSubview(imageView)
+        } else {
+            let imageView = UIImageView(image: UIImage(named: ImageNames.lightCircleGroup))
+            view.addSubview(imageView)
+        }
+    }
+    
+    func configNavigation() {
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(customView: emailTextFieldContainer)
+        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
+    }
+    
     func configWelcomeLabel() {
-        welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 29, textColor: .black)
+        welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 29, textColor: .systemBrown)
         welcomeLabel.setBoldText()
         
         NSLayoutConstraint.activate([

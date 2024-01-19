@@ -72,10 +72,11 @@ class SignUpViewController: UIViewController, UIFactory {
     }
     
     func configBackground() {
-        let backgroundImage = UIImageView(image: UIImage(named: ImageNames.signupBackground))
-        backgroundImage.contentMode = .scaleAspectFill
-        backgroundImage.frame = view.bounds
-        view.insertSubview(backgroundImage, at: 0)
+        view.backgroundColor = .systemMint
+//        let backgroundImage = UIImageView(image: UIImage(named: ImageNames.signupBackground))
+//        backgroundImage.contentMode = .scaleAspectFill
+//        backgroundImage.frame = view.bounds
+//        view.insertSubview(backgroundImage, at: 0)
     }
     
     func configWelcomeLabel() {
