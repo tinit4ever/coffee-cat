@@ -39,10 +39,22 @@ class SignUpViewController: UIViewController, UIFactory {
         setupAction()
     }
     
+    // -MARK: Override
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            configAppearance()
+        }
+    }
+    
     // -MARK: SetupUI
     
     func setupUI() {
-        configBackground()
+        
+        configAppearance()
+        
+        configNavigation()
         
         view.addSubview(welcomeLabel)
         configWelcomeLabel()
@@ -68,15 +80,39 @@ class SignUpViewController: UIViewController, UIFactory {
         
         view.addSubview(alternativeStackView)
         configAlternativeStackView()
-        
     }
     
-    func configBackground() {
-        view.backgroundColor = .systemMint
-//        let backgroundImage = UIImageView(image: UIImage(named: ImageNames.signupBackground))
-//        backgroundImage.contentMode = .scaleAspectFill
-//        backgroundImage.frame = view.bounds
-//        view.insertSubview(backgroundImage, at: 0)
+    func configAppearance() {
+        view.backgroundColor = .systemGray5
+        
+        removeCircleGroupImageView()
+        checkAndChangeAppearancceMode()
+    }
+    
+    func removeCircleGroupImageView() {
+        for subview in view.subviews {
+            if let imageView = subview as? UIImageView,
+               imageView.image == UIImage(named: ImageNames.darkCircleGroup) ||
+                imageView.image == UIImage(named: ImageNames.lightCircleGroup)
+            {
+                imageView.removeFromSuperview()
+            }
+        }
+    }
+
+    func checkAndChangeAppearancceMode() {
+        if traitCollection.userInterfaceStyle == .dark {
+            let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
+            view.addSubview(imageView)
+        } else {
+            let imageView = UIImageView(image: UIImage(named: ImageNames.lightCircleGroup))
+            view.addSubview(imageView)
+        }
+    }
+    
+    func configNavigation() {
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(customView: emailTextFieldContainer)
+        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
     }
     
     func configWelcomeLabel() {

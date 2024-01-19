@@ -98,7 +98,6 @@ class SignInViewController: UIViewController, UIFactory {
         }
     }
 
-    
     func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
             let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
