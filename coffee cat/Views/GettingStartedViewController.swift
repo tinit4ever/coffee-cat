@@ -87,7 +87,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
     }
     
     func configGetStartedTitleLabel() {
-        getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: 29, textColor: .black)
+        getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: 29, textColor: .customBlack)
         getStartedTitleLabel.setBoldText()
         
         NSLayoutConstraint.activate([
@@ -97,7 +97,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
     }
     
     func configGetStartedContentLabel() {
-        getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.avenir, size: 20, textColor: .black)
+        getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
         
         NSLayoutConstraint.activate([
             getStartedContentLabel.topAnchor.constraint(equalTo: getStartedTitleLabel.bottomAnchor, constant: 20),
@@ -108,7 +108,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
     
     func configGetStartedButton() {
         getStartedButton.cornerRadius(cornerRadius: 20)
-        getStartedButton.setTitle(title: GettingStartedScreenText.getStartedButtonTitle, fontName: FontNames.avenir, size: 30, color: .white)
+        getStartedButton.setTitle(title: GettingStartedScreenText.getStartedButtonTitle, fontName: FontNames.avenir, size: 30, color: .systemGray5)
         getStartedButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
