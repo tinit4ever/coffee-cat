@@ -108,7 +108,7 @@ class SignInViewController: UIViewController, UIFactory {
     }
     
     func configNavigation() {
-        self.navigationItem.backButtonTitle = GeneralTexts.emptyString
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
     }
     
