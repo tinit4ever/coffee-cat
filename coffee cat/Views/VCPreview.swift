@@ -15,9 +15,12 @@ struct VCPreview<T: UIViewController>: UIViewControllerRepresentable {
         viewController = viewControllerBuilder()
     }
     
-    func makeUIViewController(context: Context) -> T {
-        viewController
+    func makeUIViewController(context: Context) -> UINavigationController {
+        let navigationController = UINavigationController(rootViewController: viewController)
+        return navigationController
     }
     
-    func updateUIViewController(_ uiViewController: T, context: Context) { }
+    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+        // You can add any necessary update logic here
+    }
 }

@@ -99,7 +99,7 @@ class SignUpViewController: UIViewController, UIFactory {
             }
         }
     }
-
+    
     func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
             let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
@@ -183,7 +183,7 @@ class SignUpViewController: UIViewController, UIFactory {
     }
     
     func configDivideLabel() {
-//        dividerLabel.text = SignUpScreenText.dividerLabel
+        //        dividerLabel.text = SignUpScreenText.dividerLabel
         dividerLabel.setupTitle(text: SignUpScreenText.dividerLabel, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
         NSLayoutConstraint.activate([
             dividerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),

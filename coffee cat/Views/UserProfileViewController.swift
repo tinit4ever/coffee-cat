@@ -6,10 +6,36 @@
 //
 
 import UIKit
+import SwiftUI
 
 class UserProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+    }
+    
+    func setupUI() {
+        view.backgroundColor = .systemMint
+    }
+}
+
+// -MARK: Preview
+//struct UserProfileViewControllerPreview: PreviewProvider {
+//    static var previews: some View {
+//        VCPreview {
+//            let userProfileViewController = UserProfileViewController()
+//            userProfileViewController.navigationItem.title = "User Profile"
+//            return userProfileViewController
+//        }
+//    }
+//}
+
+struct UserProfileViewControllerPreview: PreviewProvider {
+    static var previews: some View {
+        VCPreview {
+            let userProfileViewController = UserProfileViewController()
+            return userProfileViewController
+        }
     }
 }
