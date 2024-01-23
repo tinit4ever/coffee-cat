@@ -37,3 +37,10 @@ struct SignInScreenText {
     static let alternativeLabel = "Dont's have an account?"
     static let alternativeButtonTitle = "Sign up"
 }
+
+struct UserProfileInputScreenText {
+    static let nameLabel = "Name"
+    static let nameTextFieldPlaceholder = "Enter your name here"
+    static let dobLabel = "Date of birth"
+    static let doneButtonTitle = "Done"
+}

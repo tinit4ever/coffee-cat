@@ -19,6 +19,13 @@ enum ImageNames {
     static let coffeeCat = "coffee-cat"
 }
 
+enum DateFormat {
+    static let dayFormatter = "dd"
+    static let monthFormatter = "MMMM"
+    static let yearFormatter = "yyyy"
+    static let dateFormatter = "dd MMMM yyyy"
+}
+
 enum FontNames {
     static let avenir = "Avenir"
 }

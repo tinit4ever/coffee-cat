@@ -17,7 +17,7 @@ class SignUpViewController: UIViewController, UIFactory {
     
     lazy var emailStackView: UIStackView = makeVerticalStackView()
     lazy var emailLabel: UILabel = makeLabel()
-    lazy var emailTextFieldContainer: UIView = makeRoundedTextFieldContainer()
+    lazy var emailTextFieldContainer: UIView = makeRoundedContainer()
     lazy var emailTextField: UITextField = makeTextField(placeholder: SignUpScreenText.emailTextFieldPlaceholder)
     
     lazy var nextButton: UIButton = makeButton()
@@ -99,7 +99,7 @@ class SignUpViewController: UIViewController, UIFactory {
             }
         }
     }
-
+    
     func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
             let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
@@ -151,7 +151,6 @@ class SignUpViewController: UIViewController, UIFactory {
         NSLayoutConstraint.activate([
             emailStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 2.5),
             emailStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            emailStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             emailStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
         ])
         NSLayoutConstraint.activate([
@@ -183,7 +182,7 @@ class SignUpViewController: UIViewController, UIFactory {
     }
     
     func configDivideLabel() {
-//        dividerLabel.text = SignUpScreenText.dividerLabel
+        //        dividerLabel.text = SignUpScreenText.dividerLabel
         dividerLabel.setupTitle(text: SignUpScreenText.dividerLabel, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
         NSLayoutConstraint.activate([
             dividerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
