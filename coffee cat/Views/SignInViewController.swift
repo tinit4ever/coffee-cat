@@ -15,10 +15,10 @@ class SignInViewController: UIViewController, UIFactory {
     
     lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: 260)
     
-    lazy var emailTextFieldContainer: UIView = makeRoundedTextFieldContainer()
+    lazy var emailTextFieldContainer: UIView = makeRoundedContainer()
     lazy var emailTextField: UITextField = makeTextField(placeholder: SignInScreenText.emailTextFieldPlaceholder)
     
-    lazy var passwordTextFieldContainer: UIView = makeRoundedTextFieldContainer()
+    lazy var passwordTextFieldContainer: UIView = makeRoundedContainer()
     lazy var passwordTextField: UITextField = makeTextField(placeholder: SignInScreenText.passwordTextFieldPlaceholder)
     
     lazy var signInButton: UIButton = makeButton()

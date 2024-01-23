@@ -11,10 +11,11 @@ protocol UIFactory {
     func makeLabel() -> UILabel
     func makeButton() -> UIButton
     func makeTextField(placeholder: String) -> UITextField
-    func makeRoundedTextFieldContainer() -> UIView
+    func makeRoundedContainer() -> UIView
     func makeView() -> UIView
     func makeVerticalStackView() -> UIStackView
     func makeHorizontalStackView() -> UIStackView
+    func makeDatePicker() -> UIDatePicker
 }
 
 extension UIFactory {
@@ -40,7 +41,7 @@ extension UIFactory {
         return textField
     }
     
-    func makeRoundedTextFieldContainer() -> UIView {
+    func makeRoundedContainer() -> UIView {
         let container = UIView()
         container.layer.cornerRadius = 10
         container.layer.masksToBounds = true
@@ -75,5 +76,11 @@ extension UIFactory {
         }
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }
+    
+    func makeDatePicker() -> UIDatePicker {
+        let datePicker = UIDatePicker(frame: .zero)
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        return datePicker
     }
 }

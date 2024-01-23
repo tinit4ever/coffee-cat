@@ -17,7 +17,7 @@ class SignUpViewController: UIViewController, UIFactory {
     
     lazy var emailStackView: UIStackView = makeVerticalStackView()
     lazy var emailLabel: UILabel = makeLabel()
-    lazy var emailTextFieldContainer: UIView = makeRoundedTextFieldContainer()
+    lazy var emailTextFieldContainer: UIView = makeRoundedContainer()
     lazy var emailTextField: UITextField = makeTextField(placeholder: SignUpScreenText.emailTextFieldPlaceholder)
     
     lazy var nextButton: UIButton = makeButton()
@@ -150,7 +150,6 @@ class SignUpViewController: UIViewController, UIFactory {
         
         NSLayoutConstraint.activate([
             emailStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 2.5),
-            emailStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             emailStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             emailStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
         ])
