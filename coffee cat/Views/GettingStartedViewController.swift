@@ -11,7 +11,7 @@ import SwiftUI
 class GettingStartedViewController: UIViewController, UIFactory {
     
     // -MARK: Create UI Components
-    lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: 260)
+    lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: 160)
     
     private lazy var getStartedTitleLabel: UILabel = makeLabel()
     
@@ -66,10 +66,12 @@ class GettingStartedViewController: UIViewController, UIFactory {
 
     func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
-            let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
+            let image = UIImage(named: ImageNames.darkCircleGroup)?.resized(to: CGSize(width: view.bounds.width / 1.5, height: view.bounds.width / 5))
+            let imageView = UIImageView(image: image)
             view.addSubview(imageView)
         } else {
-            let imageView = UIImageView(image: UIImage(named: ImageNames.lightCircleGroup))
+            let image = UIImage(named: ImageNames.lightCircleGroup)?.resized(to: CGSize(width: view.bounds.width / 1.5, height: view.bounds.height / 5))
+            let imageView = UIImageView(image: image)
             view.addSubview(imageView)
         }
     }
@@ -81,23 +83,25 @@ class GettingStartedViewController: UIViewController, UIFactory {
     
     func configCoffeeCatImageView() {
         NSLayoutConstraint.activate([
-            coffeeCatImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+            coffeeCatImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 5),
             coffeeCatImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
     func configGetStartedTitleLabel() {
-        getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: 29, textColor: .customBlack)
+        getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: 24, textColor: .customBlack)
         getStartedTitleLabel.setBoldText()
-        
+        coffeeCatImageView.contentMode = .scaleToFill
         NSLayoutConstraint.activate([
             getStartedTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            getStartedTitleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 2)
+            getStartedTitleLabel.topAnchor.constraint(equalTo: coffeeCatImageView.bottomAnchor, constant: 10),
+            getStartedTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            getStartedTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
         ])
     }
     
     func configGetStartedContentLabel() {
-        getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
+        getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.avenir, size: 18, textColor: .customBlack)
         
         NSLayoutConstraint.activate([
             getStartedContentLabel.topAnchor.constraint(equalTo: getStartedTitleLabel.bottomAnchor, constant: 20),
