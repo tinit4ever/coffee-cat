@@ -12,8 +12,8 @@ extension UIView {
         self.addSubview(textField)
 
         NSLayoutConstraint.activate([
-            textField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
-            textField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30),
+            textField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: UIScreen.screenHeightUnit * 30),
+            textField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -(UIScreen.screenHeightUnit * 30)),
             textField.topAnchor.constraint(equalTo: self.topAnchor),
             textField.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
