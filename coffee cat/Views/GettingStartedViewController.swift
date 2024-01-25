@@ -11,7 +11,7 @@ import SwiftUI
 class GettingStartedViewController: UIViewController, UIFactory {
     
     // -MARK: Create UI Components
-    lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: 260)
+    lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: 160)
     
     private lazy var getStartedTitleLabel: UILabel = makeLabel()
     
@@ -89,20 +89,19 @@ class GettingStartedViewController: UIViewController, UIFactory {
     }
     
     func configGetStartedTitleLabel() {
-        getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: 29, textColor: .customBlack)
+        getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: 24, textColor: .customBlack)
         getStartedTitleLabel.setBoldText()
-        coffeeCatImageView.backgroundColor = .black
-        getStartedTitleLabel.backgroundColor = .red
+        coffeeCatImageView.contentMode = .scaleToFill
         NSLayoutConstraint.activate([
             getStartedTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            getStartedTitleLabel.topAnchor.constraint(equalTo: coffeeCatImageView.bottomAnchor),
-            getStartedTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            getStartedTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
+            getStartedTitleLabel.topAnchor.constraint(equalTo: coffeeCatImageView.bottomAnchor, constant: 10),
+            getStartedTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            getStartedTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
         ])
     }
     
     func configGetStartedContentLabel() {
-        getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
+        getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.avenir, size: 18, textColor: .customBlack)
         
         NSLayoutConstraint.activate([
             getStartedContentLabel.topAnchor.constraint(equalTo: getStartedTitleLabel.bottomAnchor, constant: 20),
