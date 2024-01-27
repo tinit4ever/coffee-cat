@@ -118,14 +118,14 @@ class SignInViewController: UIViewController, UIFactory {
         
         NSLayoutConstraint.activate([
             welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 5),
-            welcomeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            welcomeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            welcomeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
+            welcomeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
         ])
     }
     
     func configCoffeeCatImageView() {
         NSLayoutConstraint.activate([
-            coffeeCatImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
+            coffeeCatImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 200),
             coffeeCatImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
@@ -136,10 +136,10 @@ class SignInViewController: UIViewController, UIFactory {
         
         emailTextFieldContainer.backgroundColor = .systemBackground
         NSLayoutConstraint.activate([
-            emailTextFieldContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 430),
-            emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            emailTextFieldContainer.heightAnchor.constraint(equalToConstant: 60)
+            emailTextFieldContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 460),
+            emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
+            emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
+            emailTextFieldContainer.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
         ])
     }
     
@@ -157,23 +157,23 @@ class SignInViewController: UIViewController, UIFactory {
         
         passwordTextFieldContainer.backgroundColor = .systemBackground
         NSLayoutConstraint.activate([
-            passwordTextFieldContainer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: 30),
-            passwordTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            passwordTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            passwordTextFieldContainer.heightAnchor.constraint(equalToConstant: 60)
+            passwordTextFieldContainer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: UIScreen.screenHeightUnit * 30),
+            passwordTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
+            passwordTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
+            passwordTextFieldContainer.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
         ])
     }
     
     func configSignInButton() {
-        signInButton.cornerRadius(cornerRadius: 30)
+        signInButton.cornerRadius(cornerRadius: UIScreen.screenHeightUnit * 30)
         signInButton.setTitle(title: SignInScreenText.signInButtonTitle, fontName: FontNames.avenir, size: 30, color: .systemGray5)
         signInButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
-            signInButton.topAnchor.constraint(equalTo: passwordTextFieldContainer.bottomAnchor, constant: 40),
-            signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            signInButton.heightAnchor.constraint(equalToConstant: 60)
+            signInButton.topAnchor.constraint(equalTo: passwordTextFieldContainer.bottomAnchor, constant: UIScreen.screenHeightUnit * 40),
+            signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
+            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
+            signInButton.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
         ])
     }
     
@@ -181,10 +181,10 @@ class SignInViewController: UIViewController, UIFactory {
         forgetPasswordButton.removeBackground()
         forgetPasswordButton.setTitle(title: SignInScreenText.forgetPasswordButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemBlue)
         NSLayoutConstraint.activate([
-            forgetPasswordButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 20),
-            forgetPasswordButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            forgetPasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            //            forgetPasswordButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30)
+            forgetPasswordButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: UIScreen.screenHeightUnit * 30),
+            forgetPasswordButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
+            forgetPasswordButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
+            forgetPasswordButton.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 30)
         ])
     }
     
@@ -193,19 +193,19 @@ class SignInViewController: UIViewController, UIFactory {
         signInWithGoogleButton.addSubview(logoImageView)
         signInWithGoogleButton.removeBackground()
         signInWithGoogleButton.addBorder(width: 2, color: .systemGray)
-        signInWithGoogleButton.cornerRadius(cornerRadius: 30)
+        signInWithGoogleButton.cornerRadius(cornerRadius: UIScreen.screenHeightUnit * 30)
         signInWithGoogleButton.setTitle(title: SignInScreenText.signInWithGoogleButtonTitle, fontName: FontNames.avenir, size: 20, color: .customBlack)
         
         NSLayoutConstraint.activate([
-            logoImageView.leadingAnchor.constraint(equalTo: signInWithGoogleButton.leadingAnchor, constant: 30),
+            logoImageView.leadingAnchor.constraint(equalTo: signInWithGoogleButton.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
             logoImageView.centerYAnchor.constraint(equalTo: signInWithGoogleButton.centerYAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            signInWithGoogleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            signInWithGoogleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            signInWithGoogleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60),
-            signInWithGoogleButton.heightAnchor.constraint(equalToConstant: 60)
+            signInWithGoogleButton.topAnchor.constraint(equalTo: forgetPasswordButton.bottomAnchor, constant: UIScreen.screenWidthtUnit * 90),
+            signInWithGoogleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
+            signInWithGoogleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
+            signInWithGoogleButton.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
         ])
     }
     
@@ -219,9 +219,9 @@ class SignInViewController: UIViewController, UIFactory {
         alternativeButton.setTitle(title: SignInScreenText.alternativeButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemBlue)
         
         NSLayoutConstraint.activate([
-            alternativeStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 55),
-            alternativeStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -55),
-            alternativeStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            alternativeStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 55),
+            alternativeStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 55)),
+            alternativeStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -(UIScreen.screenHeightUnit * 10))
         ])
     }
     
