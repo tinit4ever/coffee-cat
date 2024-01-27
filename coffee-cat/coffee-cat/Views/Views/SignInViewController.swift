@@ -13,7 +13,7 @@ class SignInViewController: UIViewController, UIFactory {
     // -MARK: Create UI Components
     lazy var welcomeLabel: UILabel = makeLabel()
     
-    lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: 260)
+    lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: UIScreen.screenHeightUnit * 220)
     
     lazy var emailTextFieldContainer: UIView = makeRoundedContainer()
     lazy var emailTextField: UITextField = makeTextField(placeholder: SignInScreenText.emailTextFieldPlaceholder)
@@ -113,11 +113,11 @@ class SignInViewController: UIViewController, UIFactory {
     }
     
     func configWelcomeLabel() {
-        welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 29, textColor: .systemBrown)
+        welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 26, textColor: .systemBrown)
         welcomeLabel.setBoldText()
         
         NSLayoutConstraint.activate([
-            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 5),
+            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 200),
             welcomeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
             welcomeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
         ])
@@ -125,7 +125,7 @@ class SignInViewController: UIViewController, UIFactory {
     
     func configCoffeeCatImageView() {
         NSLayoutConstraint.activate([
-            coffeeCatImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 200),
+            coffeeCatImageView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: UIScreen.screenHeightUnit * 10),
             coffeeCatImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
@@ -136,7 +136,7 @@ class SignInViewController: UIViewController, UIFactory {
         
         emailTextFieldContainer.backgroundColor = .systemBackground
         NSLayoutConstraint.activate([
-            emailTextFieldContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 460),
+            emailTextFieldContainer.topAnchor.constraint(equalTo: coffeeCatImageView.bottomAnchor, constant: UIScreen.screenHeightUnit * 20),
             emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
             emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
             emailTextFieldContainer.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
@@ -157,7 +157,7 @@ class SignInViewController: UIViewController, UIFactory {
         
         passwordTextFieldContainer.backgroundColor = .systemBackground
         NSLayoutConstraint.activate([
-            passwordTextFieldContainer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: UIScreen.screenHeightUnit * 30),
+            passwordTextFieldContainer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: UIScreen.screenHeightUnit * 40),
             passwordTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
             passwordTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
             passwordTextFieldContainer.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
@@ -219,9 +219,10 @@ class SignInViewController: UIViewController, UIFactory {
         alternativeButton.setTitle(title: SignInScreenText.alternativeButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemBlue)
         
         NSLayoutConstraint.activate([
+            alternativeStackView.topAnchor.constraint(equalTo: signInWithGoogleButton.bottomAnchor, constant: UIScreen.screenWidthtUnit * 30),
             alternativeStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 55),
             alternativeStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 55)),
-            alternativeStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -(UIScreen.screenHeightUnit * 10))
+            alternativeStackView.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 20)
         ])
     }
     
