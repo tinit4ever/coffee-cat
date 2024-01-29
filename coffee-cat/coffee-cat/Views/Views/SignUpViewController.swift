@@ -218,29 +218,40 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
         
         NSLayoutConstraint.activate([
-            signUpWithGoogleButton.topAnchor.constraint(equalTo: leftDividerSubView.bottomAnchor, constant: UIScreen.screenHeightUnit * 110),
             signUpWithGoogleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenHeightUnit * 30),
             signUpWithGoogleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenHeightUnit * 30)),
+            signUpWithGoogleButton.bottomAnchor.constraint(equalTo: alternativeStackView.topAnchor, constant: -(UIScreen.screenHeightUnit * 30)),
             signUpWithGoogleButton.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
         ])
     }
     
     func configAlternativeStackView() {
         alternativeStackView.addArrangedSubview(alternativeLabel)
+//        alternativeStackView.backgroundColor = .red
+//        alternativeStackView.distribution = .fillEqually
+//        alternativeStackView.spacing = 5
         
         alternativeLabel.setupTitle(text: SignUpScreenText.alternativeLabel, fontName: FontNames.avenir, size: UIScreen.screenHeightUnit * 24, textColor: .customBlack)
         alternativeLabel.numberOfLines = 1
-        alternativeLabel.textAlignment = .right
+        alternativeLabel.adjustsFontSizeToFitWidth = true
+//        alternativeLabel.backgroundColor = .green
+//        alternativeButton.backgroundColor = .black
         
         alternativeStackView.addArrangedSubview(alternativeButton)
         alternativeButton.removeBackground()
         alternativeButton.setTitle(title: SignUpScreenText.alternativeButtonTitle, fontName: FontNames.avenir, size: UIScreen.screenHeightUnit * 24, color: .systemBlue)
+        alternativeButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        alternativeButton.titleLabel?.numberOfLines = 1
+        alternativeButton.titleLabel?.lineBreakMode = .byClipping
+        alternativeButton.titleLabel?.minimumScaleFactor = 0.5
         
         NSLayoutConstraint.activate([
-            alternativeStackView.topAnchor.constraint(equalTo: signUpWithGoogleButton.bottomAnchor, constant: UIScreen.screenHeightUnit * 20),
-            alternativeStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenHeightUnit * 30),
-            alternativeStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenHeightUnit * 30)),
-            alternativeStackView.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 30)
+            alternativeLabel.widthAnchor.constraint(equalToConstant: UIScreen.screenWidthtUnit * 490),
+            alternativeButton.widthAnchor.constraint(equalToConstant: UIScreen.screenWidthtUnit * 200),
+//            alternativeStackView.widthAnchor.constraint(equalToConstant: UIScreen.screenWidthtUnit * 690),
+            alternativeStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -(UIScreen.screenHeightUnit * 10)),
+            alternativeStackView.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 30),
+            alternativeStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
