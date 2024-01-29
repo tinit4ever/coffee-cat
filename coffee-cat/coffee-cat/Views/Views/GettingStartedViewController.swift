@@ -121,7 +121,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
         NSLayoutConstraint.activate([
             getStartedButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             getStartedButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
-            getStartedButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(30)),
+            getStartedButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(60)),
             getStartedButton.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }
