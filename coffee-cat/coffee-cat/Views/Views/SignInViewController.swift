@@ -114,11 +114,11 @@ class SignInViewController: UIViewController, UIFactory {
     }
     
     func configWelcomeLabel() {
-        welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 29, textColor: .systemBrown)
+        welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 26, textColor: .systemBrown)
         welcomeLabel.setBoldText()
         
         NSLayoutConstraint.activate([
-            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 5),
+            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 200),
             welcomeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
             welcomeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
         ])
@@ -137,7 +137,7 @@ class SignInViewController: UIViewController, UIFactory {
         
         emailTextFieldContainer.backgroundColor = .systemBackground
         NSLayoutConstraint.activate([
-            emailTextFieldContainer.topAnchor.constraint(equalTo: coffeeCatImageView.bottomAnchor, constant: UIScreen.screenHeightUnit * 10),
+            emailTextFieldContainer.topAnchor.constraint(equalTo: coffeeCatImageView.bottomAnchor, constant: UIScreen.screenHeightUnit * 20),
             emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
             emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
             emailTextFieldContainer.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
@@ -158,7 +158,7 @@ class SignInViewController: UIViewController, UIFactory {
         
         passwordTextFieldContainer.backgroundColor = .systemBackground
         NSLayoutConstraint.activate([
-            passwordTextFieldContainer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: UIScreen.screenHeightUnit * 30),
+            passwordTextFieldContainer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: UIScreen.screenHeightUnit * 40),
             passwordTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
             passwordTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
             passwordTextFieldContainer.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
