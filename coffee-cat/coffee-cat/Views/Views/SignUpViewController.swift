@@ -9,6 +9,7 @@ import UIKit
 import SwiftUI
 
 class SignUpViewController: UIViewController, UIFactory {
+    let sizeScaler = UIScreen.scalableSize
     // -MARK: Create UI Components
     lazy var welcomeLabel: UILabel = makeLabel()
     
@@ -99,11 +100,11 @@ class SignUpViewController: UIViewController, UIFactory {
     
     func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
-//            let image = UIImage(named: ImageNames.darkCircleGroup)?.resized(to: CGSize(width: view.bounds.width / 1.5, height: view.bounds.width / 5))
+            //            let image = UIImage(named: ImageNames.darkCircleGroup)?.resized(to: CGSize(width: view.bounds.width / 1.5, height: view.bounds.width / 5))
             let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
             view.addSubview(imageView)
         } else {
-//            let image = UIImage(named: ImageNames.lightCircleGroup)?.resized(to: CGSize(width: view.bounds.width / 1.5, height: view.bounds.height / 5))
+            //            let image = UIImage(named: ImageNames.lightCircleGroup)?.resized(to: CGSize(width: view.bounds.width / 1.5, height: view.bounds.height / 5))
             let imageView = UIImageView(image: UIImage(named: ImageNames.lightCircleGroup))
             view.addSubview(imageView)
         }
@@ -115,7 +116,7 @@ class SignUpViewController: UIViewController, UIFactory {
     }
     
     func configWelcomeLabel() {
-        welcomeLabel.setupTitle(text: SignUpScreenText.welcome, fontName: FontNames.avenir, size: UIScreen.screenHeightUnit * 40, textColor: .systemBrown)
+        welcomeLabel.setupTitle(text: SignUpScreenText.welcome, fontName: FontNames.avenir, size: sizeScaler(40), textColor: .systemBrown)
         welcomeLabel.setBoldText()
         
         NSLayoutConstraint.activate([
@@ -227,29 +228,24 @@ class SignUpViewController: UIViewController, UIFactory {
     
     func configAlternativeStackView() {
         alternativeStackView.addArrangedSubview(alternativeLabel)
-//        alternativeStackView.backgroundColor = .red
-//        alternativeStackView.distribution = .fillEqually
-//        alternativeStackView.spacing = 5
+        alternativeStackView.distribution = .fillProportionally
+        alternativeStackView.alignment = .center
         
-        alternativeLabel.setupTitle(text: SignUpScreenText.alternativeLabel, fontName: FontNames.avenir, size: UIScreen.screenHeightUnit * 24, textColor: .customBlack)
+        alternativeLabel.setupTitle(text: SignUpScreenText.alternativeLabel, fontName: FontNames.avenir, size: sizeScaler(28), textColor: .customBlack)
         alternativeLabel.numberOfLines = 1
         alternativeLabel.adjustsFontSizeToFitWidth = true
-//        alternativeLabel.backgroundColor = .green
-//        alternativeButton.backgroundColor = .black
         
         alternativeStackView.addArrangedSubview(alternativeButton)
         alternativeButton.removeBackground()
-        alternativeButton.setTitle(title: SignUpScreenText.alternativeButtonTitle, fontName: FontNames.avenir, size: UIScreen.screenHeightUnit * 24, color: .systemBlue)
+        alternativeButton.setTitle(title: SignUpScreenText.alternativeButtonTitle, fontName: FontNames.avenir, size: sizeScaler(28), color: .systemBlue)
         alternativeButton.titleLabel?.adjustsFontSizeToFitWidth = true
         alternativeButton.titleLabel?.numberOfLines = 1
         alternativeButton.titleLabel?.lineBreakMode = .byClipping
         alternativeButton.titleLabel?.minimumScaleFactor = 0.5
         
         NSLayoutConstraint.activate([
-            alternativeLabel.widthAnchor.constraint(equalToConstant: UIScreen.screenWidthtUnit * 490),
-            alternativeButton.widthAnchor.constraint(equalToConstant: UIScreen.screenWidthtUnit * 200),
-//            alternativeStackView.widthAnchor.constraint(equalToConstant: UIScreen.screenWidthtUnit * 690),
             alternativeStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -(UIScreen.screenHeightUnit * 10)),
+            alternativeStackView.widthAnchor.constraint(equalToConstant: UIScreen.screenWidthtUnit * 710),
             alternativeStackView.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 30),
             alternativeStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])

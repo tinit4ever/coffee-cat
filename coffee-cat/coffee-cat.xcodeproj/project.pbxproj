@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A05C506F2B6737A400A42F33 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C506E2B6737A400A42F33 /* UIFont+Extension.swift */; };
 		A07ED85D2B6544D300EA4E19 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8582B6544D300EA4E19 /* SignUpViewController.swift */; };
 		A07ED85E2B6544D300EA4E19 /* GettingStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8592B6544D300EA4E19 /* GettingStartedViewController.swift */; };
 		A07ED85F2B6544D300EA4E19 /* VCPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED85A2B6544D300EA4E19 /* VCPreview.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A05C506E2B6737A400A42F33 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		A07ED8582B6544D300EA4E19 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A07ED8592B6544D300EA4E19 /* GettingStartedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GettingStartedViewController.swift; sourceTree = "<group>"; };
 		A07ED85A2B6544D300EA4E19 /* VCPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCPreview.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				A07ED8702B65453000EA4E19 /* UINavigationController+Extension.swift */,
 				A07ED8712B65453000EA4E19 /* UIScreen+Extension.swift */,
 				A07ED8722B65453000EA4E19 /* UITextField+Extension.swift */,
+				A05C506E2B6737A400A42F33 /* UIFont+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				A07ED8782B65453000EA4E19 /* UILabel+Extension.swift in Sources */,
 				A0F3EA9F2B653BDB0057860A /* SceneDelegate.swift in Sources */,
 				A07ED8792B65453000EA4E19 /* UIButton+Extension.swift in Sources */,
+				A05C506F2B6737A400A42F33 /* UIFont+Extension.swift in Sources */,
 				A07ED87C2B65453000EA4E19 /* UINavigationController+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
