@@ -9,9 +9,12 @@ import UIKit
 import SwiftUI
 
 class GettingStartedViewController: UIViewController, UIFactory {
+    let heightScaler = UIScreen.scalableHeight
+    let widthScaler = UIScreen.scalableWidth
+    let sizeScaler = UIScreen.scalableSize
     
     // -MARK: Create UI Components
-    lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: 160)
+    lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: sizeScaler(250))
     
     private lazy var getStartedTitleLabel: UILabel = makeLabel()
     
@@ -89,37 +92,37 @@ class GettingStartedViewController: UIViewController, UIFactory {
     }
     
     func configGetStartedTitleLabel() {
-        getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: 24, textColor: .customBlack)
+        getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: sizeScaler(42), textColor: .customBlack)
         getStartedTitleLabel.setBoldText()
         coffeeCatImageView.contentMode = .scaleToFill
         NSLayoutConstraint.activate([
             getStartedTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            getStartedTitleLabel.topAnchor.constraint(equalTo: coffeeCatImageView.bottomAnchor, constant: 10),
-            getStartedTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            getStartedTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
+            getStartedTitleLabel.topAnchor.constraint(equalTo: coffeeCatImageView.bottomAnchor, constant: heightScaler(20)),
+            getStartedTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(30)),
+            getStartedTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(30))
         ])
     }
     
     func configGetStartedContentLabel() {
-        getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.avenir, size: 18, textColor: .customBlack)
+        getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.avenir, size: sizeScaler(32), textColor: .customBlack)
         
         NSLayoutConstraint.activate([
-            getStartedContentLabel.topAnchor.constraint(equalTo: getStartedTitleLabel.bottomAnchor, constant: 20),
-            getStartedContentLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            getStartedContentLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30)
+            getStartedContentLabel.topAnchor.constraint(equalTo: getStartedTitleLabel.bottomAnchor, constant: heightScaler(30)),
+            getStartedContentLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(50)),
+            getStartedContentLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(50))
         ])
     }
     
     func configGetStartedButton() {
-        getStartedButton.cornerRadius(cornerRadius: 20)
-        getStartedButton.setTitle(title: GettingStartedScreenText.getStartedButtonTitle, fontName: FontNames.avenir, size: 30, color: .systemGray5)
+        getStartedButton.cornerRadius(cornerRadius: heightScaler(30))
+        getStartedButton.setTitle(title: GettingStartedScreenText.getStartedButtonTitle, fontName: FontNames.avenir, size: sizeScaler(40), color: .systemGray5)
         getStartedButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
-            getStartedButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            getStartedButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            getStartedButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30),
-            getStartedButton.heightAnchor.constraint(equalToConstant: 70)
+            getStartedButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(40)),
+            getStartedButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(40)),
+            getStartedButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(30)),
+            getStartedButton.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }
     
