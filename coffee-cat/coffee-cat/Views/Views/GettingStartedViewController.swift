@@ -119,8 +119,8 @@ class GettingStartedViewController: UIViewController, UIFactory {
         getStartedButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
-            getStartedButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(40)),
-            getStartedButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(40)),
+            getStartedButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            getStartedButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
             getStartedButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(30)),
             getStartedButton.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])

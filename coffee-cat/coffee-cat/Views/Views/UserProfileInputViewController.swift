@@ -9,6 +9,11 @@ import UIKit
 import SwiftUI
 
 class UserProfileInputViewController: UIViewController, UIFactory {
+    let heightScaler = UIScreen.scalableHeight
+    let widthScaler = UIScreen.scalableWidth
+    let sizeScaler = UIScreen.scalableSize
+    
+    // -MARK: Create UI Components
     lazy var nameStackView: UIStackView = makeVerticalStackView()
     lazy var nameLabel: UILabel = makeLabel()
     lazy var nameTextFieldContainer: UIView = makeRoundedContainer()
@@ -85,7 +90,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     
     // -MARK: Config UI
     func configNameStackView() {
-        nameStackView.spacing = 10
+        nameStackView.spacing = heightScaler(20)
         nameStackView.contentMode = .topLeft
         nameStackView.addArrangedSubview(nameLabel)
         nameLabel.setupTitle(text: UserProfileInputScreenText.nameLabel, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
@@ -97,9 +102,9 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         nameTextFieldContainer.backgroundColor = .systemBackground
         
         NSLayoutConstraint.activate([
-            nameStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 180),
-            nameStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            nameStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            nameStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: heightScaler(200)),
+            nameStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(30)),
+            nameStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(30)),
         ])
         NSLayoutConstraint.activate([
             nameTextFieldContainer.heightAnchor.constraint(equalToConstant: 60)
