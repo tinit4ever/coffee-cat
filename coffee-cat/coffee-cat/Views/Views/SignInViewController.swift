@@ -114,11 +114,11 @@ class SignInViewController: UIViewController, UIFactory {
     }
     
     func configWelcomeLabel() {
-        welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 29, textColor: .systemBrown)
+        welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 26, textColor: .systemBrown)
         welcomeLabel.setBoldText()
         
         NSLayoutConstraint.activate([
-            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 5),
+            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 200),
             welcomeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
             welcomeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
         ])
