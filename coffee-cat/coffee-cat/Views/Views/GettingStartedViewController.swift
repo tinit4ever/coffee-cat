@@ -80,9 +80,16 @@ class GettingStartedViewController: UIViewController, UIFactory {
     }
     
     func configNavigation() {
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
+        self.navigationItem.backButtonTitle = ""
+        let yourBackImage = UIImage(systemName: "chevron.backward.circle")?
+            .withTintColor(.backButton, renderingMode: .alwaysOriginal)
+            .resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50)))
+
+        self.navigationController?.navigationBar.backIndicatorImage = yourBackImage
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = yourBackImage
     }
+
+
     
     func configCoffeeCatImageView() {
         NSLayoutConstraint.activate([
@@ -119,9 +126,9 @@ class GettingStartedViewController: UIViewController, UIFactory {
         getStartedButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
-            getStartedButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(40)),
-            getStartedButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(40)),
-            getStartedButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(30)),
+            getStartedButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            getStartedButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
+            getStartedButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(60)),
             getStartedButton.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }

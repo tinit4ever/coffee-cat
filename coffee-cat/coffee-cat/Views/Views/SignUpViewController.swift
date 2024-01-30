@@ -151,15 +151,15 @@ class SignUpViewController: UIViewController, UIFactory {
         
         NSLayoutConstraint.activate([
             emailLabel.topAnchor.constraint(equalTo: invitationLabel.bottomAnchor, constant: UIScreen.screenHeightUnit * 40),
-            emailLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenHeightUnit * 30),
-            emailLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenHeightUnit * 30)),
+            emailLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
+            emailLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 60)),
             emailLabel.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 30)
         ])
         
         NSLayoutConstraint.activate([
             emailTextFieldContainer.topAnchor.constraint(equalTo: emailLabel.bottomAnchor, constant: UIScreen.screenHeightUnit * 30),
-            emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenHeightUnit * 30),
-            emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenHeightUnit * 30)),
+            emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
+            emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 60)),
             emailTextFieldContainer.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
         ])
     }
@@ -171,8 +171,8 @@ class SignUpViewController: UIViewController, UIFactory {
         
         NSLayoutConstraint.activate([
             nextButton.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: UIScreen.screenHeightUnit * 90),
-            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenHeightUnit * 30),
-            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenHeightUnit * 30)),
+            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
+            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 60)),
             nextButton.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
         ])
     }
@@ -181,7 +181,7 @@ class SignUpViewController: UIViewController, UIFactory {
         leftDividerSubView.backgroundColor = .gray
         NSLayoutConstraint.activate([
             leftDividerSubView.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: UIScreen.screenHeightUnit * 110),
-            leftDividerSubView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenHeightUnit * 30),
+            leftDividerSubView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
             leftDividerSubView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(view.bounds.width / 2 + 25)),
             leftDividerSubView.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 2)
         ])
@@ -201,7 +201,7 @@ class SignUpViewController: UIViewController, UIFactory {
         NSLayoutConstraint.activate([
             rightDividerSubView.topAnchor.constraint(equalTo: leftDividerSubView.topAnchor),
             rightDividerSubView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: view.bounds.width / 2 + 25),
-            rightDividerSubView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenHeightUnit * 30)),
+            rightDividerSubView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 60)),
             rightDividerSubView.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 2)
         ])
     }
@@ -220,8 +220,8 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
         
         NSLayoutConstraint.activate([
-            signUpWithGoogleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenHeightUnit * 30),
-            signUpWithGoogleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenHeightUnit * 30)),
+            signUpWithGoogleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
+            signUpWithGoogleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 60)),
             signUpWithGoogleButton.bottomAnchor.constraint(equalTo: alternativeStackView.topAnchor, constant: -(UIScreen.screenHeightUnit * 20)),
             signUpWithGoogleButton.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
         ])

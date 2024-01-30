@@ -9,6 +9,11 @@ import UIKit
 import SwiftUI
 
 class UserProfileInputViewController: UIViewController, UIFactory {
+    let heightScaler = UIScreen.scalableHeight
+    let widthScaler = UIScreen.scalableWidth
+    let sizeScaler = UIScreen.scalableSize
+    
+    // -MARK: Create UI Components
     lazy var nameStackView: UIStackView = makeVerticalStackView()
     lazy var nameLabel: UILabel = makeLabel()
     lazy var nameTextFieldContainer: UIView = makeRoundedContainer()
@@ -22,6 +27,18 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     lazy var doneButton = makeButton()
     lazy var dateLabel = makeLabel()
     
+    lazy var genreStackView = makeVerticalStackView()
+    lazy var genreLabel = makeLabel()
+    lazy var firstGenreStackView = makeHorizontalStackView()
+    lazy var secondGenreStackView = makeHorizontalStackView()
+    lazy var manRadio = makeRadioButtonStackView(content: "Man")
+    lazy var womanRadio = makeRadioButtonStackView(content: "Woman")
+    lazy var nonBinaryRadio = makeRadioButtonStackView(content: "Non-binary")
+    lazy var somethingElseRadio = makeRadioButtonStackView(content: "Something else")
+    lazy var preferNotToSayRadio = makeRadioButtonStackView(content: "Prefer not to say")
+    
+    lazy var submitButton = makeButton()
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +47,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     }
     
     // -MARK: SetupUI
-    func setupUI() {
+    private func setupUI() {
         configAppearance()
         
         configNavigation()
@@ -48,16 +65,22 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         
         view.addSubview(doneButton)
         configDoneButton()
+        
+        view.addSubview(genreStackView)
+        configGenreButtons()
+        
+        view.addSubview(submitButton)
+        configSubmitButton()
     }
     
-    func configAppearance() {
+    private func configAppearance() {
         view.backgroundColor = .systemGray5
         
         removeCircleGroupImageView()
         checkAndChangeAppearancceMode()
     }
     
-    func removeCircleGroupImageView() {
+    private func removeCircleGroupImageView() {
         for subview in view.subviews {
             if let imageView = subview as? UIImageView,
                imageView.image == UIImage(named: ImageNames.darkCircleGroup) ||
@@ -67,8 +90,8 @@ class UserProfileInputViewController: UIViewController, UIFactory {
             }
         }
     }
-
-    func checkAndChangeAppearancceMode() {
+    
+    private func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
             let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
             view.addSubview(imageView)
@@ -78,17 +101,22 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         }
     }
     
-    func configNavigation() {
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    private func configNavigation() {
+//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward"), style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip for now", style: .plain, target: nil, action: nil)
+        self.navigationItem.rightBarButtonItem?.tintColor = .customBlack
+        
     }
     
     // -MARK: Config UI
-    func configNameStackView() {
-        nameStackView.spacing = 10
+    private func configNameStackView() {
+        nameStackView.spacing = heightScaler(20)
         nameStackView.contentMode = .topLeft
         nameStackView.addArrangedSubview(nameLabel)
-        nameLabel.setupTitle(text: UserProfileInputScreenText.nameLabel, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
+        nameLabel.setupTitle(text: UserProfileInputScreenText.nameLabel, fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         nameLabel.setBoldText()
         nameLabel.textAlignment = .left
         
@@ -97,20 +125,20 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         nameTextFieldContainer.backgroundColor = .systemBackground
         
         NSLayoutConstraint.activate([
-            nameStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 180),
-            nameStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            nameStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            nameStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: heightScaler(200)),
+            nameStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            nameStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
         ])
         NSLayoutConstraint.activate([
-            nameTextFieldContainer.heightAnchor.constraint(equalToConstant: 60)
+            nameTextFieldContainer.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }
     
-    func configDobStackView() {
-        dobStackView.spacing = 10
+    private func configDobStackView() {
+        dobStackView.spacing = heightScaler(20)
         dobStackView.contentMode = .topLeft
         dobStackView.addArrangedSubview(dobLabel)
-        dobLabel.setupTitle(text: UserProfileInputScreenText.dobLabel, fontName: FontNames.avenir, size: 20, textColor: .customBlack)
+        dobLabel.setupTitle(text: UserProfileInputScreenText.dobLabel, fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         dobLabel.setBoldText()
         dobLabel.textAlignment = .left
         
@@ -118,32 +146,29 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         datePickerContainer.backgroundColor = .systemBackground
         
         NSLayoutConstraint.activate([
-            dobStackView.topAnchor.constraint(equalTo: nameStackView.bottomAnchor, constant: 30),
-            dobStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            dobStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            dobStackView.topAnchor.constraint(equalTo: nameStackView.bottomAnchor, constant: heightScaler(60)),
+            dobStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            dobStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
         ])
         
         configDatePickerContainer()
     }
     
-    func configDatePickerContainer() {
+    private func configDatePickerContainer() {
         datePickerContainer.backgroundColor = .systemBackground
         datePickerContainer.addSubview(dateLabel)
         
         NSLayoutConstraint.activate([
-            dateLabel.leadingAnchor.constraint(equalTo: datePickerContainer.leadingAnchor, constant: 30),
+            dateLabel.leadingAnchor.constraint(equalTo: datePickerContainer.leadingAnchor, constant: widthScaler(50)),
             dateLabel.centerYAnchor.constraint(equalTo: datePickerContainer.centerYAnchor)
         ])
-     
+        
         NSLayoutConstraint.activate([
-//            datePickerContainer.topAnchor.constraint(equalTo: nameStackView.bottomAnchor, constant: 30),
-//            datePickerContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-//            datePickerContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            datePickerContainer.heightAnchor.constraint(equalToConstant: 60)
+            datePickerContainer.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }
     
-    func configDatePicker() {
+    private func configDatePicker() {
         datePicker.isHidden = true
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .wheels
@@ -151,46 +176,112 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         NSLayoutConstraint.activate([
             datePicker.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             datePicker.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            datePicker.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            datePicker.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             datePicker.heightAnchor.constraint(equalToConstant: 200),
         ])
     }
     
-    func configDoneButton() {
+    private func configDoneButton() {
         doneButton.removeBackground()
-        doneButton.setTitle(title: UserProfileInputScreenText.doneButtonTitle, fontName: FontNames.avenir, size: 20, color: .systemBlue)
+        doneButton.setTitle(title: UserProfileInputScreenText.doneButtonTitle, fontName: FontNames.avenir, size: sizeScaler(30), color: .systemBlue)
         doneButton.isHidden = true
         NSLayoutConstraint.activate([
-            doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(30)),
             doneButton.bottomAnchor.constraint(equalTo: datePicker.topAnchor)
         ])
     }
     
+    private func configGenreButtons() {
+        genreStackView.alignment = .leading
+        genreStackView.spacing = heightScaler(20)
+         NSLayoutConstraint.activate([
+             genreStackView.topAnchor.constraint(equalTo: dobStackView.bottomAnchor, constant: heightScaler(60)),
+             genreStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+             genreStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60))
+         ])
+        
+        genreLabel.setupTitle(text: "Genre", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+        genreLabel.setBoldText()
+        genreLabel.textAlignment = .left
+        genreStackView.addArrangedSubview(genreLabel)
+        genreStackView.addArrangedSubview(firstGenreStackView)
+        genreStackView.addArrangedSubview(secondGenreStackView)
+        
+        firstGenreStackView.addArrangedSubview(manRadio)
+        firstGenreStackView.addArrangedSubview(womanRadio)
+        firstGenreStackView.addArrangedSubview(nonBinaryRadio)
+        firstGenreStackView.distribution = .equalSpacing
+        
+        secondGenreStackView.addArrangedSubview(somethingElseRadio)
+        secondGenreStackView.addArrangedSubview(preferNotToSayRadio)
+        secondGenreStackView.spacing = widthScaler(60)
+        secondGenreStackView.distribution = .equalCentering
+    }
+    
+    private func configSubmitButton() {
+        submitButton.cornerRadius(cornerRadius: heightScaler(30))
+        submitButton.setTitle(title: "Submit", fontName: FontNames.avenir, size: sizeScaler(40), color: .systemGray5)
+        submitButton.backgroundColor = .customPink
+        
+        NSLayoutConstraint.activate([
+            submitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            submitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
+            submitButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(60)),
+            submitButton.heightAnchor.constraint(equalToConstant: heightScaler(60))
+        ])
+    }
+    
     // -MARK: Setup Action
-    func setupAction() {
+    private func setupAction() {
+        nameTextField.delegate = self
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         datePickerContainer.addGestureRecognizer(tapGesture)
         datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
         doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
     }
-
-    @objc func viewTapped() {
-        datePicker.isHidden = false
-        doneButton.isHidden = false
-        datePickerContainer.backgroundColor = .systemGray4
+    
+    @objc private func viewTapped() {
+        view.endEditing(true)
+        showDatePicker()
     }
     
-    @objc func doneButtonTapped() {
+    @objc private func doneButtonTapped() {
+        hideDatePicker()
+    }
+    
+    private func showDatePicker() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.datePicker.isHidden = false
+            self?.doneButton.isHidden = false
+            self?.submitButton.isHidden = true
+        }
+        
+    }
+    
+    private func hideDatePicker() {
         datePicker.isHidden = true
         doneButton.isHidden = true
-        datePickerContainer.backgroundColor = .systemBackground
+        
+        submitButton.isHidden = false
     }
     
-    @objc func datePickerValueChanged() {
+    @objc private func datePickerValueChanged() {
         let selectedDate = datePicker.date
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormat.dateFormatter
-        dateLabel.setupTitle(text: "\(dateFormatter.string(from: selectedDate))", fontName: FontNames.avenir, size: 20, textColor: .customBlack)
+        dateLabel.setupTitle(text: "\(dateFormatter.string(from: selectedDate))", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+    }
+}
+
+extension UserProfileInputViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.hideDatePicker()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
@@ -199,7 +290,6 @@ struct UserProfileViewControllerPreview: PreviewProvider {
     static var previews: some View {
         VCPreview {
             let userProfileViewController = UserProfileInputViewController()
-            userProfileViewController.navigationItem.title = "User Profile"
             return userProfileViewController
         }
     }
