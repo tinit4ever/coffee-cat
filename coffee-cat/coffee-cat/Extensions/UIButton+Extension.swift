@@ -48,5 +48,22 @@ extension UIButton {
         self.setImage(UIImage(systemName: SystemImageNames.eye), for: .normal)
         self.tintColor = .gray
     }
-
+    
+    func ratioButton() {
+        self.widthAnchor.constraint(equalToConstant: UIScreen.scalableSize(34)).isActive = true
+        self.heightAnchor.constraint(equalToConstant: UIScreen.scalableSize(34)).isActive = true
+        var configuration = UIButton.Configuration.plain()
+        if let image = UIImage(systemName: "circle") {
+            let imageConfiguration = UIImage.SymbolConfiguration(weight: .bold)
+            let newImage = image.applyingSymbolConfiguration(imageConfiguration)
+            configuration.image = newImage
+        }
+        
+        configuration.buttonSize = .large
+        configuration.imagePadding = 0
+        configuration.baseForegroundColor = .customPink
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        self.configuration = configuration
+    }
+    
 }

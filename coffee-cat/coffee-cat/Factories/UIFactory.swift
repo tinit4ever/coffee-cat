@@ -83,4 +83,28 @@ extension UIFactory {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         return datePicker
     }
+    
+    func makeRadioButtonStackView(content: String) -> UIStackView {
+        let stackView = UIStackView(frame: .zero)
+        stackView.axis = .horizontal
+        
+        let radioButton = makeButton()
+        radioButton.ratioButton()
+        
+        let label = makeLabel()
+        
+        stackView.addArrangedSubview(radioButton)
+        stackView.addArrangedSubview(label)
+        stackView.spacing = UIScreen.scalableSize(10)
+        stackView.distribution = .fill
+        stackView.alignment = .leading
+        label.textAlignment = .left
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            stackView.heightAnchor.constraint(equalToConstant: UIScreen.scalableSize(34))
+        ])
+        label.setupTitle(text: content, fontName: FontNames.avenir, size: UIScreen.scalableSize(28), textColor: .customBlack)
+        return stackView
+    }
 }

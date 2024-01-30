@@ -151,8 +151,8 @@ class SignUpViewController: UIViewController, UIFactory {
         
         NSLayoutConstraint.activate([
             emailLabel.topAnchor.constraint(equalTo: invitationLabel.bottomAnchor, constant: UIScreen.screenHeightUnit * 40),
-            emailLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenHeightUnit * 30),
-            emailLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenHeightUnit * 30)),
+            emailLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
+            emailLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 60)),
             emailLabel.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 30)
         ])
         
