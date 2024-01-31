@@ -9,6 +9,8 @@ import UIKit
 import SwiftUI
 
 class SignUpViewController: UIViewController, UIFactory {
+    let heightScaler = UIScreen.scalableHeight
+    let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
     // -MARK: Create UI Components
@@ -91,8 +93,8 @@ class SignUpViewController: UIViewController, UIFactory {
     func removeCircleGroupImageView() {
         for subview in view.subviews {
             if let imageView = subview as? UIImageView,
-               imageView.image == UIImage(named: ImageNames.darkCircleGroup) ||
-                imageView.image == UIImage(named: ImageNames.lightCircleGroup)
+               let imageName = imageView.image?.accessibilityIdentifier,
+               (imageName == ImageNames.darkCircleGroup || imageName == ImageNames.lightCircleGroup)
             {
                 imageView.removeFromSuperview()
             }
@@ -101,13 +103,27 @@ class SignUpViewController: UIViewController, UIFactory {
     
     func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
-            //            let image = UIImage(named: ImageNames.darkCircleGroup)?.resized(to: CGSize(width: view.bounds.width / 1.5, height: view.bounds.width / 5))
-            let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
+            let image = UIImage(named: ImageNames.darkCircleGroup)
+            image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
+            let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
+
+            let imageView = UIImageView(image: resizedImage)
+            imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
             view.addSubview(imageView)
+
         } else {
-            //            let image = UIImage(named: ImageNames.lightCircleGroup)?.resized(to: CGSize(width: view.bounds.width / 1.5, height: view.bounds.height / 5))
-            let imageView = UIImageView(image: UIImage(named: ImageNames.lightCircleGroup))
+            let image = UIImage(named: ImageNames.darkCircleGroup)
+            image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
+            let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
+
+            let imageView = UIImageView(image: resizedImage)
+            imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
             view.addSubview(imageView)
+
         }
     }
     

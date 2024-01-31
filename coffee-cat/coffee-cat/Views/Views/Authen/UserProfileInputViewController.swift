@@ -80,24 +80,40 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         checkAndChangeAppearancceMode()
     }
     
-    private func removeCircleGroupImageView() {
+    func removeCircleGroupImageView() {
         for subview in view.subviews {
             if let imageView = subview as? UIImageView,
-               imageView.image == UIImage(named: ImageNames.darkCircleGroup) ||
-                imageView.image == UIImage(named: ImageNames.lightCircleGroup)
+               let imageName = imageView.image?.accessibilityIdentifier,
+               (imageName == ImageNames.darkCircleGroup || imageName == ImageNames.lightCircleGroup)
             {
                 imageView.removeFromSuperview()
             }
         }
     }
     
-    private func checkAndChangeAppearancceMode() {
+    func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
-            let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
+            let image = UIImage(named: ImageNames.darkCircleGroup)
+            image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
+            let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
+
+            let imageView = UIImageView(image: resizedImage)
+            imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
             view.addSubview(imageView)
+
         } else {
-            let imageView = UIImageView(image: UIImage(named: ImageNames.lightCircleGroup))
+            let image = UIImage(named: ImageNames.darkCircleGroup)
+            image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
+            let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
+
+            let imageView = UIImageView(image: resizedImage)
+            imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
             view.addSubview(imageView)
+
         }
     }
     
