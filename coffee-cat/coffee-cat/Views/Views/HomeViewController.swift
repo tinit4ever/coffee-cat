@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class HomeViewController: UIViewController {
 
@@ -18,3 +19,14 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemMint
     }
 }
+
+// -MARK: Preview
+struct HomeViewControllerPreview: PreviewProvider {
+    static var previews: some View {
+        VCPreview {
+            let homeViewControllerPreview = HomeViewController()
+            return homeViewControllerPreview
+        }
+    }
+}
+
