@@ -104,12 +104,16 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     private func configNavigation() {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
+<<<<<<< HEAD:coffee-cat/coffee-cat/Views/Views/Authen/UserProfileInputViewController.swift
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrowshape.right.circle.fill")?.resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50))), style: .plain, target: self, action: #selector(skipButtonTapped))
+=======
         self.navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward"), style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: nil, action: nil)
+>>>>>>> main:coffee-cat/coffee-cat/Views/Views/UserProfileInputViewController.swift
         self.navigationItem.rightBarButtonItem?.tintColor = .customBlack
-        
     }
     
     // -MARK: Config UI
@@ -195,11 +199,11 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     private func configGenreButtons() {
         genreStackView.alignment = .leading
         genreStackView.spacing = heightScaler(20)
-         NSLayoutConstraint.activate([
-             genreStackView.topAnchor.constraint(equalTo: dobStackView.bottomAnchor, constant: heightScaler(60)),
-             genreStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
-             genreStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60))
-         ])
+        NSLayoutConstraint.activate([
+            genreStackView.topAnchor.constraint(equalTo: dobStackView.bottomAnchor, constant: heightScaler(60)),
+            genreStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            genreStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60))
+        ])
         
         genreLabel.setupTitle(text: "Genre", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         genreLabel.setBoldText()
@@ -232,23 +236,18 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         ])
     }
     
-    // -MARK: Setup Action
-    private func setupAction() {
-        nameTextField.delegate = self
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
-        datePickerContainer.addGestureRecognizer(tapGesture)
-        datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
-        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+    // -MARK: Supporting
+    private func pushViewController(viewController: UIViewController) {
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
-    @objc private func viewTapped() {
-        view.endEditing(true)
-        showDatePicker()
-    }
-    
-    @objc private func doneButtonTapped() {
-        hideDatePicker()
+    private func pushToHome() {
+        let homeViewController = HomeViewController()
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let window = windowScene.windows.first
+            window?.rootViewController = homeViewController
+            window?.makeKeyAndVisible()
+        }
     }
     
     private func showDatePicker() {
@@ -267,11 +266,47 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         submitButton.isHidden = false
     }
     
-    @objc private func datePickerValueChanged() {
+    // -MARK: Setup Action
+    private func setupAction() {
+        nameTextField.delegate = self
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        datePickerContainer.addGestureRecognizer(tapGesture)
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
+        
+        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+        
+        submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
+    }
+    
+    // -MARK: Catch Action
+    @objc
+    private func skipButtonTapped() {
+        pushToHome()
+    }
+    
+    @objc
+    private func viewTapped() {
+        view.endEditing(true)
+        showDatePicker()
+    }
+    
+    @objc
+    private func doneButtonTapped() {
+        hideDatePicker()
+    }
+    
+    @objc
+    private func datePickerValueChanged() {
         let selectedDate = datePicker.date
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormat.dateFormatter
         dateLabel.setupTitle(text: "\(dateFormatter.string(from: selectedDate))", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+    }
+    
+    @objc
+    private func submitButtonTapped() {
+        pushToHome()
     }
 }
 

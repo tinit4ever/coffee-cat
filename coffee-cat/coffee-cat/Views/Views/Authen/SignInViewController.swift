@@ -97,7 +97,7 @@ class SignInViewController: UIViewController, UIFactory {
             }
         }
     }
-
+    
     func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
             let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
@@ -231,16 +231,36 @@ class SignInViewController: UIViewController, UIFactory {
         ])
     }
     
+    // -MARK: Supporting
+    
+    private func pushViewController(viewController: UIViewController) {
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    private func pushToHome() {
+        let homeViewController = HomeViewController()
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let window = windowScene.windows.first
+            window?.rootViewController = homeViewController
+            window?.makeKeyAndVisible()
+        }
+    }
+    
     // -MARK: Setup Action
-    func setupAction() {
+    private func setupAction() {
+        signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
         alternativeButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
     // -MARK: Catch Action
+    @objc 
+    private func signInButtonTapped() {
+        pushToHome()
+    }
+    
     @objc
-    func signUpButtonTapped() {
-        let signUpViewController = SignUpViewController()
-        self.navigationController?.pushViewController(signUpViewController, animated: true)
+    private func signUpButtonTapped() {
+        pushViewController(viewController: SignUpViewController())
     }
     
     @objc
