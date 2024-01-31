@@ -9,6 +9,8 @@ import UIKit
 import SwiftUI
 
 class SignUpViewController: UIViewController, UIFactory {
+    let heightScaler = UIScreen.scalableHeight
+    let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
     // -MARK: Create UI Components
@@ -50,7 +52,7 @@ class SignUpViewController: UIViewController, UIFactory {
     
     // -MARK: SetupUI
     
-    func setupUI() {
+    private func setupUI() {
         configAppearance()
         
         configNavigation()
@@ -81,42 +83,56 @@ class SignUpViewController: UIViewController, UIFactory {
         configAlternativeStackView()
     }
     
-    func configAppearance() {
+    private func configAppearance() {
         view.backgroundColor = .systemGray5
         
         removeCircleGroupImageView()
         checkAndChangeAppearancceMode()
     }
     
-    func removeCircleGroupImageView() {
+    private func removeCircleGroupImageView() {
         for subview in view.subviews {
             if let imageView = subview as? UIImageView,
-               imageView.image == UIImage(named: ImageNames.darkCircleGroup) ||
-                imageView.image == UIImage(named: ImageNames.lightCircleGroup)
+               let imageName = imageView.image?.accessibilityIdentifier,
+               (imageName == ImageNames.darkCircleGroup || imageName == ImageNames.lightCircleGroup)
             {
                 imageView.removeFromSuperview()
             }
         }
     }
     
-    func checkAndChangeAppearancceMode() {
+    private func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
-            //            let image = UIImage(named: ImageNames.darkCircleGroup)?.resized(to: CGSize(width: view.bounds.width / 1.5, height: view.bounds.width / 5))
-            let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
+            let image = UIImage(named: ImageNames.darkCircleGroup)
+            image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
+            let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
+
+            let imageView = UIImageView(image: resizedImage)
+            imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
             view.addSubview(imageView)
+
         } else {
-            //            let image = UIImage(named: ImageNames.lightCircleGroup)?.resized(to: CGSize(width: view.bounds.width / 1.5, height: view.bounds.height / 5))
-            let imageView = UIImageView(image: UIImage(named: ImageNames.lightCircleGroup))
+            let image = UIImage(named: ImageNames.darkCircleGroup)
+            image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
+            let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
+
+            let imageView = UIImageView(image: resizedImage)
+            imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
             view.addSubview(imageView)
+
         }
     }
     
-    func configNavigation() {
+    private func configNavigation() {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
     }
     
-    func configWelcomeLabel() {
+    private func configWelcomeLabel() {
         welcomeLabel.setupTitle(text: SignUpScreenText.welcome, fontName: FontNames.avenir, size: sizeScaler(50), textColor: .systemBrown)
         welcomeLabel.setBoldText()
         
@@ -128,7 +144,7 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configInvitationLabel() {
+    private func configInvitationLabel() {
         invitationLabel.setupTitle(text: SignUpScreenText.invitation, fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         
         NSLayoutConstraint.activate([
@@ -139,7 +155,7 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configEmailTextField() {
+    private func configEmailTextField() {
         emailLabel.setupTitle(text: SignUpScreenText.emailLabel, fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         emailLabel.setBoldText()
         emailLabel.textAlignment = .left
@@ -164,7 +180,7 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configNextButton() {
+    private func configNextButton() {
         nextButton.setTitle(title: SignUpScreenText.nextButtonTitle, fontName: FontNames.avenir, size: sizeScaler(40), color: .systemGray5)
         nextButton.cornerRadius(cornerRadius: UIScreen.screenHeightUnit * 30)
         nextButton.backgroundColor = .customPink
@@ -177,7 +193,7 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configLeftDividerSubView() {
+    private func configLeftDividerSubView() {
         leftDividerSubView.backgroundColor = .gray
         NSLayoutConstraint.activate([
             leftDividerSubView.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: UIScreen.screenHeightUnit * 110),
@@ -187,7 +203,7 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configDivideLabel() {
+    private func configDivideLabel() {
         dividerLabel.setupTitle(text: SignUpScreenText.dividerLabel, fontName: FontNames.avenir, size:  sizeScaler(30), textColor: .customBlack)
         NSLayoutConstraint.activate([
             dividerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -196,7 +212,7 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
     }	
     
-    func configRightDividerSubView() {
+    private func configRightDividerSubView() {
         rightDividerSubView.backgroundColor = .gray
         NSLayoutConstraint.activate([
             rightDividerSubView.topAnchor.constraint(equalTo: leftDividerSubView.topAnchor),
@@ -206,7 +222,7 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configSignUpWithGoogleButton() {
+    private func configSignUpWithGoogleButton() {
         let logoImageView: UIImageView = makeSquareImageView(imageName: ImageNames.googleLogo, size: sizeScaler(70))
         signUpWithGoogleButton.addSubview(logoImageView)
         signUpWithGoogleButton.removeBackground()
@@ -227,7 +243,7 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configAlternativeStackView() {
+    private func configAlternativeStackView() {
         alternativeStackView.addArrangedSubview(alternativeLabel)
         alternativeStackView.distribution = .fillProportionally
         alternativeStackView.alignment = .center
@@ -254,7 +270,7 @@ class SignUpViewController: UIViewController, UIFactory {
     }
     
     // -MARK: Setup Action
-    func setupAction() {
+    private func setupAction() {
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         alternativeButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
@@ -262,11 +278,11 @@ class SignUpViewController: UIViewController, UIFactory {
     // -MARK: Catch Action
     @objc
     private func nextButtonTapped() {
-        pushViewController(viewController: UserProfileInputViewController())
+        pushViewController(viewController: CreatePasswordViewController())
     }
     
     @objc
-    func signUpButtonTapped() {
+    private func signUpButtonTapped() {
         pushViewController(viewController: SignInViewController())
     }
 }

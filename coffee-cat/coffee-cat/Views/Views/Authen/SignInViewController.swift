@@ -9,6 +9,8 @@ import UIKit
 import SwiftUI
 
 class SignInViewController: UIViewController, UIFactory {
+    let heightScaler = UIScreen.scalableHeight
+    let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
     // -MARK: Create UI Components
@@ -50,7 +52,7 @@ class SignInViewController: UIViewController, UIFactory {
     
     // -MARK: SetupUI
     
-    func setupUI() {
+    private func setupUI() {
         configAppearance()
         
         configNavigation()
@@ -81,40 +83,56 @@ class SignInViewController: UIViewController, UIFactory {
         
     }
     
-    func configAppearance() {
+    private func configAppearance() {
         view.backgroundColor = .systemGray5
         
         removeCircleGroupImageView()
         checkAndChangeAppearancceMode()
     }
     
-    func removeCircleGroupImageView() {
+    private func removeCircleGroupImageView() {
         for subview in view.subviews {
             if let imageView = subview as? UIImageView,
-               imageView.image == UIImage(named: ImageNames.darkCircleGroup) ||
-                imageView.image == UIImage(named: ImageNames.lightCircleGroup)
+               let imageName = imageView.image?.accessibilityIdentifier,
+               (imageName == ImageNames.darkCircleGroup || imageName == ImageNames.lightCircleGroup)
             {
                 imageView.removeFromSuperview()
             }
         }
     }
     
-    func checkAndChangeAppearancceMode() {
+    private func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
-            let imageView = UIImageView(image: UIImage(named: ImageNames.darkCircleGroup))
+            let image = UIImage(named: ImageNames.darkCircleGroup)
+            image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
+            let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
+
+            let imageView = UIImageView(image: resizedImage)
+            imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
             view.addSubview(imageView)
+
         } else {
-            let imageView = UIImageView(image: UIImage(named: ImageNames.lightCircleGroup))
+            let image = UIImage(named: ImageNames.darkCircleGroup)
+            image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
+            let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
+
+            let imageView = UIImageView(image: resizedImage)
+            imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
+
             view.addSubview(imageView)
+
         }
     }
     
-    func configNavigation() {
+    private func configNavigation() {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
     }
     
-    func configWelcomeLabel() {
+    private func configWelcomeLabel() {
         welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 26, textColor: .systemBrown)
         welcomeLabel.setBoldText()
         
@@ -125,7 +143,7 @@ class SignInViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configAnimationView() {
+    private func configAnimationView() {
         animationView.contentMode = .scaleAspectFill
         NSLayoutConstraint.activate([
             animationView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20),
@@ -135,7 +153,7 @@ class SignInViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configEmailTextFieldContainer() {
+    private func configEmailTextFieldContainer() {
         emailTextFieldContainer.addRoundedTextField(emailTextField)
         emailTextField.keyboardType = .emailAddress
         
@@ -148,7 +166,7 @@ class SignInViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configPasswordTextFieldContainer() {
+    private func configPasswordTextFieldContainer() {
         let showPasswordButton = makeButton()
         
         showPasswordButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
@@ -169,7 +187,7 @@ class SignInViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configSignInButton() {
+    private func configSignInButton() {
         signInButton.cornerRadius(cornerRadius: UIScreen.screenHeightUnit * 30)
         signInButton.setTitle(title: SignInScreenText.signInButtonTitle, fontName: FontNames.avenir, size: sizeScaler(40), color: .systemGray5)
         signInButton.backgroundColor = .customPink
@@ -182,7 +200,7 @@ class SignInViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configForgetPasswordButton() {
+    private func configForgetPasswordButton() {
         forgetPasswordButton.removeBackground()
         forgetPasswordButton.setTitle(title: SignInScreenText.forgetPasswordButtonTitle, fontName: FontNames.avenir, size: sizeScaler(25), color: .systemBlue)
         NSLayoutConstraint.activate([
@@ -193,7 +211,7 @@ class SignInViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configSignInWithGoogleButton() {
+    private func configSignInWithGoogleButton() {
         let logoImageView: UIImageView = makeSquareImageView(imageName: ImageNames.googleLogo, size: sizeScaler(70))
         signInWithGoogleButton.addSubview(logoImageView)
         signInWithGoogleButton.removeBackground()
@@ -214,7 +232,7 @@ class SignInViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configAlternativeStackView() {
+    private func configAlternativeStackView() {
         alternativeStackView.addArrangedSubview(alternativeLabel)
         alternativeStackView.distribution = .fillProportionally
         alternativeStackView.alignment = .center
@@ -268,7 +286,7 @@ class SignInViewController: UIViewController, UIFactory {
     }
     
     @objc
-    func togglePasswordVisibility() {
+    private func togglePasswordVisibility() {
         passwordTextField.isSecureTextEntry.toggle()
         let eyeSymbol = passwordTextField.isSecureTextEntry ? SystemImageNames.eye : SystemImageNames.eyeSlash
         if let showPasswordButton = passwordTextField.rightView as? UIButton {

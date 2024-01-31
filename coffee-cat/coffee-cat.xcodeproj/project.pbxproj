@@ -29,6 +29,8 @@
 		A07ED87C2B65453000EA4E19 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8702B65453000EA4E19 /* UINavigationController+Extension.swift */; };
 		A07ED87D2B65453000EA4E19 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8712B65453000EA4E19 /* UIScreen+Extension.swift */; };
 		A07ED87E2B65453000EA4E19 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8722B65453000EA4E19 /* UITextField+Extension.swift */; };
+		A0BE75D32B6A323400DE6909 /* CreatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75D22B6A323400DE6909 /* CreatePasswordViewController.swift */; };
+		A0BE75D52B6A333E00DE6909 /* authentication.json in Resources */ = {isa = PBXBuildFile; fileRef = A0BE75D42B6A333E00DE6909 /* authentication.json */; };
 		A0F3EA9D2B653BDB0057860A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F3EA9C2B653BDB0057860A /* AppDelegate.swift */; };
 		A0F3EA9F2B653BDB0057860A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F3EA9E2B653BDB0057860A /* SceneDelegate.swift */; };
 		A0F3EAA62B653BDD0057860A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0F3EAA52B653BDD0057860A /* Assets.xcassets */; };
@@ -57,6 +59,8 @@
 		A07ED8702B65453000EA4E19 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		A07ED8712B65453000EA4E19 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		A07ED8722B65453000EA4E19 /* UITextField+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		A0BE75D22B6A323400DE6909 /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
+		A0BE75D42B6A333E00DE6909 /* authentication.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = authentication.json; sourceTree = "<group>"; };
 		A0F3EA992B653BDB0057860A /* coffee-cat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "coffee-cat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F3EA9C2B653BDB0057860A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A0F3EA9E2B653BDB0057860A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +88,7 @@
 				A07ED8592B6544D300EA4E19 /* GettingStartedViewController.swift */,
 				A07ED85B2B6544D300EA4E19 /* UserProfileInputViewController.swift */,
 				A07ED85C2B6544D300EA4E19 /* SignInViewController.swift */,
+				A0BE75D22B6A323400DE6909 /* CreatePasswordViewController.swift */,
 			);
 			path = Authen;
 			sourceTree = "<group>";
@@ -99,6 +104,7 @@
 		A05BE70B2B6A09790030000D /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				A0BE75D42B6A333E00DE6909 /* authentication.json */,
 				A05BE7102B6A123A0030000D /* cat-coffee.json */,
 				A05BE70E2B6A0F190030000D /* 404.json */,
 			);
@@ -275,6 +281,7 @@
 				A05BE7112B6A123A0030000D /* cat-coffee.json in Resources */,
 				A0F3EAA92B653BDD0057860A /* LaunchScreen.storyboard in Resources */,
 				A0F3EAA62B653BDD0057860A /* Assets.xcassets in Resources */,
+				A0BE75D52B6A333E00DE6909 /* authentication.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +311,7 @@
 				A07ED8782B65453000EA4E19 /* UILabel+Extension.swift in Sources */,
 				A0F3EA9F2B653BDB0057860A /* SceneDelegate.swift in Sources */,
 				A07ED8792B65453000EA4E19 /* UIButton+Extension.swift in Sources */,
+				A0BE75D32B6A323400DE6909 /* CreatePasswordViewController.swift in Sources */,
 				A05C506F2B6737A400A42F33 /* UIFont+Extension.swift in Sources */,
 				A07ED87C2B65453000EA4E19 /* UINavigationController+Extension.swift in Sources */,
 			);
