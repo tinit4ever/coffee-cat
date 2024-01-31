@@ -14,7 +14,7 @@ class SignInViewController: UIViewController, UIFactory {
     // -MARK: Create UI Components
     lazy var welcomeLabel: UILabel = makeLabel()
     
-    lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: sizeScaler(250))
+    lazy var animationView = makeLottieAnimationView(animationName: "cat-coffee")
     
     lazy var emailTextFieldContainer: UIView = makeRoundedContainer()
     lazy var emailTextField: UITextField = makeTextField(placeholder: SignInScreenText.emailTextFieldPlaceholder)
@@ -58,8 +58,9 @@ class SignInViewController: UIViewController, UIFactory {
         view.addSubview(welcomeLabel)
         configWelcomeLabel()
         
-        view.addSubview(coffeeCatImageView)
-        configCoffeeCatImageView()
+        view.addSubview(animationView)
+        animationView.play()
+        configAnimationView()
         
         view.addSubview(emailTextFieldContainer)
         configEmailTextFieldContainer()
@@ -118,16 +119,19 @@ class SignInViewController: UIViewController, UIFactory {
         welcomeLabel.setBoldText()
         
         NSLayoutConstraint.activate([
-            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 200),
+            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 150),
             welcomeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
             welcomeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
         ])
     }
     
-    func configCoffeeCatImageView() {
+    func configAnimationView() {
+        animationView.contentMode = .scaleAspectFill
         NSLayoutConstraint.activate([
-            coffeeCatImageView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: UIScreen.screenHeightUnit * 10),
-            coffeeCatImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            animationView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20),
+            animationView.widthAnchor.constraint(equalToConstant: sizeScaler(300)),
+            animationView.heightAnchor.constraint(equalToConstant: sizeScaler(250)),
+            animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -137,7 +141,7 @@ class SignInViewController: UIViewController, UIFactory {
         
         emailTextFieldContainer.backgroundColor = .systemBackground
         NSLayoutConstraint.activate([
-            emailTextFieldContainer.topAnchor.constraint(equalTo: coffeeCatImageView.bottomAnchor, constant: UIScreen.screenHeightUnit * 10),
+            emailTextFieldContainer.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: UIScreen.screenHeightUnit * 30),
             emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
             emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 60)),
             emailTextFieldContainer.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
