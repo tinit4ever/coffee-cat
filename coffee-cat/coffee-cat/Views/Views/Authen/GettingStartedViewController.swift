@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Lottie
 
 class GettingStartedViewController: UIViewController, UIFactory {
     let heightScaler = UIScreen.scalableHeight
@@ -14,7 +15,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
     let sizeScaler = UIScreen.scalableSize
     
     // -MARK: Create UI Components
-    lazy var coffeeCatImageView: UIImageView = makeSquareImageView(imageName: ImageNames.coffeeCat, size: sizeScaler(250))
+    lazy var animationView = makeLottieAnimationView(animationName: "cat-coffee")
     
     private lazy var getStartedTitleLabel: UILabel = makeLabel()
     
@@ -36,8 +37,9 @@ class GettingStartedViewController: UIViewController, UIFactory {
         
         configNavigation()
         
-        view.addSubview(coffeeCatImageView)
-        configCoffeeCatImageView()
+        view.addSubview(animationView)
+        animationView.play()
+        configAnimationView()
         
         view.addSubview(getStartedTitleLabel)
         configGetStartedTitleLabel()
@@ -66,7 +68,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
             }
         }
     }
-
+    
     func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
             let image = UIImage(named: ImageNames.darkCircleGroup)?.resized(to: CGSize(width: view.bounds.width / 1.5, height: view.bounds.width / 5))
@@ -83,27 +85,29 @@ class GettingStartedViewController: UIViewController, UIFactory {
         let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
             .withTintColor(.backButton, renderingMode: .alwaysOriginal)
             .resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50)))
-
+        
         self.navigationController?.navigationBar.backIndicatorImage = backImage
         self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
     }
-
-    func configCoffeeCatImageView() {
+    
+    func configAnimationView() {
+        animationView.contentMode = .scaleAspectFill
         NSLayoutConstraint.activate([
-            coffeeCatImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 5),
-            coffeeCatImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            animationView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 5),
+            animationView.widthAnchor.constraint(equalToConstant: sizeScaler(300)),
+            animationView.heightAnchor.constraint(equalToConstant: sizeScaler(250)),
+            animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
     func configGetStartedTitleLabel() {
         getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: sizeScaler(42), textColor: .customBlack)
         getStartedTitleLabel.setBoldText()
-        coffeeCatImageView.contentMode = .scaleToFill
         NSLayoutConstraint.activate([
             getStartedTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            getStartedTitleLabel.topAnchor.constraint(equalTo: coffeeCatImageView.bottomAnchor, constant: heightScaler(20)),
+            getStartedTitleLabel.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: heightScaler(20)),
             getStartedTitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(30)),
             getStartedTitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(30))
         ])

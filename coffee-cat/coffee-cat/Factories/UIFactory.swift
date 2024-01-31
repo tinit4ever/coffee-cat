@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Lottie
 
 protocol UIFactory {
     func makeLabel() -> UILabel
@@ -16,6 +17,8 @@ protocol UIFactory {
     func makeVerticalStackView() -> UIStackView
     func makeHorizontalStackView() -> UIStackView
     func makeDatePicker() -> UIDatePicker
+    func makeRadioButtonStackView(content: String) -> UIStackView
+    func makeLottieAnimationView(animationName: String) -> LottieAnimationView
 }
 
 extension UIFactory {
@@ -106,5 +109,14 @@ extension UIFactory {
         ])
         label.setupTitle(text: content, fontName: FontNames.avenir, size: UIScreen.scalableSize(28), textColor: .customBlack)
         return stackView
+    }
+    
+    func makeLottieAnimationView(animationName: String) -> LottieAnimationView {
+        let animationView: LottieAnimationView
+        animationView = .init(name: animationName)
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1.5
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        return animationView
     }
 }
