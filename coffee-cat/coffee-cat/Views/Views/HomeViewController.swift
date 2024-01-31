@@ -9,6 +9,9 @@ import UIKit
 import SwiftUI
 
 class HomeViewController: UIViewController {
+    let heightScaler = UIScreen.scalableHeight
+    let widthScaler = UIScreen.scalableWidth
+    let sizeScaler = UIScreen.scalableSize
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,7 +19,6 @@ class HomeViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .systemMint
     }
 }
 
