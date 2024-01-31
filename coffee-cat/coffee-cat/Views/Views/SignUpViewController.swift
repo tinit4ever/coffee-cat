@@ -113,7 +113,7 @@ class SignUpViewController: UIViewController, UIFactory {
     
     func configNavigation() {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
+        self.navigationItem.backBarButtonItem?.tintColor = .backButton
     }
     
     func configWelcomeLabel() {
