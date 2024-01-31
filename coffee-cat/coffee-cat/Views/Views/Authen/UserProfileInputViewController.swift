@@ -104,8 +104,15 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     private func configNavigation() {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
+<<<<<<< HEAD:coffee-cat/coffee-cat/Views/Views/Authen/UserProfileInputViewController.swift
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrowshape.right.circle.fill")?.resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50))), style: .plain, target: self, action: #selector(skipButtonTapped))
+=======
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward"), style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: nil, action: nil)
+>>>>>>> main:coffee-cat/coffee-cat/Views/Views/UserProfileInputViewController.swift
         self.navigationItem.rightBarButtonItem?.tintColor = .customBlack
     }
     

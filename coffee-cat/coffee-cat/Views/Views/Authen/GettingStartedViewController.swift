@@ -87,7 +87,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
         self.navigationController?.navigationBar.backIndicatorImage = backImage
         self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
+        self.navigationItem.backBarButtonItem?.tintColor = .backButton
     }
 
     func configCoffeeCatImageView() {
