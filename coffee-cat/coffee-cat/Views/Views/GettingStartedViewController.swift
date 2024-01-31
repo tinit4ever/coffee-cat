@@ -80,17 +80,16 @@ class GettingStartedViewController: UIViewController, UIFactory {
     }
     
     func configNavigation() {
-        self.navigationItem.backButtonTitle = ""
-        let yourBackImage = UIImage(systemName: "chevron.backward.circle")?
+        let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
             .withTintColor(.backButton, renderingMode: .alwaysOriginal)
             .resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50)))
 
-        self.navigationController?.navigationBar.backIndicatorImage = yourBackImage
-        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = yourBackImage
+        self.navigationController?.navigationBar.backIndicatorImage = backImage
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
     }
 
-
-    
     func configCoffeeCatImageView() {
         NSLayoutConstraint.activate([
             coffeeCatImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 5),
