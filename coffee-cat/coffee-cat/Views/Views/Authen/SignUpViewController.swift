@@ -278,7 +278,7 @@ class SignUpViewController: UIViewController, UIFactory {
     // -MARK: Catch Action
     @objc
     private func nextButtonTapped() {
-        pushViewController(viewController: UserProfileInputViewController())
+        pushViewController(viewController: CreatePasswordViewController())
     }
     
     @objc
