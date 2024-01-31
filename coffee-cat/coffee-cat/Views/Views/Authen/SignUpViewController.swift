@@ -248,16 +248,26 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
     }
     
+    // -MARK: Supporting
+    private func pushViewController(viewController: UIViewController) {
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     // -MARK: Setup Action
     func setupAction() {
+        nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         alternativeButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
     // -MARK: Catch Action
     @objc
+    private func nextButtonTapped() {
+        pushViewController(viewController: UserProfileInputViewController())
+    }
+    
+    @objc
     func signUpButtonTapped() {
-        let signInViewController = SignInViewController()
-        self.navigationController?.pushViewController(signInViewController, animated: true)
+        pushViewController(viewController: SignInViewController())
     }
 }
 
