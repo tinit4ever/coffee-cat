@@ -70,7 +70,7 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         checkAndChangeAppearancceMode()
     }
     
-    func removeCircleGroupImageView() {
+    private func removeCircleGroupImageView() {
         for subview in view.subviews {
             if let imageView = subview as? UIImageView,
                let imageName = imageView.image?.accessibilityIdentifier,
@@ -81,7 +81,7 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         }
     }
     
-    func checkAndChangeAppearancceMode() {
+    private func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
             let image = UIImage(named: ImageNames.darkCircleGroup)
             image?.accessibilityIdentifier = ImageNames.darkCircleGroup
@@ -183,6 +183,21 @@ class CreatePasswordViewController: UIViewController, UIFactory {
             nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(60)),
             nextButton.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
+    }
+    
+    // -MARK: Supporting
+    private func pushViewController(viewController: UIViewController) {
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    // -MARK: Setup Action
+    private func setupAction() {
+        nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc
+    private func nextButtonTapped() {
+        pushViewController(viewController: UserProfileInputViewController())
     }
 }
 

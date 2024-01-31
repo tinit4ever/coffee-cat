@@ -40,7 +40,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
     }
     // -MARK: SetupUI
     
-    func setupUI() {
+    private func setupUI() {
         configAppearance()
         
         configNavigation()
@@ -59,14 +59,14 @@ class GettingStartedViewController: UIViewController, UIFactory {
         configGetStartedButton()
     }
     
-    func configAppearance() {
+    private func configAppearance() {
         view.backgroundColor = .systemGray5
         
         removeCircleGroupImageView()
         checkAndChangeAppearancceMode()
     }
     
-    func removeCircleGroupImageView() {
+    private func removeCircleGroupImageView() {
         for subview in view.subviews {
             if let imageView = subview as? UIImageView,
                let imageName = imageView.image?.accessibilityIdentifier,
@@ -77,7 +77,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
         }
     }
     
-    func checkAndChangeAppearancceMode() {
+    private func checkAndChangeAppearancceMode() {
         if traitCollection.userInterfaceStyle == .dark {
             let image = UIImage(named: ImageNames.darkCircleGroup)
             image?.accessibilityIdentifier = ImageNames.darkCircleGroup
@@ -103,7 +103,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
         }
     }
     
-    func configNavigation() {
+    private func configNavigation() {
         let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
             .withTintColor(.backButton, renderingMode: .alwaysOriginal)
             .resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50)))
@@ -114,7 +114,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
     }
     
-    func configAnimationView() {
+    private func configAnimationView() {
         animationView.contentMode = .scaleAspectFill
         NSLayoutConstraint.activate([
             animationView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 5),
@@ -124,7 +124,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configGetStartedTitleLabel() {
+    private func configGetStartedTitleLabel() {
         getStartedTitleLabel.setupTitle(text: GettingStartedScreenText.gettingStartedTitle, fontName: FontNames.avenir , size: sizeScaler(42), textColor: .customBlack)
         getStartedTitleLabel.setBoldText()
         NSLayoutConstraint.activate([
@@ -135,7 +135,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configGetStartedContentLabel() {
+    private func configGetStartedContentLabel() {
         getStartedContentLabel.setupTitle(text: GettingStartedScreenText.getStartedContent, fontName: FontNames.avenir, size: sizeScaler(32), textColor: .customBlack)
         
         NSLayoutConstraint.activate([
@@ -145,7 +145,7 @@ class GettingStartedViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configGetStartedButton() {
+    private func configGetStartedButton() {
         getStartedButton.cornerRadius(cornerRadius: heightScaler(30))
         getStartedButton.setTitle(title: GettingStartedScreenText.getStartedButtonTitle, fontName: FontNames.avenir, size: sizeScaler(40), color: .systemGray5)
         getStartedButton.backgroundColor = .customPink
@@ -159,13 +159,13 @@ class GettingStartedViewController: UIViewController, UIFactory {
     }
     
     // -MARK: Setup Action
-    func setupAction() {
+    private func setupAction() {
         getStartedButton.addTarget(self, action: #selector(getStartedButtonTapped), for: .touchUpInside)
     }
     
     // -MARK: Catch Action
     @objc
-    func getStartedButtonTapped() {
+    private func getStartedButtonTapped() {
         let signUpViewController = SignUpViewController()
         self.navigationController?.pushViewController(signUpViewController, animated: true)
     }
