@@ -102,11 +102,12 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     }
     
     private func configNavigation() {
-//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem?.tintColor = .backButton
         self.navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward"), style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .systemBackground
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip for now", style: .plain, target: nil, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: nil, action: nil)
         self.navigationItem.rightBarButtonItem?.tintColor = .customBlack
         
     }
