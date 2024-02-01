@@ -22,6 +22,8 @@ class HomeViewController: UIViewController, UIFactory {
     
     lazy var hookLabel = makeLabel()
     
+    lazy var searchBar = makeSearchBar(placeholder: "Search")
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +40,9 @@ class HomeViewController: UIViewController, UIFactory {
         
         view.addSubview(hookLabel)
         configHookLabel()
+        
+        view.addSubview(searchBar)
+        configSearchBar()
     }
     
     private func configAppearance() {
@@ -59,7 +64,7 @@ class HomeViewController: UIViewController, UIFactory {
     
     private func configTopView() {
         NSLayoutConstraint.activate([
-            topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: heightScaler(10)),
             topView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             topView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
             topView.heightAnchor.constraint(equalToConstant: sizeScaler(80))
@@ -117,6 +122,25 @@ class HomeViewController: UIViewController, UIFactory {
             hookLabel.heightAnchor.constraint(equalToConstant: sizeScaler(125))
         ])
     }
+    
+    private func configSearchBar() {
+        searchBar.delegate = self
+        searchBar.backgroundColor = .systemBackground
+        searchBar.layer.cornerRadius = sizeScaler(40)
+        searchBar.searchTextField.layer.masksToBounds = true
+        searchBar.searchTextField.borderStyle = .none
+        
+        NSLayoutConstraint.activate([
+            searchBar.topAnchor.constraint(equalTo: hookLabel.bottomAnchor, constant: heightScaler(20)),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
+            searchBar.heightAnchor.constraint(equalToConstant: heightScaler(60))
+        ])
+    }
+}
+
+extension HomeViewController: UISearchBarDelegate {
+    
 }
 
 // -MARK: Preview
