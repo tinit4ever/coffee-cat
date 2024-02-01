@@ -8,11 +8,13 @@
 import UIKit
 import SwiftUI
 
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, UIFactory {
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
+    
     // -MARK: Create UI Components
+    lazy var coffeeAnimationView = makeLottieAnimationView(animationName: "coffee")
 
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
@@ -20,64 +22,18 @@ class HomeViewController: UIViewController {
         setupUI()
     }
     
-    // -MARK: Override
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-            configAppearance()
-        }
-    }
-    
     // -MARK: SetupUI
     private func setupUI() {
         configAppearance()
-        
         configNavigation()
+        
+        view.addSubview(coffeeAnimationView)
+        coffeeAnimationView.play()
+        configCoffeeAnimationView()
     }
     
     private func configAppearance() {
         view.backgroundColor = .systemGray5
-        
-        removeCircleGroupImageView()
-        checkAndChangeAppearancceMode()
-    }
-    
-    private func removeCircleGroupImageView() {
-        for subview in view.subviews {
-            if let imageView = subview as? UIImageView,
-               let imageName = imageView.image?.accessibilityIdentifier,
-               (imageName == ImageNames.darkCircleGroup || imageName == ImageNames.lightCircleGroup)
-            {
-                imageView.removeFromSuperview()
-            }
-        }
-    }
-    
-    private func checkAndChangeAppearancceMode() {
-        if traitCollection.userInterfaceStyle == .dark {
-            let image = UIImage(named: ImageNames.darkCircleGroup)
-            image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
-            let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
-
-            let imageView = UIImageView(image: resizedImage)
-            imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
-            view.addSubview(imageView)
-
-        } else {
-            let image = UIImage(named: ImageNames.darkCircleGroup)
-            image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
-            let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
-
-            let imageView = UIImageView(image: resizedImage)
-            imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
-            view.addSubview(imageView)
-
-        }
     }
     
     private func configNavigation() {
@@ -89,7 +45,16 @@ class HomeViewController: UIViewController {
         self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
-        view.backgroundColor = .systemGray
+    }
+    
+    private func configCoffeeAnimationView() {
+//        coffeeAnimationView.backgroundColor = .red
+        NSLayoutConstraint.activate([
+            coffeeAnimationView.topAnchor.constraint(equalTo: view.topAnchor, constant: heightScaler(10)),
+            coffeeAnimationView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(10)),
+            coffeeAnimationView.widthAnchor.constraint(equalToConstant: widthScaler(150)),
+            coffeeAnimationView.heightAnchor.constraint(equalToConstant: heightScaler(90))
+        ])
     }
 }
 
