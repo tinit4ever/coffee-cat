@@ -14,8 +14,11 @@ class HomeViewController: UIViewController, UIFactory {
     let sizeScaler = UIScreen.scalableSize
     
     // -MARK: Create UI Components
+    lazy var topView = makeView()
+    lazy var topViewLabel = makeLabel()
     lazy var coffeeAnimationView = makeLottieAnimationView(animationName: "coffee")
-
+    lazy var accountImageButton = makeImageView(imageName: "person.circle", size: CGSize(width: sizeScaler(60), height: sizeScaler(60)))
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +30,8 @@ class HomeViewController: UIViewController, UIFactory {
         configAppearance()
         configNavigation()
         
-        view.addSubview(coffeeAnimationView)
-        coffeeAnimationView.play()
-        configCoffeeAnimationView()
+        view.addSubview(topView)
+        configTopView()
     }
     
     private func configAppearance() {
@@ -37,6 +39,8 @@ class HomeViewController: UIViewController, UIFactory {
     }
     
     private func configNavigation() {
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+            
         let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
             .withTintColor(.backButton, renderingMode: .alwaysOriginal)
             .resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50)))
@@ -47,13 +51,48 @@ class HomeViewController: UIViewController, UIFactory {
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
     }
     
-    private func configCoffeeAnimationView() {
-//        coffeeAnimationView.backgroundColor = .red
+    private func configTopView() {
         NSLayoutConstraint.activate([
-            coffeeAnimationView.topAnchor.constraint(equalTo: view.topAnchor, constant: heightScaler(10)),
-            coffeeAnimationView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(10)),
-            coffeeAnimationView.widthAnchor.constraint(equalToConstant: widthScaler(150)),
-            coffeeAnimationView.heightAnchor.constraint(equalToConstant: heightScaler(90))
+            topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            topView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(30)),
+            topView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
+            topView.heightAnchor.constraint(equalToConstant: sizeScaler(80))
+        ])
+        
+        topView.addSubview(coffeeAnimationView)
+        coffeeAnimationView.play()
+        configCoffeeAnimationView()
+        
+        topView.addSubview(topViewLabel)
+        configTopViewLabel()
+        
+        topView.addSubview(accountImageButton)
+        configAccountImageButton()
+    }
+
+    private func configCoffeeAnimationView() {
+        coffeeAnimationView.contentMode = .scaleAspectFill
+        NSLayoutConstraint.activate([
+            coffeeAnimationView.leadingAnchor.constraint(equalTo: topView.leadingAnchor),
+            coffeeAnimationView.widthAnchor.constraint(equalToConstant: sizeScaler(110)),
+            coffeeAnimationView.heightAnchor.constraint(equalTo: topView.heightAnchor),
+            coffeeAnimationView.bottomAnchor.constraint(equalTo: topView.bottomAnchor)
+        ])
+    }
+    
+    private func configTopViewLabel() {
+        topViewLabel.setupTitle(text: "Hello!", fontName: FontNames.avenir, size: sizeScaler(40), textColor: .customBlack)
+        topViewLabel.setBoldText()
+        NSLayoutConstraint.activate([
+            topViewLabel.leadingAnchor.constraint(equalTo: coffeeAnimationView.trailingAnchor),
+            topViewLabel.bottomAnchor.constraint(equalTo: topView.bottomAnchor)
+        ])
+    }
+    
+    private func configAccountImageButton() {
+        NSLayoutConstraint.activate([
+            accountImageButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor),
+            accountImageButton.bottomAnchor.constraint(equalTo: topView.bottomAnchor)
         ])
     }
 }
@@ -62,8 +101,8 @@ class HomeViewController: UIViewController, UIFactory {
 struct HomeViewControllerPreview: PreviewProvider {
     static var previews: some View {
         VCPreview {
-            let homeViewControllerPreview = HomeViewController()
-            return homeViewControllerPreview
+            let homeViewController = HomeViewController()
+            return homeViewController
         }
     }
 }
