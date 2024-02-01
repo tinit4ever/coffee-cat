@@ -42,9 +42,9 @@ class MainTabBarViewController: UITabBarController {
         let booking = self.createNav(with: "Booking", and: UIImage(systemName: "calendar.badge.plus"), viewController: BookingViewController())
         let store = self.createNav(with: "Store", and: UIImage(systemName: "storefront.fill"), viewController: StoreViewController())
         let voucher = self.createNav(with: "Voucher", and: UIImage(systemName: "gift.fill"), viewController: VoucherViewController())
-        let account = self.createNav(with: "Account", and: UIImage(systemName: "person.fill"), viewController: AccountViewController())
+        let payment = self.createNav(with: "Account", and: UIImage(systemName: "creditcard.fill"), viewController: PaymentViewController())
         
-        self.setViewControllers([home, booking, store, voucher, account], animated: true)
+        self.setViewControllers([home, booking, store, voucher, payment], animated: true)
     }
     
     private func createNav(with title: String, and image: UIImage?, viewController: UIViewController) -> UINavigationController {
