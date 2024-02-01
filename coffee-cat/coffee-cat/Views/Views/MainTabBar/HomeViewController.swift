@@ -9,6 +9,7 @@ import UIKit
 import SwiftUI
 
 class HomeViewController: UIViewController, UIFactory {
+    
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
@@ -18,6 +19,8 @@ class HomeViewController: UIViewController, UIFactory {
     lazy var topViewLabel = makeLabel()
     lazy var coffeeAnimationView = makeLottieAnimationView(animationName: "coffee")
     lazy var accountImageButton = makeImageView(imageName: "person.circle", size: CGSize(width: sizeScaler(60), height: sizeScaler(60)))
+    
+    lazy var hookLabel = makeLabel()
     
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
@@ -32,6 +35,9 @@ class HomeViewController: UIViewController, UIFactory {
         
         view.addSubview(topView)
         configTopView()
+        
+        view.addSubview(hookLabel)
+        configHookLabel()
     }
     
     private func configAppearance() {
@@ -40,7 +46,7 @@ class HomeViewController: UIViewController, UIFactory {
     
     private func configNavigation() {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-            
+        
         let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
             .withTintColor(.backButton, renderingMode: .alwaysOriginal)
             .resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50)))
@@ -54,7 +60,7 @@ class HomeViewController: UIViewController, UIFactory {
     private func configTopView() {
         NSLayoutConstraint.activate([
             topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            topView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(30)),
+            topView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             topView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
             topView.heightAnchor.constraint(equalToConstant: sizeScaler(80))
         ])
@@ -69,30 +75,46 @@ class HomeViewController: UIViewController, UIFactory {
         topView.addSubview(accountImageButton)
         configAccountImageButton()
     }
-
+    
     private func configCoffeeAnimationView() {
-        coffeeAnimationView.contentMode = .scaleAspectFill
+        coffeeAnimationView.contentMode = .scaleAspectFit
         NSLayoutConstraint.activate([
             coffeeAnimationView.leadingAnchor.constraint(equalTo: topView.leadingAnchor),
-            coffeeAnimationView.widthAnchor.constraint(equalToConstant: sizeScaler(110)),
+            coffeeAnimationView.widthAnchor.constraint(equalToConstant: sizeScaler(60)),
             coffeeAnimationView.heightAnchor.constraint(equalTo: topView.heightAnchor),
-            coffeeAnimationView.bottomAnchor.constraint(equalTo: topView.bottomAnchor)
+            coffeeAnimationView.centerYAnchor.constraint(equalTo: topView.centerYAnchor)
         ])
     }
     
     private func configTopViewLabel() {
-        topViewLabel.setupTitle(text: "Hello!", fontName: FontNames.avenir, size: sizeScaler(40), textColor: .customBlack)
-        topViewLabel.setBoldText()
+        topViewLabel.setupTitle(text: "Hello!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
         NSLayoutConstraint.activate([
-            topViewLabel.leadingAnchor.constraint(equalTo: coffeeAnimationView.trailingAnchor),
+            topViewLabel.leadingAnchor.constraint(equalTo: coffeeAnimationView.trailingAnchor, constant: sizeScaler(20)),
             topViewLabel.bottomAnchor.constraint(equalTo: topView.bottomAnchor)
         ])
     }
     
     private func configAccountImageButton() {
+        accountImageButton.image = accountImageButton.image?.withRenderingMode(.alwaysTemplate)
+        accountImageButton.tintColor = .customBlack
         NSLayoutConstraint.activate([
             accountImageButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor),
-            accountImageButton.bottomAnchor.constraint(equalTo: topView.bottomAnchor)
+            accountImageButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor)
+        ])
+    }
+    
+    private func configHookLabel() {
+        hookLabel.setupTitle(text: "It's A Great Day For Coffee Cat", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
+        hookLabel.setBoldText()
+        hookLabel.numberOfLines = 0
+        hookLabel.lineBreakMode = .byWordWrapping
+        hookLabel.textAlignment = .left
+        
+        NSLayoutConstraint.activate([
+            hookLabel.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: heightScaler(20)),
+            hookLabel.leadingAnchor.constraint(equalTo: coffeeAnimationView.leadingAnchor),
+            hookLabel.widthAnchor.constraint(equalToConstant: view.bounds.width / 3 * 2),
+            hookLabel.heightAnchor.constraint(equalToConstant: sizeScaler(125))
         ])
     }
 }
