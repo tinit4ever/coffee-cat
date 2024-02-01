@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A03F56D32B6B1ADF00B3E35B /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F56D22B6B1ADF00B3E35B /* AccountViewController.swift */; };
+		A03F56D32B6B1ADF00B3E35B /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F56D22B6B1ADF00B3E35B /* PaymentViewController.swift */; };
 		A03F56D52B6B1C2300B3E35B /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F56D42B6B1C2300B3E35B /* StoreViewController.swift */; };
 		A03F56D72B6B227500B3E35B /* UITabBar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F56D62B6B227500B3E35B /* UITabBar+Extension.swift */; };
 		A05BE7072B69E8FB0030000D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05BE7062B69E8FB0030000D /* HomeViewController.swift */; };
@@ -37,6 +37,7 @@
 		A0BE75D92B6A517300DE6909 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75D82B6A517300DE6909 /* MainTabBarViewController.swift */; };
 		A0BE75DB2B6A537700DE6909 /* BookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75DA2B6A537700DE6909 /* BookingViewController.swift */; };
 		A0BE75DD2B6A53A000DE6909 /* VoucherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */; };
+		A0CA272D2B6B99C300E3D640 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA272C2B6B99C300E3D640 /* ProfileViewController.swift */; };
 		A0D1D58D2B6B4C0A00CB1ED3 /* coffee.json in Resources */ = {isa = PBXBuildFile; fileRef = A0D1D58C2B6B4C0A00CB1ED3 /* coffee.json */; };
 		A0D1D5902B6B7ED400CB1ED3 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D1D58F2B6B7ED400CB1ED3 /* APICaller.swift */; };
 		A0D1D5922B6B7F4A00CB1ED3 /* BaseFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D1D5912B6B7F4A00CB1ED3 /* BaseFetcher.swift */; };
@@ -47,7 +48,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A03F56D22B6B1ADF00B3E35B /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		A03F56D22B6B1ADF00B3E35B /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		A03F56D42B6B1C2300B3E35B /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		A03F56D62B6B227500B3E35B /* UITabBar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar+Extension.swift"; sourceTree = "<group>"; };
 		A05BE7062B69E8FB0030000D /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -76,6 +77,7 @@
 		A0BE75D82B6A517300DE6909 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A0BE75DA2B6A537700DE6909 /* BookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewController.swift; sourceTree = "<group>"; };
 		A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoucherViewController.swift; sourceTree = "<group>"; };
+		A0CA272C2B6B99C300E3D640 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A0D1D58C2B6B4C0A00CB1ED3 /* coffee.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = coffee.json; sourceTree = "<group>"; };
 		A0D1D58F2B6B7ED400CB1ED3 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		A0D1D5912B6B7F4A00CB1ED3 /* BaseFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFetcher.swift; sourceTree = "<group>"; };
@@ -204,14 +206,23 @@
 		A0BE75D72B6A513E00DE6909 /* MainTabBar */ = {
 			isa = PBXGroup;
 			children = (
+				A0CA272B2B6B98B900E3D640 /* Home */,
 				A0BE75D82B6A517300DE6909 /* MainTabBarViewController.swift */,
-				A05BE7062B69E8FB0030000D /* HomeViewController.swift */,
 				A0BE75DA2B6A537700DE6909 /* BookingViewController.swift */,
 				A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */,
-				A03F56D22B6B1ADF00B3E35B /* AccountViewController.swift */,
+				A03F56D22B6B1ADF00B3E35B /* PaymentViewController.swift */,
 				A03F56D42B6B1C2300B3E35B /* StoreViewController.swift */,
 			);
 			path = MainTabBar;
+			sourceTree = "<group>";
+		};
+		A0CA272B2B6B98B900E3D640 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A05BE7062B69E8FB0030000D /* HomeViewController.swift */,
+				A0CA272C2B6B99C300E3D640 /* ProfileViewController.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		A0D1D58E2B6B7EBC00CB1ED3 /* Manager */ = {
@@ -339,7 +350,7 @@
 				A0D1D5922B6B7F4A00CB1ED3 /* BaseFetcher.swift in Sources */,
 				A07ED87E2B65453000EA4E19 /* UITextField+Extension.swift in Sources */,
 				A07ED8742B65453000EA4E19 /* CircleView.swift in Sources */,
-				A03F56D32B6B1ADF00B3E35B /* AccountViewController.swift in Sources */,
+				A03F56D32B6B1ADF00B3E35B /* PaymentViewController.swift in Sources */,
 				A07ED8612B6544D300EA4E19 /* SignInViewController.swift in Sources */,
 				A07ED8602B6544D300EA4E19 /* UserProfileInputViewController.swift in Sources */,
 				A03F56D52B6B1C2300B3E35B /* StoreViewController.swift in Sources */,
@@ -348,6 +359,7 @@
 				A05BE7072B69E8FB0030000D /* HomeViewController.swift in Sources */,
 				A07ED85D2B6544D300EA4E19 /* SignUpViewController.swift in Sources */,
 				A07ED87D2B65453000EA4E19 /* UIScreen+Extension.swift in Sources */,
+				A0CA272D2B6B99C300E3D640 /* ProfileViewController.swift in Sources */,
 				A07ED8772B65453000EA4E19 /* TextConstants.swift in Sources */,
 				A0BE75D92B6A517300DE6909 /* MainTabBarViewController.swift in Sources */,
 				A07ED8752B65453000EA4E19 /* UIFactory.swift in Sources */,
