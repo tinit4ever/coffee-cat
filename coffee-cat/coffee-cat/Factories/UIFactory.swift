@@ -16,9 +16,12 @@ protocol UIFactory {
     func makeView() -> UIView
     func makeVerticalStackView() -> UIStackView
     func makeHorizontalStackView() -> UIStackView
+    func makeImageView(imageName: String, size: CGSize) -> UIImageView
+    func makeSquareImageView(imageName: String, size: CGFloat) -> UIImageView
     func makeDatePicker() -> UIDatePicker
     func makeRadioButtonStackView(content: String) -> UIStackView
     func makeLottieAnimationView(animationName: String) -> LottieAnimationView
+    func makeSearchBar(placeholder: String) -> UISearchBar
 }
 
 extension UIFactory {
@@ -72,6 +75,15 @@ extension UIFactory {
         return stackView
     }
     
+    func makeImageView(imageName: String, size: CGSize) -> UIImageView {
+        let imageView = UIImageView(frame: .zero)
+        if let image = UIImage(systemName: imageName) {
+            imageView.image = image.resized(to: size)
+        }
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }
+    
     func makeSquareImageView(imageName: String, size: CGFloat) -> UIImageView {
         let imageView = UIImageView(frame: .zero)
         if let image = UIImage(named: imageName) {
@@ -118,5 +130,13 @@ extension UIFactory {
         animationView.animationSpeed = 1.5
         animationView.translatesAutoresizingMaskIntoConstraints = false
         return animationView
+    }
+    
+    func makeSearchBar(placeholder: String) -> UISearchBar {
+        let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .minimal
+        searchBar.placeholder = placeholder
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        return searchBar
     }
 }
