@@ -21,6 +21,7 @@ protocol UIFactory {
     func makeDatePicker() -> UIDatePicker
     func makeRadioButtonStackView(content: String) -> UIStackView
     func makeLottieAnimationView(animationName: String) -> LottieAnimationView
+    func makeSearchBar(placeholder: String) -> UISearchBar
 }
 
 extension UIFactory {
@@ -129,5 +130,13 @@ extension UIFactory {
         animationView.animationSpeed = 1.5
         animationView.translatesAutoresizingMaskIntoConstraints = false
         return animationView
+    }
+    
+    func makeSearchBar(placeholder: String) -> UISearchBar {
+        let searchBar = UISearchBar()
+        searchBar.searchBarStyle = .minimal
+        searchBar.placeholder = placeholder
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        return searchBar
     }
 }
