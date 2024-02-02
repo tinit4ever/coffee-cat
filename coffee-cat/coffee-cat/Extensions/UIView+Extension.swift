@@ -10,7 +10,6 @@ import UIKit
 extension UIView {
     func addRoundedTextField(_ textField: UITextField) {
         self.addSubview(textField)
-
         NSLayoutConstraint.activate([
             textField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: UIScreen.screenHeightUnit * 30),
             textField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -(UIScreen.screenHeightUnit * 30)),

@@ -49,6 +49,8 @@ extension UIFactory {
     
     func makeRoundedContainer() -> UIView {
         let container = UIView()
+        container.layer.borderWidth = 2
+        container.layer.borderColor = UIColor.systemGray3.cgColor
         container.layer.cornerRadius = UIScreen.screenHeightUnit * 15
         container.layer.masksToBounds = true
         container.translatesAutoresizingMaskIntoConstraints = false

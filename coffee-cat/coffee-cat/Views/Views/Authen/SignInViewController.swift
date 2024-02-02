@@ -158,7 +158,7 @@ class SignInViewController: UIViewController, UIFactory {
         emailTextFieldContainer.addRoundedTextField(emailTextField)
         emailTextField.keyboardType = .emailAddress
         
-        emailTextFieldContainer.backgroundColor = .systemBackground
+        emailTextFieldContainer.backgroundColor = .textFieldContainer
         NSLayoutConstraint.activate([
             emailTextFieldContainer.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: UIScreen.screenHeightUnit * 30),
             emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
@@ -175,7 +175,7 @@ class SignInViewController: UIViewController, UIFactory {
         passwordTextFieldContainer.addRoundedTextField(passwordTextField)
         passwordTextField.isSecureTextEntry = true
         
-        passwordTextFieldContainer.backgroundColor = .systemBackground
+        passwordTextFieldContainer.backgroundColor = .textFieldContainer
         NSLayoutConstraint.activate([
             passwordTextFieldContainer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: UIScreen.screenHeightUnit * 30),
             passwordTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
@@ -190,7 +190,7 @@ class SignInViewController: UIViewController, UIFactory {
         signInButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
-            signInButton.topAnchor.constraint(equalTo: passwordTextFieldContainer.bottomAnchor, constant: UIScreen.screenHeightUnit * 40),
+            signInButton.topAnchor.constraint(equalTo: passwordTextFieldContainer.bottomAnchor, constant: UIScreen.screenHeightUnit * 80),
             signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
             signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 60)),
             signInButton.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
