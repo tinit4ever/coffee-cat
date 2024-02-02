@@ -138,7 +138,7 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         
         passwordStackView.addArrangedSubview(passwordTextFieldContainer)
         passwordTextFieldContainer.addRoundedTextField(passwordTextField)
-        passwordTextFieldContainer.backgroundColor = .systemBackground
+        passwordTextFieldContainer.backgroundColor = .textFieldContainer
         
         NSLayoutConstraint.activate([
             passwordStackView.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: heightScaler(40)),
@@ -160,7 +160,7 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         
         confirmPasswordStackView.addArrangedSubview(confirmPasswordTextFieldContainer)
         confirmPasswordTextFieldContainer.addRoundedTextField(confirmPasswordTextField)
-        confirmPasswordTextFieldContainer.backgroundColor = .systemBackground
+        confirmPasswordTextFieldContainer.backgroundColor = .textFieldContainer
         
         NSLayoutConstraint.activate([
             confirmPasswordStackView.topAnchor.constraint(equalTo: passwordStackView.bottomAnchor, constant: heightScaler(60)),
