@@ -45,8 +45,8 @@ extension UIButton {
     }
     
     func showPasswordButton() {
-        self.setImage(UIImage(systemName: SystemImageNames.eye), for: .normal)
-        self.tintColor = .gray
+        self.setImage(UIImage(systemName: SystemImageNames.eyeSlash), for: .normal)
+        self.tintColor = .systemGray
     }
     
     func ratioButton() {

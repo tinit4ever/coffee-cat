@@ -23,6 +23,7 @@ class SignInViewController: UIViewController, UIFactory {
     
     lazy var passwordTextFieldContainer: UIView = makeRoundedContainer()
     lazy var passwordTextField: UITextField = makeTextField(placeholder: SignInScreenText.passwordTextFieldPlaceholder)
+    lazy var showPasswordButton = makeButton()
     
     lazy var signInButton: UIButton = makeButton()
     
@@ -167,13 +168,9 @@ class SignInViewController: UIViewController, UIFactory {
     }
     
     private func configPasswordTextFieldContainer() {
-        let showPasswordButton = makeButton()
+        showPasswordButton.showPasswordButton()
         
-        showPasswordButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
-        showPasswordButton.setImage(UIImage(systemName: SystemImageNames.eye), for: .normal)
-        
-        passwordTextField.rightView = showPasswordButton
-        passwordTextField.rightViewMode = .always
+        passwordTextField.showPasswordButton(showPasswordButton: showPasswordButton)
         
         passwordTextFieldContainer.addRoundedTextField(passwordTextField)
         passwordTextField.isSecureTextEntry = true
@@ -270,7 +267,10 @@ class SignInViewController: UIViewController, UIFactory {
     
     // -MARK: Setup Action
     private func setupAction() {
+        showPasswordButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
+        
         signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
+        
         alternativeButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
@@ -288,7 +288,7 @@ class SignInViewController: UIViewController, UIFactory {
     @objc
     private func togglePasswordVisibility() {
         passwordTextField.isSecureTextEntry.toggle()
-        let eyeSymbol = passwordTextField.isSecureTextEntry ? SystemImageNames.eye : SystemImageNames.eyeSlash
+        let eyeSymbol = passwordTextField.isSecureTextEntry ? SystemImageNames.eyeSlash : SystemImageNames.eye
         if let showPasswordButton = passwordTextField.rightView as? UIButton {
             showPasswordButton.setImage(UIImage(systemName: eyeSymbol), for: .normal)
         }
