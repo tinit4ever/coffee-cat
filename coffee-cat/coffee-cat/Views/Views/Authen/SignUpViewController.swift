@@ -163,7 +163,7 @@ class SignUpViewController: UIViewController, UIFactory {
         emailTextFieldContainer.addRoundedTextField(emailTextField)
         emailTextField.keyboardType = .emailAddress
         
-        emailTextFieldContainer.backgroundColor = .systemBackground
+        emailTextFieldContainer.backgroundColor = .textFieldContainer
         
         NSLayoutConstraint.activate([
             emailLabel.topAnchor.constraint(equalTo: invitationLabel.bottomAnchor, constant: UIScreen.screenHeightUnit * 40),
