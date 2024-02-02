@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         
-        let viewController = SignInViewController()
+        let viewController = UserProfileInputViewController()
         let rootViewController = UINavigationController(rootViewController: viewController)
         window.rootViewController = rootViewController
         
