@@ -271,6 +271,8 @@ class SignUpViewController: UIViewController, UIFactory {
     
     // -MARK: Setup Action
     private func setupAction() {
+        emailTextField.delegate = self
+        
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         alternativeButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
@@ -284,6 +286,13 @@ class SignUpViewController: UIViewController, UIFactory {
     @objc
     private func signUpButtonTapped() {
         pushViewController(viewController: SignInViewController())
+    }
+}
+
+extension SignUpViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 

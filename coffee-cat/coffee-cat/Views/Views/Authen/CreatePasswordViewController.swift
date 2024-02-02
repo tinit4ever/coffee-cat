@@ -193,12 +193,22 @@ class CreatePasswordViewController: UIViewController, UIFactory {
     
     // -MARK: Setup Action
     private func setupAction() {
+        passwordTextField.delegate = self
+        confirmPasswordTextField.delegate = self
+        
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
     }
     
     @objc
     private func nextButtonTapped() {
         pushViewController(viewController: UserProfileInputViewController())
+    }
+}
+
+extension CreatePasswordViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
