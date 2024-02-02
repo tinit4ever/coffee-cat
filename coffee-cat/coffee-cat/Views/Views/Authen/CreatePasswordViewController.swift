@@ -32,6 +32,7 @@ class CreatePasswordViewController: UIViewController, UIFactory {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAction()
     }
     
     // -MARK: Override
