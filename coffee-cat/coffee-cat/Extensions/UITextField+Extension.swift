@@ -8,4 +8,8 @@
 import UIKit
 
 extension UITextField {
+    func showPasswordButton(showPasswordButton: UIButton) {
+        self.rightView = showPasswordButton
+        self.rightViewMode = .always
+    }
 }
