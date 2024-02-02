@@ -9,7 +9,6 @@ import UIKit
 import SwiftUI
 
 class HomeViewController: UIViewController, UIFactory {
-    
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
@@ -152,4 +151,3 @@ struct HomeViewControllerPreview: PreviewProvider {
         }
     }
 }
-
