@@ -267,6 +267,9 @@ class SignInViewController: UIViewController, UIFactory {
     
     // -MARK: Setup Action
     private func setupAction() {
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        
         showPasswordButton.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
         
         signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)
@@ -292,6 +295,13 @@ class SignInViewController: UIViewController, UIFactory {
         if let showPasswordButton = passwordTextField.rightView as? UIButton {
             showPasswordButton.setImage(UIImage(systemName: eyeSymbol), for: .normal)
         }
+    }
+}
+
+extension SignInViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
