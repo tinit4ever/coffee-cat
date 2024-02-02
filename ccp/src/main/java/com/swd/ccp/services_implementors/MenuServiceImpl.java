@@ -6,6 +6,7 @@ import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.response_models.MenuItemResponse;
 import com.swd.ccp.repositories.MenuItemRepo;
 import com.swd.ccp.repositories.MenuItemStatusRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -18,9 +19,10 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MenuServiceIml implements MenuService {
+public class MenuServiceImpl implements MenuService {
     private final MenuItemStatusRepo menuItemStatusRepo;
     private final MenuItemRepo menuItemRepo;
+    private final AccountService accountService;
     private static final String ACTIVE = "Active";
 
     @Override
@@ -66,7 +68,8 @@ public class MenuServiceIml implements MenuService {
                     menuItemResponse.setQuantity(menuItem.getQuantity());
                     menuItemResponse.setImgLink(menuItem.getImgLink());
                     menuItemResponse.setSoldQuantity(menuItem.getQuantity());
-
+                    menuItemResponse.setSuccess(true);
+                    menuItemResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
             if (menuItem.getName() == null) {
                 menuItemResponse.setName("N/A");
             }

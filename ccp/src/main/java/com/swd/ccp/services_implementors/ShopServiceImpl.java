@@ -8,6 +8,7 @@ import com.swd.ccp.models.response_models.ShopResponse;
 import com.swd.ccp.repositories.FollowerCustomerRepo;
 import com.swd.ccp.repositories.ShopRepo;
 import com.swd.ccp.repositories.ShopStatusRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -23,6 +24,7 @@ public class ShopServiceImpl implements ShopService {
     private final ShopStatusRepo shopStatusRepo;
     private final ShopRepo shopRepo;
     private final FollowerCustomerRepo followerCustomerRepo;
+    private final AccountService accountService;
     private static final String ACTIVE = "Active";
 
     @Override
@@ -98,7 +100,8 @@ public class ShopServiceImpl implements ShopService {
                     .collect(Collectors.toList());
             shopResponse.setShopImageList(imageLinks);
             shopResponse.setFollowerCount((long) followerCustomerRepo.countByShop(shop));
-
+            shopResponse.setSuccess(true);
+            shopResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
             if (shop.getName() == null) {
                 shopResponse.setName("N/A");
             }
@@ -123,6 +126,8 @@ public class ShopServiceImpl implements ShopService {
                     .commentList(shop.getCommentList().stream().map(Comment::getComment).collect(Collectors.toList()))
                     .phone(shop.getPhone())
                     .seatList(shop.getSeatList().stream().map(Seat::getName).collect(Collectors.toList()))
+                    .success(true)
+                    .token(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                     .build();
             return shopDetailResponse;
         } else {

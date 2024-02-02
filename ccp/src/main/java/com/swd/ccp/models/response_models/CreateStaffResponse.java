@@ -20,4 +20,6 @@ public class CreateStaffResponse {
     private String refresh_token;
 
     private StaffResponse staffResponse;
+    private boolean success;
+    private String token;
 }

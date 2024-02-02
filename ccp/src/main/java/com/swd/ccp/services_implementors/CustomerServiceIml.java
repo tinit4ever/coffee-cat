@@ -7,6 +7,7 @@ import com.swd.ccp.models.response_models.CustomerProfile;
 import com.swd.ccp.models.response_models.UpdateProfileResponse;
 import com.swd.ccp.repositories.AccountRepo;
 import com.swd.ccp.repositories.CustomerRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.CustomerService;
 import com.swd.ccp.services.JWTService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceIml implements CustomerService {
-    private final AccountRepo accountRepo;
+    private final AccountService accountService;
     private final CustomerRepo customerRepo;
     private final JWTService jwtService;
     private static final String ACTIVE = "Active";
@@ -37,6 +38,8 @@ public class CustomerServiceIml implements CustomerService {
                 profile.setPhone(customer.getPhone());
                 profile.setGender(customer.getGender());
                 profile.setDob(customer.getDob());
+                profile.setSuccess(true);
+                profile.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
                 return profile;
             } else {
                 throw new NotFoundException("Customer profile not found.");

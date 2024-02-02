@@ -25,4 +25,6 @@ public class MenuItemResponse {
     private int quantity;
 
     private int soldQuantity;
+    private boolean success;
+    private String token;
 }

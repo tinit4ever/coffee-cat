@@ -26,4 +26,6 @@ public class Manager {
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
+    private String name;
+
 }

@@ -17,4 +17,6 @@ public class ShopResponse {
     private String name;
     private List<String> shopImageList;
     private Long followerCount;
+    private boolean success;
+    private String token;
 }

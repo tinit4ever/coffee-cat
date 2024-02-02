@@ -15,6 +15,7 @@ import com.swd.ccp.repositories.AccountRepo;
 import com.swd.ccp.repositories.AccountStatusRepo;
 import com.swd.ccp.repositories.CustomerRepo;
 import com.swd.ccp.repositories.TokenRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.JWTService;
 import com.swd.ccp.services.StaffService;
 import lombok.RequiredArgsConstructor;
@@ -30,14 +31,14 @@ import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
 
 @Service
 @RequiredArgsConstructor
-public class StaffServiceIml implements StaffService {
+public class StaffServiceImpl implements StaffService {
     private final AccountRepo accountRepo;
     private final JWTService jwtService;
 
     private final AccountStatusRepo accountStatusRepo;
 
 
-    private final CustomerRepo customerRepo;
+    private final AccountService accountService;
 
     private final TokenRepo tokenRepo;
     private static final String ACTIVE = "Active";
@@ -76,6 +77,8 @@ public class StaffServiceIml implements StaffService {
             staffResponse.setName(account.getName());
             staffResponse.setPassword(account.getPassword());
             staffResponse.setStatus(account.getStatus().getStatus());
+            staffResponse.setSuccess(true);
+            staffResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
             if (account.getName() == null) {
                 staffResponse.setName("N/A");
             }
@@ -129,6 +132,8 @@ public class StaffServiceIml implements StaffService {
                                         .status(account.getStatus().getStatus())
                                         .name(account.getName())
                                         .password(account.getPassword())
+                                        .success(true)
+                                        .token(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                                         .build()
                         )
                         .build();
@@ -169,6 +174,7 @@ public class StaffServiceIml implements StaffService {
             response.setStaffId(staffId);
             response.setMessage("Staff information updated successfully.");
             response.setSuccess(true);
+            response.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
 
             return response;
         } else {

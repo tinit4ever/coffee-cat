@@ -1,5 +1,7 @@
 package com.swd.ccp.services_implementors;
 
+import com.swd.ccp.models.entity_models.Token;
+import com.swd.ccp.repositories.TokenRepo;
 import com.swd.ccp.services.JWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -29,6 +31,8 @@ public class JWTServiceImpl implements JWTService {
     @Value("432000000") // 5 days
     private long refreshTokenExpiration;
 
+    private final TokenRepo tokenRepo;
+
     @Override
     public String extractEmail(String token) {
         return extractRequiredClaim(token, Claims::getSubject);
@@ -46,6 +50,9 @@ public class JWTServiceImpl implements JWTService {
 
     @Override
     public boolean checkTokenIsValid(String token) {
+        Token t = tokenRepo.findByToken(token).orElse(null);
+        if(t == null) return false;
+        if(t.getStatus() == 0) return false;
         return !extractRequiredClaim(token, Claims::getExpiration).before(new Date());
     }
 

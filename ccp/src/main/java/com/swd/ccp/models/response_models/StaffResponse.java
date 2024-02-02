@@ -20,4 +20,7 @@ public class StaffResponse {
     private String password;
 
     private String status;
+    private boolean success;
+    private String token;
+
 }
