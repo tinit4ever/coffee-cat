@@ -250,7 +250,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     }
     
     private func pushToHome() {
-        let homeViewController = HomeViewController()
+        let homeViewController = MainTabBarViewController()
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             let window = windowScene.windows.first
             window?.rootViewController = homeViewController
