@@ -122,15 +122,15 @@ class CreatePasswordViewController: UIViewController, UIFactory {
     private func configAnimationView() {
         animationView.contentMode = .scaleAspectFill
         NSLayoutConstraint.activate([
-            animationView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height / 6),
-            animationView.widthAnchor.constraint(equalToConstant: sizeScaler(400)),
-            animationView.heightAnchor.constraint(equalToConstant: sizeScaler(350)),
-            animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            animationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            animationView.widthAnchor.constraint(equalToConstant: sizeScaler(460)),
+            animationView.heightAnchor.constraint(equalToConstant: sizeScaler(400)),
+            animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: widthScaler(140))
         ])
     }
     
     private func configPasswordStackView() {
-        passwordStackView.spacing = heightScaler(20)
+        passwordStackView.spacing = heightScaler(10)
         passwordStackView.contentMode = .topLeft
         passwordStackView.addArrangedSubview(passwordLabel)
         passwordLabel.setupTitle(text: "Password", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
@@ -142,7 +142,7 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         passwordTextFieldContainer.backgroundColor = .textFieldContainer
         
         NSLayoutConstraint.activate([
-            passwordStackView.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: heightScaler(40)),
+            passwordStackView.topAnchor.constraint(equalTo: animationView.bottomAnchor),
             passwordStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             passwordStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
         ])
@@ -152,7 +152,7 @@ class CreatePasswordViewController: UIViewController, UIFactory {
     }
     
     private func configConfirmPasswordStackView() {
-        confirmPasswordStackView.spacing = heightScaler(20)
+        confirmPasswordStackView.spacing = heightScaler(10)
         confirmPasswordStackView.contentMode = .topLeft
         confirmPasswordStackView.addArrangedSubview(confirmPasswordLabel)
         confirmPasswordLabel.setupTitle(text: "Confirm Password", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
@@ -164,7 +164,7 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         confirmPasswordTextFieldContainer.backgroundColor = .textFieldContainer
         
         NSLayoutConstraint.activate([
-            confirmPasswordStackView.topAnchor.constraint(equalTo: passwordStackView.bottomAnchor, constant: heightScaler(60)),
+            confirmPasswordStackView.topAnchor.constraint(equalTo: passwordStackView.bottomAnchor, constant: heightScaler(20)),
             confirmPasswordStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             confirmPasswordStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
         ])
