@@ -135,7 +135,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         
         nameStackView.addArrangedSubview(nameTextFieldContainer)
         nameTextFieldContainer.addRoundedTextField(nameTextField)
-        nameTextFieldContainer.backgroundColor = .systemBackground
+        nameTextFieldContainer.backgroundColor = .textFieldContainer
         
         NSLayoutConstraint.activate([
             nameStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: heightScaler(200)),
@@ -168,7 +168,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     }
     
     private func configDatePickerContainer() {
-        datePickerContainer.backgroundColor = .systemBackground
+        datePickerContainer.backgroundColor = .textFieldContainer
         datePickerContainer.addSubview(dateLabel)
         
         NSLayoutConstraint.activate([
