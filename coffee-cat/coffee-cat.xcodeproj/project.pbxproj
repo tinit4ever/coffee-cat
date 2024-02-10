@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A03A4FF02B778CF900605611 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A03A4FEF2B778CF900605611 /* IQKeyboardManagerSwift */; };
 		A03F56D32B6B1ADF00B3E35B /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F56D22B6B1ADF00B3E35B /* PaymentViewController.swift */; };
 		A03F56D52B6B1C2300B3E35B /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F56D42B6B1C2300B3E35B /* StoreViewController.swift */; };
 		A03F56D72B6B227500B3E35B /* UITabBar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F56D62B6B227500B3E35B /* UITabBar+Extension.swift */; };
@@ -95,6 +96,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A05BE70A2B69FC9C0030000D /* Lottie in Frameworks */,
+				A03A4FF02B778CF900605611 /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +287,7 @@
 			name = "coffee-cat";
 			packageProductDependencies = (
 				A05BE7092B69FC9C0030000D /* Lottie */,
+				A03A4FEF2B778CF900605611 /* IQKeyboardManagerSwift */,
 			);
 			productName = "coffee-cat";
 			productReference = A0F3EA992B653BDB0057860A /* coffee-cat.app */;
@@ -316,6 +319,7 @@
 			mainGroup = A0F3EA902B653BDB0057860A;
 			packageReferences = (
 				A05BE7082B69FC9C0030000D /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				A03A4FEE2B778CF900605611 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = A0F3EA9A2B653BDB0057860A /* Products */;
 			projectDirPath = "";
@@ -592,6 +596,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A03A4FEE2B778CF900605611 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.1;
+			};
+		};
 		A05BE7082B69FC9C0030000D /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
@@ -603,6 +615,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A03A4FEF2B778CF900605611 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A03A4FEE2B778CF900605611 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
 		A05BE7092B69FC9C0030000D /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A05BE7082B69FC9C0030000D /* XCRemoteSwiftPackageReference "lottie-ios" */;
