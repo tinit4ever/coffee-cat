@@ -22,6 +22,7 @@ protocol UIFactory {
     func makeRadioButtonStackView(content: String) -> UIStackView
     func makeLottieAnimationView(animationName: String) -> LottieAnimationView
     func makeSearchBar(placeholder: String) -> UISearchBar
+    func makeScrollViewContainer() -> UIScrollView
 }
 
 extension UIFactory {
@@ -140,5 +141,14 @@ extension UIFactory {
         searchBar.placeholder = placeholder
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
+    }
+    
+    func makeScrollViewContainer() -> UIScrollView {
+        let scrollView = UIScrollView()
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.isScrollEnabled = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
     }
 }

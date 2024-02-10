@@ -14,6 +14,8 @@ class CreatePasswordViewController: UIViewController, UIFactory {
     let sizeScaler = UIScreen.scalableSize
     
     // -MARK: Create UI Components
+    lazy var scrollViewContainer = makeScrollViewContainer()
+    
     lazy var animationView = makeLottieAnimationView(animationName: "authentication")
     
     lazy var passwordStackView: UIStackView = makeVerticalStackView()
@@ -50,17 +52,20 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         
         configNavigation()
         
-        view.addSubview(animationView)
+        view.addSubview(scrollViewContainer)
+        configScrollViewContainter()
+        
+        scrollViewContainer.addSubview(animationView)
         animationView.play()
         configAnimationView()
         
-        view.addSubview(passwordStackView)
+        scrollViewContainer.addSubview(passwordStackView)
         configPasswordStackView()
         
-        view.addSubview(confirmPasswordStackView)
+        scrollViewContainer.addSubview(confirmPasswordStackView)
         configConfirmPasswordStackView()
         
-        view.addSubview(nextButton)
+        scrollViewContainer.addSubview(nextButton)
         configNextButton()
     }
     
@@ -119,13 +124,24 @@ class CreatePasswordViewController: UIViewController, UIFactory {
     self.navigationItem.backBarButtonItem?.tintColor = .backButton
 }
     
+    private func configScrollViewContainter() {
+        NSLayoutConstraint.activate([
+            scrollViewContainer.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollViewContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollViewContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollViewContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollViewContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            scrollViewContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
     private func configAnimationView() {
         animationView.contentMode = .scaleAspectFill
         NSLayoutConstraint.activate([
-            animationView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            animationView.topAnchor.constraint(equalTo: scrollViewContainer.topAnchor, constant: heightScaler(160)),
             animationView.widthAnchor.constraint(equalToConstant: sizeScaler(460)),
             animationView.heightAnchor.constraint(equalToConstant: sizeScaler(400)),
-            animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: widthScaler(140))
+            animationView.centerXAnchor.constraint(equalTo: scrollViewContainer.centerXAnchor)
         ])
     }
     
@@ -142,7 +158,7 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         passwordTextFieldContainer.backgroundColor = .textFieldContainer
         
         NSLayoutConstraint.activate([
-            passwordStackView.topAnchor.constraint(equalTo: animationView.bottomAnchor),
+            passwordStackView.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: heightScaler(60)),
             passwordStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             passwordStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
         ])
@@ -181,7 +197,7 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         NSLayoutConstraint.activate([
             nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
-            nextButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(60)),
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -heightScaler(60)),
             nextButton.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }
@@ -221,4 +237,5 @@ struct CreatePasswordViewControllerPreview: PreviewProvider {
         }
     }
 }
+
 
