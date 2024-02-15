@@ -91,38 +91,32 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         if traitCollection.userInterfaceStyle == .dark {
             let image = UIImage(named: ImageNames.darkCircleGroup)
             image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
-
+            
             let imageView = UIImageView(image: resizedImage)
             imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             view.addSubview(imageView)
-
+            
         } else {
             let image = UIImage(named: ImageNames.darkCircleGroup)
             image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
-
+            
             let imageView = UIImageView(image: resizedImage)
             imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             view.addSubview(imageView)
-
+            
         }
     }
     
     private func configNavigation() {
-    let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
-        .withTintColor(.backButton, renderingMode: .alwaysOriginal)
-        .resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50)))
-    
-    self.navigationController?.navigationBar.backIndicatorImage = backImage
-    self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
-    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-    self.navigationItem.backBarButtonItem?.tintColor = .backButton
-}
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem?.tintColor = .backButton
+    }
     
     private func configScrollViewContainter() {
         NSLayoutConstraint.activate([
