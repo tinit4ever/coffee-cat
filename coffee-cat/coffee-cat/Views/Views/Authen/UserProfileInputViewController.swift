@@ -291,7 +291,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     }
     
     private func showDatePicker() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+        DispatchQueue.main.async { [weak self] in
             self?.datePicker.isHidden = false
             self?.doneButton.isHidden = false
             self?.submitButton.isHidden = true
@@ -301,11 +301,12 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     }
     
     private func hideDatePicker() {
-        datePicker.isHidden = true
-        doneButton.isHidden = true
-        
-        submitButton.isHidden = false
-        genreStackView.isHidden = false
+        DispatchQueue.main.async { [weak self] in
+            self?.datePicker.isHidden = true
+            self?.doneButton.isHidden = true
+            self?.submitButton.isHidden = false
+            self?.genreStackView.isHidden = false
+        }
     }
     
     // -MARK: Setup Action
