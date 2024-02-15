@@ -114,15 +114,9 @@ class CreatePasswordViewController: UIViewController, UIFactory {
     }
     
     private func configNavigation() {
-    let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
-        .withTintColor(.backButton, renderingMode: .alwaysOriginal)
-        .resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50)))
-    
-    self.navigationController?.navigationBar.backIndicatorImage = backImage
-    self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
-    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-    self.navigationItem.backBarButtonItem?.tintColor = .backButton
-}
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem?.tintColor = .backButton
+    }
     
     private func configScrollViewContainter() {
         NSLayoutConstraint.activate([
