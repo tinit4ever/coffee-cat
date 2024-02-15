@@ -24,24 +24,6 @@ public class ShopController {
         return page;
 
     }
-
-//@PostMapping(path = "/popular-active-shops", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//public ResponseEntity<?> getPopularActiveShops(@Valid @RequestBody PopularActiveShopsRequest request, BindingResult bindingResult) throws MethodArgumentNotValidException {
-//    validateParameters(bindingResult);
-//
-//    Integer page = request.getPage();
-//    Integer size = request.getSize();
-//
-//    Page<ShopResponse> popularActiveShops = shopService.getPopularActiveShops(page, size);
-//
-//    return new ResponseEntity<>(popularActiveShops, HttpStatus.OK);
-//}
-//
-//    private void validateParameters(BindingResult bindingResult) throws MethodArgumentNotValidException {
-//        if (bindingResult.hasErrors()) {
-//            throw new MethodArgumentNotValidException(null, bindingResult);
-//        }
-//    }
     @GetMapping("/shop-search")
     public Page<ShopResponse> searchShops(@RequestParam String keyword, @RequestParam String searchType,@RequestBody PaginationRequest pageRequest) {
         return shopService.searchShops(keyword, searchType, pageRequest);
@@ -56,4 +38,5 @@ public class ShopController {
             return ResponseEntity.notFound().build();
         }
     }
+
 }
