@@ -295,6 +295,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
             self?.datePicker.isHidden = false
             self?.doneButton.isHidden = false
             self?.submitButton.isHidden = true
+            self?.genreStackView.isHidden = true
         }
         
     }
@@ -304,11 +305,13 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         doneButton.isHidden = true
         
         submitButton.isHidden = false
+        genreStackView.isHidden = false
     }
     
     // -MARK: Setup Action
     private func setupAction() {
         nameTextField.delegate = self
+        phoneNumberTextField.delegate = self
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
         datePickerContainer.addGestureRecognizer(tapGesture)
