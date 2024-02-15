@@ -19,6 +19,11 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     lazy var nameTextFieldContainer: UIView = makeRoundedContainer()
     lazy var nameTextField: UITextField = makeTextField(placeholder: UserProfileInputScreenText.nameTextFieldPlaceholder)
     
+    lazy var phoneNumberStackView: UIStackView = makeVerticalStackView()
+    lazy var phoneNumberLabel: UILabel = makeLabel()
+    lazy var phoneNumberTextFieldContainer: UIView = makeRoundedContainer()
+    lazy var phoneNumberTextField: UITextField = makeTextField(placeholder: "Enter your phone number here")
+    
     lazy var dobStackView: UIStackView = makeVerticalStackView()
     lazy var dobLabel: UILabel = makeLabel()
     lazy var datePickerContainer = makeRoundedContainer()
@@ -55,8 +60,12 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         view.addSubview(nameStackView)
         configNameStackView()
         
+        view.addSubview(phoneNumberStackView)
+        configPhoneNumberStackView()
+        
         view.addSubview(dobStackView)
         configDobStackView()
+        
         
         datePickerValueChanged()
         
@@ -120,6 +129,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     private func configNavigation() {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
+        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrowshape.right.circle.fill")?.resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50))), style: .plain, target: self, action: #selector(skipButtonTapped))
         self.navigationItem.rightBarButtonItem?.tintColor = .customBlack
     }
@@ -147,6 +157,28 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         ])
     }
     
+    private func configPhoneNumberStackView() {
+        phoneNumberStackView.spacing = heightScaler(20)
+        phoneNumberStackView.contentMode = .topLeft
+        phoneNumberStackView.addArrangedSubview(phoneNumberLabel)
+        phoneNumberLabel.setupTitle(text: "Phone Number", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+        phoneNumberLabel.setBoldText()
+        phoneNumberLabel.textAlignment = .left
+        
+        phoneNumberStackView.addArrangedSubview(phoneNumberTextFieldContainer)
+        phoneNumberTextFieldContainer.addRoundedTextField(phoneNumberTextField)
+        phoneNumberTextFieldContainer.backgroundColor = .textFieldContainer
+        
+        NSLayoutConstraint.activate([
+            phoneNumberStackView.topAnchor.constraint(equalTo: nameStackView.bottomAnchor, constant: heightScaler(40)),
+            phoneNumberStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            phoneNumberStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
+        ])
+        NSLayoutConstraint.activate([
+            phoneNumberTextFieldContainer.heightAnchor.constraint(equalToConstant: heightScaler(60))
+        ])
+    }
+    
     private func configDobStackView() {
         dobStackView.spacing = heightScaler(20)
         dobStackView.contentMode = .topLeft
@@ -159,7 +191,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         datePickerContainer.backgroundColor = .systemBackground
         
         NSLayoutConstraint.activate([
-            dobStackView.topAnchor.constraint(equalTo: nameStackView.bottomAnchor, constant: heightScaler(60)),
+            dobStackView.topAnchor.constraint(equalTo: phoneNumberStackView.bottomAnchor, constant: heightScaler(40)),
             dobStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             dobStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
         ])
@@ -208,7 +240,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         genreStackView.alignment = .leading
         genreStackView.spacing = heightScaler(20)
         NSLayoutConstraint.activate([
-            genreStackView.topAnchor.constraint(equalTo: dobStackView.bottomAnchor, constant: heightScaler(60)),
+            genreStackView.topAnchor.constraint(equalTo: dobStackView.bottomAnchor, constant: heightScaler(40)),
             genreStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             genreStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60))
         ])
