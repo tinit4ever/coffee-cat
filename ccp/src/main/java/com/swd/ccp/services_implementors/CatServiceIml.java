@@ -1,7 +1,10 @@
 package com.swd.ccp.services_implementors;
 
+import com.swd.ccp.Exception.NotFoundException;
 import com.swd.ccp.models.entity_models.Cat;
 import com.swd.ccp.models.entity_models.CatStatus;
+import com.swd.ccp.models.entity_models.Shop;
+import com.swd.ccp.models.entity_models.ShopStatus;
 import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.response_models.CatResponse;
 import com.swd.ccp.repositories.CatRepo;
@@ -20,7 +23,7 @@ import java.util.stream.Collectors;
     public class CatServiceIml implements CatService {
         private final CatStatusRepo catStatusRepo;
         private final CatRepo catRepo;
-        private static final String ACTIVE = "Active";
+    private static final String ACTIVE = "Active";
         @Override
 
         public Page<CatResponse> getActiveCats(Integer shopId, PaginationRequest pageRequest) {
@@ -76,7 +79,11 @@ import java.util.stream.Collectors;
         }
     @Override
     public CatResponse getCatDetails(Long id) {
-        Cat cat = catRepo.findById(id);
+        CatStatus activeStatus = catStatusRepo.findByStatus(ACTIVE);
+        if (activeStatus == null) {
+            throw new NotFoundException("Active status not found");
+        }
+        Cat cat = catRepo.findByIdAndCatStatus(id,activeStatus);
         if (cat != null) {
             CatResponse catResponse = CatResponse.builder()
                     .type(cat.getType())

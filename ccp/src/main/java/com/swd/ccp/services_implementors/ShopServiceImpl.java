@@ -1,9 +1,7 @@
 package com.swd.ccp.services_implementors;
 
-import com.swd.ccp.models.entity_models.Comment;
-import com.swd.ccp.models.entity_models.Shop;
-import com.swd.ccp.models.entity_models.ShopImage;
-import com.swd.ccp.models.entity_models.ShopStatus;
+import com.swd.ccp.Exception.NotFoundException;
+import com.swd.ccp.models.entity_models.*;
 import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.response_models.ShopDetailResponse;
 import com.swd.ccp.models.response_models.ShopResponse;
@@ -109,7 +107,11 @@ public class ShopServiceImpl implements ShopService {
     }
     @Override
     public ShopDetailResponse getShopDetails(Long id) {
-        Shop shop = shopRepo.findById(id);
+        ShopStatus activeStatus = shopStatusRepo.findByStatus(ACTIVE);
+        if (activeStatus == null) {
+            throw new NotFoundException("Active status not found");
+        }
+        Shop shop = shopRepo.findByIdAndStatus(id,activeStatus);
         if (shop != null) {
             ShopDetailResponse shopDetailResponse = ShopDetailResponse.builder()
                     .rating(shop.getRating())
@@ -123,9 +125,7 @@ public class ShopServiceImpl implements ShopService {
                     .build();
             return shopDetailResponse;
         } else {
-            // Handle the case where no shop with the given id is found
-            return null;
+            throw new NotFoundException("Shop with id " + id + " not found or is not active.");
         }
     }
-
 }

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ShopStatusRepo extends JpaRepository<ShopStatus, Integer> {
     List<ShopStatus> findAllByStatus(String status);
+    ShopStatus findByStatus (String status);
 }

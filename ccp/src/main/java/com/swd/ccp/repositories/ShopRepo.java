@@ -16,8 +16,6 @@ public interface ShopRepo extends JpaRepository<Shop, Integer> {
             "(LOWER(s.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(s.address) LIKE LOWER(CONCAT('%', :keyword, '%')))")
     Page<Shop> findAllByStatusInAndNameOrAddressContaining(List<ShopStatus> status, String keyword, Pageable pageable);
-    Shop findById(Long id);
-//    Page<Shop> findAllByStatusOrderByNameAsc(ShopStatus status, Pageable pageable);
-//    @Query("SELECT COUNT(s) FROM Shop s JOIN s.followerCustomerList fc WHERE fc.id = :customerId")
-//    Long countOccurrenceOfFollowerCustomer(@Param("customerId") Long customerId);
+    Shop findByIdAndStatus(Long id,ShopStatus status);
+
 }
