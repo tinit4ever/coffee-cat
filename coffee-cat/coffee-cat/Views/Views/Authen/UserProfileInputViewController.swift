@@ -453,7 +453,18 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         
         self.viewModel?.updateUserProfile(name, phoneNumber, datePicker.date, gender ?? "")
         
-        pushToHome()
+        self.viewModel?.registerUser(completion: { [weak self] result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    self?.displaySuccessAlert(message: "Registration successful")
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.displayErrorAlert(message: "Registration failed with error: \(error.localizedDescription)")
+                }
+            }
+        })
     }
     
     // -MARK: Display Alert
@@ -461,6 +472,22 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         let alert = UIAlertController(title: "Input Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+    
+    private func displaySuccessAlert(message: String) {
+        let alertController = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
+            self?.pushToHome()
+        }))
+
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func displayErrorAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     // -MARK: Utilities
