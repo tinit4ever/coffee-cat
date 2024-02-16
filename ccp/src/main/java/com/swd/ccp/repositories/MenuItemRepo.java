@@ -1,5 +1,7 @@
 package com.swd.ccp.repositories;
 
+import com.swd.ccp.models.entity_models.Cat;
+import com.swd.ccp.models.entity_models.CatStatus;
 import com.swd.ccp.models.entity_models.MenuItem;
 import com.swd.ccp.models.entity_models.MenuItemStatus;
 import org.springframework.data.domain.Page;
@@ -10,4 +12,5 @@ import java.util.List;
 
 public interface MenuItemRepo extends JpaRepository<MenuItem, Integer> {
     Page<MenuItem> findAllByMenuItemStatusIn(List<MenuItemStatus> menuItemStatus, Pageable pageable);
+
 }

@@ -39,9 +39,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public RegisterResponse register(RegisterRequest request) {
         if (isStringValid(request.getEmail()) &&
-                isStringValid(request.getPassword()) &&
-                isStringValid(request.getConfirmedPassword())) {
-            if(request.getPassword().equals(request.getConfirmedPassword())){
+                isStringValid(request.getPassword())) {
                 Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
                 Customer customer;
                 Token accessToken;
@@ -51,7 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     account = accountRepo.save(
                             Account.builder()
                                     .email(request.getEmail())
-                                    .name(null)
+                                    .name(request.getName())
                                     .password(request.getPassword())
                                     .status(accountStatusRepo.findById(1).orElse(null))
                                     .role(Role.CUSTOMER)
@@ -78,7 +76,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                             Customer.builder()
                                     .account(account)
                                     .phone(isStringValid(request.getPhone()) ? request.getPhone() : null)
-                                    .gender(isStringValid(request.getGender()) ? request.getName() : null)
+                                    .gender(isStringValid(request.getGender()) ? request.getGender() : null)
                                     .dob(request.getDob() != null ? request.getDob() : null)
                                     .build()
                     );
@@ -118,14 +116,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .accountResponse(null)
                     .build();
         }
-        return RegisterResponse.builder()
-                .message("Register fail: input null or empty")
-                .status(false)
-                .access_token(null)
-                .refresh_token(null)
-                .accountResponse(null)
-                .build();
-    }
+
 
     @Override
     public LoginResponse login(LoginRequest request) {

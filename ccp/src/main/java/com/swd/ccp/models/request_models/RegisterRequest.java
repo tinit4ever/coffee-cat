@@ -18,13 +18,12 @@ public class RegisterRequest {
 
     private String password;
 
-    private String confirmedPassword;
 
     private String phone;
 
     private String name;
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
     private java.sql.Date dob;
 
     private String gender;
