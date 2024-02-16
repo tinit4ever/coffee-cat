@@ -13,6 +13,8 @@ class CreatePasswordViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
+    var viewModel: RegistrationViewModelProtocol?
+    
     // -MARK: Create UI Components
     lazy var scrollViewContainer = makeScrollViewContainer()
     
@@ -211,7 +213,25 @@ class CreatePasswordViewController: UIViewController, UIFactory {
     
     @objc
     private func nextButtonTapped() {
-        pushViewController(viewController: UserProfileInputViewController())
+        guard let password = passwordTextField.text,
+              let confirmPassword = confirmPasswordTextField.text,
+              self.viewModel!.validatePassword(password, confirmPassword) else {
+            displayInvalidPassword(self.viewModel!.alertMessage)
+            self.viewModel?.alertMessage = ""
+            return
+        }
+        
+        let userProfileInputViewController = UserProfileInputViewController()
+        userProfileInputViewController.viewModel = self.viewModel
+        
+        pushViewController(viewController: userProfileInputViewController)
+    }
+    
+    // -MARK: Display Alert
+    private func displayInvalidPassword(_ message: String) {
+        let alert = UIAlertController(title: "Input Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }
 
@@ -219,6 +239,9 @@ extension CreatePasswordViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
     }
 }
 
