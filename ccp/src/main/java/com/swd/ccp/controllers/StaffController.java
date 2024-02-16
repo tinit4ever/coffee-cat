@@ -40,7 +40,7 @@ public class StaffController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
-    @PutMapping("updateStaff/{staffId}")
+    @PostMapping("updateStaff/{staffId}")
     @PreAuthorize("hasAuthority('owner:update')")
     public ResponseEntity<UpdateStaffResponse> updateStaff(@PathVariable Long staffId,
                                                            @RequestBody StaffRequest updateRequest) {
@@ -53,7 +53,7 @@ public class StaffController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    @PutMapping("/inactive/{staffId}")
+    @PostMapping("/inactive/{staffId}")
     @PreAuthorize("hasAuthority('owner:update')")
     public ResponseEntity<String> inactiveStaff(@PathVariable Long staffId) {
         int result = staffService.inactiveStaff(staffId);
@@ -63,7 +63,7 @@ public class StaffController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PutMapping("/active/{staffId}")
+    @PostMapping("/active/{staffId}")
     @PreAuthorize("hasAuthority('owner:update')")
     public ResponseEntity<String> activeStaff(@PathVariable Long staffId) {
         int result = staffService.activeStaff(staffId);

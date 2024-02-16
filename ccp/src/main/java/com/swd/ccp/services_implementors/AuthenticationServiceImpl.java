@@ -109,7 +109,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         .build();
             }
             return RegisterResponse.builder()
-                    .message("Register fail: unmatched password and confirmed password")
+                    .message("Register fail: unmatched password")
                     .status(false)
                     .access_token(null)
                     .refresh_token(null)

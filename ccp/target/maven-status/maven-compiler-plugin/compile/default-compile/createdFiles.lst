@@ -27,6 +27,7 @@ com\swd\ccp\models\entity_models\Customer.class
 com\swd\ccp\services\StaffService.class
 com\swd\ccp\models\entity_models\ShopImage.class
 com\swd\ccp\models\response_models\RegisterResponse.class
+com\swd\ccp\controllers\CustomerController.class
 com\swd\ccp\models\entity_models\SeatStatus$SeatStatusBuilder.class
 com\swd\ccp\models\request_models\PopularActiveShopsRequest.class
 com\swd\ccp\models\response_models\LoginResponse$LoginResponseBuilder.class
@@ -37,6 +38,7 @@ com\swd\ccp\models\entity_models\Menu.class
 com\swd\ccp\models\entity_models\Manager$ManagerBuilder.class
 com\swd\ccp\models\entity_models\Cat.class
 com\swd\ccp\models\request_models\PaginationRequest.class
+com\swd\ccp\services_implementors\CustomerServiceIml.class
 com\swd\ccp\models\request_models\RegisterRequest.class
 com\swd\ccp\CcpApplication.class
 com\swd\ccp\controllers\AuthenticationController.class
@@ -59,6 +61,7 @@ com\swd\ccp\models\request_models\PopularActiveShopsRequest$PopularActiveShopsRe
 com\swd\ccp\services_implementors\StaffServiceIml.class
 com\swd\ccp\models\entity_models\CatStatus.class
 com\swd\ccp\models\entity_models\Shop$ShopBuilder.class
+com\swd\ccp\models\request_models\UpdateProfileRequest.class
 com\swd\ccp\repositories\CustomerRepo.class
 com\swd\ccp\models\response_models\MenuItemResponse.class
 com\swd\ccp\models\response_models\ShopDetailResponse$ShopDetailResponseBuilder.class
@@ -82,6 +85,7 @@ com\swd\ccp\models\entity_models\Seat.class
 com\swd\ccp\models\response_models\MenuItemResponse$MenuItemResponseBuilder.class
 com\swd\ccp\services_implementors\AuthenticationServiceImpl.class
 com\swd\ccp\models\response_models\RespondObject$RespondObjectBuilder.class
+com\swd\ccp\models\response_models\CustomerProfile.class
 com\swd\ccp\services\MenuService.class
 com\swd\ccp\controllers\MenuController.class
 com\swd\ccp\repositories\BookingDetailRepo.class
@@ -94,6 +98,7 @@ com\swd\ccp\models\response_models\CatResponse$CatResponseBuilder.class
 com\swd\ccp\models\response_models\StaffResponse$StaffResponseBuilder.class
 com\swd\ccp\repositories\ShopImageRepo.class
 com\swd\ccp\models\response_models\CatResponse.class
+com\swd\ccp\services\CustomerService.class
 com\swd\ccp\models\entity_models\Token$TokenBuilder.class
 com\swd\ccp\models\entity_models\BookingStatus.class
 com\swd\ccp\models\entity_models\Booking$BookingBuilder.class
@@ -114,6 +119,7 @@ com\swd\ccp\Exception\NotFoundException.class
 com\swd\ccp\models\response_models\StaffResponse.class
 com\swd\ccp\models\entity_models\PackageStatus.class
 com\swd\ccp\models\entity_models\Account.class
+com\swd\ccp\models\response_models\UpdateProfileResponse.class
 com\swd\ccp\repositories\TokenRepo.class
 com\swd\ccp\services_implementors\FollowerServiceImpl.class
 com\swd\ccp\models\entity_models\BookingDetail.class

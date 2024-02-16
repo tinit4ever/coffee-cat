@@ -10,5 +10,4 @@ public class UpdateStaffResponse {
     private String message;
     private boolean success;
 
-
 }
