@@ -24,7 +24,7 @@ protocol RegistrationViewModelProtocol {
     
     func updateUserProfile(_ name: String, _ phoneNumber: String, _ dob: Date, _ gender: String)
     
-    func registerUser(userData: UserRegistration, completion: @escaping (Result<String, Error>) -> Void)
+    func registerUser(completion: @escaping (Result<String, Error>) -> Void)
 }
 
 class RegistrationViewModel {
@@ -33,7 +33,7 @@ class RegistrationViewModel {
     
     init() {
         self.alertMessage = ""
-        self.userRegistration = UserRegistration(email: "", password: "", phoneNumber: "", name: "", dob: "", gender: "")
+        self.userRegistration = UserRegistration(email: "", password: "", phone: "", name: "", dob: "", gender: "")
     }
 }
 
@@ -104,7 +104,7 @@ extension RegistrationViewModel: RegistrationViewModelProtocol {
     
     func updateUserProfile(_ name: String, _ phoneNumber: String, _ dob: Date, _ gender: String) {
         self.userRegistration.name = name
-        self.userRegistration.phoneNumber = phoneNumber
+        self.userRegistration.phone = phoneNumber
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormat.dateFormatterToStore
@@ -114,7 +114,9 @@ extension RegistrationViewModel: RegistrationViewModelProtocol {
         print(userRegistration)
     }
     
-    func registerUser(userData: UserRegistration, completion: @escaping (Result<String, Error>) -> Void) {
+    func registerUser(completion: @escaping (Result<String, Error>) -> Void) {
+        let userData = self.userRegistration
+        
         AF.request("http://localhost:8080/auth/register", method: .post, parameters: userData, encoder: JSONParameterEncoder.default).responseString { response in
             switch response.result {
             case .success(let data):
