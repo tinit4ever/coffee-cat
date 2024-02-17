@@ -24,6 +24,7 @@ D:\SWD_392\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\Seat.ja
 D:\SWD_392\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\BookingDetail.java
 D:\SWD_392\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\ShopResponse.java
 D:\SWD_392\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\ShopRepo.java
+D:\SWD_392\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\ShopRequest.java
 D:\SWD_392\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\ShopImage.java
 D:\SWD_392\coffee-cat\ccp\src\main\java\com\swd\ccp\services_implementors\FollowerServiceImpl.java
 D:\SWD_392\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\CatStatusRepo.java

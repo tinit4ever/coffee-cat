@@ -11,5 +11,5 @@ public interface ShopService {
     ShopDetailResponse getShopDetails(Long id);
 //    Page<ShopResponse> getPopularActiveShops(Integer page, Integer size);
 
-
+    Page<ShopResponse> getShops(PaginationRequest pageRequest);
 }

@@ -7,6 +7,7 @@ import com.swd.ccp.services.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
@@ -38,5 +39,12 @@ public class ShopController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/shop")
+    @PreAuthorize("hasAuthority('owner:read')")
+    public Page<ShopResponse> getShops(@RequestBody PaginationRequest pageRequest) {
+        Page<ShopResponse> page = shopService.getShops(pageRequest);
+        LOGGER.info("get list successfully");
+        return page;
 
+    }
 }
