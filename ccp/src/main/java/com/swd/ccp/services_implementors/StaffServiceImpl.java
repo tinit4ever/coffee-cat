@@ -30,7 +30,7 @@ import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
 
 @Service
 @RequiredArgsConstructor
-public class StaffServiceIml implements StaffService {
+public class StaffServiceImpl implements StaffService {
     private final AccountRepo accountRepo;
     private final JWTService jwtService;
 

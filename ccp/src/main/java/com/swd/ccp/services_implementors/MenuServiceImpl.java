@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MenuServiceIml implements MenuService {
+public class MenuServiceImpl implements MenuService {
     private final MenuItemStatusRepo menuItemStatusRepo;
     private final MenuItemRepo menuItemRepo;
     private static final String ACTIVE = "Active";

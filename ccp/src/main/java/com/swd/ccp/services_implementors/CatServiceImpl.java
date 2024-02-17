@@ -3,8 +3,6 @@ package com.swd.ccp.services_implementors;
 import com.swd.ccp.Exception.NotFoundException;
 import com.swd.ccp.models.entity_models.Cat;
 import com.swd.ccp.models.entity_models.CatStatus;
-import com.swd.ccp.models.entity_models.Shop;
-import com.swd.ccp.models.entity_models.ShopStatus;
 import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.response_models.CatResponse;
 import com.swd.ccp.repositories.CatRepo;
@@ -20,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 
-    public class CatServiceIml implements CatService {
+    public class CatServiceImpl implements CatService {
         private final CatStatusRepo catStatusRepo;
         private final CatRepo catRepo;
     private static final String ACTIVE = "Active";
