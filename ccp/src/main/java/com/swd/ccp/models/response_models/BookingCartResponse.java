@@ -13,7 +13,11 @@ import java.util.List;
 @Builder
 public class BookingCartResponse {
 
+    private boolean status;
+
     private String message;
+
+    private String token;
 
     private List<BookingCartShopResponse> bookingCartShopResponseList;
 }

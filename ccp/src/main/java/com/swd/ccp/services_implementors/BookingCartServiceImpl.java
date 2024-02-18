@@ -11,6 +11,7 @@ import com.swd.ccp.repositories.MenuItemRepo;
 import com.swd.ccp.repositories.SeatRepo;
 import com.swd.ccp.repositories.SeatStatusRepo;
 import com.swd.ccp.repositories.ShopRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.BookingCartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,8 @@ public class BookingCartServiceImpl implements BookingCartService {
     private final MenuItemRepo menuItemRepo;
 
     private final ShopRepo shopRepo;
+
+    private final AccountService accountService;
 
 
 
@@ -70,14 +73,19 @@ public class BookingCartServiceImpl implements BookingCartService {
                 }
             }
 
+
             return BookingCartResponse.builder()
+                    .status(true)
                     .message("")
+                    .token(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                     .bookingCartShopResponseList(bookingCartShopResponseList)
                     .build();
         }
 
         return BookingCartResponse.builder()
+                .status(false)
                 .message("Seat is busy")
+                .token(null)
                 .bookingCartShopResponseList(null)
                 .build();
     }
