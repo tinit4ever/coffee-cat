@@ -106,7 +106,6 @@ class GettingStartedViewController: UIViewController, UIFactory {
     private func configNavigation() {
         let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
             .withTintColor(.backButton, renderingMode: .alwaysOriginal)
-            .resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50)))
         
         self.navigationController?.navigationBar.backIndicatorImage = backImage
         self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
