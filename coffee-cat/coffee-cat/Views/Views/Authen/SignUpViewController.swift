@@ -13,6 +13,8 @@ class SignUpViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
+    var viewModel: RegistrationViewModelProtocol = RegistrationViewModel()
+    
     // -MARK: Create UI Components
     lazy var welcomeLabel: UILabel = makeLabel()
     
@@ -105,25 +107,25 @@ class SignUpViewController: UIViewController, UIFactory {
         if traitCollection.userInterfaceStyle == .dark {
             let image = UIImage(named: ImageNames.darkCircleGroup)
             image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
-
+            
             let imageView = UIImageView(image: resizedImage)
             imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             view.addSubview(imageView)
-
+            
         } else {
             let image = UIImage(named: ImageNames.darkCircleGroup)
             image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
-
+            
             let imageView = UIImageView(image: resizedImage)
             imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             view.addSubview(imageView)
-
+            
         }
     }
     
@@ -210,7 +212,7 @@ class SignUpViewController: UIViewController, UIFactory {
             dividerLabel.centerYAnchor.constraint(equalTo: leftDividerSubView.centerYAnchor),
             dividerLabel.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 25)
         ])
-    }	
+    }
     
     private func configRightDividerSubView() {
         rightDividerSubView.backgroundColor = .gray
@@ -280,12 +282,29 @@ class SignUpViewController: UIViewController, UIFactory {
     // -MARK: Catch Action
     @objc
     private func nextButtonTapped() {
-        pushViewController(viewController: CreatePasswordViewController())
+        guard let email = emailTextField.text,
+              self.viewModel.validateEmail(email) else {
+            displayInvalidEmailAlert(self.viewModel.alertMessage)
+            self.viewModel.alertMessage = ""
+            return
+        }
+        
+        let createPasswordViewController = CreatePasswordViewController()
+        createPasswordViewController.viewModel = self.viewModel
+        
+        pushViewController(viewController: createPasswordViewController)
     }
     
     @objc
     private func signUpButtonTapped() {
         pushViewController(viewController: SignInViewController())
+    }
+    
+    // -MARK: Display Alert
+    private func displayInvalidEmailAlert(_ message: String) {
+        let alert = UIAlertController(title: "Invalid Email", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }
 
@@ -293,6 +312,9 @@ extension SignUpViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
     }
 }
 

@@ -1,5 +1,9 @@
 package com.swd.ccp.configurations;
 
+import com.swd.ccp.models.entity_models.Account;
+import com.swd.ccp.models.entity_models.Token;
+import com.swd.ccp.repositories.AccountRepo;
+import com.swd.ccp.repositories.TokenRepo;
 import com.swd.ccp.services.JWTService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,6 +28,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private final JWTService jwtService;
 
     private final UserDetailsService userDetailsService;
+
+    private final AccountRepo accountRepo;
+
+    private final TokenRepo tokenRepo;
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -31,7 +39,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
-        final String jwt;
+        String jwt;
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
             filterChain.doFilter(request, response);
             return;
@@ -40,6 +48,29 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         String accountEmail = jwtService.extractEmail(jwt);
         if(accountEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(accountEmail);
+            Account account = accountRepo.findByEmail(userDetails.getUsername()).orElse(null);
+            assert account != null;
+            Token refreshToken = tokenRepo.findByAccount_IdAndStatusAndType(account.getId(), 1, "refresh").orElse(null);
+            assert refreshToken != null;
+            //check if refresh token is expired to disable it
+            if(!jwtService.checkTokenIsValid(refreshToken.getToken())){
+                refreshToken.setStatus(0);
+                tokenRepo.save(refreshToken);
+            }
+
+            //refresh if access token is invalid but refresh is still valid
+            if(!jwtService.checkTokenIsValid(jwt)
+                    && tokenRepo.findByAccount_IdAndStatusAndType(account.getId(), 1, "refresh").orElse(null) != null
+            ){
+                Token currentAccessToken = tokenRepo.findByToken(jwt).orElse(null);
+                assert currentAccessToken != null;
+                currentAccessToken.setStatus(0);
+                tokenRepo.save(currentAccessToken);
+
+                jwt = jwtService.generateToken(account);
+                tokenRepo.save(Token.builder().token(jwt).type("access").status(1).account(account).build());
+            }
+            //
             if(jwtService.checkTokenIsValid(jwt)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ShopRepo extends JpaRepository<Shop, Integer> {
     Page<Shop> findAll (Pageable pageable);
@@ -17,5 +18,6 @@ public interface ShopRepo extends JpaRepository<Shop, Integer> {
             "LOWER(s.address) LIKE LOWER(CONCAT('%', :keyword, '%')))")
     Page<Shop> findAllByStatusInAndNameOrAddressContaining(List<ShopStatus> status, String keyword, Pageable pageable);
     Shop findByIdAndStatus(Long id,ShopStatus status);
-
+    Shop findByName(String name);
+    Optional<Shop> findById(long shopId);
 }

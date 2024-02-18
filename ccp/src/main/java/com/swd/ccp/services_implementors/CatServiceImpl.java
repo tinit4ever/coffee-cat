@@ -3,12 +3,11 @@ package com.swd.ccp.services_implementors;
 import com.swd.ccp.Exception.NotFoundException;
 import com.swd.ccp.models.entity_models.Cat;
 import com.swd.ccp.models.entity_models.CatStatus;
-import com.swd.ccp.models.entity_models.Shop;
-import com.swd.ccp.models.entity_models.ShopStatus;
 import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.response_models.CatResponse;
 import com.swd.ccp.repositories.CatRepo;
 import com.swd.ccp.repositories.CatStatusRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.CatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -20,10 +19,11 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 
-    public class CatServiceIml implements CatService {
+    public class CatServiceImpl implements CatService {
         private final CatStatusRepo catStatusRepo;
         private final CatRepo catRepo;
-    private static final String ACTIVE = "Active";
+        private final AccountService accountService;
+    private static final String ACTIVE = "opened";
         @Override
 
         public Page<CatResponse> getActiveCats(Integer shopId, PaginationRequest pageRequest) {
@@ -64,6 +64,8 @@ import java.util.stream.Collectors;
                        catResponse.setDescription(cat.getDescription());
                        catResponse.setImgLink(cat.getDescription());
                        catResponse.setType(cat.getType());
+                       catResponse.setStatus(true);
+                       catResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
 
                         if (cat.getDescription() == null) {
                             catResponse.setDescription("N/A");

@@ -107,7 +107,8 @@ extension UIFactory {
         stackView.axis = .horizontal
         
         let radioButton = makeButton()
-        radioButton.ratioButton()
+        radioButton.ratioButton(false)
+        radioButton.isUserInteractionEnabled = false
         
         let label = makeLabel()
         
