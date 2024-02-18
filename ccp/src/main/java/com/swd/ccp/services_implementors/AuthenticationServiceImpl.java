@@ -117,28 +117,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .build();
         }
 
-    @Override
-    public CheckMailExistedResponse checkUserIsExisted(String email) {
-        if(accountRepo.findByEmail(email).orElse(null) != null){
-            return CheckMailExistedResponse.builder()
-                    .message("User is existed")
-                    .build();
-        }
-        return CheckMailExistedResponse.builder()
-                .message("User is not existed")
-                .build();
-    }
+//    @Override
+//    public CheckMailExistedResponse checkUserIsExisted(String email) {
+//        if(accountRepo.findByEmail(email).orElse(null) != null){
+//            return CheckMailExistedResponse.builder()
+//                    .message("User is existed")
+//                    .build();
+//        }
+//        return CheckMailExistedResponse.builder()
+//                .message("User is not existed")
+//                .build();
+//    }
 
 
     @Override
     public LoginResponse login(LoginRequest request) {
-        if (isStringValid(request.getEmail()) && isStringValid(request.getPassword())) {
+        if (isStringValid(request.getEmail() ) && isStringValid(request.getPassword())) {
             Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
 
             if (account != null) {
                 List<Token> tokenList = refreshToken(account);
-                if (account.getStatus().getId() == 1) {
-
+                if (account.getStatus().getId() == 1 && account.getPassword().equals(request.getPassword())) {
                     tokenList.forEach(token -> {
                         Token t = tokenRepo.findByToken(token.getToken()).orElse(null);
                         if (t == null) {

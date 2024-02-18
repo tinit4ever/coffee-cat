@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class CheckMailExistedResponse {
 
     private String message;
+    private boolean status;
 }

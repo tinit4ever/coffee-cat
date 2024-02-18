@@ -33,6 +33,7 @@ public class Shop {
     private Integer rating;
 
     private String phone;
+    private String avatar;
 
     @ManyToOne
     @JoinColumn(name = "status_id")

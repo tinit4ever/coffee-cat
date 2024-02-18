@@ -19,8 +19,9 @@ public class StaffResponse {
 
     private String password;
 
-    private String status;
-    private boolean success;
+    private String staff_status;
+    private String message;
+    private boolean status;
     private String token;
 
 }

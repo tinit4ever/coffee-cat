@@ -14,8 +14,7 @@ public class CatResponse {
 
     private String description;
 
-
     private String imgLink;
-    private boolean success;
+    private boolean status;
     private String token;
 }

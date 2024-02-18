@@ -23,7 +23,7 @@ public class MenuServiceImpl implements MenuService {
     private final MenuItemStatusRepo menuItemStatusRepo;
     private final MenuItemRepo menuItemRepo;
     private final AccountService accountService;
-    private static final String ACTIVE = "Active";
+    private static final String ACTIVE = "available";
 
     @Override
     public Page<MenuItemResponse> getActiveMenus(Integer shopId, PaginationRequest pageRequest) {
@@ -68,7 +68,7 @@ public class MenuServiceImpl implements MenuService {
                     menuItemResponse.setQuantity(menuItem.getQuantity());
                     menuItemResponse.setImgLink(menuItem.getImgLink());
                     menuItemResponse.setSoldQuantity(menuItem.getQuantity());
-                    menuItemResponse.setSuccess(true);
+                    menuItemResponse.setStatus(true);
                     menuItemResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
             if (menuItem.getName() == null) {
                 menuItemResponse.setName("N/A");

@@ -21,6 +21,7 @@ public class ShopDetailResponse {
     private String phone;
     private List<String> commentList;
     private List<String> seatList;
-    private boolean success;
+    private String message;
+    private boolean status;
     private String token;
 }

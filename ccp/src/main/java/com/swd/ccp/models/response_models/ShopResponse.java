@@ -16,7 +16,9 @@ public class ShopResponse {
     private Integer rating;
     private String name;
     private List<String> shopImageList;
+    private String avatar;
     private Long followerCount;
-    private boolean success;
+    private String message;
+    private boolean status;
     private String token;
 }

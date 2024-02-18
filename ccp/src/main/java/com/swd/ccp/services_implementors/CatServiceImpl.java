@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
         private final CatStatusRepo catStatusRepo;
         private final CatRepo catRepo;
         private final AccountService accountService;
-    private static final String ACTIVE = "Active";
+    private static final String ACTIVE = "opened";
         @Override
 
         public Page<CatResponse> getActiveCats(Integer shopId, PaginationRequest pageRequest) {
@@ -64,7 +64,7 @@ import java.util.stream.Collectors;
                        catResponse.setDescription(cat.getDescription());
                        catResponse.setImgLink(cat.getDescription());
                        catResponse.setType(cat.getType());
-                       catResponse.setSuccess(true);
+                       catResponse.setStatus(true);
                        catResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
 
                         if (cat.getDescription() == null) {
