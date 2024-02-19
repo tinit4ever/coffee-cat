@@ -23,6 +23,7 @@ protocol UIFactory {
     func makeLottieAnimationView(animationName: String) -> LottieAnimationView
     func makeSearchBar(placeholder: String) -> UISearchBar
     func makeScrollViewContainer() -> UIScrollView
+    func makeTableView() -> UITableView
 }
 
 extension UIFactory {
@@ -151,5 +152,11 @@ extension UIFactory {
         scrollView.isScrollEnabled = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
+    }
+    
+    func makeTableView() -> UITableView {
+        let tableView = UITableView(frame: .zero)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
     }
 }

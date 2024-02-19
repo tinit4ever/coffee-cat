@@ -12,6 +12,7 @@ class HomeViewController: UIViewController, UIFactory {
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
+    var tableViewTitle: String = "Top Results"
     
     // -MARK: Create UI Components
     lazy var topView = makeView()
@@ -22,6 +23,8 @@ class HomeViewController: UIViewController, UIFactory {
     lazy var hookLabel = makeLabel()
     
     lazy var searchBar = makeSearchBar(placeholder: "Search")
+    
+    lazy var shopList = makeTableView()
     
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
@@ -42,6 +45,9 @@ class HomeViewController: UIViewController, UIFactory {
         
         view.addSubview(searchBar)
         configSearchBar()
+        
+        view.addSubview(shopList)
+        configShopList()
     }
     
     private func configAppearance() {
@@ -136,10 +142,48 @@ class HomeViewController: UIViewController, UIFactory {
             searchBar.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }
+    
+    private func configShopList() {
+        shopList.delegate = self
+        shopList.dataSource = self
+        shopList.register(ShopTableViewCell.self, forCellReuseIdentifier: ShopTableViewCell.identifier)
+        shopList.register(UITableViewCell.self, forCellReuseIdentifier: "titleCell")
+        view.addSubview(shopList)
+        shopList.layer.cornerRadius = sizeScaler(10)
+        NSLayoutConstraint.activate([
+            shopList.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: heightScaler(30)),
+            shopList.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
+            shopList.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
+            shopList.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -heightScaler(160))
+        ])
+    }
 }
 
 extension HomeViewController: UISearchBarDelegate {
+}
+
+extension HomeViewController: UITableViewDelegate {
     
+}
+
+extension HomeViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        20
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            let firstCell = tableView.dequeueReusableCell(withIdentifier: "titleCell", for: indexPath)
+            firstCell.textLabel?.text = self.tableViewTitle
+            firstCell.textLabel?.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
+            firstCell.textLabel?.setBoldText()
+            return firstCell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ShopTableViewCell.identifier, for: indexPath) as! ShopTableViewCell
+            cell.configure(imageName: "coffee", shopName: "The Coffee House", rating: 3)
+            return cell
+        }
+    }
 }
 
 // -MARK: Preview
