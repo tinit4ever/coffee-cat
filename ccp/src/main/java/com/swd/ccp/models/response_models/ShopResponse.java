@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 
 public class ShopResponse {
-    private Integer rating;
+    private Double rating;
     private String name;
     private List<String> shopImageList;
     private String avatar;
