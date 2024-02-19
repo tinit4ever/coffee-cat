@@ -49,6 +49,8 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     
     lazy var submitButton = makeButton()
     
+    lazy var loadingAnimationView = makeLottieAnimationView(animationName: "loading")
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +87,9 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         
         view.addSubview(submitButton)
         configSubmitButton()
+        
+        view.addSubview(loadingAnimationView)
+        configLoadingView()
     }
     
     private func configAppearance() {
@@ -281,6 +286,16 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         ])
     }
     
+    private func configLoadingView() {
+        loadingAnimationView.isHidden = true
+        NSLayoutConstraint.activate([
+            loadingAnimationView.widthAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.heightAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
     // -MARK: Supporting
     private func pushViewController(viewController: UIViewController) {
         self.navigationController?.pushViewController(viewController, animated: true)
@@ -440,6 +455,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     
     @objc
     private func submitButtonTapped() {
+        self.showLoadingView()
         guard let name = nameTextField.text,
               let phoneNumber = phoneNumberTextField.text,
               let viewModel = self.viewModel,
@@ -448,6 +464,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
               viewModel.validateDob(datePicker.date) else {
             displayInvalidInput(self.viewModel!.alertMessage)
             self.viewModel?.alertMessage = ""
+            self.hiddenLoadingView()
             return
         }
         
@@ -456,12 +473,16 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         self.viewModel?.registerUser(completion: { [weak self] result in
             switch result {
             case .success(let data):
+                print(data)
                 DispatchQueue.main.async {
+                    self?.hiddenLoadingView()
                     self?.displaySuccessAlert(message: "Registration successful")
                 }
             case .failure(let error):
+                print(error)
                 DispatchQueue.main.async {
-                    self?.displayErrorAlert(message: "Registration failed with error: \(error.localizedDescription)")
+                    self?.hiddenLoadingView()
+                    self?.displayErrorAlert(message: "Could not connect to the server\n Please check your internet connection")
                 }
             }
         })
@@ -479,7 +500,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
             self?.pushToHome()
         }))
-
+        
         self.present(alertController, animated: true, completion: nil)
     }
     
@@ -499,6 +520,18 @@ class UserProfileInputViewController: UIViewController, UIFactory {
                 $0.ratioButton(false)
             }
         }
+    }
+    
+    private func showLoadingView() {
+        self.loadingAnimationView.isHidden = false
+        self.loadingAnimationView.play()
+        self.view.isUserInteractionEnabled = false
+    }
+    
+    private func hiddenLoadingView() {
+        self.loadingAnimationView.isHidden = true
+        self.loadingAnimationView.stop()
+        self.view.isUserInteractionEnabled = true
     }
 }
 

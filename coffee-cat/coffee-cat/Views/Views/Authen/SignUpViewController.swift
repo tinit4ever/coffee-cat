@@ -36,6 +36,8 @@ class SignUpViewController: UIViewController, UIFactory {
     lazy var alternativeLabel: UILabel = makeLabel()
     lazy var alternativeButton: UIButton = makeButton()
     
+    lazy var loadingAnimationView = makeLottieAnimationView(animationName: "loading")
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +55,6 @@ class SignUpViewController: UIViewController, UIFactory {
     }
     
     // -MARK: SetupUI
-    
     private func setupUI() {
         configAppearance()
         
@@ -83,6 +84,9 @@ class SignUpViewController: UIViewController, UIFactory {
         view.addSubview(alternativeStackView)
         configSignUpWithGoogleButton()
         configAlternativeStackView()
+        
+        view.addSubview(loadingAnimationView)
+        configLoadingView()
     }
     
     private func configAppearance() {
@@ -266,6 +270,15 @@ class SignUpViewController: UIViewController, UIFactory {
         ])
     }
     
+    private func configLoadingView() {
+        loadingAnimationView.isHidden = true
+        NSLayoutConstraint.activate([
+            loadingAnimationView.widthAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.heightAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
     // -MARK: Supporting
     private func pushViewController(viewController: UIViewController) {
         self.navigationController?.pushViewController(viewController, animated: true)
@@ -282,10 +295,12 @@ class SignUpViewController: UIViewController, UIFactory {
     // -MARK: Catch Action
     @objc
     private func nextButtonTapped() {
+        self.showLoadingView()
         guard let email = emailTextField.text,
               self.viewModel.validateEmail(email) else {
             displayInvalidEmailAlert(self.viewModel.alertMessage)
             self.viewModel.alertMessage = ""
+            self.hiddenLoadingView()
             return
         }
         
@@ -300,11 +315,23 @@ class SignUpViewController: UIViewController, UIFactory {
         pushViewController(viewController: SignInViewController())
     }
     
-    // -MARK: Display Alert
+    // -MARK: Utilities
     private func displayInvalidEmailAlert(_ message: String) {
         let alert = UIAlertController(title: "Invalid Email", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+    
+    private func showLoadingView() {
+        self.loadingAnimationView.isHidden = false
+        self.loadingAnimationView.play()
+        self.view.isUserInteractionEnabled = false
+    }
+    
+    private func hiddenLoadingView() {
+        self.loadingAnimationView.isHidden = true
+        self.loadingAnimationView.stop()
+        self.view.isUserInteractionEnabled = true
     }
 }
 
