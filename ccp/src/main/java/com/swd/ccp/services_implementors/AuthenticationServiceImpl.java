@@ -104,7 +104,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                             .build();
                 }
                 return RegisterResponse.builder()
-                        .message("Register fail: account is already existed")
+                        .message("Account is already existed")
                         .status(false)
                         .access_token(null)
                         .refresh_token(null)
@@ -112,7 +112,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         .build();
             }
             return RegisterResponse.builder()
-                    .message("Register fail: unmatched password and confirmed password")
+                    .message("Unmatched password and confirmed password")
                     .status(false)
                     .access_token(null)
                     .refresh_token(null)
@@ -168,7 +168,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                             .build();
                 }
                 return LoginResponse.builder()
-                        .message("Login fail: account has been banned")
+                        .message("Account has been banned")
                         .access_token(null)
                         .refresh_token(null)
                         .status(false)
@@ -176,7 +176,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         .build();
             }
             return LoginResponse.builder()
-                    .message("Login fail: account does not existed")
+                    .message("Account does not existed")
                     .access_token(null)
                     .refresh_token(null)
                     .status(false)
@@ -184,7 +184,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .build();
         }
         return LoginResponse.builder()
-                .message("Login fail: Username or password incorrect")
+                .message("Username or password incorrect")
                 .access_token(null)
                 .refresh_token(null)
                 .status(false)

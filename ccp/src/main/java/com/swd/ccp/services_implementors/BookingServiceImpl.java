@@ -60,7 +60,9 @@ public class BookingServiceImpl implements BookingService {
 
                 shopRepo.findById(seat.getId()).ifPresent(shop -> bookingCartShopResponseList.add(
                         BookingCartResponse.BookingCartShopResponse.builder()
+                                .shopID(shop.getId())
                                 .shopName(shop.getName())
+                                .seatID(seat.getId())
                                 .seatName(seat.getName())
                                 .createDate(new Date(System.currentTimeMillis()))
                                 .bookingDate(request.getBookingDate())

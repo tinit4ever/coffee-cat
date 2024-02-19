@@ -20,10 +20,6 @@ public class UpdateBookingCartRequest {
     public static class BookingCartShopMenuRequest{
         private Integer itemID;
 
-        private String itemName;
-
-        private float itemPrice;
-
         private int quantity;
     }
 
@@ -32,24 +28,17 @@ public class UpdateBookingCartRequest {
     @NoArgsConstructor
     @Builder
     public static class BookingCartShopRequest{
-        private String shopName;
-
-        private String seatName;
-
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-        private java.sql.Date createDate;
+        private Integer seatID;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         private java.sql.Date bookingDate;
-
-        private String status;
 
         private String extraContent;
 
         private List<BookingCartShopMenuRequest> bookingCartShopMenuResponseList;
     }
 
-    private List<BookingCartShopRequest> bookingCartShopRequestList;
+    private List<BookingCartShopRequest> oldCartList;
 
 
 }

@@ -32,7 +32,11 @@ public class BookingCartResponse {
     @NoArgsConstructor
     @Builder
     public static class BookingCartShopResponse{
+        private Integer shopID;
+
         private String shopName;
+
+        private Integer seatID;
 
         private String seatName;
 
