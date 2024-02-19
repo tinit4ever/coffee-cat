@@ -14,48 +14,61 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
-    var imageList = ["person", "trash", "house", "circle"] {
-        didSet {
-            updateImage()
-            updateIndexLabel()
-        }
-    }
-    
-    var index = 0 {
-        didSet {
-            updateImage()
-            updateIndexLabel()
-        }
-    }
+    var viewModel: ShopDetailsViewModelProtocol = ShopDetailsViewModel()
     
     // MARK: - Create UIComponents
     lazy var overallImageView = makeImageView()
     
-    let indexLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    lazy var indexLabel = makeLabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupData()
         setupUI()
+        setupAction()
+    }
+    
+    // MARK: - Setup UI
+    private func setupUI() {
+        view.backgroundColor = .systemGray5
+        configNavigation()
         
-        setupSwipeGesture()
-        updateImage()
+        updateImage(index: self.viewModel.index)
         updateIndexLabel()
         
         view.addSubview(overallImageView)
+        configOverallImageView()
         
+        view.addSubview(indexLabel)
+        configIndexLabel()
+    }
+    
+    private func setupData() {
+        self.viewModel.imageList = ["person", "trash", "house", "circle"]
+        self.viewModel.index = 0
+    }
+    
+    private func setupAction() {
+        setupSwipeGesture()
+    }
+    
+    private func configNavigation() {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem?.tintColor = .backButton
+    }
+    
+    private func configOverallImageView() {
+        overallImageView.backgroundColor = .systemBackground
         NSLayoutConstraint.activate([
             overallImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             overallImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             overallImageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             overallImageView.heightAnchor.constraint(equalToConstant: heightScaler(300)),
         ])
-        
-        overallImageView.backgroundColor = .white
-        view.addSubview(indexLabel)
+    }
+    
+    private func configIndexLabel() {
         indexLabel.textColor = .systemBackground
         indexLabel.backgroundColor = .systemGray
         indexLabel.layer.cornerRadius = sizeScaler(10)
@@ -68,18 +81,6 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         ])
     }
     
-    // MARK: - Setup UI
-    private func setupUI() {
-        view.backgroundColor = .systemGray6
-        configNavigation()
-    }
-    
-    private func configNavigation() {
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem?.tintColor = .backButton
-    }
-    
     // MARK: - Setup Action
     private func setupSwipeGesture() {
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
@@ -89,28 +90,31 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
         swipeRight.direction = .right
         overallImageView.addGestureRecognizer(swipeRight)
+        
         overallImageView.isUserInteractionEnabled = true
     }
     
     // MARK: - Catch Action
     @objc private func swipeAction(_ gesture: UISwipeGestureRecognizer) {
-        if gesture.direction == .left && index < imageList.count - 1 {
-            index += 1
-        } else if gesture.direction == .right && index > 0 {
-            index -= 1
+        
+        if gesture.direction == .left {
+            self.viewModel.swipeLeft()
+        } else if gesture.direction == .right {
+            self.viewModel.swipeRight()
         }
         
-        updateImage()
+        updateImage(index: self.viewModel.index)
+        updateIndexLabel()
     }
     
     // MARK: - Utilities
-    private func updateImage() {
-        overallImageView.image = UIImage(systemName: imageList[index])
+    private func updateImage(index: Int) {
+        overallImageView.image = UIImage(systemName: self.viewModel.imageList[index])
     }
     
     private func updateIndexLabel() {
-        let totalElements = imageList.count
-        indexLabel.text = "\(index + 1)/\(totalElements)"
+        let totalElements = self.viewModel.imageList.count
+        indexLabel.text = "\(self.viewModel.index + 1)/\(totalElements)"
     }
 }
 
