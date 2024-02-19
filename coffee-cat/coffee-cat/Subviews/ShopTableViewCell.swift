@@ -15,7 +15,8 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
     
     lazy var shopImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        //        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "NA-Image")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -48,9 +49,7 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
         shopImageView.layer.masksToBounds = true
         
         NSLayoutConstraint.activate([
-            shopImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: heightScaler(10)),
             shopImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: widthScaler(40)),
-            shopImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -heightScaler(10)),
             shopImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             shopImageView.widthAnchor.constraint(equalToConstant: widthScaler(200)),
             shopImageView.heightAnchor.constraint(equalToConstant: heightScaler(120))

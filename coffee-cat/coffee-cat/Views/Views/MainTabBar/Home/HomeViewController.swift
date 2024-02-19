@@ -57,12 +57,6 @@ class HomeViewController: UIViewController, UIFactory {
     private func configNavigation() {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
-        let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
-            .withTintColor(.backButton, renderingMode: .alwaysOriginal)
-            .resized(to: CGSize(width: sizeScaler(50), height: sizeScaler(50)))
-        
-        self.navigationController?.navigationBar.backIndicatorImage = backImage
-        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
     }
@@ -157,13 +151,21 @@ class HomeViewController: UIViewController, UIFactory {
             shopList.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -heightScaler(160))
         ])
     }
+    
+    // -MARK: Push View
+    private func pushToShopDetails(shopId: Int) {
+        let shopDetailsViewController = ShopDetailsViewController()
+        self.navigationController?.pushViewController(shopDetailsViewController, animated: true)
+    }
 }
 
 extension HomeViewController: UISearchBarDelegate {
 }
 
 extension HomeViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        pushToShopDetails(shopId: 1)
+    }
 }
 
 extension HomeViewController: UITableViewDataSource {
@@ -177,11 +179,20 @@ extension HomeViewController: UITableViewDataSource {
             firstCell.textLabel?.text = self.tableViewTitle
             firstCell.textLabel?.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
             firstCell.textLabel?.setBoldText()
+            firstCell.selectionStyle = .none
             return firstCell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: ShopTableViewCell.identifier, for: indexPath) as! ShopTableViewCell
-            cell.configure(imageName: "coffee", shopName: "The Coffee House", rating: 3)
+            cell.configure(imageName: "NA-Image", shopName: "The Coffee House", rating: 3)
             return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.row == 0 {
+            return heightScaler(60)
+        } else {
+            return heightScaler(140)
         }
     }
 }

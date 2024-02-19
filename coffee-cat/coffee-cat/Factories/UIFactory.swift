@@ -17,6 +17,7 @@ protocol UIFactory {
     func makeVerticalStackView() -> UIStackView
     func makeHorizontalStackView() -> UIStackView
     func makeImageView(imageName: String, size: CGSize) -> UIImageView
+    func makeImageView() -> UIImageView
     func makeSquareImageView(imageName: String, size: CGFloat) -> UIImageView
     func makeDatePicker() -> UIDatePicker
     func makeRadioButtonStackView(content: String) -> UIStackView
@@ -84,6 +85,13 @@ extension UIFactory {
         if let image = UIImage(systemName: imageName) {
             imageView.image = image.resized(to: size)
         }
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }
+    
+    func makeImageView() -> UIImageView {
+        let imageView = UIImageView(frame: .zero)
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }

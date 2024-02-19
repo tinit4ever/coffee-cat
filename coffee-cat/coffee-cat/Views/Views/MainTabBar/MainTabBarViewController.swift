@@ -49,13 +49,21 @@ class MainTabBarViewController: UITabBarController {
     
     private func createNav(with title: String, and image: UIImage?, viewController: UIViewController) -> UINavigationController {
         let nav = UINavigationController(rootViewController: viewController)
+        
+        let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
+            .withTintColor(.backButton, renderingMode: .alwaysOriginal)
+        
         nav.tabBarItem.title = nil
         nav.tabBarItem.image = image
         nav.tabBarItem.selectedImage = image
         nav.tabBarItem.title = title
         nav.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: sizeScaler(18))], for: .normal)
-        nav.viewControllers.first?.navigationItem.title = title + " Controller"
-        nav.viewControllers.first?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Button", style: .plain, target: nil, action: nil)
+//        nav.viewControllers.first?.navigationItem.title = title + " Controller"
+//        nav.viewControllers.first?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Button", style: .plain, target: nil, action: nil)
+        nav.navigationBar.backIndicatorImage = backImage
+        nav.navigationBar.backIndicatorTransitionMaskImage = backImage
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem?.tintColor = .backButton
         return nav
     }
     
