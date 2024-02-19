@@ -8,14 +8,13 @@
 struct UserRegistration: Codable {
     var email: String
     var password: String
-    var phone: String
-    var name: String
-    var dob: String
-    var gender: String
+    var phone: String?
+    var name: String?
+    var dob: String?
+    var gender: String?
 }
 
-struct RegistrationResponse: Codable {
-    let status: Bool
-    let message: String
-    let accessToken: String
+struct UserSignIn: Codable {
+    var email: String
+    var password: String
 }

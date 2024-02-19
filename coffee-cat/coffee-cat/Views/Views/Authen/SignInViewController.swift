@@ -7,11 +7,14 @@
 
 import UIKit
 import SwiftUI
+import Lottie
 
 class SignInViewController: UIViewController, UIFactory {
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
+    
+    var viewModel: SignInViewModelProtocol = SignInViewModel()
     
     // -MARK: Create UI Components
     lazy var welcomeLabel: UILabel = makeLabel()
@@ -35,11 +38,14 @@ class SignInViewController: UIViewController, UIFactory {
     lazy var alternativeLabel: UILabel = makeLabel()
     lazy var alternativeButton: UIButton = makeButton()
     
+    lazy var loadingAnimationView = makeLottieAnimationView(animationName: "loading")
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         setupAction()
+        
     }
     
     // -MARK: Override
@@ -82,6 +88,9 @@ class SignInViewController: UIViewController, UIFactory {
         configSignInWithGoogleButton()
         configAlternativeStackView()
         
+        view.addSubview(loadingAnimationView)
+        configLoadingView()
+        
     }
     
     private func configAppearance() {
@@ -106,31 +115,41 @@ class SignInViewController: UIViewController, UIFactory {
         if traitCollection.userInterfaceStyle == .dark {
             let image = UIImage(named: ImageNames.darkCircleGroup)
             image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
-
+            
             let imageView = UIImageView(image: resizedImage)
             imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             view.addSubview(imageView)
-
+            
         } else {
             let image = UIImage(named: ImageNames.darkCircleGroup)
             image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
-
+            
             let imageView = UIImageView(image: resizedImage)
             imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             view.addSubview(imageView)
-
+            
         }
     }
     
     private func configNavigation() {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
+    }
+    
+    private func configLoadingView() {
+        loadingAnimationView.isHidden = true
+        NSLayoutConstraint.activate([
+            loadingAnimationView.widthAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.heightAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
     
     private func configWelcomeLabel() {
@@ -278,10 +297,36 @@ class SignInViewController: UIViewController, UIFactory {
     }
     
     // -MARK: Catch Action
-    @objc 
+    @objc
     private func signInButtonTapped() {
-        pushToHome()
+        guard let email = emailTextField.text,
+              let password = passwordTextField.text else {
+            return
+        }
+        
+        self.viewModel.signIn(email, password) { [weak self] result in
+            self?.showLoadingView()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                switch result {
+                case .success(let authenticationResponse):
+                    DispatchQueue.main.async {
+                        if authenticationResponse.status ?? false {
+                            self?.pushToHome()
+                        } else {
+                            self?.displayLoginError(authenticationResponse.message ?? "Unknown error")
+                        }
+                    }
+                    
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        print(error.localizedDescription)
+                        self?.displayLoginError("Could not connect to the server\n Please check your internet connection")
+                    }
+                }
+            }
+        }
     }
+    
     
     @objc
     private func signUpButtonTapped() {
@@ -296,12 +341,36 @@ class SignInViewController: UIViewController, UIFactory {
             showPasswordButton.setImage(UIImage(systemName: eyeSymbol), for: .normal)
         }
     }
+    
+    // -MARK: Utilities
+    private func displayLoginError(_ message: String) {
+        hiddenLoadingView()
+        let alertController = UIAlertController(title: "Login Failed", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func showLoadingView() {
+        self.loadingAnimationView.isHidden = false
+        self.loadingAnimationView.play()
+        self.view.isUserInteractionEnabled = false
+    }
+    
+    private func hiddenLoadingView() {
+        self.loadingAnimationView.isHidden = true
+        self.loadingAnimationView.stop()
+        self.view.isUserInteractionEnabled = true
+    }
 }
 
 extension SignInViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
     }
 }
 
