@@ -18,6 +18,7 @@ import com.swd.ccp.services.AuthenticationService;
 import com.swd.ccp.services.JWTService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final TokenRepo tokenRepo;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public RegisterResponse register(RegisterRequest request) {
         if (isStringValid(request.getEmail()) && isStringValid(request.getPassword())) {
@@ -50,7 +53,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                             Account.builder()
                                     .email(request.getEmail())
                                     .name(request.getName())
-                                    .password(request.getPassword())
+                                    .password(passwordEncoder.encode(request.getPassword()))
                                     .status(accountStatusRepo.findById(1).orElse(null))
                                     .role(Role.CUSTOMER)
                                     .build()
@@ -135,7 +138,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (isStringValid(request.getEmail()) && isStringValid(request.getPassword())) {
             Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
 
-            if (account != null) {
+            if (account != null && passwordEncoder.matches(request.getPassword(), account.getPassword())) {
                 List<Token> tokenList = refreshToken(account);
                 if (account.getStatus().getId() == 1) {
 

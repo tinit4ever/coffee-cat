@@ -153,7 +153,7 @@ public class StaffServiceImpl implements StaffService {
         return string != null && !string.isEmpty();
     }
     @Override
-    public UpdateStaffResponse updateStaff(Long staffId, StaffRequest updateRequest) {
+    public UpdateStaffResponse updateStaff(Integer staffId, StaffRequest updateRequest) {
         Optional<Account> optionalStaff = accountRepo.findById(staffId);
         if (optionalStaff.isPresent()) {
             Account staff = optionalStaff.get();
@@ -176,7 +176,7 @@ public class StaffServiceImpl implements StaffService {
         }
     }
     @Override
-    public int inactiveStaff(Long staffId) {
+    public int inactiveStaff(Integer staffId) {
         if (staffId == null) return 0;
 
         try {
@@ -204,7 +204,7 @@ public class StaffServiceImpl implements StaffService {
         }
     }
     @Override
-    public int activeStaff(Long staffId) {
+    public int activeStaff(Integer staffId) {
         if (staffId == null) return 0;
 
         try {

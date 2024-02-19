@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class CcpApplication {
 
     private final MenuItemStatusRepo menuItemStatusRepo;
 
+    private final PasswordEncoder passwordEncoder;
+
     public static void main(String[] args) {
         SpringApplication.run(CcpApplication.class, args);
     }
@@ -68,7 +71,7 @@ public class CcpApplication {
                         .builder()
                         .email("admin@gmail.com")
                         .name("Admin")
-                        .password("admin")
+                        .password(passwordEncoder.encode("admin"))
                         .status(accountStatusRepo.findById(1).orElse(null))
                         .role(Role.ADMIN)
                         .build();
@@ -77,7 +80,7 @@ public class CcpApplication {
                         .builder()
                         .email("owner@gmail.com")
                         .name("Shop owner")
-                        .password("owner")
+                        .password(passwordEncoder.encode("owner"))
                         .status(accountStatusRepo.findById(1).orElse(null))
                         .role(Role.OWNER)
                         .build();
@@ -86,7 +89,7 @@ public class CcpApplication {
                         .builder()
                         .email("staff@gmail.com")
                         .name("Staff")
-                        .password("staff")
+                        .password(passwordEncoder.encode("staff"))
                         .status(accountStatusRepo.findById(1).orElse(null))
                         .role(Role.STAFF)
                         .build();
@@ -95,7 +98,7 @@ public class CcpApplication {
                         .builder()
                         .email("customer@gmail.com")
                         .name("Customer")
-                        .password("customer")
+                        .password(passwordEncoder.encode("customer"))
                         .status(accountStatusRepo.findById(1).orElse(null))
                         .role(Role.CUSTOMER)
                         .build();
