@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A03833612B83A57400EBF5D8 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03833602B83A57400EBF5D8 /* Shop.swift */; };
 		A03A4FF02B778CF900605611 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A03A4FEF2B778CF900605611 /* IQKeyboardManagerSwift */; };
 		A03F56D32B6B1ADF00B3E35B /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F56D22B6B1ADF00B3E35B /* PaymentViewController.swift */; };
 		A03F56D52B6B1C2300B3E35B /* StoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03F56D42B6B1C2300B3E35B /* StoreViewController.swift */; };
@@ -59,6 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A03833602B83A57400EBF5D8 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		A03F56D22B6B1ADF00B3E35B /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		A03F56D42B6B1C2300B3E35B /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
 		A03F56D62B6B227500B3E35B /* UITabBar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar+Extension.swift"; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			children = (
 				A05A7DB52B82CF0400DCEAF6 /* HTTPResponse */,
 				A073C5F42B7ED534002263DB /* AuthenticationModel.swift */,
+				A03833602B83A57400EBF5D8 /* Shop.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				A07ED85F2B6544D300EA4E19 /* VCPreview.swift in Sources */,
 				A0DBF5B72B834C2B0072E139 /* ShopDetailsViewModel.swift in Sources */,
 				A07ED85E2B6544D300EA4E19 /* GettingStartedViewController.swift in Sources */,
+				A03833612B83A57400EBF5D8 /* Shop.swift in Sources */,
 				A07ED8762B65453000EA4E19 /* NameConstants.swift in Sources */,
 				A07ED8732B65453000EA4E19 /* GettingStartedViewModel.swift in Sources */,
 				A07ED87B2B65453000EA4E19 /* UIImage+Extension.swift in Sources */,
