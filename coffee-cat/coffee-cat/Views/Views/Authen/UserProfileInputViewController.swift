@@ -360,11 +360,6 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     
     // -MARK: Catch Action
     @objc
-    private func skipButtonTapped() {
-        pushToHome()
-    }
-    
-    @objc
     private func viewTapped() {
         view.endEditing(true)
         showDatePicker()
@@ -487,6 +482,31 @@ class UserProfileInputViewController: UIViewController, UIFactory {
             }
         })
     }
+    
+    @objc
+    private func skipButtonTapped() {
+        self.showLoadingView()
+        
+        self.viewModel?.setNullUserProfile()
+        
+        self.viewModel?.registerUser(completion: { [weak self] result in
+            switch result {
+            case .success(let data):
+                print(data)
+                DispatchQueue.main.async {
+                    self?.hiddenLoadingView()
+                    self?.displaySuccessAlert(message: "Registration successful")
+                }
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    self?.hiddenLoadingView()
+                    self?.displayErrorAlert(message: "Could not connect to the server\n Please check your internet connection")
+                }
+            }
+        })
+    }
+    
     
     // -MARK: Display Alert
     private func displayInvalidInput(_ message: String) {

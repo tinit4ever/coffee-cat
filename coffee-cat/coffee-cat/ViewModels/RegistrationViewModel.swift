@@ -23,6 +23,7 @@ protocol RegistrationViewModelProtocol {
     func validateDob(_ dob: Date) -> Bool
     
     func updateUserProfile(_ name: String, _ phoneNumber: String, _ dob: Date, _ gender: String)
+    func setNullUserProfile() 
     
     func registerUser(completion: @escaping (Result<String, Error>) -> Void)
 }
@@ -112,6 +113,13 @@ extension RegistrationViewModel: RegistrationViewModelProtocol {
         
         self.userRegistration.gender = gender
         print(userRegistration)
+    }
+    
+    func setNullUserProfile() {
+        self.userRegistration.name = nil
+        self.userRegistration.phone = nil
+        self.userRegistration.dob = nil
+        self.userRegistration.gender = nil
     }
     
     func registerUser(completion: @escaping (Result<String, Error>) -> Void) {
