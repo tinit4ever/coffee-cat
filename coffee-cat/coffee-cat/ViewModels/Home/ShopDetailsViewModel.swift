@@ -8,24 +8,24 @@
 import Foundation
 
 protocol ShopDetailsViewModelProtocol {
-    var imageList: [String] { get set }
     var index: Int { get set }
+    var shop: Shop {get set}
     
     func swipeLeft()
     func swipeRight()
 }
 
 class ShopDetailsViewModel: ShopDetailsViewModelProtocol {
-    var imageList: [String] 
     var index: Int
+    var shop: Shop
     
     init() {
-        self.imageList = []
         self.index = 0
+        self.shop = Shop(name: "", address: "", rating: 0.0, openTime: "", closeTime: "", shopImageList: [], commentList: [])
     }
     
     func swipeLeft() {
-        if index < imageList.count - 1 {
+        if index < shop.shopImageList.count - 1 {
             index += 1
         }
     }

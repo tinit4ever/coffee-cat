@@ -17,9 +17,20 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     var viewModel: ShopDetailsViewModelProtocol = ShopDetailsViewModel()
     
     // MARK: - Create UIComponents
-    lazy var overallImageView = makeImageView()
+    lazy var scrollViewContainer = makeScrollViewContainer()
     
+    lazy var overallImageView = makeImageView()
     lazy var indexLabel = makeLabel()
+    
+    lazy var shopNameLabel = makeLabel()
+    lazy var shopAddressLabel = makeLabel()
+    lazy var starRatingView: StarRatingView = {
+        let starRatingView = StarRatingView()
+        starRatingView.translatesAutoresizingMaskIntoConstraints = false
+        return starRatingView
+    }()
+    lazy var openTimeLabel = makeLabel()
+    lazy var closeTimeLabel = makeLabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,16 +47,28 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         updateImage(index: self.viewModel.index)
         updateIndexLabel()
         
-        view.addSubview(overallImageView)
-        configOverallImageView()
-        
-        view.addSubview(indexLabel)
-        configIndexLabel()
+        view.addSubview(scrollViewContainer)
+        configScrollViewContainter()
+        configSubViews()
     }
     
     private func setupData() {
-        self.viewModel.imageList = ["person", "trash", "house", "circle"]
+        self.viewModel.shop.name = "Coffee Shop"
+        self.viewModel.shop.address = "Pham Van Dong"
+        self.viewModel.shop.rating = 3.4
+        self.viewModel.shop.openTime = "8 AM"
+        self.viewModel.shop.closeTime = "8 PM"
+        self.viewModel.shop.commentList = [
+            "Good",
+            "Good",
+            "Good",
+            "Good",
+            "Good",
+            "Good",
+            "Good"
+        ]
         self.viewModel.index = 0
+        self.viewModel.shop.shopImageList = ["person", "trash", "house", "circle"]
     }
     
     private func setupAction() {
@@ -58,12 +81,31 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
     }
     
+    private func configScrollViewContainter() {
+        NSLayoutConstraint.activate([
+            scrollViewContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollViewContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollViewContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollViewContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollViewContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            scrollViewContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
+    private func configSubViews() {
+        scrollViewContainer.addSubview(overallImageView)
+        configOverallImageView()
+        
+        scrollViewContainer.addSubview(indexLabel)
+        configIndexLabel()
+    }
+    
     private func configOverallImageView() {
         overallImageView.backgroundColor = .systemBackground
         NSLayoutConstraint.activate([
-            overallImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            overallImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            overallImageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            overallImageView.topAnchor.constraint(equalTo: scrollViewContainer.topAnchor),
+            overallImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            overallImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             overallImageView.heightAnchor.constraint(equalToConstant: heightScaler(300)),
         ])
     }
@@ -109,11 +151,11 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     
     // MARK: - Utilities
     private func updateImage(index: Int) {
-        overallImageView.image = UIImage(systemName: self.viewModel.imageList[index])
+        overallImageView.image = UIImage(systemName: self.viewModel.shop.shopImageList[index])
     }
     
     private func updateIndexLabel() {
-        let totalElements = self.viewModel.imageList.count
+        let totalElements = self.viewModel.shop.shopImageList.count
         indexLabel.text = "\(self.viewModel.index + 1)/\(totalElements)"
     }
 }
@@ -127,4 +169,3 @@ struct ShopDetailsViewControllerPreview: PreviewProvider {
         }
     }
 }
-
