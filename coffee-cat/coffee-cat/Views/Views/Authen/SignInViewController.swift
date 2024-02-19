@@ -142,16 +142,6 @@ class SignInViewController: UIViewController, UIFactory {
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
     }
     
-    private func configLoadingView() {
-        loadingAnimationView.isHidden = true
-        NSLayoutConstraint.activate([
-            loadingAnimationView.widthAnchor.constraint(equalToConstant: sizeScaler(300)),
-            loadingAnimationView.heightAnchor.constraint(equalToConstant: sizeScaler(300)),
-            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-    }
-    
     private func configWelcomeLabel() {
         welcomeLabel.setupTitle(text: SignInScreenText.welcomeLabel, fontName: FontNames.avenir, size: 26, textColor: .systemBrown)
         welcomeLabel.setBoldText()
@@ -269,6 +259,16 @@ class SignInViewController: UIViewController, UIFactory {
         ])
     }
     
+    private func configLoadingView() {
+        loadingAnimationView.isHidden = true
+        NSLayoutConstraint.activate([
+            loadingAnimationView.widthAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.heightAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
     // -MARK: Supporting
     
     private func pushViewController(viewController: UIViewController) {
@@ -306,7 +306,7 @@ class SignInViewController: UIViewController, UIFactory {
         
         self.viewModel.signIn(email, password) { [weak self] result in
             self?.showLoadingView()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 switch result {
                 case .success(let authenticationResponse):
                     DispatchQueue.main.async {

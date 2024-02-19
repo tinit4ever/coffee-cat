@@ -32,6 +32,8 @@ class CreatePasswordViewController: UIViewController, UIFactory {
     
     lazy var nextButton: UIButton = makeButton()
     
+    lazy var loadingAnimationView = makeLottieAnimationView(animationName: "loading")
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +71,9 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         
         scrollViewContainer.addSubview(nextButton)
         configNextButton()
+        
+        view.addSubview(loadingAnimationView)
+        configLoadingView()
     }
     
     private func configAppearance() {
@@ -185,7 +190,7 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         ])
     }
     
-    func configNextButton() {
+    private func configNextButton() {
         nextButton.cornerRadius(cornerRadius: heightScaler(30))
         nextButton.setTitle(title: "Next", fontName: FontNames.avenir, size: sizeScaler(40), color: .systemGray5)
         nextButton.backgroundColor = .customPink
@@ -195,6 +200,16 @@ class CreatePasswordViewController: UIViewController, UIFactory {
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
             nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -heightScaler(60)),
             nextButton.heightAnchor.constraint(equalToConstant: heightScaler(60))
+        ])
+    }
+    
+    private func configLoadingView() {
+        loadingAnimationView.isHidden = true
+        NSLayoutConstraint.activate([
+            loadingAnimationView.widthAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.heightAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
@@ -213,11 +228,13 @@ class CreatePasswordViewController: UIViewController, UIFactory {
     
     @objc
     private func nextButtonTapped() {
+        self.showLoadingView()
         guard let password = passwordTextField.text,
               let confirmPassword = confirmPasswordTextField.text,
               self.viewModel!.validatePassword(password, confirmPassword) else {
             displayInvalidPassword(self.viewModel!.alertMessage)
             self.viewModel?.alertMessage = ""
+            self.hiddenLoadingView()
             return
         }
         
@@ -227,11 +244,23 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         pushViewController(viewController: userProfileInputViewController)
     }
     
-    // -MARK: Display Alert
+    // -MARK: Utilities
     private func displayInvalidPassword(_ message: String) {
         let alert = UIAlertController(title: "Input Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+    
+    private func showLoadingView() {
+        self.loadingAnimationView.isHidden = false
+        self.loadingAnimationView.play()
+        self.view.isUserInteractionEnabled = false
+    }
+    
+    private func hiddenLoadingView() {
+        self.loadingAnimationView.isHidden = true
+        self.loadingAnimationView.stop()
+        self.view.isUserInteractionEnabled = true
     }
 }
 
