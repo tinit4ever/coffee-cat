@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ShopRepo extends JpaRepository<Shop, Integer> {
-//    Page<Shop> findAllByStatus(String status, Pageable pageable);
+    Page<Shop> findAll (Pageable pageable);
     Page<Shop> findAllByStatusIn(List<ShopStatus> status, Pageable pageable);
     @Query("SELECT s FROM Shop s WHERE s.status IN :status AND " +
             "(LOWER(s.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +

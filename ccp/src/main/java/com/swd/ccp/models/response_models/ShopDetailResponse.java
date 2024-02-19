@@ -20,5 +20,6 @@ public class ShopDetailResponse {
     private String closeTime;
     private String phone;
     private List<String> commentList;
+    private List<String> seatList;
 
 }

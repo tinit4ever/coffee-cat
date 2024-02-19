@@ -122,10 +122,29 @@ public class ShopServiceImpl implements ShopService {
                     .closeTime(shop.getCloseTime())
                     .commentList(shop.getCommentList().stream().map(Comment::getComment).collect(Collectors.toList()))
                     .phone(shop.getPhone())
+                    .seatList(shop.getSeatList().stream().map(Seat::getName).collect(Collectors.toList()))
                     .build();
             return shopDetailResponse;
         } else {
             throw new NotFoundException("Shop with id " + id + " not found or is not active.");
         }
     }
+    @Override
+    public Page<ShopResponse> getShops(PaginationRequest pageRequest) {
+
+        Pageable pageable = PageRequest.of(
+                pageRequest.getPageNo(),
+                pageRequest.getPageSize(),
+                Sort.by(pageRequest.getSort().isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                        pageRequest.getSortByColumn())
+        );
+
+        Page<Shop> shopList = shopRepo.findAll( pageable);
+
+        List<ShopResponse> shopDtoList = mapToShopDtoList(shopList.getContent());
+
+        return new PageImpl<>(shopDtoList, pageable, shopList.getTotalElements());
+    }
+
+
 }
