@@ -276,7 +276,7 @@ class SignInViewController: UIViewController, UIFactory {
     }
     
     private func pushToHome() {
-        let homeViewController = MainTabBarViewController()
+        let homeViewController = UINavigationController(rootViewController: MainTabBarViewController())
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
             let window = windowScene.windows.first
             window?.rootViewController = homeViewController
