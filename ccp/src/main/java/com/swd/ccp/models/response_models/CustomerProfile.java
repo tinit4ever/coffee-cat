@@ -18,5 +18,8 @@ public class CustomerProfile {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private java.sql.Date dob;
+    private String message;
+    private boolean status;
+    private String token;
 
 }

@@ -3,9 +3,14 @@ package com.swd.ccp.services_implementors;
 import com.swd.ccp.models.entity_models.MenuItem;
 import com.swd.ccp.models.entity_models.MenuItemStatus;
 import com.swd.ccp.models.request_models.PaginationRequest;
+import com.swd.ccp.models.request_models.SortRequest;
+import com.swd.ccp.models.response_models.CatListResponse;
+import com.swd.ccp.models.response_models.CatResponse;
+import com.swd.ccp.models.response_models.MenuItemListResponse;
 import com.swd.ccp.models.response_models.MenuItemResponse;
 import com.swd.ccp.repositories.MenuItemRepo;
 import com.swd.ccp.repositories.MenuItemStatusRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -18,32 +23,29 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MenuServiceIml implements MenuService {
+public class MenuServiceImpl implements MenuService {
     private final MenuItemStatusRepo menuItemStatusRepo;
     private final MenuItemRepo menuItemRepo;
-    private static final String ACTIVE = "Active";
+    private final AccountService accountService;
+    private static final String ACTIVE = "available";
 
     @Override
-    public Page<MenuItemResponse> getActiveMenus(Integer shopId, PaginationRequest pageRequest) {
+    public MenuItemListResponse getActiveMenus(Integer shopId, SortRequest sortRequest) {
         List<MenuItemStatus> activeStatusList = menuItemStatusRepo.findAllByStatus(ACTIVE);
 
         if (activeStatusList.isEmpty()) {
-
-            return Page.empty();
+            return new MenuItemListResponse(Collections.emptyList(), false, null, "No MenuItem found");
         }
-        Pageable pageable = PageRequest.of(
-                pageRequest.getPageNo(),
-                pageRequest.getPageSize(),
-                Sort.by(pageRequest.getSort().isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
-                        pageRequest.getSortByColumn())
-        );
+        Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
 
-        Page<MenuItem> menuItemList = menuItemRepo.findAllByMenuItemStatusIn(activeStatusList, pageable);
+        List<MenuItem> menuItemList = menuItemRepo.findAllByMenuItemStatusIn(activeStatusList, sort);
+        List<MenuItemResponse> mappedMenuItemList = mapToMenuItemDtoList(menuItemList, shopId);
 
-        List<MenuItemResponse> menuDtoList = mapToMenuItemDtoList(menuItemList.getContent(), shopId);
-
-
-        return new PageImpl<>(menuDtoList, pageable, menuItemList.getTotalElements());
+        boolean status = true;
+        String message = "Successfully retrieved menuItem list";
+        String token = accountService.getAccessToken(accountService.getCurrentLoggedUser().getId());
+        return new MenuItemListResponse(mappedMenuItemList, status, message, token);
     }
 
     private List<MenuItemResponse> mapToMenuItemDtoList(List<MenuItem> menuItems, Integer shopId) {
@@ -66,7 +68,8 @@ public class MenuServiceIml implements MenuService {
                     menuItemResponse.setQuantity(menuItem.getQuantity());
                     menuItemResponse.setImgLink(menuItem.getImgLink());
                     menuItemResponse.setSoldQuantity(menuItem.getQuantity());
-
+                    menuItemResponse.setStatus(true);
+                    menuItemResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
             if (menuItem.getName() == null) {
                 menuItemResponse.setName("N/A");
             }

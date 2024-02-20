@@ -6,9 +6,17 @@ import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ShopRequest {
     private String name;
 
@@ -17,14 +25,8 @@ public class ShopRequest {
     private String openTime;
 
     private String closeTime;
-
-    private Integer rating;
-
+    private Seat seat;
+    private String avatar;
     private String phone;
 
-    private ShopStatus status;
-
-    private List<ShopImage> shopImageList;
-
-    private List<Seat> seatList;
 }
