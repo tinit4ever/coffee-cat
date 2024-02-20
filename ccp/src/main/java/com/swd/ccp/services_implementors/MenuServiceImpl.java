@@ -3,6 +3,7 @@ package com.swd.ccp.services_implementors;
 import com.swd.ccp.models.entity_models.MenuItem;
 import com.swd.ccp.models.entity_models.MenuItemStatus;
 import com.swd.ccp.models.request_models.PaginationRequest;
+import com.swd.ccp.models.request_models.SortRequest;
 import com.swd.ccp.models.response_models.MenuItemResponse;
 import com.swd.ccp.repositories.MenuItemRepo;
 import com.swd.ccp.repositories.MenuItemStatusRepo;
@@ -26,26 +27,19 @@ public class MenuServiceImpl implements MenuService {
     private static final String ACTIVE = "available";
 
     @Override
-    public Page<MenuItemResponse> getActiveMenus(Integer shopId, PaginationRequest pageRequest) {
+    public List<MenuItemResponse> getActiveMenus(Integer shopId, SortRequest sortRequest) {
         List<MenuItemStatus> activeStatusList = menuItemStatusRepo.findAllByStatus(ACTIVE);
 
         if (activeStatusList.isEmpty()) {
 
-            return Page.empty();
+            return Collections.emptyList();
         }
-        Pageable pageable = PageRequest.of(
-                pageRequest.getPageNo(),
-                pageRequest.getPageSize(),
-                Sort.by(pageRequest.getSort().isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
-                        pageRequest.getSortByColumn())
-        );
+        Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
 
-        Page<MenuItem> menuItemList = menuItemRepo.findAllByMenuItemStatusIn(activeStatusList, pageable);
+        List<MenuItem> menuItemList = menuItemRepo.findAllByMenuItemStatusIn(activeStatusList, sort);
 
-        List<MenuItemResponse> menuDtoList = mapToMenuItemDtoList(menuItemList.getContent(), shopId);
-
-
-        return new PageImpl<>(menuDtoList, pageable, menuItemList.getTotalElements());
+        return mapToMenuItemDtoList(menuItemList,shopId);
     }
 
     private List<MenuItemResponse> mapToMenuItemDtoList(List<MenuItem> menuItems, Integer shopId) {

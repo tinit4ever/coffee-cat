@@ -3,7 +3,7 @@ package com.swd.ccp.controllers;
 import com.swd.ccp.Exception.NotFoundException;
 import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.request_models.ShopRequest;
-import com.swd.ccp.models.request_models.StaffRequest;
+import com.swd.ccp.models.request_models.SortRequest;
 import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.services.ShopService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
 
 @RestController
@@ -21,18 +23,26 @@ public class ShopController {
     private final ShopService shopService;
 
     @GetMapping("auth/list-shop")
-    public Page<ShopResponse> getActiveShops(@RequestBody PaginationRequest pageRequest) {
-        Page<ShopResponse> page = shopService.getActiveShops(pageRequest);
-        LOGGER.info("get list successfully");
-        return page;
-
+    public ResponseEntity<List<ShopResponseGuest>> getActiveShops(@RequestParam(value = "sortByColumn", defaultValue = "name") String sortByColumn,
+                                                             @RequestParam(value = "asc", defaultValue = "true") boolean ascending) {
+        SortRequest sortRequest = new SortRequest(ascending, sortByColumn);
+        List<ShopResponseGuest> activeShops = shopService.getActiveShops(sortRequest);
+        return ResponseEntity.ok(activeShops);
     }
-    @GetMapping("auth/shop-search")
-    public Page<ShopResponse> searchShops(@RequestParam String keyword, @RequestParam String searchType,@RequestBody PaginationRequest pageRequest) {
-        return shopService.searchShops(keyword, searchType, pageRequest);
+    @GetMapping("auth/search")
+    public ResponseEntity<List<ShopResponseGuest>> searchShops(
+            @RequestParam String keyword,
+            @RequestParam String searchType,
+            @RequestParam(value = "sortByColumn", defaultValue = "name") String sortByColumn,
+            @RequestParam(value = "asc", defaultValue = "true") boolean asc
+    )
+    {
+        SortRequest sortRequest = new SortRequest(asc, sortByColumn);
+        List<ShopResponseGuest> shops = shopService.searchShops(keyword, searchType, sortRequest);
+        return ResponseEntity.ok(shops);
     }
 
-    @GetMapping("/shops/{id}")
+    @GetMapping("auth/shops/{id}")
     public ResponseEntity<ShopDetailResponse> getShopDetails(@PathVariable Long id) {
         ShopDetailResponse shopDetailResponse = shopService.getShopDetails(id);
         if (shopDetailResponse != null) {

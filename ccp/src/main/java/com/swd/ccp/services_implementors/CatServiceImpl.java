@@ -3,7 +3,9 @@ package com.swd.ccp.services_implementors;
 import com.swd.ccp.Exception.NotFoundException;
 import com.swd.ccp.models.entity_models.Cat;
 import com.swd.ccp.models.entity_models.CatStatus;
+import com.swd.ccp.models.entity_models.MenuItem;
 import com.swd.ccp.models.request_models.PaginationRequest;
+import com.swd.ccp.models.request_models.SortRequest;
 import com.swd.ccp.models.response_models.CatResponse;
 import com.swd.ccp.repositories.CatRepo;
 import com.swd.ccp.repositories.CatStatusRepo;
@@ -26,26 +28,21 @@ import java.util.stream.Collectors;
     private static final String ACTIVE = "opened";
         @Override
 
-        public Page<CatResponse> getActiveCats(Integer shopId, PaginationRequest pageRequest) {
+        public List<CatResponse> getActiveCats(Integer shopId, SortRequest sortRequest) {
             List<CatStatus> activeStatusList = catStatusRepo.findAllByStatus(ACTIVE);
 
             if (activeStatusList.isEmpty()) {
 
-                return Page.empty();
+                return Collections.emptyList();
             }
-            Pageable pageable = PageRequest.of(
-                    pageRequest.getPageNo(),
-                    pageRequest.getPageSize(),
-                    Sort.by(pageRequest.getSort().isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
-                            pageRequest.getSortByColumn())
-            );
-
-            Page<Cat> catList = catRepo.findAllByCatStatusIn(activeStatusList, pageable);
-
-            List<CatResponse> catDtoList = mapToCatDtoList(catList.getContent(), shopId);
 
 
-            return new PageImpl<>(catDtoList, pageable, catList.getTotalElements());
+            Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
+            Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
+
+            List<Cat> menuItemList = catRepo.findAllByCatStatusIn(activeStatusList, sort);
+
+            return mapToCatDtoList(menuItemList,shopId);
         }
 
         private List<CatResponse> mapToCatDtoList(List<Cat> cats, Integer shopId) {

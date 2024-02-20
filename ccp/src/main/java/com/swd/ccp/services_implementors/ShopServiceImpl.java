@@ -1,11 +1,10 @@
 package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.Exception.NotFoundException;
-import com.swd.ccp.enums.Role;
 import com.swd.ccp.models.entity_models.*;
 import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.request_models.ShopRequest;
-import com.swd.ccp.models.request_models.StaffRequest;
+import com.swd.ccp.models.request_models.SortRequest;
 import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.repositories.FollowerCustomerRepo;
 import com.swd.ccp.repositories.ShopRepo;
@@ -30,27 +29,18 @@ public class ShopServiceImpl implements ShopService {
     private static final String ACTIVE = "opened";
 
     @Override
-    public Page<ShopResponse> getActiveShops(PaginationRequest pageRequest) {
+    public List<ShopResponseGuest> getActiveShops(SortRequest sortRequest) {
         List<ShopStatus> activeStatusList = shopStatusRepo.findAllByStatus(ACTIVE);
-
         if (activeStatusList.isEmpty()) {
-
-            return Page.empty();
+            return Collections.emptyList();
         }
-        Pageable pageable = PageRequest.of(
-                pageRequest.getPageNo(),
-                pageRequest.getPageSize(),
-                Sort.by(pageRequest.getSort().isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
-                        pageRequest.getSortByColumn())
-        );
-
-        Page<Shop> shopList = shopRepo.findAllByStatusIn(activeStatusList, pageable);
-
-        List<ShopResponse> shopDtoList = mapToShopDtoList(shopList.getContent());
-
-        return new PageImpl<>(shopDtoList, pageable, shopList.getTotalElements());
+        Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
+        List<Shop> shopList = shopRepo.findAllByStatusIn(activeStatusList, sort);
+        return mapToShopDtoList(shopList);
     }
-//    @Override
+
+    //    @Override
 //    public Page<ShopResponse> getPopularActiveShops(Integer page, Integer size) {
 //        ModelMapper mapper = new ModelMapper();
 //        Pageable pageable = PageRequest.of(page, size);
@@ -63,28 +53,22 @@ public class ShopServiceImpl implements ShopService {
 //        return new PageImpl<>(responses, pageable, activeShops.size());
 //    }
     @Override
-    public Page<ShopResponse> searchShops(String keyword, String searchType, PaginationRequest pageRequest) {
+    public List<ShopResponseGuest> searchShops(String keyword, String searchType, SortRequest sortRequest) {
         List<ShopStatus> activeStatusList = shopStatusRepo.findAllByStatus(ACTIVE);
 
         if (activeStatusList.isEmpty()) {
-            return Page.empty();
+            return Collections.emptyList();
         }
 
-        Pageable pageable = PageRequest.of(
-                pageRequest.getPageNo(),
-                pageRequest.getPageSize(),
-                Sort.by(pageRequest.getSort().isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
-                        pageRequest.getSortByColumn())
-        );
+        Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
 
-        Page<Shop> searchResults = shopRepo.findAllByStatusInAndNameOrAddressContaining(activeStatusList, keyword, pageable);
+        List<Shop> searchResults = shopRepo.findAllByStatusInAndNameOrAddressContaining(activeStatusList, keyword, sort);
 
-        List<ShopResponse> shopDtoList = mapToShopDtoList(searchResults.getContent());
-
-        return new PageImpl<>(shopDtoList, pageable, searchResults.getTotalElements());
+        return mapToShopDtoList(searchResults);
     }
 
-    private List<ShopResponse> mapToShopDtoList(List<Shop> shops) {
+    private List<ShopResponseGuest> mapToShopDtoList(List<Shop> shops) {
         if (shops == null) {
             throw new IllegalArgumentException("Argument cannot be null");
         }
@@ -94,7 +78,7 @@ public class ShopServiceImpl implements ShopService {
         }
 
         return shops.stream().map(shop-> {
-            ShopResponse shopResponse = new ShopResponse();
+            ShopResponseGuest shopResponse = new ShopResponseGuest();
             shopResponse.setName(shop.getName());
             shopResponse.setRating(shop.getRating());
             List<String> imageLinks = shop.getShopImageList().stream()
