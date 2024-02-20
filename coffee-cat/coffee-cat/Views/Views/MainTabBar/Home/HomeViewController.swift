@@ -199,6 +199,7 @@ extension HomeViewController: UITableViewDataSource {
             let shop = self.viewModel.shopList[indexPath.row - 1]
             
             cell.configure(shop: shop)
+            cell.selectionStyle = .none
             return cell
         }
     }
