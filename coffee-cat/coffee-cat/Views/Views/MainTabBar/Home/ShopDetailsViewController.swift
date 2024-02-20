@@ -54,19 +54,19 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     
     private func setupData() {
         self.viewModel.shop.name = "Coffee Shop"
-        self.viewModel.shop.address = "Pham Van Dong"
+//        self.viewModel.shop.address = "Pham Van Dong"
         self.viewModel.shop.rating = 3.4
-        self.viewModel.shop.openTime = "8 AM"
-        self.viewModel.shop.closeTime = "8 PM"
-        self.viewModel.shop.commentList = [
-            "Good",
-            "Good",
-            "Good",
-            "Good",
-            "Good",
-            "Good",
-            "Good"
-        ]
+//        self.viewModel.shop.openTime = "8 AM"
+//        self.viewModel.shop.closeTime = "8 PM"
+//        self.viewModel.shop.commentList = [
+//            "Good",
+//            "Good",
+//            "Good",
+//            "Good",
+//            "Good",
+//            "Good",
+//            "Good"
+//        ]
         self.viewModel.index = 0
         self.viewModel.shop.shopImageList = ["person", "trash", "house", "circle"]
     }

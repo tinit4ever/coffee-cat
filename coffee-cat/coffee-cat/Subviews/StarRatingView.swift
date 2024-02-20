@@ -10,7 +10,7 @@ import UIKit
 class StarRatingView: UIView {
     private var starImageViews: [UIImageView] = []
 
-    var rating: Int = 0 {
+    var rating: Double = 0 {
         didSet {
             updateRating()
         }
@@ -41,7 +41,7 @@ class StarRatingView: UIView {
 
     private func updateRating() {
         for (index, starImageView) in starImageViews.enumerated() {
-            starImageView.image = index < rating ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
+            starImageView.image = index < Int(rating) ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
         }
     }
 
