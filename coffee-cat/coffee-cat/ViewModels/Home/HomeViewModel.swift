@@ -8,23 +8,23 @@
 import Foundation
 
 protocol HomeViewModelProtocol {
-    var shopList: ShopList? {get set}
-    func getShopList()
+    var shopList: [Shop] {get set}
+    func getShopList(completion: @escaping () -> Void)
 }
 
 class HomeViewModel: HomeViewModelProtocol {
-    var shopList: ShopList?
+    var shopList: [Shop] = []
     
-    func getShopList() {
+    func getShopList(completion: @escaping () -> Void) {
         APIManager.shared.fetchShopList { result in
             switch result {
             case .success(let shopList):
-//                self.shopList = shopList
-                print("S")
+                self.shopList = shopList.shopList
+                completion()
             case .failure(let error):
-                print("E")
+                print(error.localizedDescription)
+                completion()
             }
         }
     }
-    
 }

@@ -24,42 +24,17 @@ class APIManager {
     private init() {}
     
     func fetchShopList(completion: @escaping (Result<ShopList, Error>) -> Void) {
-        
-        getListOfShops { result in
-            switch result {
-            case .success(let apiResponse):
-                // Access the data from the apiResponse here
-                print(apiResponse)
-            case .failure(let error):
-                print("Error fetching data: \(error)")
-            }
-        }
-        
         let url = APIConstants.Auth.listShop
+        let parameters: [String: Any] = [
+            "asc": true,
+            "sortByColumn": "rating"
+        ]
         
-        let data = ShopListParameters(pageNo: 0, pageSize: 10, sortByColumn: "rating", sort: "ASC")
-        
-        //        let parameters: [String: Any] = [
-        //            "pageNo": 0,
-        //            "pageSize": 10,
-        //            "sortByColumn": "rating",
-        //            "sort": "ASC"
-        //        ]
-        
-        let parameters = data
-        
-        AF.request(url, method: .get, parameters: parameters, encoder: JSONParameterEncoder.default)
-            .validate()
-            .responseData { response in
+        AF.request(url, method: .get, parameters: parameters)
+            .responseDecodable(of: ShopList.self) { response in
                 switch response.result {
-                case .success(let data):
-                    do {
-                        let authenticationResponse = try JSONDecoder().decode(ShopList.self, from: data)
-                        completion(.success(authenticationResponse))
-//                        print(authenticationResponse)
-                    } catch let error {
-                        completion(.failure(error))
-                    }
+                case .success(let shopList):
+                    completion(.success(shopList))
                 case .failure(let error):
                     completion(.failure(error))
                 }
@@ -100,30 +75,5 @@ class APIManager {
                 completion(.failure(error))
             }
         }
-    }
-    
-    func getListOfShops(completion: @escaping (Result<ApiResponse, Error>) -> Void) {
-        let url = "http://localhost:8080/auth/list-shop"
-        let parameters: [String: Any] = [
-            "pageNo": 0,
-            "pageSize": 10,
-            "sortByColumn": "rating",
-            "sort": "ASC"
-        ]
-
-        AF.request(url, method: .get, parameters: parameters)
-            .responseDecodable(of: ApiResponse.self) { response in
-                switch response.result {
-                case .success(let apiResponse):
-                    // Handle the API response here
-                    print(apiResponse.content)
-                    print(apiResponse.pageable)
-                    print(apiResponse.totalPages)
-                    // Add more handling as needed
-                case .failure(let error):
-                    // Handle the error
-                    print("Error: \(error)")
-                }
-            }
     }
 }
