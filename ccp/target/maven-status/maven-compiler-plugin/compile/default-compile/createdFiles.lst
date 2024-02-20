@@ -2,12 +2,14 @@ com\swd\ccp\configurations\SecurityConfig.class
 com\swd\ccp\models\entity_models\BookingStatus$BookingStatusBuilder.class
 com\swd\ccp\models\request_models\LoginRequest$LoginRequestBuilder.class
 com\swd\ccp\models\response_models\CreateShopResponse.class
+com\swd\ccp\models\response_models\ShopResponseGuest$ShopResponseGuestBuilder.class
 com\swd\ccp\services_implementors\ShopServiceImpl.class
 com\swd\ccp\services_implementors\JWTServiceImpl.class
 com\swd\ccp\models\request_models\StaffRequest.class
 com\swd\ccp\services\AccountService.class
 com\swd\ccp\models\request_models\RegisterRequest$RegisterRequestBuilder.class
 com\swd\ccp\models\response_models\BookingCartShopMenuResponse$BookingCartShopMenuResponseBuilder.class
+com\swd\ccp\models\response_models\ShopResponseGuest.class
 com\swd\ccp\services\AuthenticationService.class
 com\swd\ccp\controllers\BookingCartController.class
 com\swd\ccp\models\response_models\BookingCartShopResponse$BookingCartShopResponseBuilder.class
@@ -87,6 +89,7 @@ com\swd\ccp\repositories\MenuItemRepo.class
 com\swd\ccp\models\entity_models\FollowerCustomer.class
 com\swd\ccp\models\entity_models\ShopStatus$ShopStatusBuilder.class
 com\swd\ccp\models\entity_models\Customer$CustomerBuilder.class
+com\swd\ccp\models\request_models\SortRequest$SortRequestBuilder.class
 com\swd\ccp\models\entity_models\Package$PackageBuilder.class
 com\swd\ccp\repositories\SeatStatusRepo.class
 com\swd\ccp\repositories\MenuItemStatusRepo.class
@@ -126,6 +129,7 @@ com\swd\ccp\repositories\PackageRepo.class
 com\swd\ccp\models\entity_models\MenuItem.class
 com\swd\ccp\models\response_models\AccountResponse.class
 com\swd\ccp\controllers\StaffController.class
+com\swd\ccp\models\request_models\PaginationRequest$PaginationRequestBuilder.class
 com\swd\ccp\models\entity_models\SeatStatus.class
 com\swd\ccp\repositories\PackageStatusRepo.class
 com\swd\ccp\controllers\ShopController.class
@@ -134,6 +138,7 @@ com\swd\ccp\models\entity_models\Seat$SeatBuilder.class
 com\swd\ccp\services\CatService.class
 com\swd\ccp\Exception\NotFoundException.class
 com\swd\ccp\models\response_models\StaffResponse.class
+com\swd\ccp\models\request_models\SortRequest.class
 com\swd\ccp\models\entity_models\PackageStatus.class
 com\swd\ccp\models\entity_models\Account.class
 com\swd\ccp\models\response_models\UpdateProfileResponse.class
