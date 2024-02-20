@@ -27,6 +27,7 @@ com\swd\ccp\models\entity_models\Cat$CatBuilder.class
 com\swd\ccp\services\JWTService.class
 com\swd\ccp\services\ShopService.class
 com\swd\ccp\repositories\AccountStatusRepo.class
+com\swd\ccp\models\response_models\CatListResponse$CatListResponseBuilder.class
 com\swd\ccp\models\entity_models\AccountStatus$AccountStatusBuilder.class
 com\swd\ccp\models\entity_models\MenuItemStatus.class
 com\swd\ccp\repositories\ShopRepo.class
@@ -35,6 +36,7 @@ com\swd\ccp\models\entity_models\Customer.class
 com\swd\ccp\services\StaffService.class
 com\swd\ccp\models\entity_models\ShopImage.class
 com\swd\ccp\models\response_models\RegisterResponse.class
+com\swd\ccp\models\response_models\ShopListResponse.class
 com\swd\ccp\controllers\CustomerController.class
 com\swd\ccp\models\entity_models\SeatStatus$SeatStatusBuilder.class
 com\swd\ccp\models\request_models\PopularActiveShopsRequest.class
@@ -43,6 +45,7 @@ com\swd\ccp\models\response_models\LoginResponse.class
 com\swd\ccp\models\entity_models\AccountStatus.class
 com\swd\ccp\models\entity_models\CatStatus$CatStatusBuilder.class
 com\swd\ccp\models\entity_models\Menu.class
+com\swd\ccp\models\response_models\CatListResponse.class
 com\swd\ccp\models\entity_models\Manager$ManagerBuilder.class
 com\swd\ccp\models\request_models\ShopRequest$ShopRequestBuilder.class
 com\swd\ccp\services_implementors\StaffServiceImpl.class
@@ -73,7 +76,9 @@ com\swd\ccp\models\request_models\ShopRequest.class
 com\swd\ccp\models\entity_models\Menu$MenuBuilder.class
 com\swd\ccp\models\request_models\PopularActiveShopsRequest$PopularActiveShopsRequestBuilder.class
 com\swd\ccp\services_implementors\AccountServiceImpl.class
+com\swd\ccp\models\response_models\ShopListResponse$ShopListResponseBuilder.class
 com\swd\ccp\models\request_models\CreateBookingRequest.class
+com\swd\ccp\models\request_models\ListRequest$ListRequestBuilder.class
 com\swd\ccp\models\entity_models\CatStatus.class
 com\swd\ccp\models\entity_models\Shop$ShopBuilder.class
 com\swd\ccp\models\request_models\UpdateProfileRequest.class
@@ -99,6 +104,7 @@ com\swd\ccp\models\response_models\RegisterResponse$RegisterResponseBuilder.clas
 com\swd\ccp\models\entity_models\FollowerCustomer$FollowerCustomerBuilder.class
 com\swd\ccp\models\entity_models\Seat.class
 com\swd\ccp\models\response_models\MenuItemResponse$MenuItemResponseBuilder.class
+com\swd\ccp\models\request_models\ListRequest.class
 com\swd\ccp\services_implementors\AuthenticationServiceImpl.class
 com\swd\ccp\models\response_models\RespondObject$RespondObjectBuilder.class
 com\swd\ccp\models\response_models\CustomerProfile.class
@@ -137,8 +143,10 @@ com\swd\ccp\models\response_models\BookingCartResponse$BookingCartResponseBuilde
 com\swd\ccp\models\entity_models\Seat$SeatBuilder.class
 com\swd\ccp\services\CatService.class
 com\swd\ccp\Exception\NotFoundException.class
+com\swd\ccp\models\response_models\MenuItemListResponse$MenuItemListResponseBuilder.class
 com\swd\ccp\models\response_models\StaffResponse.class
 com\swd\ccp\models\request_models\SortRequest.class
+com\swd\ccp\models\response_models\MenuItemListResponse.class
 com\swd\ccp\models\entity_models\PackageStatus.class
 com\swd\ccp\models\entity_models\Account.class
 com\swd\ccp\models\response_models\UpdateProfileResponse.class

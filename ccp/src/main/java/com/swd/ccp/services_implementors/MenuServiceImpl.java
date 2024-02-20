@@ -4,6 +4,9 @@ import com.swd.ccp.models.entity_models.MenuItem;
 import com.swd.ccp.models.entity_models.MenuItemStatus;
 import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.request_models.SortRequest;
+import com.swd.ccp.models.response_models.CatListResponse;
+import com.swd.ccp.models.response_models.CatResponse;
+import com.swd.ccp.models.response_models.MenuItemListResponse;
 import com.swd.ccp.models.response_models.MenuItemResponse;
 import com.swd.ccp.repositories.MenuItemRepo;
 import com.swd.ccp.repositories.MenuItemStatusRepo;
@@ -27,19 +30,22 @@ public class MenuServiceImpl implements MenuService {
     private static final String ACTIVE = "available";
 
     @Override
-    public List<MenuItemResponse> getActiveMenus(Integer shopId, SortRequest sortRequest) {
+    public MenuItemListResponse getActiveMenus(Integer shopId, SortRequest sortRequest) {
         List<MenuItemStatus> activeStatusList = menuItemStatusRepo.findAllByStatus(ACTIVE);
 
         if (activeStatusList.isEmpty()) {
-
-            return Collections.emptyList();
+            return new MenuItemListResponse(Collections.emptyList(), false, null, "No MenuItem found");
         }
         Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
 
         List<MenuItem> menuItemList = menuItemRepo.findAllByMenuItemStatusIn(activeStatusList, sort);
+        List<MenuItemResponse> mappedMenuItemList = mapToMenuItemDtoList(menuItemList, shopId);
 
-        return mapToMenuItemDtoList(menuItemList,shopId);
+        boolean status = true;
+        String message = "Successfully retrieved menuItem list";
+        String token = accountService.getAccessToken(accountService.getCurrentLoggedUser().getId());
+        return new MenuItemListResponse(mappedMenuItemList, status, message, token);
     }
 
     private List<MenuItemResponse> mapToMenuItemDtoList(List<MenuItem> menuItems, Integer shopId) {

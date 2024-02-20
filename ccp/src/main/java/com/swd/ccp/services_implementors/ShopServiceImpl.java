@@ -29,15 +29,18 @@ public class ShopServiceImpl implements ShopService {
     private static final String ACTIVE = "opened";
 
     @Override
-    public List<ShopResponseGuest> getActiveShops(SortRequest sortRequest) {
+    public ShopListResponse getActiveShops(SortRequest sortRequest) {
         List<ShopStatus> activeStatusList = shopStatusRepo.findAllByStatus(ACTIVE);
         if (activeStatusList.isEmpty()) {
-            return Collections.emptyList();
+            return new ShopListResponse(Collections.emptyList(), false , "No active shops found");
         }
         Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
         List<Shop> shopList = shopRepo.findAllByStatusIn(activeStatusList, sort);
-        return mapToShopDtoList(shopList);
+        List<ShopResponseGuest> mappedshopList = mapToShopDtoList(shopList);
+        boolean status = true;
+        String message = "Successfully retrieved shop list";
+        return new ShopListResponse(mappedshopList, status, message);
     }
 
     //    @Override
@@ -53,19 +56,20 @@ public class ShopServiceImpl implements ShopService {
 //        return new PageImpl<>(responses, pageable, activeShops.size());
 //    }
     @Override
-    public List<ShopResponseGuest> searchShops(String keyword, String searchType, SortRequest sortRequest) {
+    public ShopListResponse searchShops(String keyword, String searchType, SortRequest sortRequest) {
         List<ShopStatus> activeStatusList = shopStatusRepo.findAllByStatus(ACTIVE);
-
         if (activeStatusList.isEmpty()) {
-            return Collections.emptyList();
+            return new ShopListResponse(Collections.emptyList(), false , "No active shops found");
         }
 
         Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
-
         List<Shop> searchResults = shopRepo.findAllByStatusInAndNameOrAddressContaining(activeStatusList, keyword, sort);
 
-        return mapToShopDtoList(searchResults);
+        boolean status = true;
+        String message = "Successfully retrieved shop list";
+        List<ShopResponseGuest> mappedshopList = mapToShopDtoList(searchResults);
+        return new ShopListResponse(mappedshopList, status, message);
     }
 
     private List<ShopResponseGuest> mapToShopDtoList(List<Shop> shops) {
@@ -86,7 +90,6 @@ public class ShopServiceImpl implements ShopService {
                     .collect(Collectors.toList());
             shopResponse.setShopImageList(imageLinks);
             shopResponse.setFollowerCount((long) followerCustomerRepo.countByShop(shop));
-            shopResponse.setStatus(true);
             if (shop.getName() == null) {
                 shopResponse.setName("N/A");
             }

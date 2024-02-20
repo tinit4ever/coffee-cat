@@ -23,14 +23,14 @@ public class ShopController {
     private final ShopService shopService;
 
     @GetMapping("auth/list-shop")
-    public ResponseEntity<List<ShopResponseGuest>> getActiveShops(@RequestParam(value = "sortByColumn", defaultValue = "name") String sortByColumn,
+    public ResponseEntity<ShopListResponse> getActiveShops(@RequestParam(value = "sortByColumn", defaultValue = "name") String sortByColumn,
                                                              @RequestParam(value = "asc", defaultValue = "true") boolean ascending) {
         SortRequest sortRequest = new SortRequest(ascending, sortByColumn);
-        List<ShopResponseGuest> activeShops = shopService.getActiveShops(sortRequest);
+        ShopListResponse activeShops = shopService.getActiveShops(sortRequest);
         return ResponseEntity.ok(activeShops);
     }
     @GetMapping("auth/search")
-    public ResponseEntity<List<ShopResponseGuest>> searchShops(
+    public ResponseEntity<ShopListResponse> searchShops(
             @RequestParam String keyword,
             @RequestParam String searchType,
             @RequestParam(value = "sortByColumn", defaultValue = "name") String sortByColumn,
@@ -38,7 +38,7 @@ public class ShopController {
     )
     {
         SortRequest sortRequest = new SortRequest(asc, sortByColumn);
-        List<ShopResponseGuest> shops = shopService.searchShops(keyword, searchType, sortRequest);
+        ShopListResponse shops = shopService.searchShops(keyword, searchType, sortRequest);
         return ResponseEntity.ok(shops);
     }
 

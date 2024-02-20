@@ -9,8 +9,8 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface ShopService {
-    List<ShopResponseGuest> getActiveShops(SortRequest sortRequest);
-    List<ShopResponseGuest> searchShops(String keyword, String searchType, SortRequest sortRequest);
+    ShopListResponse getActiveShops(SortRequest sortRequest);
+    ShopListResponse searchShops(String keyword, String searchType, SortRequest sortRequest);
     ShopDetailResponse getShopDetails(Long id);
 //    Page<ShopResponse> getPopularActiveShops(Integer page, Integer size);
 
