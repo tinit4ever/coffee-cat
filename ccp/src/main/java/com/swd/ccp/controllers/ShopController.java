@@ -42,15 +42,7 @@ public class ShopController {
         return ResponseEntity.ok(shops);
     }
 
-    @GetMapping("auth/shops/{id}")
-    public ResponseEntity<ShopDetailResponse> getShopDetails(@PathVariable Long id) {
-        ShopDetailResponse shopDetailResponse = shopService.getShopDetails(id);
-        if (shopDetailResponse != null) {
-            return ResponseEntity.ok(shopDetailResponse);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+
     @GetMapping("/shop")
     @PreAuthorize("hasAuthority('owner:read')")
     public Page<ShopResponse> getShops(@RequestBody PaginationRequest pageRequest) {

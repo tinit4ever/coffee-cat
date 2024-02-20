@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface CatService {
     CatListResponse getActiveCats(Integer shopId, SortRequest sortRequest);
-    CatResponse getCatDetails(Long id);
+
 }
