@@ -73,9 +73,9 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
         ])
     }
     
-    func configure(imageName: String, shopName: String, rating: Int) {
-        self.starRatingView.rating = rating
-        self.shopImageView.image = UIImage(named: imageName)
-        self.shopName.text = shopName
+    func configure(shop: Shop) {
+        self.starRatingView.rating = shop.rating ?? 0.0
+//        self.shopImageView.image = UIImage(named: shop.shopImageList![1])
+        self.shopName.text = shop.name
     }
 }

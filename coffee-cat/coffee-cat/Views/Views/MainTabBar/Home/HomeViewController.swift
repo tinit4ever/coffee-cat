@@ -7,11 +7,13 @@
 
 import UIKit
 import SwiftUI
+import Alamofire
 
 class HomeViewController: UIViewController, UIFactory {
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
+    let viewModel: HomeViewModelProtocol = HomeViewModel()
     var tableViewTitle: String = "Top Results"
     
     // -MARK: Create UI Components
@@ -29,7 +31,14 @@ class HomeViewController: UIViewController, UIFactory {
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupData()
         setupUI()
+    }
+    
+    // -MARK: SetupData
+    private func setupData() {
+//        self.viewModel.getShopList()
+        getListOfShops()
     }
     
     // -MARK: SetupUI
@@ -183,7 +192,11 @@ extension HomeViewController: UITableViewDataSource {
             return firstCell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: ShopTableViewCell.identifier, for: indexPath) as! ShopTableViewCell
-            cell.configure(imageName: "NA-Image", shopName: "The Coffee House", rating: 3)
+            
+            let shop = self.viewModel.shopList?.content[indexPath.row]
+            if let shop = shop {
+                cell.configure(shop: shop)
+            }
             return cell
         }
     }
@@ -194,6 +207,32 @@ extension HomeViewController: UITableViewDataSource {
         } else {
             return heightScaler(140)
         }
+    }
+    
+    
+    func getListOfShops() {
+        let url = "http://localhost:8080/auth/list-shop"
+        let parameters: [String: Any] = [
+            "pageNo": 0,
+            "pageSize": 10,
+            "sortByColumn": "rating",
+            "sort": "ASC"
+        ]
+
+        AF.request(url, method: .get, parameters: parameters)
+            .responseDecodable(of: ApiResponse.self) { response in
+                switch response.result {
+                case .success(let apiResponse):
+                    // Handle the API response here
+                    print(apiResponse.content)
+                    print(apiResponse.pageable)
+                    print(apiResponse.totalPages)
+                    // Add more handling as needed
+                case .failure(let error):
+                    // Handle the error
+                    print("Error: \(error)")
+                }
+            }
     }
 }
 
