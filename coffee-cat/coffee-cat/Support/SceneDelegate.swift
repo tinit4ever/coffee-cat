@@ -20,6 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         
         let viewController = GettingStartedViewController()
+//        let viewController = UserProfileInputViewController()
         let rootViewController = UINavigationController(rootViewController: viewController)
         window.rootViewController = rootViewController
         

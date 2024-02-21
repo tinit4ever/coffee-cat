@@ -20,9 +20,7 @@ enum ImageNames {
 }
 
 enum DateFormat {
-    static let dayFormatter = "dd"
-    static let monthFormatter = "MMMM"
-    static let yearFormatter = "yyyy"
+    static let dateFormatterToStore = "yyyy-MM-dd"
     static let dateFormatter = "dd MMMM yyyy"
 }
 

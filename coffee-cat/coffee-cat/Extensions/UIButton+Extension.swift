@@ -49,11 +49,13 @@ extension UIButton {
         self.tintColor = .systemGray
     }
     
-    func ratioButton() {
+    func ratioButton(_ isSelected: Bool) {
         self.widthAnchor.constraint(equalToConstant: UIScreen.scalableSize(34)).isActive = true
         self.heightAnchor.constraint(equalToConstant: UIScreen.scalableSize(34)).isActive = true
         var configuration = UIButton.Configuration.plain()
-        if let image = UIImage(systemName: "circle") {
+        
+        let symbolName = isSelected ? "largecircle.fill.circle" : "circle"
+        if let image = UIImage(systemName: symbolName) {
             let imageConfiguration = UIImage.SymbolConfiguration(weight: .bold)
             let newImage = image.applyingSymbolConfiguration(imageConfiguration)
             configuration.image = newImage

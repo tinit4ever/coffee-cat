@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 public interface StaffService {
     Page<StaffResponse> getStaffList(PaginationRequest pageRequest);
     CreateStaffResponse createStaff(StaffRequest request);
-    UpdateStaffResponse updateStaff(Long staffId, StaffRequest updateRequest);
-    int inactiveStaff(Long staffId);
-    int activeStaff(Long staffId);
+    UpdateStaffResponse updateStaff(Integer staffId, StaffRequest updateRequest);
+    int inactiveStaff(Integer staffId);
+    int activeStaff(Integer staffId);
 }

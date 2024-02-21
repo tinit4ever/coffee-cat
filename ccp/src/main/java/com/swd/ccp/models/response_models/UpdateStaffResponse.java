@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UpdateStaffResponse {
-    private Long staffId;
+    private Integer staffId;
     private String message;
     private boolean success;
 
