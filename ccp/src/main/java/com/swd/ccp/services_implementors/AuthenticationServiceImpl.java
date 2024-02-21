@@ -3,10 +3,7 @@ package com.swd.ccp.services_implementors;
 import com.swd.ccp.models.entity_models.Customer;
 import com.swd.ccp.models.request_models.LoginRequest;
 import com.swd.ccp.models.request_models.RegisterRequest;
-import com.swd.ccp.models.response_models.AccountResponse;
-import com.swd.ccp.models.response_models.CheckMailExistedResponse;
-import com.swd.ccp.models.response_models.LoginResponse;
-import com.swd.ccp.models.response_models.RegisterResponse;
+import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.enums.Role;
 import com.swd.ccp.models.entity_models.Account;
 import com.swd.ccp.models.entity_models.Token;
@@ -14,6 +11,7 @@ import com.swd.ccp.repositories.AccountRepo;
 import com.swd.ccp.repositories.AccountStatusRepo;
 import com.swd.ccp.repositories.CustomerRepo;
 import com.swd.ccp.repositories.TokenRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.AuthenticationService;
 import com.swd.ccp.services.JWTService;
 import lombok.NonNull;
@@ -33,6 +31,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AccountStatusRepo accountStatusRepo;
 
     private final AccountRepo accountRepo;
+
+    private final AccountService accountService;
 
     private final CustomerRepo customerRepo;
 

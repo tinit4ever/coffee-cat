@@ -1,4 +1,4 @@
-package com.swd.ccp.models.request_models;
+package com.swd.ccp.models.response_models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CheckMailExistedRequest {
+public class LogoutResponse {
 
-    private String email;
+    private boolean status;
+
+    private String message;
 }
