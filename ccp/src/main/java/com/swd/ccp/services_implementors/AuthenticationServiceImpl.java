@@ -176,7 +176,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         .build();
             }
             return LoginResponse.builder()
-                    .message("Account does not existed")
+                    .message("Username or password is incorrect")
                     .access_token(null)
                     .refresh_token(null)
                     .status(false)
@@ -184,7 +184,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .build();
         }
         return LoginResponse.builder()
-                .message("Username or password incorrect")
+                .message("Username or password is wrong format")
                 .access_token(null)
                 .refresh_token(null)
                 .status(false)
