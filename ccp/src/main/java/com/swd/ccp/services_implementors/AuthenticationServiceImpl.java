@@ -120,17 +120,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .build();
         }
 
-//    @Override
-//    public CheckMailExistedResponse checkUserIsExisted(String email) {
-//        if(accountRepo.findByEmail(email).orElse(null) != null){
-//            return CheckMailExistedResponse.builder()
-//                    .message("User is existed")
-//                    .build();
-//        }
-//        return CheckMailExistedResponse.builder()
-//                .message("User is not existed")
-//                .build();
-//    }
+    @Override
+    public CheckMailExistedResponse checkUserIsExisted(String email) {
+        if(accountRepo.findByEmail(email).orElse(null) != null){
+            return CheckMailExistedResponse.builder()
+                    .message("User is existed")
+                    .build();
+        }
+        return CheckMailExistedResponse.builder()
+                .message("User is not existed")
+                .build();
+    }
 
 
     @Override
@@ -140,7 +140,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
             if (account != null && passwordEncoder.matches(request.getPassword(), account.getPassword())) {
                 List<Token> tokenList = refreshToken(account);
-                if (account.getStatus().getId() == 1 && account.getPassword().equals(request.getPassword())) {
+                if (account.getStatus().getId() == 1) {
                     tokenList.forEach(token -> {
                         Token t = tokenRepo.findByToken(token.getToken()).orElse(null);
                         if (t == null) {
