@@ -46,6 +46,7 @@ com\swd\ccp\models\entity_models\CatStatus$CatStatusBuilder.class
 com\swd\ccp\models\entity_models\Menu.class
 com\swd\ccp\models\response_models\CatListResponse.class
 com\swd\ccp\models\entity_models\Manager$ManagerBuilder.class
+com\swd\ccp\models\request_models\CheckMailExistedRequest$CheckMailExistedRequestBuilder.class
 com\swd\ccp\models\request_models\ShopRequest$ShopRequestBuilder.class
 com\swd\ccp\services_implementors\StaffServiceImpl.class
 com\swd\ccp\models\entity_models\Cat.class
@@ -53,6 +54,7 @@ com\swd\ccp\models\request_models\PaginationRequest.class
 com\swd\ccp\services_implementors\CustomerServiceIml.class
 com\swd\ccp\models\request_models\RegisterRequest.class
 com\swd\ccp\models\request_models\UpdateBookingCartRequest$BookingCartShopMenuRequest$BookingCartShopMenuRequestBuilder.class
+com\swd\ccp\models\response_models\LogoutResponse.class
 com\swd\ccp\CcpApplication.class
 com\swd\ccp\controllers\AuthenticationController.class
 com\swd\ccp\models\entity_models\Comment$CommentBuilder.class
@@ -62,6 +64,7 @@ com\swd\ccp\models\entity_models\MenuItemStatus$MenuItemStatusBuilder.class
 com\swd\ccp\models\response_models\ShopResponse.class
 com\swd\ccp\repositories\FollowerCustomerRepo.class
 com\swd\ccp\repositories\CatStatusRepo.class
+com\swd\ccp\controllers\AccountController.class
 com\swd\ccp\models\entity_models\ShopImage$ShopImageBuilder.class
 com\swd\ccp\repositories\BookingStatusRepo.class
 com\swd\ccp\models\response_models\RespondObject.class
@@ -108,6 +111,7 @@ com\swd\ccp\models\response_models\RegisterResponse$RegisterResponseBuilder.clas
 com\swd\ccp\models\entity_models\FollowerCustomer$FollowerCustomerBuilder.class
 com\swd\ccp\models\entity_models\Seat.class
 com\swd\ccp\models\response_models\MenuItemResponse$MenuItemResponseBuilder.class
+com\swd\ccp\models\response_models\LogoutResponse$LogoutResponseBuilder.class
 com\swd\ccp\models\request_models\ListRequest.class
 com\swd\ccp\services_implementors\AuthenticationServiceImpl.class
 com\swd\ccp\models\response_models\RespondObject$RespondObjectBuilder.class
@@ -129,6 +133,7 @@ com\swd\ccp\repositories\ShopImageRepo.class
 com\swd\ccp\models\response_models\CatResponse.class
 com\swd\ccp\services\CustomerService.class
 com\swd\ccp\models\entity_models\Token$TokenBuilder.class
+com\swd\ccp\models\request_models\CheckMailExistedRequest.class
 com\swd\ccp\models\entity_models\BookingStatus.class
 com\swd\ccp\models\entity_models\Booking$BookingBuilder.class
 com\swd\ccp\models\entity_models\BookingDetail$BookingDetailBuilder.class
