@@ -58,5 +58,5 @@ public class BookingCartResponse {
 
     private String token;
 
-    private List<BookingCartShopResponse> bookingCartShopResponseList;
+    private BookingCartShopResponse bookingCartShopResponse;
 }

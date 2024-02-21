@@ -61,6 +61,7 @@ public class CcpApplication {
                 List<Token> tokenList = new ArrayList<>();
 
                 //init account status
+                accountStatusRepo.deleteAll();
                 accountStatusList.add(AccountStatus.builder().status("active").build());
                 accountStatusList.add(AccountStatus.builder().status("inactive").build());
                 accountStatusRepo.saveAll(accountStatusList);
@@ -117,7 +118,7 @@ public class CcpApplication {
                 accountList.add(owner);
                 accountList.add(staff);
                 accountList.add(customer);
-
+                accountRepo.deleteAll();
                 accountRepo.saveAll(accountList);
 
 
@@ -139,9 +140,10 @@ public class CcpApplication {
                 tokenList.add(staff_refresh);
                 tokenList.add(customer_access);
                 tokenList.add(customer_refresh);
-
+                tokenRepo.deleteAll();
                 tokenRepo.saveAll(tokenList);
 
+                customerRepo.deleteAll();
                 customerRepo.save(
                         Customer.builder()
                                 .account(customer)
@@ -151,6 +153,7 @@ public class CcpApplication {
                                 .build()
                 );
 
+                managerRepo.deleteAll();
                 managerRepo.save(
                         Manager.builder()
                                 .account(staff)
@@ -173,6 +176,7 @@ public class CcpApplication {
                 System.out.println("# CUSTOMER token: " + customer_token);
 
                 //init shop status
+                shopStatusRepo.deleteAll();
                 shopStatusRepo.save(ShopStatus.builder().status("opened").build());
                 shopStatusRepo.save(ShopStatus.builder().status("closed").build());
                 shopStatusRepo.save(ShopStatus.builder().status("banned").build());
@@ -200,12 +204,15 @@ public class CcpApplication {
                         .packages(null)
                         .build();
 
+                shopRepo.deleteAll();
                 shopRepo.save(shop1);
                 shopRepo.save(shop2);
 
                 //init seat status
+                seatStatusRepo.deleteAll();
                 seatStatusRepo.save(SeatStatus.builder().status("available").build());
                 seatStatusRepo.save(SeatStatus.builder().status("busy").build());
+
                 //init seat
                 Seat seat1 = Seat.builder()
                         .shop(shopRepo.findById(1).orElse(null))
@@ -235,6 +242,7 @@ public class CcpApplication {
                         .capacity(5)
                         .build();
 
+                seatRepo.deleteAll();
                 seatRepo.save(seat1);
                 seatRepo.save(seat2);
                 seatRepo.save(seat3);
@@ -251,10 +259,12 @@ public class CcpApplication {
                         .description(null)
                         .build();
 
+                menuRepo.deleteAll();
                 menuRepo.save(menu1);
                 menuRepo.save(menu2);
 
                 //init menu item status
+                menuItemStatusRepo.deleteAll();
                 menuItemStatusRepo.save(MenuItemStatus.builder().status("available").build());
                 menuItemStatusRepo.save(MenuItemStatus.builder().status("unavailable").build());
 
@@ -307,6 +317,7 @@ public class CcpApplication {
                         .soldQuantity(0)
                         .build();
 
+                menuItemRepo.deleteAll();
                 menuItemRepo.save(menuItem1);
                 menuItemRepo.save(menuItem2);
                 menuItemRepo.save(menuItem3);

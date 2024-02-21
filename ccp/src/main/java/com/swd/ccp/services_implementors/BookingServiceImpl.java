@@ -3,6 +3,7 @@ package com.swd.ccp.services_implementors;
 import com.swd.ccp.models.entity_models.MenuItem;
 import com.swd.ccp.models.entity_models.Seat;
 import com.swd.ccp.models.request_models.CreateBookingRequest;
+import com.swd.ccp.models.request_models.UpdateBookingCartRequest;
 import com.swd.ccp.models.response_models.BookingCartResponse;
 import com.swd.ccp.repositories.MenuItemRepo;
 import com.swd.ccp.repositories.SeatRepo;
@@ -23,8 +24,6 @@ public class BookingServiceImpl implements BookingService {
 
     private final SeatRepo seatRepo;
 
-    private final SeatStatusRepo seatStatusRepo;
-
     private final MenuItemRepo menuItemRepo;
 
     private final ShopRepo shopRepo;
@@ -35,7 +34,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public BookingCartResponse createBookingCart(CreateBookingRequest request) {
-        List<BookingCartResponse.BookingCartShopResponse> bookingCartShopResponseList = new ArrayList<>();
+        BookingCartResponse.BookingCartShopResponse bookingCartShopResponse = new BookingCartResponse.BookingCartShopResponse();
         List<BookingCartResponse.BookingCartShopMenuResponse> bookingCartShopMenuResponseList = new ArrayList<>();
 
         Seat seat = seatRepo.findById(request.getSeatID()).orElse(null);
@@ -58,19 +57,17 @@ public class BookingServiceImpl implements BookingService {
                         }
                 );
 
-                shopRepo.findById(seat.getId()).ifPresent(shop -> bookingCartShopResponseList.add(
-                        BookingCartResponse.BookingCartShopResponse.builder()
-                                .shopID(shop.getId())
-                                .shopName(shop.getName())
-                                .seatID(seat.getId())
-                                .seatName(seat.getName())
-                                .createDate(new Date(System.currentTimeMillis()))
-                                .bookingDate(request.getBookingDate())
-                                .status(seat.getSeatStatus().getStatus())
-                                .extraContent(request.getExtraContent())
-                                .bookingCartShopMenuResponseList(bookingCartShopMenuResponseList)
-                                .build()
-                ));
+                shopRepo.findById(seat.getShop().getId()).ifPresent(shop -> {
+                    bookingCartShopResponse.setShopID(shop.getId());
+                    bookingCartShopResponse.setShopName(shop.getName());
+                    bookingCartShopResponse.setSeatID(seat.getId());
+                    bookingCartShopResponse.setSeatName(seat.getName());
+                    bookingCartShopResponse.setCreateDate(new Date(System.currentTimeMillis()));
+                    bookingCartShopResponse.setBookingDate(request.getBookingDate());
+                    bookingCartShopResponse.setStatus(seat.getSeatStatus().getStatus());
+                    bookingCartShopResponse.setExtraContent(request.getExtraContent());
+                    bookingCartShopResponse.setBookingCartShopMenuResponseList(bookingCartShopMenuResponseList);
+                });
             }
 
 
@@ -78,7 +75,7 @@ public class BookingServiceImpl implements BookingService {
                     .status(true)
                     .message("")
                     .token(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
-                    .bookingCartShopResponseList(bookingCartShopResponseList)
+                    .bookingCartShopResponse(bookingCartShopResponse)
                     .build();
         }
 
@@ -86,8 +83,21 @@ public class BookingServiceImpl implements BookingService {
                 .status(false)
                 .message("Seat is busy")
                 .token(null)
-                .bookingCartShopResponseList(null)
+                .bookingCartShopResponse(null)
                 .build();
+    }
+
+    @Override
+    public BookingCartResponse updateBookingCart(UpdateBookingCartRequest request) {
+        BookingCartResponse bookingCartResponse = new BookingCartResponse();
+
+        //Check if new seat is existed
+        Seat newSeat = seatRepo.findById(request.getNewCart().getSeatID()).orElse(null);
+
+        if(newSeat != null && !newSeat.getId().equals(request.getOldCart().getSeatID())){
+
+        }
+        return null;
     }
 }
 

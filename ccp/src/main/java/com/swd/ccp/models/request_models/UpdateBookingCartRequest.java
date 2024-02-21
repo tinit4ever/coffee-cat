@@ -38,7 +38,9 @@ public class UpdateBookingCartRequest {
         private List<BookingCartShopMenuRequest> bookingCartShopMenuResponseList;
     }
 
-    private List<BookingCartShopRequest> oldCartList;
+    private BookingCartShopRequest oldCart;
+
+    private BookingCartShopRequest newCart;
 
 
 }
