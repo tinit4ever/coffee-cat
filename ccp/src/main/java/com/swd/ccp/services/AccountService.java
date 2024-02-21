@@ -1,6 +1,7 @@
 package com.swd.ccp.services;
 
 import com.swd.ccp.models.entity_models.Account;
+import com.swd.ccp.models.response_models.LogoutResponse;
 
 public interface AccountService {
 
@@ -8,4 +9,6 @@ public interface AccountService {
     String getRefreshToken(Integer accountID);
 
     Account getCurrentLoggedUser();
+
+    LogoutResponse logout();
 }

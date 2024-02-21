@@ -42,7 +42,7 @@ public class StaffController {
     }
     @PostMapping("updateStaff/{staffId}")
     @PreAuthorize("hasAuthority('owner:update')")
-    public ResponseEntity<UpdateStaffResponse> updateStaff(@PathVariable Long staffId,
+    public ResponseEntity<UpdateStaffResponse> updateStaff(@PathVariable Integer staffId,
                                                            @RequestBody StaffRequest updateRequest) {
         try {
             UpdateStaffResponse response = staffService.updateStaff(staffId, updateRequest);
@@ -55,7 +55,7 @@ public class StaffController {
     }
     @PostMapping("/inactive/{staffId}")
     @PreAuthorize("hasAuthority('owner:update')")
-    public ResponseEntity<String> inactiveStaff(@PathVariable Long staffId) {
+    public ResponseEntity<String> inactiveStaff(@PathVariable Integer staffId) {
         int result = staffService.inactiveStaff(staffId);
         if (result == 1) {
             return ResponseEntity.ok("Staff with ID " + staffId + " has been successfully inactivated.");
@@ -65,7 +65,7 @@ public class StaffController {
     }
     @PostMapping("/active/{staffId}")
     @PreAuthorize("hasAuthority('owner:update')")
-    public ResponseEntity<String> activeStaff(@PathVariable Long staffId) {
+    public ResponseEntity<String> activeStaff(@PathVariable Integer staffId) {
         int result = staffService.activeStaff(staffId);
         if (result == 1) {
             return ResponseEntity.ok("Staff with ID " + staffId + " has been successfully activated.");

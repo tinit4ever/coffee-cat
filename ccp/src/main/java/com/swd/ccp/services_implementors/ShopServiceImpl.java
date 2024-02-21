@@ -65,16 +65,23 @@ public class ShopServiceImpl implements ShopService {
             return new ShopListResponse(Collections.emptyList(), false , "No active shops found");
         }
 
+        List<Shop> searchResults;
         Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
-        List<Shop> searchResults = shopRepo.findAllByStatusInAndNameOrAddressContaining(activeStatusList, keyword, sort);
+        if ("name".equalsIgnoreCase(searchType)){
+            searchResults = shopRepo.findAllByStatusInAndNameContainingIgnoreCase(activeStatusList, keyword, sort);
+        } else if ("address".equalsIgnoreCase(searchType)){
+            searchResults = shopRepo.findAllByStatusInAndAddressContainingIgnoreCase(activeStatusList, keyword, sort);
+        } else {
+
+            return new ShopListResponse(Collections.emptyList(), false , "Invalid search type");
+        }
 
         boolean status = true;
         String message = "Successfully retrieved shop list";
         List<ShopResponseGuest> mappedshopList = mapToShopDtoList(searchResults);
         return new ShopListResponse(mappedshopList, status, message);
     }
-
     private List<ShopResponseGuest> mapToShopDtoList(List<Shop> shops) {
         if (shops == null) {
             throw new IllegalArgumentException("Argument cannot be null");
@@ -92,7 +99,6 @@ public class ShopServiceImpl implements ShopService {
                     .map(ShopImage::getLink)
                     .collect(Collectors.toList());
             shopResponse.setShopImageList(imageLinks);
-            shopResponse.setFollowerCount((long) followerCustomerRepo.countByShop(shop));
             shopResponse.setAddress(shop.getAddress());
             shopResponse.setPhone(shop.getPhone());
             shopResponse.setAvatar(shop.getAvatar());
@@ -160,7 +166,6 @@ public class ShopServiceImpl implements ShopService {
                     .map(ShopImage::getLink)
                     .collect(Collectors.toList());
             shopResponse.setShopImageList(imageLinks);
-            shopResponse.setFollowerCount((long) followerCustomerRepo.countByShop(shop));
             shopResponse.setAvatar(shop.getAvatar());
             shopResponse.setStatus(true);
             shopResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));

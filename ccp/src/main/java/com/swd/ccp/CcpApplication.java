@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -18,31 +19,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CcpApplication {
 
-    private final AccountStatusRepo accountStatusRepo;
-
-    private final AccountRepo accountRepo;
-
-    private final CustomerRepo customerRepo;
-
-    private final ManagerRepo managerRepo;
-
-    private final TokenRepo tokenRepo;
-
-    private final JWTService jwtService;
-
-    private final ShopRepo shopRepo;
-
-    private final ShopStatusRepo shopStatusRepo;
-
-    private final SeatRepo seatRepo;
-
-    private final SeatStatusRepo seatStatusRepo;
-
-    private final MenuRepo menuRepo;
-
-    private final MenuItemRepo menuItemRepo;
-
-    private final MenuItemStatusRepo menuItemStatusRepo;
+//    private final AccountStatusRepo accountStatusRepo;
+//
+//    private final AccountRepo accountRepo;
+//
+//    private final CustomerRepo customerRepo;
+//
+//    private final ManagerRepo managerRepo;
+//
+//    private final TokenRepo tokenRepo;
+//
+//    private final JWTService jwtService;
+//
+//    private final ShopRepo shopRepo;
+//
+//    private final ShopStatusRepo shopStatusRepo;
+//
+//    private final SeatRepo seatRepo;
+//
+//    private final SeatStatusRepo seatStatusRepo;
+//
+//    private final MenuRepo menuRepo;
+//
+//    private final MenuItemRepo menuItemRepo;
+//
+//    private final MenuItemStatusRepo menuItemStatusRepo;
+//
+//    private final PasswordEncoder passwordEncoder;
 
     public static void main(String[] args) {
         SpringApplication.run(CcpApplication.class, args);
@@ -57,6 +60,20 @@ public class CcpApplication {
 //                List<Account> accountList = new ArrayList<>();
 //                List<Token> tokenList = new ArrayList<>();
 //
+//                //reset database
+//                menuItemRepo.deleteAll();
+//                menuItemStatusRepo.deleteAll();
+//                menuRepo.deleteAll();
+//                seatRepo.deleteAll();
+//                seatStatusRepo.deleteAll();
+//                shopRepo.deleteAll();
+//                shopStatusRepo.deleteAll();
+//                managerRepo.deleteAll();
+//                customerRepo.deleteAll();
+//                tokenRepo.deleteAll();
+//                accountRepo.deleteAll();
+//                accountStatusRepo.deleteAll();
+//
 //                //init account status
 //                accountStatusList.add(AccountStatus.builder().status("active").build());
 //                accountStatusList.add(AccountStatus.builder().status("inactive").build());
@@ -68,7 +85,7 @@ public class CcpApplication {
 //                        .builder()
 //                        .email("admin@gmail.com")
 //                        .name("Admin")
-//                        .password("admin")
+//                        .password(passwordEncoder.encode("admin"))
 //                        .status(accountStatusRepo.findById(1).orElse(null))
 //                        .role(Role.ADMIN)
 //                        .build();
@@ -77,7 +94,7 @@ public class CcpApplication {
 //                        .builder()
 //                        .email("owner@gmail.com")
 //                        .name("Shop owner")
-//                        .password("owner")
+//                        .password(passwordEncoder.encode("owner"))
 //                        .status(accountStatusRepo.findById(1).orElse(null))
 //                        .role(Role.OWNER)
 //                        .build();
@@ -86,7 +103,7 @@ public class CcpApplication {
 //                        .builder()
 //                        .email("staff@gmail.com")
 //                        .name("Staff")
-//                        .password("staff")
+//                        .password(passwordEncoder.encode("staff"))
 //                        .status(accountStatusRepo.findById(1).orElse(null))
 //                        .role(Role.STAFF)
 //                        .build();
@@ -95,7 +112,7 @@ public class CcpApplication {
 //                        .builder()
 //                        .email("customer@gmail.com")
 //                        .name("Customer")
-//                        .password("customer")
+//                        .password(passwordEncoder.encode("customer"))
 //                        .status(accountStatusRepo.findById(1).orElse(null))
 //                        .role(Role.CUSTOMER)
 //                        .build();
@@ -114,7 +131,6 @@ public class CcpApplication {
 //                accountList.add(owner);
 //                accountList.add(staff);
 //                accountList.add(customer);
-//
 //                accountRepo.saveAll(accountList);
 //
 //
@@ -148,6 +164,7 @@ public class CcpApplication {
 //                                .build()
 //                );
 //
+//
 //                managerRepo.save(
 //                        Manager.builder()
 //                                .account(staff)
@@ -180,7 +197,7 @@ public class CcpApplication {
 //                        .address("Le Van Viet, Tp Thu Duc")
 //                        .openTime("08:00")
 //                        .closeTime("22:00")
-//                        .rating(5)
+//                        .rating(5.0)
 //                        .phone("0987654321")
 //                        .status(shopStatusRepo.findById(1).orElse(null))
 //                        .packages(null)
@@ -191,7 +208,7 @@ public class CcpApplication {
 //                        .address("Ho Hoan Kiem, Ha Noi")
 //                        .openTime("07:00")
 //                        .closeTime("20:00")
-//                        .rating(4)
+//                        .rating(4.0)
 //                        .phone("0925836147")
 //                        .status(shopStatusRepo.findById(1).orElse(null))
 //                        .packages(null)
@@ -203,6 +220,7 @@ public class CcpApplication {
 //                //init seat status
 //                seatStatusRepo.save(SeatStatus.builder().status("available").build());
 //                seatStatusRepo.save(SeatStatus.builder().status("busy").build());
+//
 //                //init seat
 //                Seat seat1 = Seat.builder()
 //                        .shop(shopRepo.findById(1).orElse(null))
@@ -310,6 +328,6 @@ public class CcpApplication {
 //                menuItemRepo.save(menuItem4);
 //            }
 //        };
-    }
+//    }
 
-
+}
