@@ -17,6 +17,8 @@ struct Shop: Codable {
     var closeTime: String?
     var address: String?
     var commentList: [String]?
+//    var seatList: [String]?
+//    var phone: Int?
 }
 
 struct ShopList: Codable {
