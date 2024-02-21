@@ -99,7 +99,6 @@ public class ShopServiceImpl implements ShopService {
                     .map(ShopImage::getLink)
                     .collect(Collectors.toList());
             shopResponse.setShopImageList(imageLinks);
-            shopResponse.setFollowerCount((long) followerCustomerRepo.countByShop(shop));
             shopResponse.setAddress(shop.getAddress());
             shopResponse.setPhone(shop.getPhone());
             shopResponse.setAvatar(shop.getAvatar());
@@ -167,7 +166,6 @@ public class ShopServiceImpl implements ShopService {
                     .map(ShopImage::getLink)
                     .collect(Collectors.toList());
             shopResponse.setShopImageList(imageLinks);
-            shopResponse.setFollowerCount((long) followerCustomerRepo.countByShop(shop));
             shopResponse.setAvatar(shop.getAvatar());
             shopResponse.setStatus(true);
             shopResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
