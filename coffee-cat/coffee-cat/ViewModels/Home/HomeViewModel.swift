@@ -6,14 +6,27 @@
 //
 
 import Foundation
+import Combine
 
 protocol HomeViewModelProtocol {
     var shopList: [Shop] {get set}
+    var tableViewTitle: String {get set}
     func getShopList(completion: @escaping () -> Void)
+    func setSearchText(_ searchText: String)
+//    var reloadDataClosure: (() -> Void) { get set }
 }
 
 class HomeViewModel: HomeViewModelProtocol {
-    var shopList: [Shop] = []
+    @Published var shopList: [Shop] = []
+    var tableViewTitle: String = "Top Results"
+    @Published var loadingCompleted: Bool = false
+    private var searchSubject = CurrentValueSubject<String, Never>("")
+    private var cancellables: Set<AnyCancellable> = []
+//    var reloadDataClosure: (() -> Void)?
+    
+    init() {
+        setupSearchPublisher()
+    }
     
     func getShopList(completion: @escaping () -> Void) {
         APIManager.shared.fetchShopList { result in
@@ -26,5 +39,36 @@ class HomeViewModel: HomeViewModelProtocol {
                 completion()
             }
         }
+    }
+    
+    func setSearchText(_ searchText: String) {
+        searchSubject.send(searchText)
+    }
+    
+    func setupSearchPublisher() {
+        searchSubject
+            .debounce(for: .seconds(0.9), scheduler: DispatchQueue.main)
+            .sink { [weak self] searchText in
+                self?.searchShop(search: searchText)
+            }
+            .store(in: &cancellables)
+    }
+    
+    func searchShop(search: String) {
+        APIManager.shared.searchShops(search: search)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    self.loadingCompleted = true
+                    break
+                case .failure(let error):
+                    print(error)
+                }
+            } receiveValue: { [weak self] shopList in
+                self?.shopList = shopList.shopList
+                
+                print(shopList)
+            }
+            .store(in: &cancellables)
     }
 }

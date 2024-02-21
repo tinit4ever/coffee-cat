@@ -9,12 +9,35 @@ import UIKit
 import SwiftUI
 import Alamofire
 
+enum SortOrder {
+    case ascending
+    case descending
+}
+
+enum SortBy {
+    case name
+    case rating
+    case address
+}
+
+enum SearchBy {
+    case name
+    case address
+}
+
+enum Menu {
+    case sortBy
+    case sortOrder
+}
+
 class HomeViewController: UIViewController, UIFactory {
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
-    let viewModel: HomeViewModelProtocol = HomeViewModel()
-    var tableViewTitle: String = "Top Results"
+    var viewModel: HomeViewModelProtocol = HomeViewModel()
+    var topSafeArea: CGFloat?
+    
+    var menu: [UIMenu] = []
     
     // -MARK: Create UI Components
     lazy var topView = makeView()
@@ -25,6 +48,38 @@ class HomeViewController: UIViewController, UIFactory {
     lazy var hookLabel = makeLabel()
     
     lazy var searchBar = makeSearchBar(placeholder: "Search")
+    
+    private let sortButton: UIButton = {
+        let button = UIButton()
+        
+        var configuration = UIButton.Configuration.gray()
+        configuration.title = "Sort"
+        configuration.attributedTitle?.font = UIFont.systemFont(ofSize: 14)
+        configuration.image = UIImage(systemName: "arrow.up.arrow.down", withConfiguration: UIImage.SymbolConfiguration(scale: .medium))
+        configuration.imagePadding = 4
+        configuration.imagePlacement = .trailing
+        
+        button.configuration = configuration
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private let searchBy: UIButton = {
+        let button = UIButton()
+        
+        var configuration = UIButton.Configuration.gray()
+        configuration.title = "Search By"
+        configuration.attributedTitle?.font = UIFont.systemFont(ofSize: 14)
+        configuration.image = UIImage(systemName: "line.3.horizontal.decrease.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .medium))
+        configuration.imagePadding = 4
+        configuration.imagePlacement = .trailing
+        
+        button.configuration = configuration
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     lazy var shopListContainer = makeView()
     lazy var shopList = makeTableView()
@@ -59,7 +114,12 @@ class HomeViewController: UIViewController, UIFactory {
         view.addSubview(searchBar)
         configSearchBar()
         
-//        view.addSubview(shopList)
+        view.addSubview(sortButton)
+        configSortButton()
+        
+        view.addSubview(searchBy)
+        configsearchBy()
+        
         view.addSubview(shopListContainer)
         configShopList()
     }
@@ -69,7 +129,12 @@ class HomeViewController: UIViewController, UIFactory {
     }
     
     private func configNavigation() {
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+            self.topSafeArea = window.safeAreaInsets.top
+        }
+
+        self.navigationController?.isNavigationBarHidden = true
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
@@ -77,10 +142,10 @@ class HomeViewController: UIViewController, UIFactory {
     
     private func configTopView() {
         NSLayoutConstraint.activate([
-            topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: heightScaler(10)),
+            topView.topAnchor.constraint(equalTo: view.topAnchor, constant: topSafeArea ?? heightScaler(50)),
             topView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             topView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
-            topView.heightAnchor.constraint(equalToConstant: sizeScaler(80))
+            topView.heightAnchor.constraint(equalToConstant: sizeScaler(80)),
         ])
         
         topView.addSubview(coffeeAnimationView)
@@ -122,7 +187,8 @@ class HomeViewController: UIViewController, UIFactory {
     }
     
     private func configHookLabel() {
-        hookLabel.setupTitle(text: "It's A Great Day For Coffee Cat", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
+        //        hookLabel.backgroundColor = .red
+        hookLabel.setupTitle(text: "It's A Great Day For Coffee Cat", fontName: FontNames.avenir, size: sizeScaler(35), textColor: .customBlack)
         hookLabel.setBoldText()
         hookLabel.numberOfLines = 0
         hookLabel.lineBreakMode = .byWordWrapping
@@ -132,7 +198,7 @@ class HomeViewController: UIViewController, UIFactory {
             hookLabel.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: heightScaler(20)),
             hookLabel.leadingAnchor.constraint(equalTo: coffeeAnimationView.leadingAnchor),
             hookLabel.widthAnchor.constraint(equalToConstant: view.bounds.width / 3 * 2),
-            hookLabel.heightAnchor.constraint(equalToConstant: sizeScaler(125))
+            //            hookLabel.heightAnchor.constraint(equalToConstant: sizeScaler(105))
         ])
     }
     
@@ -151,6 +217,28 @@ class HomeViewController: UIViewController, UIFactory {
         ])
     }
     
+    private func configSortButton() {
+        NSLayoutConstraint.activate([
+            sortButton.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: heightScaler(20)),
+            sortButton.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
+        ])
+        
+        menu = [createSortByMenu(.name), createSortOrderMenu(.ascending)]
+        sortButton.menu = UIMenu(children: menu)
+        sortButton.showsMenuAsPrimaryAction = true
+        sortButton.setTitle(title: "Sort", fontName: FontNames.avenir, size: sizeScaler(24), color: .systemGray)
+    }
+    
+    private func configsearchBy() {
+        searchBy.menu = UIMenu(children: [createSearchByMenu(.name)])
+        searchBy.showsMenuAsPrimaryAction = true
+        searchBy.setTitle(title: "Search By", fontName: FontNames.avenir, size: sizeScaler(24), color: .systemGray)
+        NSLayoutConstraint.activate([
+            searchBy.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: heightScaler(20)),
+            searchBy.leadingAnchor.constraint(equalTo: sortButton.trailingAnchor, constant: widthScaler(20)),
+        ])
+    }
+    
     private func configShopList() {
         shopList.delegate = self
         shopList.dataSource = self
@@ -161,7 +249,7 @@ class HomeViewController: UIViewController, UIFactory {
         shopListContainer.backgroundColor = .systemBackground
         
         NSLayoutConstraint.activate([
-            shopListContainer.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: heightScaler(30)),
+            shopListContainer.topAnchor.constraint(equalTo: sortButton.bottomAnchor, constant: heightScaler(10)),
             shopListContainer.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
             shopListContainer.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
             shopListContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -heightScaler(160))
@@ -182,9 +270,125 @@ class HomeViewController: UIViewController, UIFactory {
         let shopDetailsViewController = ShopDetailsViewController()
         self.navigationController?.pushViewController(shopDetailsViewController, animated: true)
     }
+    
+    // -MARK: Utilities
+    private func createSortOrderMenu(_ on: SortOrder) -> UIMenu {
+        let sortOrderClosure = { (action: UIAction) in
+            self.updateSortMenu(on: .sortOrder, with: action.title)
+        }
+        
+        let sortOrder = UIMenu(title: "Sort Order", options: .displayInline, children: [
+            UIAction(title: "Ascending", image: UIImage(systemName: "arrow.up"), handler:
+                        sortOrderClosure),
+            UIAction(title: "Descending", image: UIImage(systemName: "arrow.down"),  handler: sortOrderClosure),
+        ])
+        switch on {
+        case .ascending:
+            (sortOrder.children[0] as! UIAction).state = .on
+        case .descending:
+            (sortOrder.children[1] as! UIAction).state = .on
+        }
+        
+        return sortOrder
+    }
+    
+    private func createSortByMenu(_ on: SortBy) -> UIMenu {
+        let sortByClosure = { (action: UIAction) in
+            self.updateSortMenu(on: .sortBy, with: action.title)
+        }
+        let sortBy = UIMenu(title: "Sort By", options: .displayInline, children: [
+            UIAction(title: "Name", image: UIImage(systemName: "person.text.rectangle.fill"), handler:
+                        sortByClosure),
+            UIAction(title: "Rating", image: UIImage(systemName: "star.fill"), handler: sortByClosure),
+            UIAction(title: "Address", image: UIImage(systemName: "house.fill"),  handler: sortByClosure),
+        ])
+        
+        switch on {
+        case .name:
+            (sortBy.children[0] as! UIAction).state = .on
+        case .rating:
+            (sortBy.children[1] as! UIAction).state = .on
+        case .address:
+            (sortBy.children[2] as! UIAction).state = .on
+        }
+        
+        return sortBy
+    }
+    
+    private func updateSortMenu(on menu: Menu, with title: String) {
+        switch menu {
+        case .sortBy:
+            if title == "Name" {
+                self.menu[0] = createSortByMenu(.name)
+            } else if title == "Rating" {
+                self.menu[0] = createSortByMenu(.rating)
+            } else if title == "Address" {
+                self.menu[0] = createSortByMenu(.address)
+            }
+        case .sortOrder:
+            if title == "Ascending" {
+                self.menu[1] = createSortOrderMenu(.ascending)
+            } else if title == "Descending" {
+                self.menu[1] = createSortOrderMenu(.descending)
+            }
+        }
+        
+        self.sortButton.menu = UIMenu(children: self.menu)
+    }
+    
+    private func createSearchByMenu(_ on: SearchBy) -> UIMenu {
+        let searchByClosure = { (action: UIAction) in
+            self.updateSearchByMenu(with: action.title)
+        }
+        
+        var searchBy = UIMenu()
+        switch on {
+        case .name:
+            searchBy = UIMenu(title: "Search By", options: .displayInline, children: [
+                UIAction(title: "Name", image: UIImage(systemName: "person.text.rectangle.fill"), state: .on, handler:
+                            searchByClosure),
+                UIAction(title: "Address", image: UIImage(systemName: "house.fill"),  handler: searchByClosure),
+            ])
+        case .address:
+            searchBy = UIMenu(title: "Search By", options: .displayInline, children: [
+                UIAction(title: "Name", image: UIImage(systemName: "person.text.rectangle.fill"), handler:
+                            searchByClosure),
+                UIAction(title: "Address", image: UIImage(systemName: "house.fill"), state: .on, handler: searchByClosure),
+            ])
+        }
+        
+        return searchBy
+    }
+    
+    private func updateSearchByMenu(with title: String) {
+        if title == "Name" {
+            self.searchBy.menu = UIMenu(children: [createSearchByMenu(.name)])
+        } else if title == "Address" {
+            self.searchBy.menu = UIMenu(children: [createSearchByMenu(.address)])
+        }
+    }
 }
 
 extension HomeViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.viewModel.setSearchText(searchText)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            if let searchText = searchBar.text {
+                self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
+            }
+            self.shopList.reloadData()
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.view.endEditing(true)
+        DispatchQueue.main.async {
+            if let searchText = searchBar.text {
+                self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
+            }
+            self.shopList.reloadData()
+        }
+    }
 }
 
 extension HomeViewController: UITableViewDelegate {
@@ -195,7 +399,7 @@ extension HomeViewController: UITableViewDelegate {
 
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return tableViewTitle
+        return self.viewModel.tableViewTitle
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -213,7 +417,7 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightScaler(140)
+        return heightScaler(120)
     }
 }
 
