@@ -43,16 +43,25 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: widthScaler(30), left: widthScaler(30), bottom: 0, right: widthScaler(30)))
+    }
+    
     private func configureUI() {
         contentView.addSubview(shopImageView)
-        shopImageView.layer.cornerRadius = widthScaler(10)
-        shopImageView.layer.masksToBounds = true
+        
+        contentView.backgroundColor = .systemGray6
+        contentView.layer.cornerRadius = sizeScaler(10)
+        contentView.layer.masksToBounds = true
         
         NSLayoutConstraint.activate([
-            shopImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: widthScaler(40)),
+            shopImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            shopImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            shopImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             shopImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            shopImageView.widthAnchor.constraint(equalToConstant: widthScaler(200)),
-            shopImageView.heightAnchor.constraint(equalToConstant: heightScaler(120))
+            shopImageView.widthAnchor.constraint(equalToConstant: widthScaler(220))
         ])
         
         contentView.addSubview(shopName)
