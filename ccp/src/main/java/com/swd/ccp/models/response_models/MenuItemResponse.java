@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class MenuItemResponse {
 
-
+    private Integer id;
     private String name;
 
     private float price;
@@ -25,4 +25,7 @@ public class MenuItemResponse {
     private int quantity;
 
     private int soldQuantity;
+    private String message;
+    private boolean status;
+    private String token;
 }

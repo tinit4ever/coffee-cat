@@ -1,6 +1,5 @@
 package com.swd.ccp.controllers;
 
-import com.swd.ccp.models.request_models.CheckMailExistedRequest;
 import com.swd.ccp.models.request_models.LoginRequest;
 import com.swd.ccp.models.request_models.RegisterRequest;
 import com.swd.ccp.models.response_models.CheckMailExistedResponse;
@@ -29,10 +28,10 @@ public class AuthenticationController {
         return ResponseEntity.badRequest().body(response);
     }
 
-    @PostMapping("/check-email")
-    public ResponseEntity<CheckMailExistedResponse> checkUserIsExisted(@RequestBody CheckMailExistedRequest request){
-        return ResponseEntity.ok().body(authenticationService.checkUserIsExisted(request.getEmail()));
-    }
+//    @PostMapping("/check-email")
+//    public ResponseEntity<CheckMailExistedResponse> checkUserIsExisted(@RequestBody CheckMailExistedRequest request){
+//        return ResponseEntity.ok().body(authenticationService.checkUserIsExisted(request.getEmail()));
+//    }
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request){

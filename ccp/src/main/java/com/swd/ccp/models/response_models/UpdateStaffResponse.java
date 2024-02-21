@@ -8,6 +8,7 @@ import lombok.Setter;
 public class UpdateStaffResponse {
     private Integer staffId;
     private String message;
-    private boolean success;
+    private boolean status;
+    private String token;
 
 }

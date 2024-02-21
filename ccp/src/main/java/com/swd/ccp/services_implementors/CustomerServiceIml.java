@@ -7,6 +7,7 @@ import com.swd.ccp.models.response_models.CustomerProfile;
 import com.swd.ccp.models.response_models.UpdateProfileResponse;
 import com.swd.ccp.repositories.AccountRepo;
 import com.swd.ccp.repositories.CustomerRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.CustomerService;
 import com.swd.ccp.services.JWTService;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +18,15 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceIml implements CustomerService {
-    private final AccountRepo accountRepo;
+    private final AccountService accountService;
     private final CustomerRepo customerRepo;
     private final JWTService jwtService;
-    private static final String ACTIVE = "Active";
+    private static final String ACTIVE = "opened";
 
 
     @Override
     public CustomerProfile getCustomerProfile(String token) {
-        String email = jwtService.extractEmail(token.substring(7)); // Loại bỏ tiền tố "Bearer "
+        String email = jwtService.extractEmail(token.substring(7));
 
         if (email != null) {
             Optional<Customer> optionalCustomer = customerRepo.findByAccount_Email(email);
@@ -37,6 +38,8 @@ public class CustomerServiceIml implements CustomerService {
                 profile.setPhone(customer.getPhone());
                 profile.setGender(customer.getGender());
                 profile.setDob(customer.getDob());
+                profile.setStatus(true);
+                profile.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
                 return profile;
             } else {
                 throw new NotFoundException("Customer profile not found.");
@@ -66,7 +69,7 @@ public class CustomerServiceIml implements CustomerService {
 
             UpdateProfileResponse response = new UpdateProfileResponse();
             response.setMessage("Profile information updated successfully.");
-            response.setSuccess(true);
+            response.setStatus(true);
 
             return response;
         } else {

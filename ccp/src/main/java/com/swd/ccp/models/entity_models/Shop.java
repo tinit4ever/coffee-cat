@@ -30,9 +30,10 @@ public class Shop {
     @Column(name = "close_time")
     private String closeTime;
 
-    private Integer rating;
+    private Double rating;
 
     private String phone;
+    private String avatar;
 
     @ManyToOne
     @JoinColumn(name = "status_id")

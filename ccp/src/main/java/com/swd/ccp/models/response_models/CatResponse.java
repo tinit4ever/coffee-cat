@@ -10,10 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CatResponse {
+    private Integer id;
     private String type;
 
     private String description;
 
-
     private String imgLink;
+
 }

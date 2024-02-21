@@ -15,6 +15,7 @@ import com.swd.ccp.repositories.AccountRepo;
 import com.swd.ccp.repositories.AccountStatusRepo;
 import com.swd.ccp.repositories.CustomerRepo;
 import com.swd.ccp.repositories.TokenRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.JWTService;
 import com.swd.ccp.services.StaffService;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +38,10 @@ public class StaffServiceImpl implements StaffService {
     private final AccountStatusRepo accountStatusRepo;
 
 
-    private final CustomerRepo customerRepo;
+    private final AccountService accountService;
 
     private final TokenRepo tokenRepo;
-    private static final String ACTIVE = "Active";
+    private static final String ACTIVE = "opened";
     private static final String INACTIVE = "InActive";
 
     @Override
@@ -75,7 +76,9 @@ public class StaffServiceImpl implements StaffService {
             staffResponse.setEmail(account.getEmail());
             staffResponse.setName(account.getName());
             staffResponse.setPassword(account.getPassword());
-            staffResponse.setStatus(account.getStatus().getStatus());
+            staffResponse.setStaff_status(account.getStatus().getStatus());
+            staffResponse.setStatus(true);
+            staffResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
             if (account.getName() == null) {
                 staffResponse.setName("N/A");
             }
@@ -95,7 +98,7 @@ public class StaffServiceImpl implements StaffService {
                                 .email(request.getEmail())
                                 .password(request.getPassword())
                                 .name(request.getName())
-                                .status(accountStatusRepo.findById(1).orElse(null)) // Chỉnh lại nếu cần thiết
+                                .status(accountStatusRepo.findById(1).orElse(null))
                                 .role(Role.STAFF)
                                 .build()
                 );
@@ -126,9 +129,11 @@ public class StaffServiceImpl implements StaffService {
                                 StaffResponse.builder()
                                         .id(account.getId())
                                         .email(account.getEmail())
-                                        .status(account.getStatus().getStatus())
+                                        .staff_status(account.getStatus().getStatus())
                                         .name(account.getName())
                                         .password(account.getPassword())
+                                        .status(true)
+                                        .token(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                                         .build()
                         )
                         .build();
@@ -168,7 +173,8 @@ public class StaffServiceImpl implements StaffService {
             UpdateStaffResponse response = new UpdateStaffResponse();
             response.setStaffId(staffId);
             response.setMessage("Staff information updated successfully.");
-            response.setSuccess(true);
+            response.setStatus(true);
+            response.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
 
             return response;
         } else {

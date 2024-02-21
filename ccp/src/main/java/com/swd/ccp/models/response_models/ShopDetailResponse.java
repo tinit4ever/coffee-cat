@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @Data
 public class ShopDetailResponse {
-    private Integer rating;
+    private Double rating;
     private String name;
     private List<String> shopImageList;
     private String address;
@@ -21,5 +21,7 @@ public class ShopDetailResponse {
     private String phone;
     private List<String> commentList;
     private List<String> seatList;
-
+    private String message;
+    private boolean status;
+    private String token;
 }
