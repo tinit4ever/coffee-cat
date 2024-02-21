@@ -26,6 +26,7 @@ class HomeViewController: UIViewController, UIFactory {
     
     lazy var searchBar = makeSearchBar(placeholder: "Search")
     
+    lazy var shopListContainer = makeView()
     lazy var shopList = makeTableView()
     
     // -MARK: ViewDidLoad
@@ -58,7 +59,8 @@ class HomeViewController: UIViewController, UIFactory {
         view.addSubview(searchBar)
         configSearchBar()
         
-        view.addSubview(shopList)
+//        view.addSubview(shopList)
+        view.addSubview(shopListContainer)
         configShopList()
     }
     
@@ -153,14 +155,25 @@ class HomeViewController: UIViewController, UIFactory {
         shopList.delegate = self
         shopList.dataSource = self
         shopList.register(ShopTableViewCell.self, forCellReuseIdentifier: ShopTableViewCell.identifier)
-        shopList.register(UITableViewCell.self, forCellReuseIdentifier: "titleCell")
-        view.addSubview(shopList)
-        shopList.layer.cornerRadius = sizeScaler(10)
+        
+        shopListContainer.layer.cornerRadius = sizeScaler(10)
+        shopListContainer.layer.masksToBounds = true
+        shopListContainer.backgroundColor = .systemBackground
+        
         NSLayoutConstraint.activate([
-            shopList.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: heightScaler(30)),
-            shopList.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
-            shopList.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
-            shopList.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -heightScaler(160))
+            shopListContainer.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: heightScaler(30)),
+            shopListContainer.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
+            shopListContainer.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
+            shopListContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -heightScaler(160))
+        ])
+        
+        shopListContainer.addSubview(shopList)
+        shopList.separatorStyle = .none
+        NSLayoutConstraint.activate([
+            shopList.topAnchor.constraint(equalTo: shopListContainer.topAnchor),
+            shopList.leadingAnchor.constraint(equalTo: shopListContainer.leadingAnchor),
+            shopList.trailingAnchor.constraint(equalTo: shopListContainer.trailingAnchor),
+            shopList.bottomAnchor.constraint(equalTo: shopListContainer.bottomAnchor, constant: -heightScaler(15))
         ])
     }
     
@@ -181,35 +194,26 @@ extension HomeViewController: UITableViewDelegate {
 }
 
 extension HomeViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return tableViewTitle
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.viewModel.shopList.count + 1
+        return self.viewModel.shopList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            let firstCell = tableView.dequeueReusableCell(withIdentifier: "titleCell", for: indexPath)
-            firstCell.textLabel?.text = self.tableViewTitle
-            firstCell.textLabel?.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
-            firstCell.textLabel?.setBoldText()
-            firstCell.selectionStyle = .none
-            return firstCell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ShopTableViewCell.identifier, for: indexPath) as! ShopTableViewCell
-            
-            let shop = self.viewModel.shopList[indexPath.row - 1]
-            
-            cell.configure(shop: shop)
-            cell.selectionStyle = .none
-            return cell
-        }
+        let cell = tableView.dequeueReusableCell(withIdentifier: ShopTableViewCell.identifier, for: indexPath) as! ShopTableViewCell
+        
+        let shop = self.viewModel.shopList[indexPath.row]
+        
+        cell.configure(shop: shop)
+        cell.selectionStyle = .none
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return heightScaler(60)
-        } else {
-            return heightScaler(140)
-        }
+        return heightScaler(140)
     }
 }
 
