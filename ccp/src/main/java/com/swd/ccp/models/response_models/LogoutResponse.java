@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookingCartShopMenuResponse {
+public class LogoutResponse {
 
-    private String itemName;
+    private boolean status;
 
-    private float itemPrice;
-
-    private int quantity;
+    private String message;
 }

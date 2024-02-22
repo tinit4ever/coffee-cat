@@ -11,7 +11,7 @@ import java.util.List;
 public interface ShopService {
     ShopListResponse getActiveShops(SortRequest sortRequest);
     ShopListResponse searchShops(String keyword, String searchType, SortRequest sortRequest);
-    ShopDetailResponse getShopDetails(Long id);
+  ;
 //    Page<ShopResponse> getPopularActiveShops(Integer page, Integer size);
 
     Page<ShopResponse> getShops(PaginationRequest pageRequest);

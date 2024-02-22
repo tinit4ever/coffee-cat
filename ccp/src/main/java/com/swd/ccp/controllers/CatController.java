@@ -30,14 +30,5 @@ public class CatController {
         CatListResponse activeCats = catService.getActiveCats(shopId,sortRequest);
         return ResponseEntity.ok(activeCats);
     }
-    @GetMapping("/cats/{id}")
-    @PreAuthorize("hasAuthority('customer:read')")
-    public ResponseEntity<CatResponse> getCatDetails(@PathVariable Long id) {
-        CatResponse catResponse = catService.getCatDetails(id);
-        if (catResponse != null) {
-            return ResponseEntity.ok(catResponse );
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+
 }

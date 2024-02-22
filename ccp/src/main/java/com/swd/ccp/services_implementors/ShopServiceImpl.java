@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -62,16 +65,23 @@ public class ShopServiceImpl implements ShopService {
             return new ShopListResponse(Collections.emptyList(), false , "No active shops found");
         }
 
+        List<Shop> searchResults;
         Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
-        List<Shop> searchResults = shopRepo.findAllByStatusInAndNameOrAddressContaining(activeStatusList, keyword, sort);
+        if ("name".equalsIgnoreCase(searchType)){
+            searchResults = shopRepo.findAllByStatusInAndNameContainingIgnoreCase(activeStatusList, keyword, sort);
+        } else if ("address".equalsIgnoreCase(searchType)){
+            searchResults = shopRepo.findAllByStatusInAndAddressContainingIgnoreCase(activeStatusList, keyword, sort);
+        } else {
+
+            return new ShopListResponse(Collections.emptyList(), false , "Invalid search type");
+        }
 
         boolean status = true;
         String message = "Successfully retrieved shop list";
         List<ShopResponseGuest> mappedshopList = mapToShopDtoList(searchResults);
         return new ShopListResponse(mappedshopList, status, message);
     }
-
     private List<ShopResponseGuest> mapToShopDtoList(List<Shop> shops) {
         if (shops == null) {
             throw new IllegalArgumentException("Argument cannot be null");
@@ -80,47 +90,49 @@ public class ShopServiceImpl implements ShopService {
         if (shops.isEmpty()) {
             return Collections.emptyList();
         }
-
-        return shops.stream().map(shop-> {
+        return shops.stream().map(shop -> {
             ShopResponseGuest shopResponse = new ShopResponseGuest();
+
             shopResponse.setName(shop.getName());
             shopResponse.setRating(shop.getRating());
             List<String> imageLinks = shop.getShopImageList().stream()
                     .map(ShopImage::getLink)
                     .collect(Collectors.toList());
             shopResponse.setShopImageList(imageLinks);
-            shopResponse.setFollowerCount((long) followerCustomerRepo.countByShop(shop));
+            shopResponse.setAddress(shop.getAddress());
+            shopResponse.setPhone(shop.getPhone());
+            shopResponse.setAvatar(shop.getAvatar());
+            shopResponse.setCommentList(shop.getCommentList().stream().map(Comment::getComment)
+                    .collect(Collectors.toList()));
+            shopResponse.setSeatList(shop.getSeatList().stream().map(Seat::getName)
+                    .collect(Collectors.toList()));
+
+            shopResponse.setOpenTime(shop.getOpenTime());
+            shopResponse.setCloseTime(shop.getCloseTime());
+
+            if (shop.getAddress() == null) {
+                shopResponse.setAddress("N/A");
+            }
+            if (shop.getOpenTime() == null) {
+                shopResponse.setOpenTime("N/A");
+            }
+            if (shop.getCloseTime() == null) {
+                shopResponse.setCloseTime("N/A");
+            }
+            if (shop.getPhone() == null) {
+                shopResponse.setPhone("N/A");
+            }
             if (shop.getName() == null) {
                 shopResponse.setName("N/A");
             }
+            if (shop.getRating() == null) {
+                shopResponse.setRating(0.0);
+            }
+
             return shopResponse;
         }).collect(Collectors.toList());
     }
-    @Override
-    public ShopDetailResponse getShopDetails(Long id) {
-        ShopStatus activeStatus = shopStatusRepo.findByStatus(ACTIVE);
-        if (activeStatus == null) {
-            throw new NotFoundException("Active status not found");
-        }
-        Shop shop = shopRepo.findByIdAndStatus(id,activeStatus);
-        if (shop != null) {
-            ShopDetailResponse shopDetailResponse = ShopDetailResponse.builder()
-                    .rating(shop.getRating())
-                    .name(shop.getName())
-                    .shopImageList(shop.getShopImageList().stream().map(ShopImage::getLink).collect(Collectors.toList()))
-                    .address(shop.getAddress())
-                    .openTime(shop.getOpenTime())
-                    .closeTime(shop.getCloseTime())
-                    .commentList(shop.getCommentList().stream().map(Comment::getComment).collect(Collectors.toList()))
-                    .phone(shop.getPhone())
-                    .seatList(shop.getSeatList().stream().map(Seat::getName).collect(Collectors.toList()))
-                    .status(true)
-                    .build();
-            return shopDetailResponse;
-        } else {
-            throw new NotFoundException("Shop with id " + id + " not found or is not active.");
-        }
-    }
+
     @Override
     public Page<ShopResponse> getShops(PaginationRequest pageRequest) {
 
@@ -154,7 +166,6 @@ public class ShopServiceImpl implements ShopService {
                     .map(ShopImage::getLink)
                     .collect(Collectors.toList());
             shopResponse.setShopImageList(imageLinks);
-            shopResponse.setFollowerCount((long) followerCustomerRepo.countByShop(shop));
             shopResponse.setAvatar(shop.getAvatar());
             shopResponse.setStatus(true);
             shopResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));

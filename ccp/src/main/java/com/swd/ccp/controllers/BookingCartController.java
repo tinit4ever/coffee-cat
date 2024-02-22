@@ -2,7 +2,7 @@ package com.swd.ccp.controllers;
 
 import com.swd.ccp.models.request_models.CreateBookingRequest;
 import com.swd.ccp.models.response_models.BookingCartResponse;
-import com.swd.ccp.services.BookingCartService;
+import com.swd.ccp.services.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class BookingCartController {
 
-    private final BookingCartService bookingCartService;
+    private final BookingService bookingService;
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('customer:create')")
     public ResponseEntity<BookingCartResponse> createCart(@RequestBody CreateBookingRequest request){
-        return ResponseEntity.ok().body(bookingCartService.createBookingCart(request));
+        return ResponseEntity.ok().body(bookingService.createBookingCart(request));
     }
 }

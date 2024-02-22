@@ -17,6 +17,8 @@ struct Shop: Codable {
     var closeTime: String?
     var address: String?
     var commentList: [String]?
+//    var seatList: [String]?
+//    var phone: Int?
 }
 
 struct ShopList: Codable {
@@ -24,3 +26,10 @@ struct ShopList: Codable {
     var status: Bool
     var message: String
 }
+
+struct SearchParam {
+    var searchType: String
+    var sortBy: String
+    var asc: Bool
+}
+

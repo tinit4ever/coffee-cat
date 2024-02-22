@@ -13,12 +13,13 @@ import java.util.List;
 @Data
 
 public class ShopResponse {
+    private Integer id;
     private Double rating;
     private String name;
     private List<String> shopImageList;
     private String avatar;
-    private Long followerCount;
     private String message;
     private boolean status;
     private String token;
+
 }

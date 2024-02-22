@@ -68,7 +68,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
 //            "Good"
 //        ]
         self.viewModel.index = 0
-        self.viewModel.shop.shopImageList = ["person", "trash", "house", "circle"]
+        self.viewModel.shop.shopImageList = ["1", "2", "3", "4"]
     }
     
     private func setupAction() {
@@ -102,6 +102,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     
     private func configOverallImageView() {
         overallImageView.backgroundColor = .systemBackground
+        overallImageView.contentMode = .scaleAspectFill
         NSLayoutConstraint.activate([
             overallImageView.topAnchor.constraint(equalTo: scrollViewContainer.topAnchor),
             overallImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -151,7 +152,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     
     // MARK: - Utilities
     private func updateImage(index: Int) {
-        overallImageView.image = UIImage(systemName: self.viewModel.shop.shopImageList[index])
+        overallImageView.image = UIImage(named: self.viewModel.shop.shopImageList[index])
     }
     
     private func updateIndexLabel() {

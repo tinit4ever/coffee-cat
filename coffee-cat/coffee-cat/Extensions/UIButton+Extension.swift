@@ -37,6 +37,7 @@ extension UIButton {
         }
         
         self.configuration = configuration
+        self.tintColor = color
     }
     
     func removeBackground() {

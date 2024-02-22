@@ -3,10 +3,7 @@ package com.swd.ccp.services_implementors;
 import com.swd.ccp.models.entity_models.Customer;
 import com.swd.ccp.models.request_models.LoginRequest;
 import com.swd.ccp.models.request_models.RegisterRequest;
-import com.swd.ccp.models.response_models.AccountResponse;
-import com.swd.ccp.models.response_models.CheckMailExistedResponse;
-import com.swd.ccp.models.response_models.LoginResponse;
-import com.swd.ccp.models.response_models.RegisterResponse;
+import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.enums.Role;
 import com.swd.ccp.models.entity_models.Account;
 import com.swd.ccp.models.entity_models.Token;
@@ -14,10 +11,12 @@ import com.swd.ccp.repositories.AccountRepo;
 import com.swd.ccp.repositories.AccountStatusRepo;
 import com.swd.ccp.repositories.CustomerRepo;
 import com.swd.ccp.repositories.TokenRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.AuthenticationService;
 import com.swd.ccp.services.JWTService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,9 +32,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AccountRepo accountRepo;
 
+    private final AccountService accountService;
+
     private final CustomerRepo customerRepo;
 
     private final TokenRepo tokenRepo;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public RegisterResponse register(RegisterRequest request) {
@@ -50,7 +53,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                             Account.builder()
                                     .email(request.getEmail())
                                     .name(request.getName())
-                                    .password(request.getPassword())
+                                    .password(passwordEncoder.encode(request.getPassword()))
                                     .status(accountStatusRepo.findById(1).orElse(null))
                                     .role(Role.CUSTOMER)
                                     .build()
@@ -101,7 +104,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                             .build();
                 }
                 return RegisterResponse.builder()
-                        .message("Register fail: account is already existed")
+                        .message("Account is already existed")
                         .status(false)
                         .access_token(null)
                         .refresh_token(null)
@@ -109,7 +112,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         .build();
             }
             return RegisterResponse.builder()
-                    .message("Register fail: unmatched password")
+                    .message("Unmatched password and confirmed password")
                     .status(false)
                     .access_token(null)
                     .refresh_token(null)
@@ -117,17 +120,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .build();
         }
 
-//    @Override
-//    public CheckMailExistedResponse checkUserIsExisted(String email) {
-//        if(accountRepo.findByEmail(email).orElse(null) != null){
-//            return CheckMailExistedResponse.builder()
-//                    .message("User is existed")
-//                    .build();
-//        }
-//        return CheckMailExistedResponse.builder()
-//                .message("User is not existed")
-//                .build();
-//    }
+    @Override
+    public CheckMailExistedResponse checkUserIsExisted(String email) {
+        if(accountRepo.findByEmail(email).orElse(null) != null){
+            return CheckMailExistedResponse.builder()
+                    .message("User is existed")
+                    .build();
+        }
+        return CheckMailExistedResponse.builder()
+                .message("User is not existed")
+                .build();
+    }
 
 
     @Override
@@ -135,9 +138,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (isStringValid(request.getEmail() ) && isStringValid(request.getPassword())) {
             Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
 
-            if (account != null) {
+            if (account != null && passwordEncoder.matches(request.getPassword(), account.getPassword())) {
                 List<Token> tokenList = refreshToken(account);
-                if (account.getStatus().getId() == 1 && account.getPassword().equals(request.getPassword())) {
+                if (account.getStatus().getId() == 1) {
                     tokenList.forEach(token -> {
                         Token t = tokenRepo.findByToken(token.getToken()).orElse(null);
                         if (t == null) {
@@ -164,7 +167,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                             .build();
                 }
                 return LoginResponse.builder()
-                        .message("Login fail: account has been banned")
+                        .message("Account has been banned")
                         .access_token(null)
                         .refresh_token(null)
                         .status(false)
@@ -172,7 +175,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         .build();
             }
             return LoginResponse.builder()
-                    .message("Login fail: account does not existed")
+                    .message("Username or password is incorrect")
                     .access_token(null)
                     .refresh_token(null)
                     .status(false)
@@ -180,7 +183,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .build();
         }
         return LoginResponse.builder()
-                .message("Login fail: Username or password incorrect")
+                .message("Username or password is wrong format")
                 .access_token(null)
                 .refresh_token(null)
                 .status(false)

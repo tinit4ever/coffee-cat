@@ -79,23 +79,5 @@ import java.util.stream.Collectors;
                     return catResponse;
                 }).collect(Collectors.toList());
     }
-    @Override
-    public CatResponse getCatDetails(Long id) {
-        CatStatus activeStatus = catStatusRepo.findByStatus(ACTIVE);
-        if (activeStatus == null) {
-            throw new NotFoundException("Active status not found");
-        }
-        Cat cat = catRepo.findByIdAndCatStatus(id,activeStatus);
-        if (cat != null) {
-            CatResponse catResponse = CatResponse.builder()
-                    .type(cat.getType())
-                    .description(cat.getDescription())
-                    .imgLink(cat.getImgLink())
-                    .build();
-            return catResponse;
-        } else {
-            // Handle the case where no shop with the given id is found
-            return null;
-        }
-    }
+
     }
