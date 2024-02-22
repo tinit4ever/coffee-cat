@@ -92,7 +92,6 @@ com\swd\ccp\models\request_models\LoginRequest.class
 com\swd\ccp\models\response_models\CheckMailExistedResponse.class
 com\swd\ccp\models\response_models\CreateStaffResponse$CreateStaffResponseBuilder.class
 com\swd\ccp\services\FollowerService.class
-com\swd\ccp\CcpApplication$1.class
 com\swd\ccp\models\entity_models\PackageStatus$PackageStatusBuilder.class
 com\swd\ccp\repositories\MenuItemRepo.class
 com\swd\ccp\models\entity_models\FollowerCustomer.class

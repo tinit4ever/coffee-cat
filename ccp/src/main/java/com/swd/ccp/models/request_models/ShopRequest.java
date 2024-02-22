@@ -23,10 +23,11 @@ public class ShopRequest {
     private String address;
 
     private String openTime;
-
+    private List<ShopImage> shopImageList;
     private String closeTime;
     private Seat seat;
     private String avatar;
     private String phone;
-
+    private ShopStatus shopStatus;
+    private List<Seat> seatList;
 }
