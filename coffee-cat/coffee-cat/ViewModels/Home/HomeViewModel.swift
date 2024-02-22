@@ -28,7 +28,7 @@ class HomeViewModel: HomeViewModelProtocol {
 //    var reloadDataClosure: (() -> Void)?
     
     init() {
-        self.searchParam = SearchParam(searchType: "name", sortBy: "rating", asc: true)
+        self.searchParam = SearchParam(searchType: "name", sortBy: "rating", asc: false)
         setupSearchPublisher()
     }
     
@@ -70,7 +70,6 @@ class HomeViewModel: HomeViewModelProtocol {
                 }
             } receiveValue: { [weak self] shopList in
                 self?.shopList = shopList.shopList
-                
                 print(shopList)
             }
             .store(in: &cancellables)

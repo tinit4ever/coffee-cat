@@ -28,6 +28,7 @@ enum SearchBy {
 enum Menu {
     case sortBy
     case sortOrder
+    case searchBy
 }
 
 class HomeViewController: UIViewController, UIFactory {
@@ -133,7 +134,7 @@ class HomeViewController: UIViewController, UIFactory {
            let window = windowScene.windows.first {
             self.topSafeArea = window.safeAreaInsets.top
         }
-
+        
         self.navigationController?.isNavigationBarHidden = true
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -331,14 +332,16 @@ class HomeViewController: UIViewController, UIFactory {
             } else if title == "Descending" {
                 self.menu[1] = createSortOrderMenu(.descending)
             }
+        case .searchBy:
+            print("NA")
         }
-        
         self.sortButton.menu = UIMenu(children: self.menu)
+        self.updateSearchResutl(on: menu, with: title)
     }
     
     private func createSearchByMenu(_ on: SearchBy) -> UIMenu {
         let searchByClosure = { (action: UIAction) in
-            self.updateSearchByMenu(with: action.title)
+            self.updateSearchByMenu(on: .searchBy, with: action.title)
         }
         
         var searchBy = UIMenu()
@@ -360,11 +363,47 @@ class HomeViewController: UIViewController, UIFactory {
         return searchBy
     }
     
-    private func updateSearchByMenu(with title: String) {
+    private func updateSearchByMenu(on menu: Menu, with title: String) {
         if title == "Name" {
             self.searchBy.menu = UIMenu(children: [createSearchByMenu(.name)])
         } else if title == "Address" {
             self.searchBy.menu = UIMenu(children: [createSearchByMenu(.address)])
+        }
+        
+        self.updateSearchResutl(on: menu, with: title)
+    }
+    
+    private func updateSearchResutl(on: Menu, with title: String) {
+        switch on {
+        case .searchBy:
+            if title == "Name" {
+                self.viewModel.searchParam.searchType = "name"
+            } else if title == "Address" {
+                self.viewModel.searchParam.searchType = "address"
+            }
+            
+        case .sortBy:
+            if title == "Name" {
+                self.viewModel.searchParam.sortBy = "name"
+            } else if title == "Rating" {
+                self.viewModel.searchParam.sortBy = "rating"
+            } else if title == "Address" {
+                self.viewModel.searchParam.sortBy = "address"
+            }
+        case .sortOrder:
+            if title == "Ascending" {
+                self.viewModel.searchParam.asc = true
+            } else if title == "Descending" {
+                self.viewModel.searchParam.asc = false
+            }
+        }
+        
+        self.viewModel.setSearchText(searchBar.text ?? "")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            if let searchText = self.searchBar.text {
+                self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
+            }
+            self.shopList.reloadData()
         }
     }
 }
