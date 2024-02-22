@@ -70,7 +70,7 @@ class MainTabBarViewController: UITabBarController {
     private func customizeTabBarAppearance() {
         tabBar.layer.shadowColor = UIColor.black.cgColor
         tabBar.layer.shadowOpacity = 0.3
-        tabBar.layer.shadowOffset = CGSize(width: 0, height: -heightScaler(5))
+        tabBar.layer.shadowOffset = CGSize(width: 0, height: -heightScaler(2))
         tabBar.layer.shadowRadius = sizeScaler(4)
         tabBar.layer.masksToBounds = false
     }

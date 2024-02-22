@@ -119,7 +119,7 @@ class HomeViewController: UIViewController, UIFactory {
         configSortButton()
         
         view.addSubview(searchBy)
-        configsearchBy()
+        configSearchBy()
         
         view.addSubview(shopListContainer)
         configShopList()
@@ -224,13 +224,13 @@ class HomeViewController: UIViewController, UIFactory {
             sortButton.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
         ])
         
-        menu = [createSortByMenu(.name), createSortOrderMenu(.ascending)]
+        menu = [createSortByMenu(.name), createSortOrderMenu(.descending)]
         sortButton.menu = UIMenu(children: menu)
         sortButton.showsMenuAsPrimaryAction = true
         sortButton.setTitle(title: "Sort", fontName: FontNames.avenir, size: sizeScaler(24), color: .systemGray)
     }
     
-    private func configsearchBy() {
+    private func configSearchBy() {
         searchBy.menu = UIMenu(children: [createSearchByMenu(.name)])
         searchBy.showsMenuAsPrimaryAction = true
         searchBy.setTitle(title: "Search By", fontName: FontNames.avenir, size: sizeScaler(24), color: .systemGray)
@@ -267,7 +267,7 @@ class HomeViewController: UIViewController, UIFactory {
     }
     
     // -MARK: Push View
-    private func pushToShopDetails(shopId: Int) {
+    private func pushToShopDetails(shop: Shop) {
         let shopDetailsViewController = ShopDetailsViewController()
         self.navigationController?.pushViewController(shopDetailsViewController, animated: true)
     }
@@ -404,7 +404,7 @@ class HomeViewController: UIViewController, UIFactory {
     private func search() {
         if let searchText = self.searchBar.text {
             if searchText.isEmpty {
-                self.viewModel.tableViewTitle = "Top Result"
+                self.viewModel.tableViewTitle = "Top Results"
             } else {
                 self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
             }
@@ -429,7 +429,8 @@ extension HomeViewController: UISearchBarDelegate {
 
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        pushToShopDetails(shopId: 1)
+        let shop = self.viewModel.shopList[indexPath.row]
+        pushToShopDetails(shop: shop)
     }
 }
 
