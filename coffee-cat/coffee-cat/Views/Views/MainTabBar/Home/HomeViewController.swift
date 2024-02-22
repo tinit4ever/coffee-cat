@@ -126,7 +126,7 @@ class HomeViewController: UIViewController, UIFactory {
     }
     
     private func configAppearance() {
-        view.backgroundColor = .systemGray3
+        view.backgroundColor = .systemGray5
     }
     
     private func configNavigation() {
