@@ -26,3 +26,10 @@ struct ShopList: Codable {
     var status: Bool
     var message: String
 }
+
+struct SearchParam {
+    var searchType: String
+    var sortBy: String
+    var asc: Bool
+}
+
