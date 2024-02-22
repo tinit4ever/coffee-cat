@@ -25,9 +25,9 @@ class MainTabBarViewController: UITabBarController {
     }
     
     func adjustTabBarHeight() {
-        tabBar.tintColor = .black
+        tabBar.tintColor = .customBlack
         tabBar.unselectedItemTintColor = .systemGray
-        tabBar.backgroundColor = .white
+        tabBar.backgroundColor = .systemBackground
         tabBar.frame.size.height = heightScaler(120)
         tabBar.frame.origin.y = view.frame.height - heightScaler(120)
         
