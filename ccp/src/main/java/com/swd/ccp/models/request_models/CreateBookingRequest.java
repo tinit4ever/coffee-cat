@@ -7,19 +7,31 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class CreateBookingRequest {
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class MenuItemRequest {
+        private int itemID;
+
+        private int quantity;
+    }
+
     private int seatID;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private java.sql.Date bookingDate;
 
     private String extraContent;
 
-    private HashMap<String, Integer> menuItemList;//Menu item id, quantity
+    private List<MenuItemRequest> menuItemList;
 }
 
