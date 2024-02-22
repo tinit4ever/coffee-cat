@@ -11,6 +11,8 @@ import Combine
 protocol HomeViewModelProtocol {
     var shopList: [Shop] {get set}
     var tableViewTitle: String {get set}
+    var searchParam: SearchParam {get set}
+    
     func getShopList(completion: @escaping () -> Void)
     func setSearchText(_ searchText: String)
 //    var reloadDataClosure: (() -> Void) { get set }
@@ -19,12 +21,14 @@ protocol HomeViewModelProtocol {
 class HomeViewModel: HomeViewModelProtocol {
     @Published var shopList: [Shop] = []
     var tableViewTitle: String = "Top Results"
+    var searchParam: SearchParam
     @Published var loadingCompleted: Bool = false
     private var searchSubject = CurrentValueSubject<String, Never>("")
     private var cancellables: Set<AnyCancellable> = []
 //    var reloadDataClosure: (() -> Void)?
     
     init() {
+        self.searchParam = SearchParam(searchType: "name", sortBy: "rating", asc: true)
         setupSearchPublisher()
     }
     
@@ -55,7 +59,7 @@ class HomeViewModel: HomeViewModelProtocol {
     }
     
     func searchShop(search: String) {
-        APIManager.shared.searchShops(search: search)
+        APIManager.shared.searchShops(search: search, searchParam: self.searchParam)
             .sink { completion in
                 switch completion {
                 case .finished:

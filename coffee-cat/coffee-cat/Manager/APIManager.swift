@@ -56,16 +56,16 @@ class APIManager {
             }
     }
     
-    func searchShops(search: String) -> AnyPublisher<ShopList, Error> {
+    func searchShops(search: String, searchParam: SearchParam) -> AnyPublisher<ShopList, Error> {
         guard let url = URL(string: APIConstants.Auth.search) else {
             return Fail(error: APIError.badUrl).eraseToAnyPublisher()
         }
         
         let parameters: [String: Any] = [
             APIParameter.keyword: search,
-            APIParameter.searchType: "name",
-            APIParameter.asc: true,
-            APIParameter.sortByColumn: "rating"
+            APIParameter.searchType: searchParam.searchType,
+            APIParameter.asc: searchParam.asc,
+            APIParameter.sortByColumn: searchParam.sortBy
         ]
 
         return AF.request(url, method: .get, parameters: parameters)
