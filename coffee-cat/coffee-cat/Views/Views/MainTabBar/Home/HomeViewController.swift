@@ -90,13 +90,13 @@ class HomeViewController: UIViewController, UIFactory {
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupData()
         setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configNavigation()
-        setupData()
     }
     
     // -MARK: SetupData
