@@ -255,8 +255,8 @@
 		A0BE75D72B6A513E00DE6909 /* MainTabBar */ = {
 			isa = PBXGroup;
 			children = (
-				A0CA272B2B6B98B900E3D640 /* Home */,
 				A0BE75D82B6A517300DE6909 /* MainTabBarViewController.swift */,
+				A0CA272B2B6B98B900E3D640 /* Home */,
 				A0BE75DA2B6A537700DE6909 /* BookingViewController.swift */,
 				A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */,
 				A03F56D22B6B1ADF00B3E35B /* PaymentViewController.swift */,
