@@ -310,12 +310,12 @@ class SignInViewController: UIViewController, UIFactory {
                 case .success(let authenticationResponse):
                     DispatchQueue.main.async {
                         if authenticationResponse.status ?? false {
+                            self?.hiddenLoadingView()
                             self?.pushToHome()
                         } else {
                             self?.displayLoginError(authenticationResponse.message ?? "Unknown error")
                         }
                     }
-                    
                 case .failure(let error):
                     DispatchQueue.main.async {
                         print(error.localizedDescription)

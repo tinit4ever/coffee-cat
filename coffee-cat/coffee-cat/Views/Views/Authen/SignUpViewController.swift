@@ -308,6 +308,7 @@ class SignUpViewController: UIViewController, UIFactory {
         let createPasswordViewController = CreatePasswordViewController()
         createPasswordViewController.viewModel = self.viewModel
         
+        self.hiddenLoadingView()
         pushViewController(viewController: createPasswordViewController)
     }
     

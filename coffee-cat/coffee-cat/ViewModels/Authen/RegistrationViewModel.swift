@@ -25,7 +25,7 @@ protocol RegistrationViewModelProtocol {
     func updateUserProfile(_ name: String, _ phoneNumber: String, _ dob: Date, _ gender: String)
     func setNullUserProfile() 
     
-    func registerUser(completion: @escaping (Result<String, Error>) -> Void)
+    func registerUser(completion: @escaping (Result<AuthenticationResponse, Error>) -> Void)
 }
 
 class RegistrationViewModel {
@@ -54,6 +54,10 @@ extension RegistrationViewModel: RegistrationViewModelProtocol {
     }
     
     func validatePassword(_ password: String, _ confirmPassword: String) -> Bool {
+        if password.count < 8 || confirmPassword.count < 8 {
+            self.alertMessage = "Password must be least 8 letters"
+            return false
+        }
         if password != confirmPassword {
             self.alertMessage = "Confirm password is not match"
             return false
@@ -122,16 +126,16 @@ extension RegistrationViewModel: RegistrationViewModelProtocol {
         self.userRegistration.gender = nil
     }
     
-    func registerUser(completion: @escaping (Result<String, Error>) -> Void) {
-        let userData = self.userRegistration
+    func registerUser(completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
+        APIManager.shared.signUp(userRegistration: self.userRegistration, completion: completion)
         
-        AF.request("http://localhost:8080/auth/register", method: .post, parameters: userData, encoder: JSONParameterEncoder.default).responseString { response in
-            switch response.result {
-            case .success(let data):
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
+//        AF.request("http://localhost:8080/auth/register", method: .post, parameters: userData, encoder: JSONParameterEncoder.default).responseString { response in
+//            switch response.result {
+//            case .success(let data):
+//                completion(.success(data))
+//            case .failure(let error):
+//                completion(.failure(error))
+//            }
+//        }
     }
 }
