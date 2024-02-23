@@ -12,6 +12,7 @@ protocol HomeViewModelProtocol {
     var shopList: [Shop] {get set}
     var tableViewTitle: String {get set}
     var searchParam: SearchParam {get set}
+    var loadingCompleted: Bool {get set}
     
     func getShopList(completion: @escaping () -> Void)
     func setSearchText(_ searchText: String)
@@ -51,7 +52,7 @@ class HomeViewModel: HomeViewModelProtocol {
     
     func setupSearchPublisher() {
         searchSubject
-            .debounce(for: .seconds(0.9), scheduler: DispatchQueue.main)
+            .debounce(for: .seconds(1.0), scheduler: DispatchQueue.main)
             .sink { [weak self] searchText in
                 self?.searchShop(search: searchText)
             }
@@ -59,6 +60,7 @@ class HomeViewModel: HomeViewModelProtocol {
     }
     
     func searchShop(search: String) {
+        self.loadingCompleted = false
         APIManager.shared.searchShops(search: search, searchParam: self.searchParam)
             .sink { completion in
                 switch completion {

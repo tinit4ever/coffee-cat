@@ -8,6 +8,7 @@
 import UIKit
 import SwiftUI
 import Alamofire
+import Combine
 
 enum SortOrder {
     case ascending
@@ -36,6 +37,9 @@ class HomeViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     var viewModel: HomeViewModelProtocol = HomeViewModel()
+    
+    private var cancellables: Set<AnyCancellable> = []
+    
     var inSearchMode = false
     
     var menu: [UIMenu] = []
@@ -87,6 +91,8 @@ class HomeViewController: UIViewController, UIFactory {
     
     lazy var loadingAnimationView = makeLottieAnimationView(animationName: "loading")
     
+    private let refreshControl = UIRefreshControl()
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,7 +107,7 @@ class HomeViewController: UIViewController, UIFactory {
     
     // -MARK: SetupData
     private func setupData() {
-        reloadShopListData()
+        setupReload()
     }
     
     // -MARK: SetupUI
@@ -125,6 +131,8 @@ class HomeViewController: UIViewController, UIFactory {
         
         view.addSubview(shopListContainer)
         configShopList()
+        
+        showLoadingView()
     }
     
     private func configAppearance() {
@@ -266,8 +274,11 @@ class HomeViewController: UIViewController, UIFactory {
             shopList.bottomAnchor.constraint(equalTo: shopListContainer.bottomAnchor, constant: -heightScaler(15))
         ])
         
-//        shopListContainer.addSubview(loadingAnimationView)
-//        configLoadingView()
+        shopListContainer.addSubview(loadingAnimationView)
+        configLoadingView()
+        
+        shopList.addSubview(refreshControl)
+        self.refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
     }
     
     private func configLoadingView() {
@@ -417,41 +428,48 @@ class HomeViewController: UIViewController, UIFactory {
     }
     
     private func search() {
+        showLoadingView()
         if let searchText = self.searchBar.text {
+            self.viewModel.setSearchText(searchText)
             if searchText.isEmpty {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self.viewModel.tableViewTitle = "Top Results"
-                }
+                self.viewModel.tableViewTitle = "Top Results"
             } else {
-                self.viewModel.setSearchText(searchBar.text ?? "")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    if let searchText = self.searchBar.text {
-                        self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
-                    }
-                    self.viewModel.setSearchText(searchText)
+                if let searchText = self.searchBar.text {
+                    self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
                 }
+                self.viewModel.setSearchText(searchText)
             }
         }
-        reloadShopListData()
     }
     
     private func showLoadingView() {
         self.loadingAnimationView.isHidden = false
         self.loadingAnimationView.play()
-//        self.view.isUserInteractionEnabled = true
     }
     
     private func hiddenLoadingView() {
         self.loadingAnimationView.isHidden = true
         self.loadingAnimationView.stop()
-//        self.view.isUserInteractionEnabled = true
     }
     
-    private func reloadShopListData() {
-        showLoadingView()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+    @objc private func pullToRefresh() {
+        self.refreshControl.beginRefreshing()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.shopList.reloadData()
-            self.hiddenLoadingView()
+        }
+        self.refreshControl.endRefreshing()
+    }
+    
+    private func setupReload() {
+        if let homeViewModel = viewModel as? HomeViewModel {
+            homeViewModel.$loadingCompleted
+                .sink { [weak self] loadingCompleted in
+                    if loadingCompleted {
+                        self?.shopList.reloadData()
+                        self?.hiddenLoadingView()
+                    }
+                }
+                .store(in: &cancellables)
         }
     }
 }
@@ -487,7 +505,6 @@ extension HomeViewController: UISearchBarDelegate {
         searchBar.setShowsCancelButton(false, animated: true)
         self.view.endEditing(true)
         self.inSearchMode = false
-        self.search()
     }
 }
 
