@@ -128,14 +128,5 @@ extension RegistrationViewModel: RegistrationViewModelProtocol {
     
     func registerUser(completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
         APIManager.shared.signUp(userRegistration: self.userRegistration, completion: completion)
-        
-//        AF.request("http://localhost:8080/auth/register", method: .post, parameters: userData, encoder: JSONParameterEncoder.default).responseString { response in
-//            switch response.result {
-//            case .success(let data):
-//                completion(.success(data))
-//            case .failure(let error):
-//                completion(.failure(error))
-//            }
-//        }
     }
 }
