@@ -266,8 +266,8 @@ class HomeViewController: UIViewController, UIFactory {
             shopList.bottomAnchor.constraint(equalTo: shopListContainer.bottomAnchor, constant: -heightScaler(15))
         ])
         
-        shopListContainer.addSubview(loadingAnimationView)
-        configLoadingView()
+//        shopListContainer.addSubview(loadingAnimationView)
+//        configLoadingView()
     }
     
     private func configLoadingView() {
@@ -438,12 +438,13 @@ class HomeViewController: UIViewController, UIFactory {
     private func showLoadingView() {
         self.loadingAnimationView.isHidden = false
         self.loadingAnimationView.play()
+//        self.view.isUserInteractionEnabled = true
     }
     
     private func hiddenLoadingView() {
         self.loadingAnimationView.isHidden = true
         self.loadingAnimationView.stop()
-        self.view.isUserInteractionEnabled = true
+//        self.view.isUserInteractionEnabled = true
     }
     
     private func reloadShopListData() {
@@ -493,7 +494,7 @@ extension HomeViewController: UISearchBarDelegate {
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let shop = self.viewModel.shopList[indexPath.row]
-        pushToShopDetails(shop: shop)
+        self.pushToShopDetails(shop: shop)
     }
 }
 

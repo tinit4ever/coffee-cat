@@ -22,13 +22,14 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     lazy var overallImageView = makeImageView()
     lazy var indexLabel = makeLabel()
     
+    lazy var shopInforStackView = makeVerticalStackView()
     lazy var shopNameLabel = makeLabel()
-    lazy var shopAddressLabel = makeLabel()
     lazy var starRatingView: StarRatingView = {
         let starRatingView = StarRatingView()
         starRatingView.translatesAutoresizingMaskIntoConstraints = false
         return starRatingView
     }()
+    lazy var shopAddressLabel = makeLabel()
     lazy var openTimeLabel = makeLabel()
     lazy var closeTimeLabel = makeLabel()
     
@@ -46,33 +47,44 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     // MARK: - Setup UI
     private func setupUI() {
         view.backgroundColor = .systemGray5
-//        view.backgroundColor = .white
-        
         updateImage(index: self.viewModel.index)
         updateIndexLabel()
         
         view.addSubview(scrollViewContainer)
         configScrollViewContainter()
         configSubViews()
+        
+        view.addSubview(shopInforStackView)
+        configShopInforStackView()
     }
     
     private func setupData() {
-//        self.viewModel.shop.name = "Coffee Shop"
-//        self.viewModel.shop.address = "Pham Van Dong"
-//        self.viewModel.shop.rating = 3.4
-//        self.viewModel.shop.openTime = "8 AM"
-//        self.viewModel.shop.closeTime = "8 PM"
-//        self.viewModel.shop.commentList = [
-//            "Good",
-//            "Good",
-//            "Good",
-//            "Good",
-//            "Good",
-//            "Good",
-//            "Good"
-//        ]
+        self.viewModel.shop.name = "Coffee Shop"
+        self.viewModel.shop.address = "Pham Van Dong"
+        self.viewModel.shop.rating = 3.4
+        self.viewModel.shop.openTime = "8 AM"
+        self.viewModel.shop.closeTime = "8 PM"
+        self.viewModel.shop.commentList = [
+            "Good",
+            "Good",
+            "Good",
+            "Good",
+            "Good",
+            "Good",
+            "Good"
+        ]
         self.viewModel.index = 0
         self.viewModel.shop.shopImageList = ["1", "2", "3", "4"]
+        
+        loadData()
+    }
+    
+    private func loadData() {
+        self.shopNameLabel.text = self.viewModel.shop.name
+        self.starRatingView.rating = self.viewModel.shop.rating ?? 0
+        self.shopAddressLabel.text = self.viewModel.shop.address
+        self.openTimeLabel.text = self.viewModel.shop.openTime
+        self.closeTimeLabel.text = self.viewModel.shop.closeTime
     }
     
     private func setupAction() {
@@ -102,8 +114,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     private func configOverallImageView() {
-        overallImageView.backgroundColor = .systemBackground
-        overallImageView.contentMode = .scaleAspectFill
+        overallImageView.contentMode = .scaleToFill
         NSLayoutConstraint.activate([
             overallImageView.topAnchor.constraint(equalTo: scrollViewContainer.topAnchor),
             overallImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -122,6 +133,37 @@ class ShopDetailsViewController: UIViewController, UIFactory {
             indexLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             indexLabel.bottomAnchor.constraint(equalTo: overallImageView.bottomAnchor, constant: -heightScaler(10)),
             indexLabel.widthAnchor.constraint(equalToConstant: widthScaler(100))
+        ])
+    }
+    
+    private func configShopInforStackView() {
+//        shopInforStackView.distribution = .fill
+        shopInforStackView.alignment = .leading
+        shopInforStackView.spacing = heightScaler(12)
+        
+        NSLayoutConstraint.activate([
+            shopInforStackView.topAnchor.constraint(equalTo: overallImageView.bottomAnchor, constant: heightScaler(20)),
+            shopInforStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: widthScaler(50)),
+            shopInforStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -widthScaler(50)),
+//            shopInforStackView.heightAnchor.constraint(equalToConstant: 80)
+        ])
+        
+        shopInforStackView.addArrangedSubview(shopNameLabel)
+        shopNameLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(35))
+        shopNameLabel.setBoldText()
+        NSLayoutConstraint.activate([
+            shopNameLabel.heightAnchor.constraint(equalToConstant: heightScaler(28))
+        ])
+        
+        shopInforStackView.addArrangedSubview(starRatingView)
+        NSLayoutConstraint.activate([
+            starRatingView.heightAnchor.constraint(equalToConstant: heightScaler(28))
+        ])
+        
+        shopInforStackView.addArrangedSubview(shopAddressLabel)
+        shopAddressLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(28))
+        NSLayoutConstraint.activate([
+            shopAddressLabel.heightAnchor.constraint(equalToConstant: heightScaler(28))
         ])
     }
     
