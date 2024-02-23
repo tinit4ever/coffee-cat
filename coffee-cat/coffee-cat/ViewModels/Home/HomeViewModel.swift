@@ -15,6 +15,7 @@ protocol HomeViewModelProtocol {
     
     func getShopList(completion: @escaping () -> Void)
     func setSearchText(_ searchText: String)
+//    var reloadDataClosure: (() -> Void) { get set }
 }
 
 class HomeViewModel: HomeViewModelProtocol {
@@ -24,6 +25,7 @@ class HomeViewModel: HomeViewModelProtocol {
     @Published var loadingCompleted: Bool = false
     private var searchSubject = CurrentValueSubject<String, Never>("")
     private var cancellables: Set<AnyCancellable> = []
+//    var reloadDataClosure: (() -> Void)?
     
     init() {
         self.searchParam = SearchParam(searchType: "name", sortBy: "rating", asc: false)

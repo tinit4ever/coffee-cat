@@ -55,10 +55,10 @@ class HomeViewController: UIViewController, UIFactory {
         
         var configuration = UIButton.Configuration.gray()
         configuration.title = "Sort"
+        configuration.attributedTitle?.font = UIFont.systemFont(ofSize: 14)
         configuration.image = UIImage(systemName: "arrow.up.arrow.down", withConfiguration: UIImage.SymbolConfiguration(scale: .medium))
         configuration.imagePadding = 4
         configuration.imagePlacement = .trailing
-        configuration.baseBackgroundColor = .systemGray5
         
         button.configuration = configuration
         
@@ -71,10 +71,10 @@ class HomeViewController: UIViewController, UIFactory {
         
         var configuration = UIButton.Configuration.gray()
         configuration.title = "Search By"
+        configuration.attributedTitle?.font = UIFont.systemFont(ofSize: 14)
         configuration.image = UIImage(systemName: "line.3.horizontal.decrease.circle", withConfiguration: UIImage.SymbolConfiguration(scale: .medium))
         configuration.imagePadding = 4
         configuration.imagePlacement = .trailing
-        configuration.baseBackgroundColor = .systemGray5
         
         button.configuration = configuration
         
@@ -121,14 +121,14 @@ class HomeViewController: UIViewController, UIFactory {
         configSortButton()
         
         view.addSubview(searchBy)
-        configSearchBy()
+        configsearchBy()
         
         view.addSubview(shopListContainer)
         configShopList()
     }
     
     private func configAppearance() {
-        view.backgroundColor = .systemGray3
+        view.backgroundColor = .systemGray5
     }
     
     private func configNavigation() {
@@ -231,7 +231,7 @@ class HomeViewController: UIViewController, UIFactory {
         sortButton.setTitle(title: "Sort", fontName: FontNames.avenir, size: sizeScaler(24), color: .systemGray)
     }
     
-    private func configSearchBy() {
+    private func configsearchBy() {
         searchBy.menu = UIMenu(children: [createSearchByMenu(.name)])
         searchBy.showsMenuAsPrimaryAction = true
         searchBy.setTitle(title: "Search By", fontName: FontNames.avenir, size: sizeScaler(24), color: .systemGray)
@@ -281,7 +281,7 @@ class HomeViewController: UIViewController, UIFactory {
     }
     
     // -MARK: Push View
-    private func pushToShopDetails(shop: Shop) {
+    private func pushToShopDetails(shopId: Int) {
         let shopDetailsViewController = ShopDetailsViewController()
         shopDetailsViewController.viewModel.shop = shop
         self.navigationController?.pushViewController(shopDetailsViewController, animated: true)
@@ -313,10 +313,10 @@ class HomeViewController: UIViewController, UIFactory {
             self.updateSortMenu(on: .sortBy, with: action.title)
         }
         let sortBy = UIMenu(title: "Sort By", options: .displayInline, children: [
-            UIAction(title: "Name", image: UIImage(systemName: "person.text.rectangle"), handler:
+            UIAction(title: "Name", image: UIImage(systemName: "person.text.rectangle.fill"), handler:
                         sortByClosure),
-            UIAction(title: "Rating", image: UIImage(systemName: "star"), handler: sortByClosure),
-            UIAction(title: "Address", image: UIImage(systemName: "house"),  handler: sortByClosure),
+            UIAction(title: "Rating", image: UIImage(systemName: "star.fill"), handler: sortByClosure),
+            UIAction(title: "Address", image: UIImage(systemName: "house.fill"),  handler: sortByClosure),
         ])
         
         switch on {
@@ -363,15 +363,15 @@ class HomeViewController: UIViewController, UIFactory {
         switch on {
         case .name:
             searchBy = UIMenu(title: "Search By", options: .displayInline, children: [
-                UIAction(title: "Name", image: UIImage(systemName: "person.text.rectangle"), state: .on, handler:
+                UIAction(title: "Name", image: UIImage(systemName: "person.text.rectangle.fill"), state: .on, handler:
                             searchByClosure),
-                UIAction(title: "Address", image: UIImage(systemName: "house"),  handler: searchByClosure),
+                UIAction(title: "Address", image: UIImage(systemName: "house.fill"),  handler: searchByClosure),
             ])
         case .address:
             searchBy = UIMenu(title: "Search By", options: .displayInline, children: [
-                UIAction(title: "Name", image: UIImage(systemName: "person.text.rectangle"), handler:
+                UIAction(title: "Name", image: UIImage(systemName: "person.text.rectangle.fill"), handler:
                             searchByClosure),
-                UIAction(title: "Address", image: UIImage(systemName: "house"), state: .on, handler: searchByClosure),
+                UIAction(title: "Address", image: UIImage(systemName: "house.fill"), state: .on, handler: searchByClosure),
             ])
         }
         
@@ -413,14 +413,9 @@ class HomeViewController: UIViewController, UIFactory {
             }
         }
         
-        self.search()
-    }
-    
-    private func search() {
-        if let searchText = self.searchBar.text {
-            if searchText.isEmpty {
-                self.viewModel.tableViewTitle = "Top Results"
-            } else {
+        self.viewModel.setSearchText(searchBar.text ?? "")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            if let searchText = self.searchBar.text {
                 self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
             }
             self.viewModel.setSearchText(searchText)
@@ -456,7 +451,13 @@ extension HomeViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.search()
+        self.viewModel.setSearchText(searchText)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            if let searchText = searchBar.text {
+                self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
+            }
+            self.shopList.reloadData()
+        }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -468,8 +469,7 @@ extension HomeViewController: UISearchBarDelegate {
 
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let shop = self.viewModel.shopList[indexPath.row]
-        pushToShopDetails(shop: shop)
+        pushToShopDetails(shopId: 1)
     }
 }
 

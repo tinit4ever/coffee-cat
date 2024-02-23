@@ -25,9 +25,9 @@ class MainTabBarViewController: UITabBarController {
     }
     
     func adjustTabBarHeight() {
-        tabBar.tintColor = .customBlack
+        tabBar.tintColor = .black
         tabBar.unselectedItemTintColor = .systemGray
-        tabBar.backgroundColor = .systemBackground
+        tabBar.backgroundColor = .white
         tabBar.frame.size.height = heightScaler(120)
         tabBar.frame.origin.y = view.frame.height - heightScaler(120)
         
@@ -64,7 +64,7 @@ class MainTabBarViewController: UITabBarController {
     private func customizeTabBarAppearance() {
         tabBar.layer.shadowColor = UIColor.black.cgColor
         tabBar.layer.shadowOpacity = 0.3
-        tabBar.layer.shadowOffset = CGSize(width: 0, height: -heightScaler(2))
+        tabBar.layer.shadowOffset = CGSize(width: 0, height: -heightScaler(5))
         tabBar.layer.shadowRadius = sizeScaler(4)
         tabBar.layer.masksToBounds = false
     }

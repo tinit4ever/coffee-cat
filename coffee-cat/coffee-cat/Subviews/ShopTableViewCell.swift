@@ -48,13 +48,13 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: widthScaler(40), left: widthScaler(40), bottom: 0, right: widthScaler(40)))
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: widthScaler(30), left: widthScaler(30), bottom: 0, right: widthScaler(30)))
     }
     
     private func configureUI() {
         contentView.addSubview(shopImageView)
         
-        contentView.backgroundColor = .systemGray5
+        contentView.backgroundColor = .systemGray6
         contentView.layer.cornerRadius = sizeScaler(10)
         contentView.layer.masksToBounds = true
         
@@ -76,6 +76,7 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
         ])
         
         contentView.addSubview(starRatingView)
+//        starRatingView.backgroundColor = .red
         NSLayoutConstraint.activate([
             starRatingView.topAnchor.constraint(equalTo: shopName.bottomAnchor, constant: heightScaler(10)),
             starRatingView.leadingAnchor.constraint(equalTo: shopName.leadingAnchor),
