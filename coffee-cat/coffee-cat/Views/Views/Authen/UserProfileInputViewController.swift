@@ -518,6 +518,7 @@ class UserProfileInputViewController: UIViewController, UIFactory {
     private func displaySuccessAlert(message: String) {
         let alertController = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
+            self?.hiddenLoadingView()
             self?.pushToHome()
         }))
         

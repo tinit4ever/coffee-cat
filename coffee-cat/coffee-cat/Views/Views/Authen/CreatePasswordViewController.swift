@@ -242,6 +242,7 @@ class CreatePasswordViewController: UIViewController, UIFactory {
         userProfileInputViewController.viewModel = self.viewModel
         
         pushViewController(viewController: userProfileInputViewController)
+        hiddenLoadingView()
     }
     
     // -MARK: Utilities
