@@ -94,7 +94,9 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
                 self.shopImageView.image = UIImage(named: shopAvatar)
             }
         }
-        self.setupShopName(shop.name)
+        if let shopName = shop.name {
+            self.setupShopName(shopName)
+        }
     }
     
     private func setupShopName(_ shopName: String) {

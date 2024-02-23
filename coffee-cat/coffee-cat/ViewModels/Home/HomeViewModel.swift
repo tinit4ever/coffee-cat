@@ -68,7 +68,7 @@ class HomeViewModel: HomeViewModelProtocol {
                 }
             } receiveValue: { [weak self] shopList in
                 self?.shopList = shopList.shopList
-                print(shopList)
+//                print(shopList)
             }
             .store(in: &cancellables)
     }

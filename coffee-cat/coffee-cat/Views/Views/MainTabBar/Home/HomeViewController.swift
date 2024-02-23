@@ -36,7 +36,6 @@ class HomeViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     var viewModel: HomeViewModelProtocol = HomeViewModel()
-    var topSafeArea: CGFloat?
     
     var menu: [UIMenu] = []
     
@@ -88,23 +87,25 @@ class HomeViewController: UIViewController, UIFactory {
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupData()
         setupUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configNavigation()
+        setupData()
     }
     
     // -MARK: SetupData
     private func setupData() {
-        self.viewModel.getShopList {
-            DispatchQueue.main.async {
-                self.shopList.reloadData()
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.shopList.reloadData()
         }
     }
     
     // -MARK: SetupUI
     private func setupUI() {
         configAppearance()
-        configNavigation()
         
         view.addSubview(topView)
         configTopView()
@@ -130,20 +131,19 @@ class HomeViewController: UIViewController, UIFactory {
     }
     
     private func configNavigation() {
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = windowScene.windows.first {
-            self.topSafeArea = window.safeAreaInsets.top
-        }
+        let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
+            .withTintColor(.customPink, renderingMode: .alwaysOriginal)
         
-        self.navigationController?.isNavigationBarHidden = true
-        
+        self.navigationController?.navigationBar.backIndicatorImage = backImage
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     private func configTopView() {
         NSLayoutConstraint.activate([
-            topView.topAnchor.constraint(equalTo: view.topAnchor, constant: topSafeArea ?? heightScaler(50)),
+            topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             topView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             topView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
             topView.heightAnchor.constraint(equalToConstant: sizeScaler(80)),
@@ -224,7 +224,7 @@ class HomeViewController: UIViewController, UIFactory {
             sortButton.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
         ])
         
-        menu = [createSortByMenu(.name), createSortOrderMenu(.descending)]
+        menu = [createSortByMenu(.rating), createSortOrderMenu(.descending)]
         sortButton.menu = UIMenu(children: menu)
         sortButton.showsMenuAsPrimaryAction = true
         sortButton.setTitle(title: "Sort", fontName: FontNames.avenir, size: sizeScaler(24), color: .systemGray)
@@ -269,6 +269,7 @@ class HomeViewController: UIViewController, UIFactory {
     // -MARK: Push View
     private func pushToShopDetails(shop: Shop) {
         let shopDetailsViewController = ShopDetailsViewController()
+        shopDetailsViewController.viewModel.shop = shop
         self.navigationController?.pushViewController(shopDetailsViewController, animated: true)
     }
     
@@ -420,7 +421,6 @@ extension HomeViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.search()
     }
-    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.view.endEditing(true)
         self.search()
