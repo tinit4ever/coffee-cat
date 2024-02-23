@@ -82,7 +82,6 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
             starRatingView.topAnchor.constraint(equalTo: shopName.bottomAnchor, constant: heightScaler(10)),
             starRatingView.leadingAnchor.constraint(equalTo: shopName.leadingAnchor),
             starRatingView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthScaler(20)),
-            starRatingView.bottomAnchor.constraint(equalTo: shopImageView.bottomAnchor, constant: -heightScaler(10)),
             starRatingView.heightAnchor.constraint(equalToConstant: heightScaler(24))
         ])
     }
