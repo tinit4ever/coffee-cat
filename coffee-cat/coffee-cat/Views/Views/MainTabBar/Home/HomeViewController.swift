@@ -36,6 +36,7 @@ class HomeViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     var viewModel: HomeViewModelProtocol = HomeViewModel()
+    var inSearchMode = false
     
     var menu: [UIMenu] = []
     
@@ -84,6 +85,8 @@ class HomeViewController: UIViewController, UIFactory {
     lazy var shopListContainer = makeView()
     lazy var shopList = makeTableView()
     
+    lazy var loadingAnimationView = makeLottieAnimationView(animationName: "loading")
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,9 +101,7 @@ class HomeViewController: UIViewController, UIFactory {
     
     // -MARK: SetupData
     private func setupData() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.shopList.reloadData()
-        }
+        reloadShopListData()
     }
     
     // -MARK: SetupUI
@@ -264,6 +265,19 @@ class HomeViewController: UIViewController, UIFactory {
             shopList.trailingAnchor.constraint(equalTo: shopListContainer.trailingAnchor),
             shopList.bottomAnchor.constraint(equalTo: shopListContainer.bottomAnchor, constant: -heightScaler(15))
         ])
+        
+        shopListContainer.addSubview(loadingAnimationView)
+        configLoadingView()
+    }
+    
+    private func configLoadingView() {
+        loadingAnimationView.isHidden = true
+        NSLayoutConstraint.activate([
+            loadingAnimationView.widthAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.heightAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: shopListContainer.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: shopListContainer.centerYAnchor)
+        ])
     }
     
     // -MARK: Push View
@@ -411,18 +425,43 @@ class HomeViewController: UIViewController, UIFactory {
             }
             self.viewModel.setSearchText(searchText)
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        
+        reloadShopListData()
+        
+    }
+    
+    private func showLoadingView() {
+        self.loadingAnimationView.isHidden = false
+        self.loadingAnimationView.play()
+    }
+    
+    private func hiddenLoadingView() {
+        self.loadingAnimationView.isHidden = true
+        self.loadingAnimationView.stop()
+        self.view.isUserInteractionEnabled = true
+    }
+    
+    private func reloadShopListData() {
+        showLoadingView()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.shopList.reloadData()
+            self.hiddenLoadingView()
         }
     }
 }
 
 extension HomeViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.inSearchMode = true
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.search()
     }
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.view.endEditing(true)
+        self.inSearchMode = false
         self.search()
     }
 }

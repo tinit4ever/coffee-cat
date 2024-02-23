@@ -90,7 +90,6 @@ class SignInViewController: UIViewController, UIFactory {
         
         view.addSubview(loadingAnimationView)
         configLoadingView()
-        
     }
     
     private func configAppearance() {
