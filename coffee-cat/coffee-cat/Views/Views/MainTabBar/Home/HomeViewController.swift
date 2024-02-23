@@ -121,7 +121,7 @@ class HomeViewController: UIViewController, UIFactory {
         configSortButton()
         
         view.addSubview(searchBy)
-        configsearchBy()
+        configSearchBy()
         
         view.addSubview(shopListContainer)
         configShopList()
@@ -231,7 +231,7 @@ class HomeViewController: UIViewController, UIFactory {
         sortButton.setTitle(title: "Sort", fontName: FontNames.avenir, size: sizeScaler(24), color: .systemGray)
     }
     
-    private func configsearchBy() {
+    private func configSearchBy() {
         searchBy.menu = UIMenu(children: [createSearchByMenu(.name)])
         searchBy.showsMenuAsPrimaryAction = true
         searchBy.setTitle(title: "Search By", fontName: FontNames.avenir, size: sizeScaler(24), color: .systemGray)
@@ -419,7 +419,9 @@ class HomeViewController: UIViewController, UIFactory {
     private func search() {
         if let searchText = self.searchBar.text {
             if searchText.isEmpty {
-                self.viewModel.tableViewTitle = "Top Results"
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.viewModel.tableViewTitle = "Top Results"
+                }
             } else {
                 self.viewModel.setSearchText(searchBar.text ?? "")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -454,8 +456,26 @@ class HomeViewController: UIViewController, UIFactory {
 }
 
 extension HomeViewController: UISearchBarDelegate {
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.setShowsCancelButton(false, animated: true)
+        self.inSearchMode = false
+        return true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+        self.view.endEditing(true)
+    }
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
         self.inSearchMode = true
+        self.inSearchMode = false
+        
+        if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
+            cancelButton.setTitleColor(.customPink, for: .normal)
+            cancelButton.titleLabel?.font = UIFont(name: FontNames.avenir, size: sizeScaler(32))
+        }
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -463,6 +483,7 @@ extension HomeViewController: UISearchBarDelegate {
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
         self.view.endEditing(true)
         self.inSearchMode = false
         self.search()
