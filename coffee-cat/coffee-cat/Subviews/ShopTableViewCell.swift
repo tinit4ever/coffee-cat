@@ -72,16 +72,18 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
             shopName.topAnchor.constraint(equalTo: shopImageView.topAnchor, constant: heightScaler(10)),
             shopName.leadingAnchor.constraint(equalTo: shopImageView.trailingAnchor, constant: widthScaler(40)),
             shopName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthScaler(20)),
-            shopName.heightAnchor.constraint(equalToConstant: 40)
+            shopName.heightAnchor.constraint(equalToConstant: heightScaler(40))
         ])
         
         contentView.addSubview(starRatingView)
+//        shopName.backgroundColor = .green
 //        starRatingView.backgroundColor = .red
         NSLayoutConstraint.activate([
             starRatingView.topAnchor.constraint(equalTo: shopName.bottomAnchor, constant: heightScaler(10)),
             starRatingView.leadingAnchor.constraint(equalTo: shopName.leadingAnchor),
             starRatingView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthScaler(20)),
-            starRatingView.bottomAnchor.constraint(equalTo: shopImageView.bottomAnchor, constant: -heightScaler(10))
+            starRatingView.bottomAnchor.constraint(equalTo: shopImageView.bottomAnchor, constant: -heightScaler(10)),
+            starRatingView.heightAnchor.constraint(equalToConstant: heightScaler(24))
         ])
     }
     
