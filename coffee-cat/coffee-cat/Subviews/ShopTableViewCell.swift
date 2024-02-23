@@ -87,8 +87,17 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
     
     func configure(shop: Shop) {
         self.starRatingView.rating = shop.rating ?? 0.0
-        self.shopImageView.image = UIImage(named: shop.avatar ?? "NA-Image")
-        self.setupShopName(shop.name)
+        
+        if let shopAvatar = shop.avatar {
+            if shopAvatar.isEmpty {
+                self.shopImageView.image = UIImage(named: "NA-Image")
+            } else {
+                self.shopImageView.image = UIImage(named: shopAvatar)
+            }
+        }
+        if let shopName = shop.name {
+            self.setupShopName(shopName)
+        }
     }
     
     private func setupShopName(_ shopName: String) {

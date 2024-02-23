@@ -39,10 +39,14 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         setupAction()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        configNavigation()
+    }
+    
     // MARK: - Setup UI
     private func setupUI() {
         view.backgroundColor = .systemGray5
-        configNavigation()
+//        view.backgroundColor = .white
         
         updateImage(index: self.viewModel.index)
         updateIndexLabel()
@@ -53,9 +57,9 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     private func setupData() {
-        self.viewModel.shop.name = "Coffee Shop"
+//        self.viewModel.shop.name = "Coffee Shop"
 //        self.viewModel.shop.address = "Pham Van Dong"
-        self.viewModel.shop.rating = 3.4
+//        self.viewModel.shop.rating = 3.4
 //        self.viewModel.shop.openTime = "8 AM"
 //        self.viewModel.shop.closeTime = "8 PM"
 //        self.viewModel.shop.commentList = [
@@ -76,9 +80,8 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     private func configNavigation() {
-        navigationController?.setNavigationBarHidden(false, animated: true)
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem?.tintColor = .backButton
+        self.navigationItem.title = self.viewModel.shop.name
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     private func configScrollViewContainter() {
@@ -139,20 +142,28 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     
     // MARK: - Catch Action
     @objc private func swipeAction(_ gesture: UISwipeGestureRecognizer) {
-        
         if gesture.direction == .left {
+            if self.viewModel.index == self.viewModel.shop.shopImageList.count - 1 {
+                return
+            }
             self.viewModel.swipeLeft()
+            updateImage(index: self.viewModel.index)
+            updateIndexLabel()
         } else if gesture.direction == .right {
+            if self.viewModel.index == 0 {
+                return
+            }
             self.viewModel.swipeRight()
+            updateImage(index: self.viewModel.index)
+            updateIndexLabel()
         }
-        
-        updateImage(index: self.viewModel.index)
-        updateIndexLabel()
     }
     
     // MARK: - Utilities
     private func updateImage(index: Int) {
-        overallImageView.image = UIImage(named: self.viewModel.shop.shopImageList[index])
+        UIView.transition(with: overallImageView, duration: 0.5, options: .transitionCrossDissolve, animations: {
+            self.overallImageView.image = UIImage(named: self.viewModel.shop.shopImageList[index])
+        }, completion: nil)
     }
     
     private func updateIndexLabel() {

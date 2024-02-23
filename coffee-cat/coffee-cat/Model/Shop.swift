@@ -9,16 +9,15 @@ import Foundation
 
 struct Shop: Codable {
     var rating: Double?
-    var name: String
+    var name: String?
     var shopImageList: [String]
     var avatar: String?
-    var followerCount: Int
     var openTime: String?
     var closeTime: String?
     var address: String?
     var commentList: [String]?
-//    var seatList: [String]?
-//    var phone: Int?
+    var seatList: [String]?
+    var phone: String?
 }
 
 struct ShopList: Codable {

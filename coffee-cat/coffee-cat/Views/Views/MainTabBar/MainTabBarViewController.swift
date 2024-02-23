@@ -43,16 +43,11 @@ class MainTabBarViewController: UITabBarController {
         let store = self.createNav(with: "Store", and: UIImage(systemName: "storefront.fill"), viewController: StoreViewController())
         let voucher = self.createNav(with: "Voucher", and: UIImage(systemName: "gift.fill"), viewController: VoucherViewController())
         let payment = self.createNav(with: "Account", and: UIImage(systemName: "creditcard.fill"), viewController: PaymentViewController())
-        
         self.setViewControllers([home, booking, store, voucher, payment], animated: true)
     }
     
     private func createNav(with title: String, and image: UIImage?, viewController: UIViewController) -> UINavigationController {
         let nav = UINavigationController(rootViewController: viewController)
-        
-        let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
-            .withTintColor(.backButton, renderingMode: .alwaysOriginal)
-        
         nav.tabBarItem.title = nil
         nav.tabBarItem.image = image
         nav.tabBarItem.selectedImage = image
@@ -60,10 +55,9 @@ class MainTabBarViewController: UITabBarController {
         nav.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: sizeScaler(18))], for: .normal)
 //        nav.viewControllers.first?.navigationItem.title = title + " Controller"
 //        nav.viewControllers.first?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Button", style: .plain, target: nil, action: nil)
-        nav.navigationBar.backIndicatorImage = backImage
-        nav.navigationBar.backIndicatorTransitionMaskImage = backImage
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem?.tintColor = .backButton
+//        let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
+//            .withTintColor(.black, renderingMode: .alwaysOriginal)
+        nav.isNavigationBarHidden = true
         return nav
     }
     

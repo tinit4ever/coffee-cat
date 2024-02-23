@@ -279,6 +279,7 @@ class SignUpViewController: UIViewController, UIFactory {
             loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
+    
     // -MARK: Supporting
     private func pushViewController(viewController: UIViewController) {
         self.navigationController?.pushViewController(viewController, animated: true)

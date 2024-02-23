@@ -36,7 +36,7 @@ class HomeViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     var viewModel: HomeViewModelProtocol = HomeViewModel()
-    var topSafeArea: CGFloat?
+    var inSearchMode = false
     
     var menu: [UIMenu] = []
     
@@ -85,26 +85,28 @@ class HomeViewController: UIViewController, UIFactory {
     lazy var shopListContainer = makeView()
     lazy var shopList = makeTableView()
     
+    lazy var loadingAnimationView = makeLottieAnimationView(animationName: "loading")
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupData()
         setupUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configNavigation()
+        setupData()
     }
     
     // -MARK: SetupData
     private func setupData() {
-        self.viewModel.getShopList {
-            DispatchQueue.main.async {
-                self.shopList.reloadData()
-            }
-        }
+        reloadShopListData()
     }
     
     // -MARK: SetupUI
     private func setupUI() {
         configAppearance()
-        configNavigation()
         
         view.addSubview(topView)
         configTopView()
@@ -130,20 +132,19 @@ class HomeViewController: UIViewController, UIFactory {
     }
     
     private func configNavigation() {
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = windowScene.windows.first {
-            self.topSafeArea = window.safeAreaInsets.top
-        }
+        let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
+            .withTintColor(.customPink, renderingMode: .alwaysOriginal)
         
-        self.navigationController?.isNavigationBarHidden = true
-        
+        self.navigationController?.navigationBar.backIndicatorImage = backImage
+        self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         self.navigationItem.backBarButtonItem?.tintColor = .backButton
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     private func configTopView() {
         NSLayoutConstraint.activate([
-            topView.topAnchor.constraint(equalTo: view.topAnchor, constant: topSafeArea ?? heightScaler(50)),
+            topView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             topView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             topView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
             topView.heightAnchor.constraint(equalToConstant: sizeScaler(80)),
@@ -224,7 +225,7 @@ class HomeViewController: UIViewController, UIFactory {
             sortButton.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
         ])
         
-        menu = [createSortByMenu(.name), createSortOrderMenu(.ascending)]
+        menu = [createSortByMenu(.rating), createSortOrderMenu(.descending)]
         sortButton.menu = UIMenu(children: menu)
         sortButton.showsMenuAsPrimaryAction = true
         sortButton.setTitle(title: "Sort", fontName: FontNames.avenir, size: sizeScaler(24), color: .systemGray)
@@ -264,11 +265,25 @@ class HomeViewController: UIViewController, UIFactory {
             shopList.trailingAnchor.constraint(equalTo: shopListContainer.trailingAnchor),
             shopList.bottomAnchor.constraint(equalTo: shopListContainer.bottomAnchor, constant: -heightScaler(15))
         ])
+        
+        shopListContainer.addSubview(loadingAnimationView)
+        configLoadingView()
+    }
+    
+    private func configLoadingView() {
+        loadingAnimationView.isHidden = true
+        NSLayoutConstraint.activate([
+            loadingAnimationView.widthAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.heightAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: shopListContainer.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: shopListContainer.centerYAnchor)
+        ])
     }
     
     // -MARK: Push View
     private func pushToShopDetails(shopId: Int) {
         let shopDetailsViewController = ShopDetailsViewController()
+        shopDetailsViewController.viewModel.shop = shop
         self.navigationController?.pushViewController(shopDetailsViewController, animated: true)
     }
     
@@ -403,12 +418,38 @@ class HomeViewController: UIViewController, UIFactory {
             if let searchText = self.searchBar.text {
                 self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
             }
+            self.viewModel.setSearchText(searchText)
+        }
+        
+        reloadShopListData()
+        
+    }
+    
+    private func showLoadingView() {
+        self.loadingAnimationView.isHidden = false
+        self.loadingAnimationView.play()
+    }
+    
+    private func hiddenLoadingView() {
+        self.loadingAnimationView.isHidden = true
+        self.loadingAnimationView.stop()
+        self.view.isUserInteractionEnabled = true
+    }
+    
+    private func reloadShopListData() {
+        showLoadingView()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.shopList.reloadData()
+            self.hiddenLoadingView()
         }
     }
 }
 
 extension HomeViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.inSearchMode = true
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         self.viewModel.setSearchText(searchText)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -421,12 +462,8 @@ extension HomeViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.view.endEditing(true)
-        DispatchQueue.main.async {
-            if let searchText = searchBar.text {
-                self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
-            }
-            self.shopList.reloadData()
-        }
+        self.inSearchMode = false
+        self.search()
     }
 }
 

@@ -21,7 +21,7 @@ class ShopDetailsViewModel: ShopDetailsViewModelProtocol {
     
     init() {
         self.index = 0
-        self.shop = Shop(rating: 0.0, name: "", shopImageList: [], followerCount: 0, commentList: [])
+        self.shop = Shop(rating: 0.0, name: "", shopImageList: [], commentList: [])
     }
     
     func swipeLeft() {
