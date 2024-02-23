@@ -90,8 +90,6 @@ class ShopDetailsViewController: UIViewController, UIFactory {
             scrollViewContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollViewContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollViewContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            scrollViewContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            scrollViewContainer.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
