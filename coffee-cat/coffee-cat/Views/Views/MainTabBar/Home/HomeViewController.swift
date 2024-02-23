@@ -281,7 +281,7 @@ class HomeViewController: UIViewController, UIFactory {
     }
     
     // -MARK: Push View
-    private func pushToShopDetails(shopId: Int) {
+    private func pushToShopDetails(shop: Shop) {
         let shopDetailsViewController = ShopDetailsViewController()
         shopDetailsViewController.viewModel.shop = shop
         self.navigationController?.pushViewController(shopDetailsViewController, animated: true)
@@ -412,17 +412,25 @@ class HomeViewController: UIViewController, UIFactory {
                 self.viewModel.searchParam.asc = false
             }
         }
+        search()
         
-        self.viewModel.setSearchText(searchBar.text ?? "")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            if let searchText = self.searchBar.text {
-                self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
+    }
+    
+    private func search() {
+        if let searchText = self.searchBar.text {
+            if searchText.isEmpty {
+                self.viewModel.tableViewTitle = "Top Results"
+            } else {
+                self.viewModel.setSearchText(searchBar.text ?? "")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    if let searchText = self.searchBar.text {
+                        self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
+                    }
+                    self.viewModel.setSearchText(searchText)
+                }
             }
-            self.viewModel.setSearchText(searchText)
         }
-        
         reloadShopListData()
-        
     }
     
     private func showLoadingView() {
@@ -451,13 +459,7 @@ extension HomeViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.viewModel.setSearchText(searchText)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            if let searchText = searchBar.text {
-                self.viewModel.tableViewTitle = "Result for \"\(searchText)\""
-            }
-            self.shopList.reloadData()
-        }
+        search()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -469,7 +471,8 @@ extension HomeViewController: UISearchBarDelegate {
 
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        pushToShopDetails(shopId: 1)
+        let shop = self.viewModel.shopList[indexPath.row]
+        pushToShopDetails(shop: shop)
     }
 }
 
