@@ -45,6 +45,7 @@
 		A07ED87C2B65453000EA4E19 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8702B65453000EA4E19 /* UINavigationController+Extension.swift */; };
 		A07ED87D2B65453000EA4E19 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8712B65453000EA4E19 /* UIScreen+Extension.swift */; };
 		A07ED87E2B65453000EA4E19 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8722B65453000EA4E19 /* UITextField+Extension.swift */; };
+		A0B7A8402B89B47B0059DD40 /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B7A83F2B89B47B0059DD40 /* SeatCollectionViewCell.swift */; };
 		A0BE75D32B6A323400DE6909 /* CreatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75D22B6A323400DE6909 /* CreatePasswordViewController.swift */; };
 		A0BE75D52B6A333E00DE6909 /* authentication.json in Resources */ = {isa = PBXBuildFile; fileRef = A0BE75D42B6A333E00DE6909 /* authentication.json */; };
 		A0BE75D92B6A517300DE6909 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75D82B6A517300DE6909 /* MainTabBarViewController.swift */; };
@@ -96,6 +97,7 @@
 		A07ED8702B65453000EA4E19 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		A07ED8712B65453000EA4E19 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		A07ED8722B65453000EA4E19 /* UITextField+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		A0B7A83F2B89B47B0059DD40 /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0BE75D22B6A323400DE6909 /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
 		A0BE75D42B6A333E00DE6909 /* authentication.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = authentication.json; sourceTree = "<group>"; };
 		A0BE75D82B6A517300DE6909 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				A07ED8652B65453000EA4E19 /* CircleView.swift */,
 				A05A7DBF2B83058400DCEAF6 /* ShopTableViewCell.swift */,
 				A05A7DC32B83155D00DCEAF6 /* StarRatingView.swift */,
+				A0B7A83F2B89B47B0059DD40 /* SeatCollectionViewCell.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				A07ED8732B65453000EA4E19 /* GettingStartedViewModel.swift in Sources */,
 				A07ED87B2B65453000EA4E19 /* UIImage+Extension.swift in Sources */,
 				A0BE75DD2B6A53A000DE6909 /* VoucherViewController.swift in Sources */,
+				A0B7A8402B89B47B0059DD40 /* SeatCollectionViewCell.swift in Sources */,
 				A0F3EA9D2B653BDB0057860A /* AppDelegate.swift in Sources */,
 				A07ED8782B65453000EA4E19 /* UILabel+Extension.swift in Sources */,
 				A0F3EA9F2B653BDB0057860A /* SceneDelegate.swift in Sources */,
