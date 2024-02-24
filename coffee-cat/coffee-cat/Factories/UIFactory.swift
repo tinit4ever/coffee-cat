@@ -25,6 +25,7 @@ protocol UIFactory {
     func makeSearchBar(placeholder: String) -> UISearchBar
     func makeScrollViewContainer() -> UIScrollView
     func makeTableView() -> UITableView
+    func makeCollectionView(space: CGFloat, size: CGSize) -> UICollectionView
 }
 
 extension UIFactory {
@@ -166,5 +167,19 @@ extension UIFactory {
         let tableView = UITableView(frame: .zero)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
+    }
+    
+    func makeCollectionView(space: CGFloat, size: CGSize) -> UICollectionView {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.itemSize = size
+        layout.minimumLineSpacing = space
+        layout.minimumInteritemSpacing = space
+        layout.sectionInset = UIEdgeInsets(top: layout.minimumLineSpacing, left: layout.minimumLineSpacing, bottom: layout.minimumLineSpacing, right: layout.minimumLineSpacing)
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return collectionView
     }
 }

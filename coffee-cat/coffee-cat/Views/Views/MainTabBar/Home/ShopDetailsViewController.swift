@@ -17,8 +17,6 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     var viewModel: ShopDetailsViewModelProtocol = ShopDetailsViewModel()
     
     // MARK: - Create UIComponents
-    lazy var scrollViewContainer = makeScrollViewContainer()
-    
     lazy var overallImageView = makeImageView()
     lazy var indexLabel = makeLabel()
     
@@ -30,8 +28,13 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         return starRatingView
     }()
     lazy var shopAddressLabel = makeLabel()
+    lazy var seatListLabel = makeLabel()
     lazy var openTimeLabel = makeLabel()
     lazy var closeTimeLabel = makeLabel()
+    
+    lazy var seatListCollectionView = makeCollectionView(space: sizeScaler(20), size: CGSize(width: heightScaler(110), height: heightScaler(110)))
+    
+    private lazy var bookingButton: UIButton = makeButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,13 +52,16 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         view.backgroundColor = .systemGray5
         updateImage(index: self.viewModel.index)
         updateIndexLabel()
-        
-        view.addSubview(scrollViewContainer)
-        configScrollViewContainter()
-        configSubViews()
-        
+    
+        configTopViews()
         view.addSubview(shopInforStackView)
         configShopInforStackView()
+        
+        view.addSubview(seatListCollectionView)
+        view.addSubview(bookingButton)
+        
+        configBookingButton()
+        configSeatListCollectionView()
     }
     
     private func setupData() {
@@ -64,6 +70,18 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.viewModel.shop.rating = 3.4
         self.viewModel.shop.openTime = "8 AM"
         self.viewModel.shop.closeTime = "8 PM"
+        
+        self.seatListLabel.text = "Table List"
+        self.viewModel.shop.seatList = [
+            "Good",
+            "Good",
+            "Good",
+            "Good",
+            "Good",
+            "Good",
+            "Good"
+        ]
+        
         self.viewModel.shop.commentList = [
             "Good",
             "Good",
@@ -96,27 +114,18 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.navigationController?.isNavigationBarHidden = false
     }
     
-    private func configScrollViewContainter() {
-        NSLayoutConstraint.activate([
-            scrollViewContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollViewContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollViewContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollViewContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
-    }
-    
-    private func configSubViews() {
-        scrollViewContainer.addSubview(overallImageView)
+    private func configTopViews() {
+        view.addSubview(overallImageView)
         configOverallImageView()
         
-        scrollViewContainer.addSubview(indexLabel)
+        view.addSubview(indexLabel)
         configIndexLabel()
     }
     
     private func configOverallImageView() {
         overallImageView.contentMode = .scaleToFill
         NSLayoutConstraint.activate([
-            overallImageView.topAnchor.constraint(equalTo: scrollViewContainer.topAnchor),
+            overallImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             overallImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             overallImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             overallImageView.heightAnchor.constraint(equalToConstant: heightScaler(300)),
@@ -137,15 +146,13 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     private func configShopInforStackView() {
-//        shopInforStackView.distribution = .fill
         shopInforStackView.alignment = .leading
         shopInforStackView.spacing = heightScaler(12)
         
         NSLayoutConstraint.activate([
             shopInforStackView.topAnchor.constraint(equalTo: overallImageView.bottomAnchor, constant: heightScaler(20)),
-            shopInforStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: widthScaler(50)),
-            shopInforStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -widthScaler(50)),
-//            shopInforStackView.heightAnchor.constraint(equalToConstant: 80)
+            shopInforStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: widthScaler(60)),
+            shopInforStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -widthScaler(60)),
         ])
         
         shopInforStackView.addArrangedSubview(shopNameLabel)
@@ -164,6 +171,40 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         shopAddressLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(28))
         NSLayoutConstraint.activate([
             shopAddressLabel.heightAnchor.constraint(equalToConstant: heightScaler(28))
+        ])
+        
+        shopInforStackView.addArrangedSubview(seatListLabel)
+        seatListLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(32))
+        seatListLabel.setBoldText()
+        NSLayoutConstraint.activate([
+            seatListLabel.heightAnchor.constraint(equalToConstant: heightScaler(32))
+        ])
+    }
+    
+    private func configSeatListCollectionView() {
+        seatListCollectionView.delegate = self
+        seatListCollectionView.dataSource = self
+        seatListCollectionView.register(SeatCollectionViewCell.self, forCellWithReuseIdentifier: SeatCollectionViewCell.identifier)
+        
+        seatListCollectionView.layer.cornerRadius = sizeScaler(20)
+        NSLayoutConstraint.activate([
+            seatListCollectionView.topAnchor.constraint(equalTo: shopInforStackView.bottomAnchor, constant: heightScaler(10)),
+            seatListCollectionView.leadingAnchor.constraint(equalTo: shopInforStackView.leadingAnchor),
+            seatListCollectionView.trailingAnchor.constraint(equalTo: shopInforStackView.trailingAnchor),
+            seatListCollectionView.bottomAnchor.constraint(equalTo: bookingButton.topAnchor, constant: -heightScaler(20))
+        ])
+    }
+    
+    private func configBookingButton() {
+        bookingButton.cornerRadius(cornerRadius: heightScaler(30))
+        bookingButton.setTitle(title: "Book", fontName: FontNames.avenir, size: sizeScaler(40), color: .systemGray5)
+        bookingButton.backgroundColor = .customPink
+        
+        NSLayoutConstraint.activate([
+            bookingButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            bookingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
+            bookingButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(20)),
+            bookingButton.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }
     
@@ -209,6 +250,24 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     private func updateIndexLabel() {
         let totalElements = self.viewModel.shop.shopImageList.count
         indexLabel.text = "\(self.viewModel.index + 1)/\(totalElements)"
+    }
+}
+
+extension ShopDetailsViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SeatCollectionViewCell.identifier, for: indexPath) as? SeatCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        
+        return cell
+    }
+}
+extension ShopDetailsViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     }
 }
 
