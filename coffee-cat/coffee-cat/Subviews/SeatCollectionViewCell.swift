@@ -91,4 +91,8 @@ class SeatCollectionViewCell: UICollectionViewCell {
             self.contentView.backgroundColor = .systemGray3
         }
     }
+    
+    func configure(_ selectedTable: String) {
+        self.titleLabel.text = selectedTable
+    }
 }

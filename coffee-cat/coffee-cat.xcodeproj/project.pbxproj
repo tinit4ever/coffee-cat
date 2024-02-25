@@ -28,6 +28,8 @@
 		A073C5F82B7ED612002263DB /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A073C5F72B7ED612002263DB /* RegistrationViewModel.swift */; };
 		A073C5FB2B7ED64C002263DB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A073C5FA2B7ED64C002263DB /* Alamofire */; };
 		A073C5FD2B7ED860002263DB /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A073C5FC2B7ED860002263DB /* String+Extension.swift */; };
+		A0799CF92B8A9E8200D1C318 /* ScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0799CF82B8A9E8200D1C318 /* ScrollViewController.swift */; };
+		A0799CFB2B8AB6D200D1C318 /* SelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0799CFA2B8AB6D200D1C318 /* SelectTableViewController.swift */; };
 		A07ED85D2B6544D300EA4E19 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8582B6544D300EA4E19 /* SignUpViewController.swift */; };
 		A07ED85E2B6544D300EA4E19 /* GettingStartedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8592B6544D300EA4E19 /* GettingStartedViewController.swift */; };
 		A07ED85F2B6544D300EA4E19 /* VCPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED85A2B6544D300EA4E19 /* VCPreview.swift */; };
@@ -80,6 +82,8 @@
 		A073C5F42B7ED534002263DB /* AuthenticationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		A073C5F72B7ED612002263DB /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		A073C5FC2B7ED860002263DB /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		A0799CF82B8A9E8200D1C318 /* ScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewController.swift; sourceTree = "<group>"; };
+		A0799CFA2B8AB6D200D1C318 /* SelectTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTableViewController.swift; sourceTree = "<group>"; };
 		A07ED8582B6544D300EA4E19 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		A07ED8592B6544D300EA4E19 /* GettingStartedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GettingStartedViewController.swift; sourceTree = "<group>"; };
 		A07ED85A2B6544D300EA4E19 /* VCPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VCPreview.swift; sourceTree = "<group>"; };
@@ -274,6 +278,8 @@
 				A05BE7062B69E8FB0030000D /* HomeViewController.swift */,
 				A0CA272C2B6B99C300E3D640 /* ProfileViewController.swift */,
 				A0DBF5B22B8334470072E139 /* ShopDetailsViewController.swift */,
+				A0799CF82B8A9E8200D1C318 /* ScrollViewController.swift */,
+				A0799CFA2B8AB6D200D1C318 /* SelectTableViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -429,6 +435,7 @@
 				A07ED8742B65453000EA4E19 /* CircleView.swift in Sources */,
 				A03F56D32B6B1ADF00B3E35B /* PaymentViewController.swift in Sources */,
 				A07ED8612B6544D300EA4E19 /* SignInViewController.swift in Sources */,
+				A0799CFB2B8AB6D200D1C318 /* SelectTableViewController.swift in Sources */,
 				A07ED8602B6544D300EA4E19 /* UserProfileInputViewController.swift in Sources */,
 				A03F56D52B6B1C2300B3E35B /* StoreViewController.swift in Sources */,
 				A073C5FD2B7ED860002263DB /* String+Extension.swift in Sources */,
@@ -440,6 +447,7 @@
 				A073C5F52B7ED534002263DB /* AuthenticationModel.swift in Sources */,
 				A07ED87D2B65453000EA4E19 /* UIScreen+Extension.swift in Sources */,
 				A0CA272D2B6B99C300E3D640 /* ProfileViewController.swift in Sources */,
+				A0799CF92B8A9E8200D1C318 /* ScrollViewController.swift in Sources */,
 				A07ED8772B65453000EA4E19 /* TextConstants.swift in Sources */,
 				A05A7DC02B83058400DCEAF6 /* ShopTableViewCell.swift in Sources */,
 				A0BE75D92B6A517300DE6909 /* MainTabBarViewController.swift in Sources */,
