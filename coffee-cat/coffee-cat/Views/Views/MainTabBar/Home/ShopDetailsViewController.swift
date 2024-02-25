@@ -28,11 +28,14 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         return starRatingView
     }()
     lazy var shopAddressLabel = makeLabel()
-    lazy var seatListLabel = makeLabel()
+    lazy var phoneLabel = makeLabel()
     lazy var openTimeLabel = makeLabel()
     lazy var closeTimeLabel = makeLabel()
     
-    lazy var seatListCollectionView = makeCollectionView(space: sizeScaler(20), size: CGSize(width: heightScaler(110), height: heightScaler(110)))
+    lazy var selectTableStack = makeHorizontalStackView()
+    lazy var selectTableLabel = makeLabel()
+    lazy var selectTableButton = makeButton()
+    
     
     private lazy var bookingButton: UIButton = makeButton()
     
@@ -52,34 +55,46 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         view.backgroundColor = .systemGray5
         updateImage(index: self.viewModel.index)
         updateIndexLabel()
-    
+        
         configTopViews()
         view.addSubview(shopInforStackView)
         configShopInforStackView()
         
-        view.addSubview(seatListCollectionView)
         view.addSubview(bookingButton)
-        
         configBookingButton()
-        configSeatListCollectionView()
     }
     
     private func setupData() {
         self.viewModel.shop.name = "Coffee Shop"
         self.viewModel.shop.address = "Pham Van Dong"
+        self.viewModel.shop.phone = "0318249849"
         self.viewModel.shop.rating = 3.4
         self.viewModel.shop.openTime = "8 AM"
         self.viewModel.shop.closeTime = "8 PM"
         
-        self.seatListLabel.text = "Table List"
+        self.selectTableButton.setTitle(title: "Select Table", fontName: FontNames.avenir, size: sizeScaler(24), color: .customBlack)
         self.viewModel.shop.seatList = [
-            "Good",
-            "Good",
-            "Good",
-            "Good",
-            "Good",
-            "Good",
-            "Good"
+            "Good 1",
+            "Good 2",
+            "Good 3",
+            "Good 4",
+            "Good 5",
+            "Good 6",
+            "Good 7",
+            "Good 1",
+            "Good 2",
+            "Good 3",
+            "Good 4",
+            "Good 5",
+            "Good 6",
+            "Good 7",
+            "Good 1",
+            "Good 2",
+            "Good 3",
+            "Good 4",
+            "Good 5",
+            "Good 6",
+            "Good 7"
         ]
         
         self.viewModel.shop.commentList = [
@@ -101,12 +116,9 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.shopNameLabel.text = self.viewModel.shop.name
         self.starRatingView.rating = self.viewModel.shop.rating ?? 0
         self.shopAddressLabel.text = self.viewModel.shop.address
+        self.phoneLabel.text = self.viewModel.shop.phone
         self.openTimeLabel.text = self.viewModel.shop.openTime
         self.closeTimeLabel.text = self.viewModel.shop.closeTime
-    }
-    
-    private func setupAction() {
-        setupSwipeGesture()
     }
     
     private func configNavigation() {
@@ -147,7 +159,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     
     private func configShopInforStackView() {
         shopInforStackView.alignment = .leading
-        shopInforStackView.spacing = heightScaler(12)
+        shopInforStackView.spacing = heightScaler(20)
         
         NSLayoutConstraint.activate([
             shopInforStackView.topAnchor.constraint(equalTo: overallImageView.bottomAnchor, constant: heightScaler(20)),
@@ -167,32 +179,51 @@ class ShopDetailsViewController: UIViewController, UIFactory {
             starRatingView.heightAnchor.constraint(equalToConstant: heightScaler(28))
         ])
         
+        shopInforStackView.addArrangedSubview(phoneLabel)
+        phoneLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(28))
+        NSLayoutConstraint.activate([
+            phoneLabel.heightAnchor.constraint(equalToConstant: heightScaler(28))
+        ])
+        
         shopInforStackView.addArrangedSubview(shopAddressLabel)
         shopAddressLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(28))
         NSLayoutConstraint.activate([
             shopAddressLabel.heightAnchor.constraint(equalToConstant: heightScaler(28))
         ])
         
-        shopInforStackView.addArrangedSubview(seatListLabel)
-        seatListLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(32))
-        seatListLabel.setBoldText()
+        shopInforStackView.addArrangedSubview(openTimeLabel)
+        openTimeLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(28))
         NSLayoutConstraint.activate([
-            seatListLabel.heightAnchor.constraint(equalToConstant: heightScaler(32))
+            openTimeLabel.heightAnchor.constraint(equalToConstant: heightScaler(28))
         ])
-    }
-    
-    private func configSeatListCollectionView() {
-        seatListCollectionView.delegate = self
-        seatListCollectionView.dataSource = self
-        seatListCollectionView.register(SeatCollectionViewCell.self, forCellWithReuseIdentifier: SeatCollectionViewCell.identifier)
         
-        seatListCollectionView.layer.cornerRadius = sizeScaler(20)
+        shopInforStackView.addArrangedSubview(closeTimeLabel)
+        closeTimeLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(28))
         NSLayoutConstraint.activate([
-            seatListCollectionView.topAnchor.constraint(equalTo: shopInforStackView.bottomAnchor, constant: heightScaler(10)),
-            seatListCollectionView.leadingAnchor.constraint(equalTo: shopInforStackView.leadingAnchor),
-            seatListCollectionView.trailingAnchor.constraint(equalTo: shopInforStackView.trailingAnchor),
-            seatListCollectionView.bottomAnchor.constraint(equalTo: bookingButton.topAnchor, constant: -heightScaler(20))
+            closeTimeLabel.heightAnchor.constraint(equalToConstant: heightScaler(28))
         ])
+        
+        
+        shopInforStackView.addArrangedSubview(selectTableStack)
+        NSLayoutConstraint.activate([
+            selectTableStack.heightAnchor.constraint(equalToConstant: heightScaler(38))
+        ])
+        selectTableStack.addArrangedSubview(selectTableLabel)
+        selectTableStack.addArrangedSubview(selectTableButton)
+        selectTableStack.distribution = .fill
+        selectTableStack.alignment = .center
+        selectTableStack.spacing = widthScaler(10)
+        selectTableStack.widthAnchor.constraint(equalTo: shopInforStackView.widthAnchor).isActive = true
+        
+        selectTableLabel.text = "Select Table"
+        NSLayoutConstraint.activate([
+            selectTableLabel.heightAnchor.constraint(equalTo: selectTableButton.heightAnchor),
+            selectTableLabel.widthAnchor.constraint(equalToConstant: widthScaler(280))
+        ])
+        selectTableLabel.layer.cornerRadius = sizeScaler(10)
+        selectTableLabel.layer.masksToBounds = true
+        selectTableLabel.textAlignment = .center
+        selectTableLabel.backgroundColor = .customPink.withAlphaComponent(0.5)
     }
     
     private func configBookingButton() {
@@ -209,6 +240,12 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     // MARK: - Setup Action
+    private func setupAction() {
+        setupSwipeGesture()
+        selectTableButton.addTarget(self, action: #selector(selectTableButtonTapped), for: .touchUpInside)
+        bookingButton.addTarget(self, action: #selector(bookingButtonTapped), for: .touchUpInside)
+    }
+    
     private func setupSwipeGesture() {
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipeAction(_:)))
         swipeLeft.direction = .left
@@ -240,6 +277,22 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         }
     }
     
+    @objc private func selectTableButtonTapped() {
+        let selectedTableViewController = SelectTableViewController()
+        selectedTableViewController.seatList = self.viewModel.shop.seatList ?? []
+        let navigationController = UINavigationController(rootViewController: selectedTableViewController)
+        self.present(navigationController, animated: true, completion: nil)
+        
+        selectedTableViewController.didSendData = { [weak self] selectedTable in
+            guard let self = self else { return }
+            self.selectTableButton.setTitle("\(selectedTable)", for: .normal)
+            //            self.viewModel.shop.seatList = selectedTable
+        }
+    }
+    
+    @objc private func bookingButtonTapped() {
+        
+    }
     // MARK: - Utilities
     private func updateImage(index: Int) {
         UIView.transition(with: overallImageView, duration: 0.5, options: .transitionCrossDissolve, animations: {

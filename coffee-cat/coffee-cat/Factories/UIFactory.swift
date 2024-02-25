@@ -81,6 +81,40 @@ extension UIFactory {
         return stackView
     }
     
+    func makeInfoHorizontalStackView(firstLabel: UILabel, secondLabel: UILabel, width: CGFloat) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+//        return stackView
+
+        stackView.addArrangedSubview(firstLabel)
+        stackView.addArrangedSubview(secondLabel)
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.spacing = UIScreen.scalableWidth(10)
+//        stackView.widthAnchor.constraint(equalTo: shopInforStackView.widthAnchor).isActive = true
+        
+        NSLayoutConstraint.activate([
+            firstLabel.heightAnchor.constraint(equalToConstant: UIScreen.scalableHeight(28)),
+            firstLabel.widthAnchor.constraint(equalToConstant: UIScreen.scalableWidth(280))
+        ])
+        firstLabel.layer.cornerRadius = UIScreen.scalableSize(10)
+        firstLabel.layer.masksToBounds = true
+        firstLabel.textAlignment = .center
+        firstLabel.backgroundColor = .customPink.withAlphaComponent(0.5)
+        
+        NSLayoutConstraint.activate([
+            secondLabel.heightAnchor.constraint(equalToConstant: UIScreen.scalableHeight(28)),
+            secondLabel.widthAnchor.constraint(equalToConstant: UIScreen.scalableWidth(280))
+        ])
+        secondLabel.layer.cornerRadius = UIScreen.scalableSize(10)
+        secondLabel.layer.masksToBounds = true
+        secondLabel.textAlignment = .natural
+        secondLabel.backgroundColor = .systemGray4.withAlphaComponent(0.5)
+        
+        return stackView
+    }
+    
     func makeImageView(imageName: String, size: CGSize) -> UIImageView {
         let imageView = UIImageView(frame: .zero)
         if let image = UIImage(systemName: imageName) {
@@ -156,9 +190,9 @@ extension UIFactory {
     
     func makeScrollViewContainer() -> UIScrollView {
         let scrollView = UIScrollView()
-        scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
-        scrollView.isScrollEnabled = false
+        scrollView.isDirectionalLockEnabled = false
+        scrollView.showsHorizontalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }
