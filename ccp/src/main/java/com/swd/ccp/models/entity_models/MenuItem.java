@@ -37,8 +37,6 @@ public class MenuItem {
 
     private float discount;
 
-    private int quantity;
-
     @Column(name = "sold_quantity")
     private int soldQuantity;
 }

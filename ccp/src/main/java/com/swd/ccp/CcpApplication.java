@@ -282,7 +282,6 @@ public class CcpApplication {
                         .imgLink(null)
                         .description(null)
                         .discount(0)
-                        .quantity(100)
                         .soldQuantity(0)
                         .build();
 
@@ -294,7 +293,6 @@ public class CcpApplication {
                         .imgLink(null)
                         .description(null)
                         .discount(0)
-                        .quantity(100)
                         .soldQuantity(0)
                         .build();
 
@@ -306,7 +304,6 @@ public class CcpApplication {
                         .imgLink(null)
                         .description(null)
                         .discount(0)
-                        .quantity(100)
                         .soldQuantity(0)
                         .build();
 
@@ -318,7 +315,6 @@ public class CcpApplication {
                         .imgLink(null)
                         .description(null)
                         .discount(0)
-                        .quantity(100)
                         .soldQuantity(0)
                         .build();
 

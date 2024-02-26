@@ -1,20 +1,16 @@
 package com.swd.ccp.services_implementors;
 
-import com.swd.ccp.Exception.NotFoundException;
 import com.swd.ccp.models.entity_models.Cat;
 import com.swd.ccp.models.entity_models.CatStatus;
-import com.swd.ccp.models.entity_models.MenuItem;
-import com.swd.ccp.models.request_models.ListRequest;
-import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.request_models.SortRequest;
-import com.swd.ccp.models.response_models.CatResponse;
 import com.swd.ccp.models.response_models.CatListResponse;
+import com.swd.ccp.models.response_models.CatResponse;
 import com.swd.ccp.repositories.CatRepo;
 import com.swd.ccp.repositories.CatStatusRepo;
 import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.CatService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;

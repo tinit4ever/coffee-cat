@@ -2,10 +2,7 @@ package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.models.entity_models.MenuItem;
 import com.swd.ccp.models.entity_models.MenuItemStatus;
-import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.request_models.SortRequest;
-import com.swd.ccp.models.response_models.CatListResponse;
-import com.swd.ccp.models.response_models.CatResponse;
 import com.swd.ccp.models.response_models.MenuItemListResponse;
 import com.swd.ccp.models.response_models.MenuItemResponse;
 import com.swd.ccp.repositories.MenuItemRepo;
@@ -13,7 +10,7 @@ import com.swd.ccp.repositories.MenuItemStatusRepo;
 import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.MenuService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -65,9 +62,8 @@ public class MenuServiceImpl implements MenuService {
                     menuItemResponse.setDescription(menuItem.getDescription());
                     menuItemResponse.setDiscount(menuItem.getDiscount());
                     menuItemResponse.setPrice(menuItem.getPrice());
-                    menuItemResponse.setQuantity(menuItem.getQuantity());
                     menuItemResponse.setImgLink(menuItem.getImgLink());
-                    menuItemResponse.setSoldQuantity(menuItem.getQuantity());
+                    menuItemResponse.setSoldQuantity(menuItem.getSoldQuantity());
                     menuItemResponse.setStatus(true);
                     menuItemResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
             if (menuItem.getName() == null) {
@@ -81,9 +77,6 @@ public class MenuServiceImpl implements MenuService {
             }
             if (Float.isNaN(menuItem.getPrice())) {
                 menuItemResponse.setPrice(0.0f);
-            }
-            if (menuItem.getQuantity() == -1) {
-                menuItemResponse.setQuantity(0);
             }
             if (menuItem.getImgLink() == null) {
                 menuItemResponse.setImgLink("N/A");

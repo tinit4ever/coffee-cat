@@ -1,10 +1,12 @@
 package com.swd.ccp.models.response_models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Data
@@ -13,6 +15,7 @@ import java.util.List;
 @Builder
 public class BookingCartResponse {
 
+    static DecimalFormat df = new DecimalFormat("##0.####");
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
@@ -22,9 +25,11 @@ public class BookingCartResponse {
 
         private String itemName;
 
-        private float itemPrice;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "0.0")
+        private double itemPrice;
 
         private int quantity;
+
     }
 
     @Data

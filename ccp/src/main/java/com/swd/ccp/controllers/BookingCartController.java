@@ -1,6 +1,7 @@
 package com.swd.ccp.controllers;
 
 import com.swd.ccp.models.request_models.CreateBookingRequest;
+import com.swd.ccp.models.request_models.UpdateBookingCartRequest;
 import com.swd.ccp.models.response_models.BookingCartResponse;
 import com.swd.ccp.services.BookingService;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,11 @@ public class BookingCartController {
     @PreAuthorize("hasAuthority('customer:create')")
     public ResponseEntity<BookingCartResponse> createCart(@RequestBody CreateBookingRequest request){
         return ResponseEntity.ok().body(bookingService.createBookingCart(request));
+    }
+
+    @PostMapping("/update")
+    @PreAuthorize("hasAuthority('customer:update')")
+    public ResponseEntity<BookingCartResponse> updateCart(@RequestBody UpdateBookingCartRequest request){
+        return ResponseEntity.ok().body(bookingService.updateBookingCart(request));
     }
 }
