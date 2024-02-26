@@ -32,12 +32,14 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     lazy var openTimeLabel = makeLabel()
     lazy var closeTimeLabel = makeLabel()
     
-    lazy var selectTableStack = makeHorizontalStackView()
-    lazy var selectTableLabel = makeLabel()
-    lazy var selectTableButton = makeButton()
+    lazy var orderTableButton = makeButton()
     
+    lazy var orderFoodButton = makeButton()
     
-    private lazy var bookingButton: UIButton = makeButton()
+    lazy var bookingButton: UIButton = makeButton()
+    
+    lazy var scrollView = makeScrollViewContainer()
+    lazy var contentView = makeView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,10 +59,14 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         updateIndexLabel()
         
         configTopViews()
-        view.addSubview(shopInforStackView)
+        
+        view.addSubview(scrollView)
+        configScrollView()
+        
+        scrollView.addSubview(shopInforStackView)
         configShopInforStackView()
         
-        view.addSubview(bookingButton)
+        scrollView.addSubview(bookingButton)
         configBookingButton()
     }
     
@@ -72,7 +78,14 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.viewModel.shop.openTime = "8 AM"
         self.viewModel.shop.closeTime = "8 PM"
         
-        self.selectTableButton.setTitle(title: "Select Table", fontName: FontNames.avenir, size: sizeScaler(24), color: .customBlack)
+        self.orderTableButton.setTitle(title: "Select Table", fontName: FontNames.avenir, size: sizeScaler(24), color: .customBlack)
+        self.orderTableButton.cornerRadius(cornerRadius: sizeScaler(22))
+        self.orderTableButton.backgroundColor = .customPink
+        
+        self.orderFoodButton.setTitle(title: "Order Food", fontName: FontNames.avenir, size: sizeScaler(24), color: .customBlack)
+        self.orderFoodButton.cornerRadius(cornerRadius: sizeScaler(22))
+        self.orderFoodButton.backgroundColor = .customPink
+        
         self.viewModel.shop.seatList = [
             "Good 1",
             "Good 2",
@@ -157,14 +170,31 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         ])
     }
     
+    private func configScrollView() {
+        self.scrollView.addSubview(contentView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: overallImageView.bottomAnchor, constant: heightScaler(10)),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
+        ])
+    }
+    
     private func configShopInforStackView() {
         shopInforStackView.alignment = .leading
         shopInforStackView.spacing = heightScaler(20)
         
         NSLayoutConstraint.activate([
-            shopInforStackView.topAnchor.constraint(equalTo: overallImageView.bottomAnchor, constant: heightScaler(20)),
-            shopInforStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: widthScaler(60)),
-            shopInforStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -widthScaler(60)),
+            shopInforStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: heightScaler(20)),
+            shopInforStackView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: widthScaler(60)),
+            shopInforStackView.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -widthScaler(60)),
         ])
         
         shopInforStackView.addArrangedSubview(shopNameLabel)
@@ -204,26 +234,15 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         ])
         
         
-        shopInforStackView.addArrangedSubview(selectTableStack)
+        shopInforStackView.addArrangedSubview(orderTableButton)
         NSLayoutConstraint.activate([
-            selectTableStack.heightAnchor.constraint(equalToConstant: heightScaler(38))
+            orderTableButton.heightAnchor.constraint(equalToConstant: heightScaler(38))
         ])
-        selectTableStack.addArrangedSubview(selectTableLabel)
-        selectTableStack.addArrangedSubview(selectTableButton)
-        selectTableStack.distribution = .fill
-        selectTableStack.alignment = .center
-        selectTableStack.spacing = widthScaler(10)
-        selectTableStack.widthAnchor.constraint(equalTo: shopInforStackView.widthAnchor).isActive = true
         
-        selectTableLabel.text = "Select Table"
+        shopInforStackView.addArrangedSubview(orderFoodButton)
         NSLayoutConstraint.activate([
-            selectTableLabel.heightAnchor.constraint(equalTo: selectTableButton.heightAnchor),
-            selectTableLabel.widthAnchor.constraint(equalToConstant: widthScaler(280))
+            orderFoodButton.heightAnchor.constraint(equalToConstant: heightScaler(38))
         ])
-        selectTableLabel.layer.cornerRadius = sizeScaler(10)
-        selectTableLabel.layer.masksToBounds = true
-        selectTableLabel.textAlignment = .center
-        selectTableLabel.backgroundColor = .customPink.withAlphaComponent(0.5)
     }
     
     private func configBookingButton() {
@@ -232,9 +251,10 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         bookingButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
-            bookingButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
-            bookingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
-            bookingButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(20)),
+            bookingButton.topAnchor.constraint(equalTo: shopInforStackView.bottomAnchor, constant: heightScaler(600)),
+            bookingButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: widthScaler(60)),
+            bookingButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthScaler(60)),
+            bookingButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(20)),
             bookingButton.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }
@@ -242,7 +262,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     // MARK: - Setup Action
     private func setupAction() {
         setupSwipeGesture()
-        selectTableButton.addTarget(self, action: #selector(selectTableButtonTapped), for: .touchUpInside)
+        orderTableButton.addTarget(self, action: #selector(orderTableButtonTapped), for: .touchUpInside)
         bookingButton.addTarget(self, action: #selector(bookingButtonTapped), for: .touchUpInside)
     }
     
@@ -277,7 +297,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         }
     }
     
-    @objc private func selectTableButtonTapped() {
+    @objc private func orderTableButtonTapped() {
         let selectedTableViewController = SelectTableViewController()
         selectedTableViewController.seatList = self.viewModel.shop.seatList ?? []
         let navigationController = UINavigationController(rootViewController: selectedTableViewController)
@@ -285,8 +305,8 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         
         selectedTableViewController.didSendData = { [weak self] selectedTable in
             guard let self = self else { return }
-            self.selectTableButton.setTitle("\(selectedTable)", for: .normal)
-            //            self.viewModel.shop.seatList = selectedTable
+            self.orderTableButton.setTitle("\(selectedTable)", for: .normal)
+//                        self.viewModel.shop.seatList = selectedTable
         }
     }
     
