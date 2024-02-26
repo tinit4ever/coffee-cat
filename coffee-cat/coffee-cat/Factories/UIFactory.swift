@@ -190,7 +190,7 @@ extension UIFactory {
     
     func makeScrollViewContainer() -> UIScrollView {
         let scrollView = UIScrollView()
-        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = true
         scrollView.isDirectionalLockEnabled = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
