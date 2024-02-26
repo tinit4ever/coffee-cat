@@ -50,15 +50,15 @@ public class ShopController {
         LOGGER.info("get list successfully");
         return page;
     }
-    @PostMapping("auth/createShop")
-    public ResponseEntity<CreateShopResponse> createStaff(@RequestBody ShopRequest request) {
-        CreateShopResponse response = shopService.createShop(request) ;
-        if (response.isStatus()) {
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
-    }
+//    @PostMapping("auth/createShop")
+//    public ResponseEntity<CreateShopResponse> createStaff(@RequestBody ShopRequest request) {
+//        CreateShopResponse response = shopService.createShop(request) ;
+//        if (response.isStatus()) {
+//            return ResponseEntity.ok(response);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+//        }
+//    }
     @PostMapping("updateShop/{shopId}")
     public ResponseEntity<UpdateShopResponse> updateStaff(@PathVariable Long shopId,
                                                            @RequestBody ShopRequest updateRequest) {
@@ -69,6 +69,26 @@ public class ShopController {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @PostMapping("auth/inactive/{shopId}")
+//    @PreAuthorize("hasAuthority('owner:update')")
+    public ResponseEntity<String> inactiveStaff(@PathVariable Integer shopId) {
+        int result = shopService.inactiveShop(shopId);
+        if (result == 1) {
+            return ResponseEntity.ok("Staff with ID " + shopId + " has been successfully inactivated.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @PostMapping("auth/active/{shopId}")
+//    @PreAuthorize("hasAuthority('owner:update')")
+    public ResponseEntity<String> activeStaff(@PathVariable Integer shopId) {
+        int result = shopService.activeShop(shopId);
+        if (result == 1) {
+            return ResponseEntity.ok("Staff with ID " + shopId + " has been successfully activated.");
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }
