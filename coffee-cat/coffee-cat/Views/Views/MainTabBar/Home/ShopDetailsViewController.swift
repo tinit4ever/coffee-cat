@@ -254,7 +254,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
             bookingButton.topAnchor.constraint(equalTo: shopInforStackView.bottomAnchor, constant: heightScaler(600)),
             bookingButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: widthScaler(60)),
             bookingButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthScaler(60)),
-            bookingButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(20)),
+            bookingButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(60)),
             bookingButton.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }
@@ -311,6 +311,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     @objc private func bookingButtonTapped() {
+        print("Tapped1")
         
     }
     // MARK: - Utilities
