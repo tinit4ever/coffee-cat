@@ -115,10 +115,10 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     private func loadData() {
         self.shopNameLabel.text = self.viewModel.shop.name
         self.starRatingView.rating = self.viewModel.shop.rating ?? 0
-        self.shopAddressLabel.text = self.viewModel.shop.address
-        self.phoneLabel.text = self.viewModel.shop.phone
-        self.openTimeLabel.text = self.viewModel.shop.openTime
-        self.closeTimeLabel.text = self.viewModel.shop.closeTime
+        self.phoneLabel.text = "Phone: \(self.viewModel.shop.phone ?? "Unknown")"
+        self.shopAddressLabel.text = "Address: \(self.viewModel.shop.address ?? "Unknown")"
+        self.openTimeLabel.text = "Open Time: \(self.viewModel.shop.openTime ?? "Unknown")"
+        self.closeTimeLabel.text = "Close Time: \(self.viewModel.shop.closeTime ?? "Unknown")"
     }
     
     private func configNavigation() {
@@ -295,7 +295,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     // MARK: - Utilities
     private func updateImage(index: Int) {
-        UIView.transition(with: overallImageView, duration: 0.5, options: .transitionCrossDissolve, animations: {
+        UIView.transition(with: overallImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
             self.overallImageView.image = UIImage(named: self.viewModel.shop.shopImageList[index])
         }, completion: nil)
     }
