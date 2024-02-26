@@ -45,6 +45,12 @@ public class CcpApplication {
 
     private final MenuItemStatusRepo menuItemStatusRepo;
 
+    private final BookingDetailRepo bookingDetailRepo;
+
+    private final BookingRepo bookingRepo;
+
+    private final BookingStatusRepo bookingStatusRepo;
+
     private final PasswordEncoder passwordEncoder;
 
     public static void main(String[] args) {
@@ -61,6 +67,9 @@ public class CcpApplication {
                 List<Token> tokenList = new ArrayList<>();
 
                 //reset database
+                bookingDetailRepo.deleteAll();
+                bookingRepo.deleteAll();
+                bookingStatusRepo.deleteAll();
                 menuItemRepo.deleteAll();
                 menuItemStatusRepo.deleteAll();
                 menuRepo.deleteAll();
@@ -322,6 +331,24 @@ public class CcpApplication {
                 menuItemRepo.save(menuItem2);
                 menuItemRepo.save(menuItem3);
                 menuItemRepo.save(menuItem4);
+
+                //init booking status
+                BookingStatus pending = BookingStatus.builder()
+                        .status("Pending")
+                        .build();
+
+                BookingStatus confirmed = BookingStatus.builder()
+                        .status("Confirmed")
+                        .build();
+
+                BookingStatus cancelled = BookingStatus.builder()
+                        .status("Cancelled")
+                        .build();
+
+                bookingStatusRepo.save(pending);
+                bookingStatusRepo.save(confirmed);
+                bookingStatusRepo.save(cancelled);
+
             }
         };
     }

@@ -1,14 +1,13 @@
 package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.enums.Constant;
-import com.swd.ccp.models.entity_models.MenuItem;
-import com.swd.ccp.models.entity_models.Seat;
+import com.swd.ccp.models.entity_models.*;
+import com.swd.ccp.models.request_models.CreateBookingCartRequest;
 import com.swd.ccp.models.request_models.CreateBookingRequest;
 import com.swd.ccp.models.request_models.UpdateBookingCartRequest;
 import com.swd.ccp.models.response_models.BookingCartResponse;
-import com.swd.ccp.repositories.MenuItemRepo;
-import com.swd.ccp.repositories.SeatRepo;
-import com.swd.ccp.repositories.ShopRepo;
+import com.swd.ccp.models.response_models.CreateBookingResponse;
+import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.BookingService;
 import lombok.RequiredArgsConstructor;
@@ -30,11 +29,17 @@ public class BookingServiceImpl implements BookingService {
 
     private final AccountService accountService;
 
+    private final CustomerRepo customerRepo;
 
+    private final BookingStatusRepo bookingStatusRepo;
+
+    private final BookingDetailRepo bookingDetailRepo;
+
+    private final BookingRepo bookingRepo;
 
 
     @Override
-    public BookingCartResponse createBookingCart(CreateBookingRequest request) {
+    public BookingCartResponse createBookingCart(CreateBookingCartRequest request) {
         BookingCartResponse.BookingCartShopResponse bookingCartShopResponse = new BookingCartResponse.BookingCartShopResponse();
         List<BookingCartResponse.BookingCartShopMenuResponse> bookingCartShopMenuResponseList = new ArrayList<>();
 
@@ -45,7 +50,7 @@ public class BookingServiceImpl implements BookingService {
                 request.getMenuItemList().forEach(
                         item -> {
                             MenuItem menuItem = menuItemRepo.findById(item.getItemID()).orElse(null);
-                            if(menuItem != null && Constant.MAX_BOOKING_MENU_ITEM_QUANTITY - item.getQuantity() >= 0){
+                            if(menuItem != null && Constant.MAX_BOOKING_MENU_ITEM_QUANTITY >= item.getQuantity()){
                                 bookingCartShopMenuResponseList.add(
                                         BookingCartResponse.BookingCartShopMenuResponse.builder()
                                                 .itemID(menuItem.getId())
@@ -96,11 +101,11 @@ public class BookingServiceImpl implements BookingService {
 
         //Check if new seat is existed, then access menu item
         if(newSeat != null && !newSeat.getSeatStatus().getStatus().equals("busy")){
-            request.getNewCart().getBookingCartShopMenuResponseList().forEach(
+            request.getNewCart().getList().forEach(
                     item -> {
                         MenuItem menuItem = menuItemRepo.findById(item.getItemID()).orElse(null);
                         if(menuItem != null){
-                            if(Constant.MAX_BOOKING_MENU_ITEM_QUANTITY - item.getQuantity() >= 0){
+                            if(Constant.MAX_BOOKING_MENU_ITEM_QUANTITY >= item.getQuantity()){
                                 shopMenuResponseList.add(BookingCartResponse.BookingCartShopMenuResponse.builder()
                                                 .itemID(menuItem.getId())
                                                 .itemName(menuItem.getName())
@@ -139,5 +144,67 @@ public class BookingServiceImpl implements BookingService {
                 .bookingCartShopResponse(null)
                 .build();
     }
+
+    @Override
+    public CreateBookingResponse createBooking(CreateBookingRequest request) {
+        String errorMsg = createBookingDetail(request);
+        if(errorMsg.isEmpty()){
+            return CreateBookingResponse.builder()
+                    .status(true)
+                    .message("Booking successfully")
+                    .bookingDate(request.getBookingDate())
+                    .accessToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
+                    .build();
+        }
+        return CreateBookingResponse.builder()
+                .status(false)
+                .message(errorMsg)
+                .bookingDate(null)
+                .accessToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
+                .build();
+    }
+
+    private String createBookingDetail(CreateBookingRequest request){
+        Seat seat = seatRepo.findById(request.getSeatID()).orElse(null);
+        Booking booking;
+
+        if(seat != null){
+            Customer customer = customerRepo.findByAccount_Email(accountService.getCurrentLoggedUser().getEmail()).orElse(null);
+            if(customer != null){
+                booking = bookingRepo.save(
+                        Booking.builder()
+                                .seat(seat)
+                                .customer(customer)
+                                .bookingStatus(bookingStatusRepo.findById(1).orElse(null))
+                                .shopName(seat.getShop().getName())
+                                .seatName(seat.getName())
+                                .extraContent(request.getExtraContent())
+                                .createDate(new Date(System.currentTimeMillis()))
+                                .bookingDate(request.getBookingDate())
+                                .build()
+                );
+
+                Booking finalBooking = booking;
+                request.getBookingShopMenuRequestList().forEach(
+                        item -> {
+                            MenuItem i = menuItemRepo.findById(item.getItemID()).orElse(null);
+                            if(i != null && item.getQuantity() <= Constant.MAX_BOOKING_MENU_ITEM_QUANTITY){
+                                bookingDetailRepo.save(
+                                        BookingDetail.builder()
+                                                .booking(finalBooking)
+                                                .menuItem(i)
+                                                .quantity(item.getQuantity())
+                                                .build()
+                                );
+                            }
+                        }
+                );
+                return "";
+            }
+            return "This account is not a customer";
+        }
+        return "Seat is not existed";
+    }
+
 }
 

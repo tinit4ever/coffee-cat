@@ -1,5 +1,4 @@
 package com.swd.ccp.models.request_models;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,23 +11,25 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreateBookingRequest {
+public class CreateBookingCartRequest {
+
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class BookingShopMenuRequest{
-        private Integer itemID;
+    public static class MenuItemRequest {
+        private int itemID;
 
         private int quantity;
     }
 
-    private Integer seatID;
+    private int seatID;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private java.sql.Date bookingDate;
 
     private String extraContent;
 
-    private List<BookingShopMenuRequest> bookingShopMenuRequestList;
+    private List<MenuItemRequest> menuItemList;
 }
+
