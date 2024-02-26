@@ -38,7 +38,6 @@
 		A07ED8732B65453000EA4E19 /* GettingStartedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8632B65453000EA4E19 /* GettingStartedViewModel.swift */; };
 		A07ED8742B65453000EA4E19 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8652B65453000EA4E19 /* CircleView.swift */; };
 		A07ED8752B65453000EA4E19 /* UIFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8672B65453000EA4E19 /* UIFactory.swift */; };
-		A07ED8762B65453000EA4E19 /* NameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8692B65453000EA4E19 /* NameConstants.swift */; };
 		A07ED8772B65453000EA4E19 /* TextConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED86A2B65453000EA4E19 /* TextConstants.swift */; };
 		A07ED8782B65453000EA4E19 /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED86C2B65453000EA4E19 /* UILabel+Extension.swift */; };
 		A07ED8792B65453000EA4E19 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED86D2B65453000EA4E19 /* UIButton+Extension.swift */; };
@@ -54,6 +53,7 @@
 		A0BE75DB2B6A537700DE6909 /* BookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75DA2B6A537700DE6909 /* BookingViewController.swift */; };
 		A0BE75DD2B6A53A000DE6909 /* VoucherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */; };
 		A0CA272D2B6B99C300E3D640 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA272C2B6B99C300E3D640 /* ProfileViewController.swift */; };
+		A0CBF4FB2B8CDE5F008CFAD3 /* NameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4FA2B8CDE5F008CFAD3 /* NameConstants.swift */; };
 		A0D1D58D2B6B4C0A00CB1ED3 /* coffee.json in Resources */ = {isa = PBXBuildFile; fileRef = A0D1D58C2B6B4C0A00CB1ED3 /* coffee.json */; };
 		A0DBF5B32B8334470072E139 /* ShopDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DBF5B22B8334470072E139 /* ShopDetailsViewController.swift */; };
 		A0DBF5B72B834C2B0072E139 /* ShopDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DBF5B62B834C2B0072E139 /* ShopDetailsViewModel.swift */; };
@@ -92,7 +92,6 @@
 		A07ED8632B65453000EA4E19 /* GettingStartedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GettingStartedViewModel.swift; sourceTree = "<group>"; };
 		A07ED8652B65453000EA4E19 /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		A07ED8672B65453000EA4E19 /* UIFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFactory.swift; sourceTree = "<group>"; };
-		A07ED8692B65453000EA4E19 /* NameConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameConstants.swift; sourceTree = "<group>"; };
 		A07ED86A2B65453000EA4E19 /* TextConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextConstants.swift; sourceTree = "<group>"; };
 		A07ED86C2B65453000EA4E19 /* UILabel+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		A07ED86D2B65453000EA4E19 /* UIButton+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -108,6 +107,7 @@
 		A0BE75DA2B6A537700DE6909 /* BookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewController.swift; sourceTree = "<group>"; };
 		A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoucherViewController.swift; sourceTree = "<group>"; };
 		A0CA272C2B6B99C300E3D640 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		A0CBF4FA2B8CDE5F008CFAD3 /* NameConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameConstants.swift; sourceTree = "<group>"; };
 		A0D1D58C2B6B4C0A00CB1ED3 /* coffee.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = coffee.json; sourceTree = "<group>"; };
 		A0DBF5B22B8334470072E139 /* ShopDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailsViewController.swift; sourceTree = "<group>"; };
 		A0DBF5B62B834C2B0072E139 /* ShopDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -236,7 +236,7 @@
 		A07ED8682B65453000EA4E19 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				A07ED8692B65453000EA4E19 /* NameConstants.swift */,
+				A0CBF4FA2B8CDE5F008CFAD3 /* NameConstants.swift */,
 				A07ED86A2B65453000EA4E19 /* TextConstants.swift */,
 			);
 			path = Constants;
@@ -457,7 +457,6 @@
 				A03833632B83B18200EBF5D8 /* HomeViewModel.swift in Sources */,
 				A07ED85E2B6544D300EA4E19 /* GettingStartedViewController.swift in Sources */,
 				A03833612B83A57400EBF5D8 /* Shop.swift in Sources */,
-				A07ED8762B65453000EA4E19 /* NameConstants.swift in Sources */,
 				A07ED8732B65453000EA4E19 /* GettingStartedViewModel.swift in Sources */,
 				A07ED87B2B65453000EA4E19 /* UIImage+Extension.swift in Sources */,
 				A0BE75DD2B6A53A000DE6909 /* VoucherViewController.swift in Sources */,
@@ -471,6 +470,7 @@
 				A0BE75D32B6A323400DE6909 /* CreatePasswordViewController.swift in Sources */,
 				A05C506F2B6737A400A42F33 /* UIFont+Extension.swift in Sources */,
 				A03F56D72B6B227500B3E35B /* UITabBar+Extension.swift in Sources */,
+				A0CBF4FB2B8CDE5F008CFAD3 /* NameConstants.swift in Sources */,
 				A0BE75DB2B6A537700DE6909 /* BookingViewController.swift in Sources */,
 				A07ED87C2B65453000EA4E19 /* UINavigationController+Extension.swift in Sources */,
 				A05A7DB72B82CF1D00DCEAF6 /* AuthenticationResponse.swift in Sources */,
