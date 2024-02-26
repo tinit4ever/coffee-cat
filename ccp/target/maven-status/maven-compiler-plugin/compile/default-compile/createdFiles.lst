@@ -57,6 +57,7 @@ com\swd\ccp\models\request_models\UpdateBookingCartRequest$BookingCartShopMenuRe
 com\swd\ccp\models\response_models\LogoutResponse.class
 com\swd\ccp\CcpApplication.class
 com\swd\ccp\controllers\AuthenticationController.class
+com\swd\ccp\enums\Constant.class
 com\swd\ccp\models\entity_models\Comment$CommentBuilder.class
 com\swd\ccp\repositories\MenuRepo.class
 com\swd\ccp\repositories\AccountRepo.class
@@ -92,6 +93,7 @@ com\swd\ccp\models\request_models\LoginRequest.class
 com\swd\ccp\models\response_models\CheckMailExistedResponse.class
 com\swd\ccp\models\response_models\CreateStaffResponse$CreateStaffResponseBuilder.class
 com\swd\ccp\services\FollowerService.class
+com\swd\ccp\CcpApplication$1.class
 com\swd\ccp\models\entity_models\PackageStatus$PackageStatusBuilder.class
 com\swd\ccp\repositories\MenuItemRepo.class
 com\swd\ccp\models\entity_models\FollowerCustomer.class
