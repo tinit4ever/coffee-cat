@@ -29,6 +29,10 @@
 		A0CBF4F62B8CDBD9008CFAD3 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4EC2B8CDBD9008CFAD3 /* UITextField+Extension.swift */; };
 		A0CBF4FD2B8CDE8A008CFAD3 /* NameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4FC2B8CDE8A008CFAD3 /* NameConstants.swift */; };
 		A0CBF4FF2B8CE0AC008CFAD3 /* administrator.json in Resources */ = {isa = PBXBuildFile; fileRef = A0CBF4FE2B8CE0AC008CFAD3 /* administrator.json */; };
+		A0CBF5042B8CE5FD008CFAD3 /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF5032B8CE5FD008CFAD3 /* AdminViewController.swift */; };
+		A0CBF5062B8CE6DD008CFAD3 /* AdminFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */; };
+		A0CBF5082B8CE802008CFAD3 /* coffee.json in Resources */ = {isa = PBXBuildFile; fileRef = A0CBF5072B8CE802008CFAD3 /* coffee.json */; };
+		A0CBF50B2B8CE9A5008CFAD3 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF50A2B8CE9A5008CFAD3 /* AccountTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +57,10 @@
 		A0CBF4EC2B8CDBD9008CFAD3 /* UITextField+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITextField+Extension.swift"; path = "../../../coffee-cat/coffee-cat/Extensions/UITextField+Extension.swift"; sourceTree = "<group>"; };
 		A0CBF4FC2B8CDE8A008CFAD3 /* NameConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NameConstants.swift; path = ../../../../../Downloads/NameConstants.swift; sourceTree = "<group>"; };
 		A0CBF4FE2B8CE0AC008CFAD3 /* administrator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = administrator.json; sourceTree = "<group>"; };
+		A0CBF5032B8CE5FD008CFAD3 /* AdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
+		A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminFactory.swift; sourceTree = "<group>"; };
+		A0CBF5072B8CE802008CFAD3 /* coffee.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = coffee.json; path = "../../../coffee-cat/coffee-cat/Animations/coffee.json"; sourceTree = "<group>"; };
+		A0CBF50A2B8CE9A5008CFAD3 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +122,10 @@
 		A0CBF4CF2B8CD3B1008CFAD3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A0CBF5092B8CE96B008CFAD3 /* TableViewCell */,
+				A0CBF5022B8CE51F008CFAD3 /* Staff */,
+				A0CBF5012B8CE516008CFAD3 /* ShopOwner */,
+				A0CBF5002B8CE510008CFAD3 /* Admin */,
 				A0CBF4D02B8CD3C6008CFAD3 /* SignInViewController.swift */,
 			);
 			path = Views;
@@ -130,6 +142,7 @@
 		A0CBF4DE2B8CD99E008CFAD3 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				A0CBF5072B8CE802008CFAD3 /* coffee.json */,
 				A0CBF4FE2B8CE0AC008CFAD3 /* administrator.json */,
 			);
 			path = Animations;
@@ -139,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				A0CBF4E02B8CDA04008CFAD3 /* SignInFactory.swift */,
+				A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -166,6 +180,36 @@
 				A0CBF4FC2B8CDE8A008CFAD3 /* NameConstants.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		A0CBF5002B8CE510008CFAD3 /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				A0CBF5032B8CE5FD008CFAD3 /* AdminViewController.swift */,
+			);
+			path = Admin;
+			sourceTree = "<group>";
+		};
+		A0CBF5012B8CE516008CFAD3 /* ShopOwner */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ShopOwner;
+			sourceTree = "<group>";
+		};
+		A0CBF5022B8CE51F008CFAD3 /* Staff */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Staff;
+			sourceTree = "<group>";
+		};
+		A0CBF5092B8CE96B008CFAD3 /* TableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				A0CBF50A2B8CE9A5008CFAD3 /* AccountTableViewCell.swift */,
+			);
+			path = TableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,6 +283,7 @@
 				A0CBF4C72B8CD31F008CFAD3 /* LaunchScreen.storyboard in Resources */,
 				A0CBF4FF2B8CE0AC008CFAD3 /* administrator.json in Resources */,
 				A0CBF4C42B8CD31F008CFAD3 /* Assets.xcassets in Resources */,
+				A0CBF5082B8CE802008CFAD3 /* coffee.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,9 +294,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0CBF5062B8CE6DD008CFAD3 /* AdminFactory.swift in Sources */,
 				A0CBF4F62B8CDBD9008CFAD3 /* UITextField+Extension.swift in Sources */,
 				A0CBF4EF2B8CDBD9008CFAD3 /* UILabel+Extension.swift in Sources */,
+				A0CBF5042B8CE5FD008CFAD3 /* AdminViewController.swift in Sources */,
 				A0CBF4F02B8CDBD9008CFAD3 /* String+Extension.swift in Sources */,
+				A0CBF50B2B8CE9A5008CFAD3 /* AccountTableViewCell.swift in Sources */,
 				A0CBF4E12B8CDA04008CFAD3 /* SignInFactory.swift in Sources */,
 				A0CBF4EE2B8CDBD9008CFAD3 /* UIView+Extension.swift in Sources */,
 				A0CBF4ED2B8CDBD9008CFAD3 /* UITabBar+Extension.swift in Sources */,

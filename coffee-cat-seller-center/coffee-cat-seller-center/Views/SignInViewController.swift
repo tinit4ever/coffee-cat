@@ -66,26 +66,25 @@ class SignInViewController: UIViewController, SignInFactory {
     }
     
     private func configAppearance() {
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .systemBackground
     }
     
     private func configWelcomeLabel() {
-        welcomeLabel.setupTitle(text: "Welcome", fontName: FontNames.avenir, size: sizeScaler(36), textColor: .systemBrown)
+        welcomeLabel.setupTitle(text: "Welcome", fontName: FontNames.avenir, size: sizeScaler(80), textColor: .systemBrown)
         welcomeLabel.setBoldText()
         
         NSLayoutConstraint.activate([
-            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 150),
+            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 100),
             welcomeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
             welcomeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
         ])
     }
     
     private func configAnimationView() {
-        animationView.contentMode = .scaleAspectFill
+        animationView.contentMode = .scaleAspectFit
         NSLayoutConstraint.activate([
             animationView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20),
-            animationView.widthAnchor.constraint(equalToConstant: sizeScaler(300)),
-            animationView.heightAnchor.constraint(equalToConstant: sizeScaler(250)),
+            animationView.heightAnchor.constraint(equalToConstant: heightScaler(300)),
             animationView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
@@ -96,10 +95,10 @@ class SignInViewController: UIViewController, SignInFactory {
         
         emailTextFieldContainer.backgroundColor = .systemGray6
         NSLayoutConstraint.activate([
-            emailTextFieldContainer.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: UIScreen.screenHeightUnit * 100),
-            emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
-            emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 60)),
-            emailTextFieldContainer.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
+            emailTextFieldContainer.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: heightScaler(80)),
+            emailTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            emailTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
+            emailTextFieldContainer.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }
     
@@ -114,22 +113,22 @@ class SignInViewController: UIViewController, SignInFactory {
         passwordTextFieldContainer.backgroundColor = .systemGray6
         NSLayoutConstraint.activate([
             passwordTextFieldContainer.topAnchor.constraint(equalTo: emailTextFieldContainer.bottomAnchor, constant: UIScreen.screenHeightUnit * 40),
-            passwordTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
-            passwordTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 60)),
-            passwordTextFieldContainer.heightAnchor.constraint(equalToConstant: UIScreen.screenHeightUnit * 60)
+            passwordTextFieldContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            passwordTextFieldContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
+            passwordTextFieldContainer.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }
     
     private func configSignInButton() {
         signInButton.cornerRadius(cornerRadius: UIScreen.screenHeightUnit * 30)
         signInButton.setTitle(title: "Sign In", fontName: FontNames.avenir, size: sizeScaler(40), color: .systemGray5)
-        signInButton.backgroundColor = .systemPurple.withAlphaComponent(0.4)
+        signInButton.backgroundColor = .systemPurple.withAlphaComponent(0.7)
         
         NSLayoutConstraint.activate([
-            signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 60),
-            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 60)),
+            signInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            signInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
             signInButton.heightAnchor.constraint(equalToConstant: heightScaler(60)),
-            signInButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(60))
+            signInButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(20))
         ])
     }
     
@@ -223,4 +222,3 @@ struct SignInViewControllerPreview: PreviewProvider {
         }
     }
 }
-
