@@ -305,8 +305,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         
         selectedTableViewController.didSendData = { [weak self] selectedTable in
             guard let self = self else { return }
-            self.orderTableButton.setTitle("\(selectedTable)", for: .normal)
-//                        self.viewModel.shop.seatList = selectedTable
+            self.orderTableButton.setTitle("Selected \(selectedTable.count) table", for: .normal)
         }
     }
     
@@ -324,24 +323,6 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     private func updateIndexLabel() {
         let totalElements = self.viewModel.shop.shopImageList.count
         indexLabel.text = "\(self.viewModel.index + 1)/\(totalElements)"
-    }
-}
-
-extension ShopDetailsViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        20
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SeatCollectionViewCell.identifier, for: indexPath) as? SeatCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        
-        return cell
-    }
-}
-extension ShopDetailsViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     }
 }
 
