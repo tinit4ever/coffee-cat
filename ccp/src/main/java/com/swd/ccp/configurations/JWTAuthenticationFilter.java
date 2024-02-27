@@ -67,8 +67,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 currentAccessToken.setStatus(0);
                 tokenRepo.save(currentAccessToken);
 
-                jwt = jwtService.generateToken(account);
-                tokenRepo.save(Token.builder().token(jwt).type("access").status(1).account(account).build());
+                tokenRepo.save(Token.builder().token(jwtService.generateToken(account)).type("access").status(1).account(account).build());
             }
             //
             if(jwtService.checkTokenIsValid(jwt)){
