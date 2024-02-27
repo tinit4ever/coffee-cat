@@ -312,7 +312,6 @@ class SignInViewController: UIViewController, UIFactory {
                         if authenticationResponse.status ?? false {
                             self?.hiddenLoadingView()
                             UserSessionManager.shared.saveAuthenticationResponse(authenticationResponse)
-                            print(UserSessionManager.shared.authenticationResponse as Any)
                             self?.pushToHome()
                         } else {
                             self?.displayLoginError(authenticationResponse.message ?? "Unknown error")
