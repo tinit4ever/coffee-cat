@@ -15,9 +15,9 @@ public class RegisterResponse {
 
     private String message;
 
-    private String access_token;
+    private String accessToken;
 
-    private String refresh_token;
+    private String refreshToken;
 
     private AccountResponse accountResponse;
 }

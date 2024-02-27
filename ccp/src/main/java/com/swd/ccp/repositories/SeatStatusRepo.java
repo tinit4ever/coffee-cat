@@ -11,4 +11,5 @@ import java.util.List;
 public interface SeatStatusRepo extends JpaRepository<SeatStatus, Integer> {
 
     Collection< SeatStatus> findAllByStatus(String status);
+
 }

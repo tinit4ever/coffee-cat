@@ -7,7 +7,6 @@ import lombok.Setter;
     public class UpdateProfileResponse {
         private String message;
         private boolean status;
-        private String token;
 
     }
 

@@ -20,6 +20,5 @@ public class ShopResponse {
     private String avatar;
     private String message;
     private boolean status;
-    private String token;
 
 }

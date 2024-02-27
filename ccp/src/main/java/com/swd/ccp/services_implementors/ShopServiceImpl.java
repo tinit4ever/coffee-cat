@@ -55,30 +55,29 @@ public class ShopServiceImpl implements ShopService {
         List<ShopResponseGuest> mappedshopList = mapToShopDtoList(shopList);
 
 
-
         boolean status = true;
         String message = "Successfully retrieved shop list";
         return new ShopListResponse(mappedshopList, status, message);
     }
 
-    private AreaResponse mapToAreaResponse(Shop shop) {
-        AreaResponse areaResponse = new AreaResponse();
+    private List<AreaResponse> mapToAreaResponse(Shop shop) {
         List<AreaStatus> activeAreaStatusList = areaStatusRepo.findAllByStatus("active");
         List<Area> activeAreas = areaRepo.findAllByShopAndAreaStatusIn(shop, activeAreaStatusList);
 
-        // Lấy tên của khu vực nếu cần
-        // areaResponse.setName(a);
+        List<AreaResponse> areaResponseList = new ArrayList<>();
+        for (Area area : activeAreas) {
+            AreaResponse areaResponse = new AreaResponse();
+            areaResponse.setName(area.getName());
 
-        List<CatResponse> catList = mapToCatResponseList(activeAreas);
-        areaResponse.setCatList(catList);
+            // Lấy danh sách mèo cho từng khu vực cụ thể
+            List<CatResponse> catList = mapToCatResponseList(area.getId());
+            areaResponse.setCatList(catList);
 
-        List<SeatResponse> seatList = mapToSeatResponseList(activeAreas);
-        areaResponse.setSeatList(seatList);
-
-        List<MenuResponse> menuList = mapToMenuResponseList(shop);
-        areaResponse.setMenuList(menuList);
-
-        return areaResponse;
+            List<SeatResponse> seatList = mapToSeatResponseList(area.getId());
+            areaResponse.setSeatList(seatList);
+            areaResponseList.add(areaResponse);
+        }
+        return areaResponseList;
     }
 
     private List<MenuResponse> mapToMenuResponseList(Shop shop) {
@@ -93,17 +92,14 @@ public class ShopServiceImpl implements ShopService {
         }
         return menuList;
     }
-    private List<CatResponse> mapToCatResponseList(List<Area> areaList) {
+    private List<CatResponse> mapToCatResponseList(Integer areaId) {
         List<CatResponse> catResponseList = new ArrayList<>();
-        for (Area area : areaList) {
-            List<CatStatus> activeCatStatusList = catStatusRepo.findAllByStatus(CATACTIVE);
-            List<Cat> catsInArea = catRepo.findAllByAreaAndCatStatusIn(area, activeCatStatusList);
-            List<CatResponse> catResponses = mapCatsToCatResponses(catsInArea);
-            catResponseList.addAll(catResponses);
-        }
+        List<CatStatus> activeCatStatusList = catStatusRepo.findAllByStatus(CATACTIVE);
+        List<Cat> catsInArea = catRepo.findByAreaIdAndCatStatusIn(areaId, activeCatStatusList);
+        List<CatResponse> catResponses = mapCatsToCatResponses(catsInArea);
+        catResponseList.addAll(catResponses);
         return catResponseList;
     }
-
     private List<CatResponse> mapCatsToCatResponses(List<Cat> catList) {
         List<CatResponse> catResponses = new ArrayList<>();
         for (Cat cat : catList) {
@@ -121,14 +117,12 @@ public class ShopServiceImpl implements ShopService {
         catResponse.setImgLink(cat.getImgLink());
         return catResponse;
     }
-    private List<SeatResponse> mapToSeatResponseList(List<Area> areaList) {
+    private List<SeatResponse> mapToSeatResponseList(Integer areaId) {
         List<SeatResponse> seatResponseList = new ArrayList<>();
-        for (Area area : areaList) {
-            Collection<SeatStatus> activeSeatStatusList = seatStatusRepo.findAllByStatus(SeatActive);
-            List<Seat> seatsInArea = seatRepo.findAllByAreaAndSeatStatusIn(area, activeSeatStatusList);
-            List<SeatResponse> seatResponses = mapSeatsToSeatResponses(seatsInArea);
-            seatResponseList.addAll(seatResponses);
-        }
+        Collection<SeatStatus> activeSeatStatusList = seatStatusRepo.findAllByStatus(SeatActive);
+        List<Seat> seatsInArea = seatRepo.findAllByAreaIdAndSeatStatusIn(areaId, activeSeatStatusList);
+        List<SeatResponse> seatResponses = mapSeatsToSeatResponses(seatsInArea);
+        seatResponseList.addAll(seatResponses);
         return seatResponseList;
     }
 
@@ -148,8 +142,6 @@ public class ShopServiceImpl implements ShopService {
         seatResponse.setName(seat.getName());
         return seatResponse;
     }
-      /*List<Seat> activeSeats = seatRepo.findAllByShopAndSeatStatusIn(shop, activeSeatStatusList);
-            shopResponse.setSeatList(activeSeats.stream().map(Seat::getName).collect(Collectors.toList()));*/
 
     private List<MenuItemResponse> mapToMenuItemResponseList(List<MenuItem> menuItemList) {
         return menuItemList.stream()
@@ -217,8 +209,10 @@ public class ShopServiceImpl implements ShopService {
             shopResponse.setCloseTime(shop.getCloseTime());
 
             // Ánh xạ đối tượng AreaResponse cho cửa hàng (shop)
-            AreaResponse area = mapToAreaResponse(shop);
+            List<AreaResponse> area = mapToAreaResponse(shop);
             shopResponse.setAreaList(area);
+            List<MenuResponse> menu = mapToMenuResponseList(shop);
+            shopResponse.setMenuList(menu);
 
             if (shop.getAddress() == null) {
                 shopResponse.setAddress("N/A");
@@ -280,7 +274,6 @@ public class ShopServiceImpl implements ShopService {
             shopResponse.setShopImageList(imageLinks);
             shopResponse.setAvatar(shop.getAvatar());
             shopResponse.setStatus(true);
-            shopResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
             if (shop.getName() == null) {
                 shopResponse.setName("N/A");
             }
@@ -375,7 +368,6 @@ public class ShopServiceImpl implements ShopService {
             response.setShopId(shopId);
             response.setMessage("Shop information updated successfully.");
             response.setStatus(true);
-            response.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
 
             return response;
         } else {

@@ -15,5 +15,7 @@ public interface CatRepo extends JpaRepository<Cat, Integer> {
     Cat findByIdAndCatStatus(Long id, CatStatus catStatuses);
     List<Cat> findAllByAreaInAndCatStatus(List<Area> area, CatStatus catStatus);
 
-    List<Cat> findAllByAreaAndCatStatusIn(Area area, List<CatStatus>catStatuses);
+    List<Cat> findByAreaAndCatStatusIn(Area area, List<CatStatus> catStatuses);
+
+    List<Cat> findByAreaIdAndCatStatusIn(Integer areaId, List<CatStatus> activeCatStatusList);
 }

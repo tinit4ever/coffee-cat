@@ -22,7 +22,5 @@ public class MenuItemResponse {
 
     private float discount;
 
-    private int quantity;
-
     private int soldQuantity;
 }

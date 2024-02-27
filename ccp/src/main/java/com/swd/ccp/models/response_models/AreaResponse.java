@@ -11,8 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class AreaResponse {
-    private List<CatResponse> catList;
-    private List<MenuResponse> menuList;
-    private List<SeatResponse> seatList;
     private String name;
+    private List<CatResponse> catList;
+
+    private List<SeatResponse> seatList;
+
 }

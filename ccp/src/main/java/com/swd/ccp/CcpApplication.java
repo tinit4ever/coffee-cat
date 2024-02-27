@@ -45,6 +45,12 @@ public class CcpApplication {
 //
 //    private final MenuItemStatusRepo menuItemStatusRepo;
 //
+//    private final BookingDetailRepo bookingDetailRepo;
+//
+//    private final BookingRepo bookingRepo;
+//
+//    private final BookingStatusRepo bookingStatusRepo;
+//
 //    private final PasswordEncoder passwordEncoder;
 
     public static void main(String[] args) {
@@ -61,6 +67,9 @@ public class CcpApplication {
 //                List<Token> tokenList = new ArrayList<>();
 //
 //                //reset database
+//                bookingDetailRepo.deleteAll();
+//                bookingRepo.deleteAll();
+//                bookingStatusRepo.deleteAll();
 //                menuItemRepo.deleteAll();
 //                menuItemStatusRepo.deleteAll();
 //                menuRepo.deleteAll();
@@ -86,6 +95,7 @@ public class CcpApplication {
 //                        .email("admin@gmail.com")
 //                        .name("Admin")
 //                        .password(passwordEncoder.encode("admin"))
+//                        .phone("090909090909")
 //                        .status(accountStatusRepo.findById(1).orElse(null))
 //                        .role(Role.ADMIN)
 //                        .build();
@@ -95,6 +105,7 @@ public class CcpApplication {
 //                        .email("owner@gmail.com")
 //                        .name("Shop owner")
 //                        .password(passwordEncoder.encode("owner"))
+//                        .phone("090909090909")
 //                        .status(accountStatusRepo.findById(1).orElse(null))
 //                        .role(Role.OWNER)
 //                        .build();
@@ -104,6 +115,7 @@ public class CcpApplication {
 //                        .email("staff@gmail.com")
 //                        .name("Staff")
 //                        .password(passwordEncoder.encode("staff"))
+//                        .phone("090909090909")
 //                        .status(accountStatusRepo.findById(1).orElse(null))
 //                        .role(Role.STAFF)
 //                        .build();
@@ -113,6 +125,7 @@ public class CcpApplication {
 //                        .email("customer@gmail.com")
 //                        .name("Customer")
 //                        .password(passwordEncoder.encode("customer"))
+//                        .phone("090909090909")
 //                        .status(accountStatusRepo.findById(1).orElse(null))
 //                        .role(Role.CUSTOMER)
 //                        .build();
@@ -158,7 +171,6 @@ public class CcpApplication {
 //                customerRepo.save(
 //                        Customer.builder()
 //                                .account(customer)
-//                                .phone("090909090909")
 //                                .gender("Male")
 //                                .dob(new Date(System.currentTimeMillis()))
 //                                .build()
@@ -169,7 +181,6 @@ public class CcpApplication {
 //                        Manager.builder()
 //                                .account(staff)
 //                                .shop(null)
-//                                .name("Alan")
 //                                .build()
 //                );
 //
@@ -177,7 +188,6 @@ public class CcpApplication {
 //                        Manager.builder()
 //                                .account(owner)
 //                                .shop(null)
-//                                .name("John")
 //                                .build()
 //                );
 //
@@ -193,29 +203,29 @@ public class CcpApplication {
 //
 //                //init shop
 //                Shop shop1 = Shop.builder()
-//                        .name("Hoppy")
+//                        .name("Don't hate cat")
 //                        .address("Le Van Viet, Tp Thu Duc")
 //                        .openTime("08:00")
 //                        .closeTime("22:00")
 //                        .rating(5.0)
 //                        .phone("0987654321")
-//                        .status(shopStatusRepo.findById(1).orElse(null))
+//                        .status(shopStatusRepo.findByStatus("opened"))
 //                        .packages(null)
 //                        .build();
 //
 //                Shop shop2 = Shop.builder()
-//                        .name("Lala")
+//                        .name("MonLeo")
 //                        .address("Ho Hoan Kiem, Ha Noi")
 //                        .openTime("07:00")
 //                        .closeTime("20:00")
 //                        .rating(4.0)
 //                        .phone("0925836147")
-//                        .status(shopStatusRepo.findById(1).orElse(null))
+//                        .status(shopStatusRepo.findByStatus("opened"))
 //                        .packages(null)
 //                        .build();
 //
-//                shopRepo.save(shop1);
-//                shopRepo.save(shop2);
+//                shop1 = shopRepo.save(shop1);
+//                shop2 = shopRepo.save(shop2);
 //
 //                //init seat status
 //                seatStatusRepo.save(SeatStatus.builder().status("available").build());
@@ -223,29 +233,29 @@ public class CcpApplication {
 //
 //                //init seat
 //                Seat seat1 = Seat.builder()
-//                        .shop(shopRepo.findById(1).orElse(null))
-//                        .seatStatus(seatStatusRepo.findById(1).orElse(null))
+//                        .shop(shop1)
+//                        .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
 //                        .name("Seat 01")
 //                        .capacity(8)
 //                        .build();
 //
 //                Seat seat2 = Seat.builder()
-//                        .shop(shopRepo.findById(1).orElse(null))
-//                        .seatStatus(seatStatusRepo.findById(1).orElse(null))
+//                        .shop(shop1)
+//                        .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
 //                        .name("Seat 02")
 //                        .capacity(4)
 //                        .build();
 //
 //                Seat seat3 = Seat.builder()
-//                        .shop(shopRepo.findById(2).orElse(null))
-//                        .seatStatus(seatStatusRepo.findById(1).orElse(null))
+//                        .shop(shop2)
+//                        .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
 //                        .name("Seat 01")
 //                        .capacity(16)
 //                        .build();
 //
 //                Seat seat4 = Seat.builder()
-//                        .shop(shopRepo.findById(2).orElse(null))
-//                        .seatStatus(seatStatusRepo.findById(1).orElse(null))
+//                        .shop(shop2)
+//                        .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
 //                        .name("Seat 02")
 //                        .capacity(5)
 //                        .build();
@@ -266,8 +276,8 @@ public class CcpApplication {
 //                        .description(null)
 //                        .build();
 //
-//                menuRepo.save(menu1);
-//                menuRepo.save(menu2);
+//                menu1 = menuRepo.save(menu1);
+//                menu2 = menuRepo.save(menu2);
 //
 //                //init menu item status
 //                menuItemStatusRepo.save(MenuItemStatus.builder().status("available").build());
@@ -275,50 +285,46 @@ public class CcpApplication {
 //
 //                //init menu item
 //                MenuItem menuItem1 = MenuItem.builder()
-//                        .menu(menuRepo.findById(1).orElse(null))
-//                        .menuItemStatus(menuItemStatusRepo.findById(1).orElse(null))
+//                        .menu(menu1)
+//                        .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
 //                        .name("Chicken dizzy")
 //                        .price(500000)
 //                        .imgLink(null)
 //                        .description(null)
 //                        .discount(0)
-//                        .quantity(100)
 //                        .soldQuantity(0)
 //                        .build();
 //
 //                MenuItem menuItem2 = MenuItem.builder()
-//                        .menu(menuRepo.findById(1).orElse(null))
-//                        .menuItemStatus(menuItemStatusRepo.findById(1).orElse(null))
+//                        .menu(menu1)
+//                        .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
 //                        .name("Goat fire")
 //                        .price(250000)
 //                        .imgLink(null)
 //                        .description(null)
 //                        .discount(0)
-//                        .quantity(100)
 //                        .soldQuantity(0)
 //                        .build();
 //
 //                MenuItem menuItem3 = MenuItem.builder()
-//                        .menu(menuRepo.findById(2).orElse(null))
-//                        .menuItemStatus(menuItemStatusRepo.findById(1).orElse(null))
+//                        .menu(menu2)
+//                        .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
 //                        .name("Cow dizzy")
 //                        .price(1100000)
 //                        .imgLink(null)
 //                        .description(null)
 //                        .discount(0)
-//                        .quantity(100)
 //                        .soldQuantity(0)
 //                        .build();
 //
 //                MenuItem menuItem4 = MenuItem.builder()
-//                        .menu(menuRepo.findById(2).orElse(null))
-//                        .menuItemStatus(menuItemStatusRepo.findById(1).orElse(null))
+//                        .menu(menu2)
+//                        .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
 //                        .name("Fish dizzy")
 //                        .price(100000)
 //                        .imgLink(null)
 //                        .description(null)
 //                        .discount(0)
-//                        .quantity(100)
 //                        .soldQuantity(0)
 //                        .build();
 //
@@ -326,6 +332,24 @@ public class CcpApplication {
 //                menuItemRepo.save(menuItem2);
 //                menuItemRepo.save(menuItem3);
 //                menuItemRepo.save(menuItem4);
+
+//                //init booking status
+//                BookingStatus pending = BookingStatus.builder()
+//                        .status("Pending")
+//                        .build();
+//
+//                BookingStatus confirmed = BookingStatus.builder()
+//                        .status("Confirmed")
+//                        .build();
+//
+//                BookingStatus cancelled = BookingStatus.builder()
+//                        .status("Cancelled")
+//                        .build();
+//
+//                bookingStatusRepo.save(pending);
+//                bookingStatusRepo.save(confirmed);
+//                bookingStatusRepo.save(cancelled);
+//
 //            }
 //        };
 //    }

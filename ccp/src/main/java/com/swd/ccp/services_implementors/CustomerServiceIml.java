@@ -1,13 +1,12 @@
 package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.Exception.NotFoundException;
-import com.swd.ccp.models.entity_models.*;
+import com.swd.ccp.models.entity_models.Customer;
 import com.swd.ccp.models.request_models.UpdateProfileRequest;
+import com.swd.ccp.models.response_models.BookingHistoryResponse;
 import com.swd.ccp.models.response_models.CustomerProfile;
 import com.swd.ccp.models.response_models.UpdateProfileResponse;
-import com.swd.ccp.repositories.AccountRepo;
 import com.swd.ccp.repositories.CustomerRepo;
-import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.CustomerService;
 import com.swd.ccp.services.JWTService;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +17,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceIml implements CustomerService {
-    private final AccountService accountService;
     private final CustomerRepo customerRepo;
     private final JWTService jwtService;
-    private static final String ACTIVE = "opened";
 
 
     @Override
@@ -35,11 +32,10 @@ public class CustomerServiceIml implements CustomerService {
                 CustomerProfile profile = new CustomerProfile();
                 profile.setUsername(customer.getAccount().getUsername());
                 profile.setEmail(customer.getAccount().getEmail());
-                profile.setPhone(customer.getPhone());
+                profile.setPhone(customer.getAccount().getPhone());
                 profile.setGender(customer.getGender());
                 profile.setDob(customer.getDob());
                 profile.setStatus(true);
-                profile.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
                 return profile;
             } else {
                 throw new NotFoundException("Customer profile not found.");
@@ -75,5 +71,11 @@ public class CustomerServiceIml implements CustomerService {
         } else {
             throw new NotFoundException("Customer is not found.");
         }
+    }
+
+    @Override
+    public BookingHistoryResponse getBookingHistory() {
+
+        return null;
     }
 }

@@ -15,4 +15,5 @@ import java.util.List;
 public class MenuResponse {
     private String description;
     private List<MenuItemResponse> menuItemList;
+
 }

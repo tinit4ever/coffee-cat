@@ -37,6 +37,7 @@ extension UIButton {
         }
         
         self.configuration = configuration
+        self.tintColor = color
     }
     
     func removeBackground() {
@@ -63,7 +64,7 @@ extension UIButton {
         
         configuration.buttonSize = .large
         configuration.imagePadding = 0
-        configuration.baseForegroundColor = .customPink
+        configuration.baseForegroundColor = .systemPurple
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         self.configuration = configuration
     }

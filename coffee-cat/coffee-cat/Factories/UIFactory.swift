@@ -17,12 +17,15 @@ protocol UIFactory {
     func makeVerticalStackView() -> UIStackView
     func makeHorizontalStackView() -> UIStackView
     func makeImageView(imageName: String, size: CGSize) -> UIImageView
+    func makeImageView() -> UIImageView
     func makeSquareImageView(imageName: String, size: CGFloat) -> UIImageView
     func makeDatePicker() -> UIDatePicker
     func makeRadioButtonStackView(content: String) -> UIStackView
     func makeLottieAnimationView(animationName: String) -> LottieAnimationView
     func makeSearchBar(placeholder: String) -> UISearchBar
     func makeScrollViewContainer() -> UIScrollView
+    func makeTableView() -> UITableView
+    func makeCollectionView(space: CGFloat, size: CGSize) -> UICollectionView
 }
 
 extension UIFactory {
@@ -78,11 +81,52 @@ extension UIFactory {
         return stackView
     }
     
+    func makeInfoHorizontalStackView(firstLabel: UILabel, secondLabel: UILabel, width: CGFloat) -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+//        return stackView
+
+        stackView.addArrangedSubview(firstLabel)
+        stackView.addArrangedSubview(secondLabel)
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.spacing = UIScreen.scalableWidth(10)
+//        stackView.widthAnchor.constraint(equalTo: shopInforStackView.widthAnchor).isActive = true
+        
+        NSLayoutConstraint.activate([
+            firstLabel.heightAnchor.constraint(equalToConstant: UIScreen.scalableHeight(28)),
+            firstLabel.widthAnchor.constraint(equalToConstant: UIScreen.scalableWidth(280))
+        ])
+        firstLabel.layer.cornerRadius = UIScreen.scalableSize(10)
+        firstLabel.layer.masksToBounds = true
+        firstLabel.textAlignment = .center
+        firstLabel.backgroundColor = .customPink.withAlphaComponent(0.5)
+        
+        NSLayoutConstraint.activate([
+            secondLabel.heightAnchor.constraint(equalToConstant: UIScreen.scalableHeight(28)),
+            secondLabel.widthAnchor.constraint(equalToConstant: UIScreen.scalableWidth(280))
+        ])
+        secondLabel.layer.cornerRadius = UIScreen.scalableSize(10)
+        secondLabel.layer.masksToBounds = true
+        secondLabel.textAlignment = .natural
+        secondLabel.backgroundColor = .systemGray4.withAlphaComponent(0.5)
+        
+        return stackView
+    }
+    
     func makeImageView(imageName: String, size: CGSize) -> UIImageView {
         let imageView = UIImageView(frame: .zero)
         if let image = UIImage(systemName: imageName) {
             imageView.image = image.resized(to: size)
         }
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }
+    
+    func makeImageView() -> UIImageView {
+        let imageView = UIImageView(frame: .zero)
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }
@@ -146,10 +190,30 @@ extension UIFactory {
     
     func makeScrollViewContainer() -> UIScrollView {
         let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.isDirectionalLockEnabled = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.isScrollEnabled = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
+    }
+    
+    func makeTableView() -> UITableView {
+        let tableView = UITableView(frame: .zero)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }
+    
+    func makeCollectionView(space: CGFloat, size: CGSize) -> UICollectionView {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.itemSize = size
+        layout.minimumLineSpacing = space
+        layout.minimumInteritemSpacing = space
+        layout.sectionInset = UIEdgeInsets(top: layout.minimumLineSpacing, left: layout.minimumLineSpacing, bottom: layout.minimumLineSpacing, right: layout.minimumLineSpacing)
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return collectionView
     }
 }

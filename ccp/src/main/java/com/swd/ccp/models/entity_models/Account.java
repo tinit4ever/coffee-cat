@@ -31,6 +31,8 @@ public class Account implements UserDetails {
 
     private String password;
 
+    private String phone;
+
     @OneToMany(mappedBy = "account")
     private List<Token> tokenList;
 

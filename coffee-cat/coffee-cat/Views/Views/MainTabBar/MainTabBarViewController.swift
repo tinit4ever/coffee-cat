@@ -25,9 +25,9 @@ class MainTabBarViewController: UITabBarController {
     }
     
     func adjustTabBarHeight() {
-        tabBar.tintColor = .black
+        tabBar.tintColor = .customBlack
         tabBar.unselectedItemTintColor = .systemGray
-        tabBar.backgroundColor = .white
+        tabBar.backgroundColor = .systemBackground
         tabBar.frame.size.height = heightScaler(120)
         tabBar.frame.origin.y = view.frame.height - heightScaler(120)
         
@@ -43,7 +43,6 @@ class MainTabBarViewController: UITabBarController {
         let store = self.createNav(with: "Store", and: UIImage(systemName: "storefront.fill"), viewController: StoreViewController())
         let voucher = self.createNav(with: "Voucher", and: UIImage(systemName: "gift.fill"), viewController: VoucherViewController())
         let payment = self.createNav(with: "Account", and: UIImage(systemName: "creditcard.fill"), viewController: PaymentViewController())
-        
         self.setViewControllers([home, booking, store, voucher, payment], animated: true)
     }
     
@@ -54,8 +53,11 @@ class MainTabBarViewController: UITabBarController {
         nav.tabBarItem.selectedImage = image
         nav.tabBarItem.title = title
         nav.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: sizeScaler(18))], for: .normal)
-        nav.viewControllers.first?.navigationItem.title = title + " Controller"
-        nav.viewControllers.first?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Button", style: .plain, target: nil, action: nil)
+//        nav.viewControllers.first?.navigationItem.title = title + " Controller"
+//        nav.viewControllers.first?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Button", style: .plain, target: nil, action: nil)
+//        let backImage = UIImage(systemName: "chevron.backward.circle.fill")?
+//            .withTintColor(.black, renderingMode: .alwaysOriginal)
+        nav.isNavigationBarHidden = true
         return nav
     }
     

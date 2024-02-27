@@ -32,8 +32,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AccountRepo accountRepo;
 
-    private final AccountService accountService;
-
     private final CustomerRepo customerRepo;
 
     private final TokenRepo tokenRepo;
@@ -54,6 +52,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                                     .email(request.getEmail())
                                     .name(request.getName())
                                     .password(passwordEncoder.encode(request.getPassword()))
+                                    .phone(isStringValid(request.getPhone()) ? request.getPhone() : null)
                                     .status(accountStatusRepo.findById(1).orElse(null))
                                     .role(Role.CUSTOMER)
                                     .build()
@@ -78,7 +77,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     customer = customerRepo.save(
                             Customer.builder()
                                     .account(account)
-                                    .phone(isStringValid(request.getPhone()) ? request.getPhone() : null)
                                     .gender(isStringValid(request.getGender()) ? request.getGender() : null)
                                     .dob(request.getDob() != null ? request.getDob() : null)
                                     .build()
@@ -87,16 +85,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     return RegisterResponse.builder()
                             .message("Register successfully")
                             .status(true)
-                            .access_token(accessToken.getToken())
-                            .refresh_token(refreshToken.getToken())
+                            .accessToken(accessToken.getToken())
+                            .refreshToken(refreshToken.getToken())
                             .accountResponse(
                                     AccountResponse.builder()
                                             .id(customer.getAccount().getId())
                                             .email(customer.getAccount().getEmail())
                                             .username(customer.getAccount().getUsername())
-                                            .phone(customer.getPhone())
-                                            .gender(customer.getGender())
+                                            .phone(customer.getAccount().getPhone())
                                             .dob(customer.getDob())
+                                            .gender(customer.getGender())
                                             .status(customer.getAccount().getStatus().getStatus())
                                             .role(customer.getAccount().getRole().name())
                                             .build()
@@ -106,16 +104,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 return RegisterResponse.builder()
                         .message("Account is already existed")
                         .status(false)
-                        .access_token(null)
-                        .refresh_token(null)
+                        .accessToken(null)
+                        .refreshToken(null)
                         .accountResponse(null)
                         .build();
             }
             return RegisterResponse.builder()
                     .message("Unmatched password and confirmed password")
                     .status(false)
-                    .access_token(null)
-                    .refresh_token(null)
+                    .accessToken(null)
+                    .refreshToken(null)
                     .accountResponse(null)
                     .build();
         }
@@ -151,8 +149,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     return LoginResponse
                             .builder()
                             .message("Login successfully")
-                            .access_token(tokenList.get(0).getToken())
-                            .refresh_token(tokenList.get(1).getToken())
+                            .accessToken(tokenList.get(0).getToken())
+                            .refreshToken(tokenList.get(1).getToken())
                             .status(true)
                             .accountResponse(
                                     AccountResponse
@@ -160,6 +158,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                                             .id(1)
                                             .email(account.getEmail())
                                             .username(account.getName())
+                                            .phone(account.getPhone())
+                                            .gender(checkIfAccountIsCustomer(account) != null ? checkIfAccountIsCustomer(account).getGender() : null)
+                                            .dob(checkIfAccountIsCustomer(account) != null ? checkIfAccountIsCustomer(account).getDob() : null)
                                             .status(account.getStatus().getStatus())
                                             .role(account.getRole().name())
                                             .build()
@@ -168,27 +169,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 }
                 return LoginResponse.builder()
                         .message("Account has been banned")
-                        .access_token(null)
-                        .refresh_token(null)
+                        .accessToken(null)
+                        .refreshToken(null)
                         .status(false)
                         .accountResponse(null)
                         .build();
             }
             return LoginResponse.builder()
                     .message("Username or password is incorrect")
-                    .access_token(null)
-                    .refresh_token(null)
+                    .accessToken(null)
+                    .refreshToken(null)
                     .status(false)
                     .accountResponse(null)
                     .build();
         }
         return LoginResponse.builder()
                 .message("Username or password is wrong format")
-                .access_token(null)
-                .refresh_token(null)
+                .accessToken(null)
+                .refreshToken(null)
                 .status(false)
                 .accountResponse(null)
                 .build();
+    }
+
+    private Customer checkIfAccountIsCustomer(Account account){
+        return customerRepo.findByAccount_Email(account.getEmail()).orElse(null);
     }
 
     private boolean isStringValid(String string) {
