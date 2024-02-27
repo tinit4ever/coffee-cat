@@ -23,8 +23,9 @@ class ProfileViewController: UIViewController {
     }
     
     private func configNavigation() {
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        self.navigationItem.backBarButtonItem?.tintColor = .backButton
+//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+//        self.navigationItem.backBarButtonItem?.tintColor = .backButton
+        self.navigationItem.title = "A"
     }
     
     private func setupUI() {
