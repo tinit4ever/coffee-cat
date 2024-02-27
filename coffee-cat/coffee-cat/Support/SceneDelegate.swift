@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
 //        let rootViewController = UINavigationController(rootViewController: SignInViewController())
-        let rootViewController = SignInViewController()
+        let rootViewController = MainTabBarViewController()
         window.rootViewController = rootViewController
         
         self.window = window
