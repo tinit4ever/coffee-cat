@@ -15,16 +15,15 @@ import java.util.List;
 @Data
 
 public class ShopResponseGuest {
+    private Integer id;
     private Double rating;
     private String name;
     private List<String> shopImageList;
     private String avatar;
     private String address;
     private List<String> commentList;
-    private List<String> seatList;
     private String phone;
     private String openTime;
     private String closeTime;
-
-
+    private AreaResponse areaList;
 }

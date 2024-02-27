@@ -19,8 +19,8 @@ public class Seat {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "shop_id")
-    private Shop shop;
+    @JoinColumn(name = "area_id")
+    private Area area;
 
     @ManyToOne
     @JoinColumn(name = "status_id")

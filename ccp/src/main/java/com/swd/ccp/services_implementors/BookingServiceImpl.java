@@ -57,7 +57,7 @@ public class BookingServiceImpl implements BookingService {
                         }
                 );
 
-                shopRepo.findById(seat.getShop().getId()).ifPresent(shop -> {
+                shopRepo.findById(seat.getArea().getId()).ifPresent(shop -> {
                     bookingCartShopResponse.setShopID(shop.getId());
                     bookingCartShopResponse.setShopName(shop.getName());
                     bookingCartShopResponse.setSeatID(seat.getId());

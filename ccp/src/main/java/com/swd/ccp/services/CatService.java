@@ -9,6 +9,6 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface CatService {
-    CatListResponse getActiveCats(Integer shopId, SortRequest sortRequest);
+//    CatListResponse getActiveCats(Integer shopId, SortRequest sortRequest);
 
 }

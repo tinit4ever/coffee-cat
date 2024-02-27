@@ -15,7 +15,7 @@ public interface ShopService {
 //    Page<ShopResponse> getPopularActiveShops(Integer page, Integer size);
 
     Page<ShopResponse> getShops(PaginationRequest pageRequest);
-//    CreateShopResponse createShop(ShopRequest request);
+    CreateShopResponse createShop(ShopRequest request);
     UpdateShopResponse updateShop(Long shopId, ShopRequest updateRequest);
     int inactiveShop(Integer shopId);
     int activeShop(Integer shopId);

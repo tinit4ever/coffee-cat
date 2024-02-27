@@ -21,14 +21,14 @@ import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
 @RequiredArgsConstructor
 public class CatController {
     private final CatService catService;
-    @GetMapping("/list-cat")
-    @PreAuthorize("hasAuthority('customer:read')")
-    public ResponseEntity<CatListResponse> getActiveCats(@RequestParam(value = "sortByColumn", defaultValue = "name") String sortByColumn,
-                                                         @RequestParam(value = "asc", defaultValue = "true") boolean ascending,
-                                                         @RequestParam Integer shopId) {
-        SortRequest sortRequest = new SortRequest(ascending, sortByColumn);
-        CatListResponse activeCats = catService.getActiveCats(shopId,sortRequest);
-        return ResponseEntity.ok(activeCats);
-    }
+//    @GetMapping("/list-cat")
+//    @PreAuthorize("hasAuthority('customer:read')")
+//    public ResponseEntity<CatListResponse> getActiveCats(@RequestParam(value = "sortByColumn", defaultValue = "name") String sortByColumn,
+//                                                         @RequestParam(value = "asc", defaultValue = "true") boolean ascending,
+//                                                         @RequestParam Integer shopId) {
+//        SortRequest sortRequest = new SortRequest(ascending, sortByColumn);
+//        CatListResponse activeCats = catService.getActiveCats(shopId,sortRequest);
+//        return ResponseEntity.ok(activeCats);
+//    }
 
 }

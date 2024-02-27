@@ -25,7 +25,7 @@ public class ShopRequest {
     private String openTime;
     private List<ShopImage> shopImageList;
     private String closeTime;
-    private Seat seat;
+    private String area;
     private String avatar;
     private String phone;
     private ShopStatus shopStatus;
