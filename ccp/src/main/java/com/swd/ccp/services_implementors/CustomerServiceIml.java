@@ -3,6 +3,7 @@ package com.swd.ccp.services_implementors;
 import com.swd.ccp.Exception.NotFoundException;
 import com.swd.ccp.models.entity_models.*;
 import com.swd.ccp.models.request_models.UpdateProfileRequest;
+import com.swd.ccp.models.response_models.BookingHistoryResponse;
 import com.swd.ccp.models.response_models.CustomerProfile;
 import com.swd.ccp.models.response_models.UpdateProfileResponse;
 import com.swd.ccp.repositories.AccountRepo;
@@ -75,5 +76,11 @@ public class CustomerServiceIml implements CustomerService {
         } else {
             throw new NotFoundException("Customer is not found.");
         }
+    }
+
+    @Override
+    public BookingHistoryResponse getBookingHistory() {
+
+        return null;
     }
 }

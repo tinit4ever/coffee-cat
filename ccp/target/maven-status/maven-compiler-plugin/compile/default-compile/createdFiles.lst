@@ -52,6 +52,7 @@ com\swd\ccp\models\request_models\CheckMailExistedRequest$CheckMailExistedReques
 com\swd\ccp\models\request_models\ShopRequest$ShopRequestBuilder.class
 com\swd\ccp\services_implementors\StaffServiceImpl.class
 com\swd\ccp\models\entity_models\Cat.class
+com\swd\ccp\models\response_models\CancelBookingResponse.class
 com\swd\ccp\models\request_models\CreateBookingCartRequest$MenuItemRequest$MenuItemRequestBuilder.class
 com\swd\ccp\models\request_models\PaginationRequest.class
 com\swd\ccp\services_implementors\CustomerServiceIml.class
@@ -70,7 +71,9 @@ com\swd\ccp\repositories\FollowerCustomerRepo.class
 com\swd\ccp\repositories\CatStatusRepo.class
 com\swd\ccp\controllers\AccountController.class
 com\swd\ccp\models\entity_models\ShopImage$ShopImageBuilder.class
+com\swd\ccp\models\request_models\CancelBookingRequest.class
 com\swd\ccp\repositories\BookingStatusRepo.class
+com\swd\ccp\models\response_models\BookingHistoryResponse.class
 com\swd\ccp\models\response_models\RespondObject.class
 com\swd\ccp\models\entity_models\MenuItem$MenuItemBuilder.class
 com\swd\ccp\models\entity_models\Package.class
@@ -99,6 +102,8 @@ com\swd\ccp\services\FollowerService.class
 com\swd\ccp\CcpApplication$1.class
 com\swd\ccp\models\entity_models\PackageStatus$PackageStatusBuilder.class
 com\swd\ccp\repositories\MenuItemRepo.class
+com\swd\ccp\models\response_models\CancelBookingResponse$CancelBookingResponseBuilder.class
+com\swd\ccp\models\request_models\CancelBookingRequest$CancelBookingRequestBuilder.class
 com\swd\ccp\models\entity_models\FollowerCustomer.class
 com\swd\ccp\models\entity_models\ShopStatus$ShopStatusBuilder.class
 com\swd\ccp\models\entity_models\Customer$CustomerBuilder.class

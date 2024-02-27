@@ -2,6 +2,7 @@ package com.swd.ccp.controllers;
 
 import com.swd.ccp.Exception.NotFoundException;
 import com.swd.ccp.models.request_models.UpdateProfileRequest;
+import com.swd.ccp.models.response_models.BookingHistoryResponse;
 import com.swd.ccp.models.response_models.CustomerProfile;
 import com.swd.ccp.models.response_models.UpdateProfileResponse;
 import com.swd.ccp.services.CustomerService;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
     private final CustomerService customerService;
     @GetMapping("/profile")
+    @PreAuthorize("hasAuthority('customer:read')")
     public ResponseEntity<CustomerProfile> getCustomerProfile(@RequestHeader("Authorization") String token) {
         try {
             CustomerProfile profile = customerService.getCustomerProfile(token);
@@ -33,6 +35,7 @@ public class CustomerController {
         }
     }
     @PostMapping("/update/profile")
+    @PreAuthorize("hasAuthority('customer:update')")
     public ResponseEntity<String> updateCustomerProfile(@RequestHeader("Authorization") String token, @RequestBody UpdateProfileRequest profile) {
         try {
             customerService.updateProfile(token, profile);
@@ -42,5 +45,11 @@ public class CustomerController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request");
         }
+    }
+
+    @GetMapping("/history")
+    @PreAuthorize("hasAuthority('customer:read')")
+    public ResponseEntity<BookingHistoryResponse> getBookingHistory(){
+        return ResponseEntity.ok().body(customerService.getBookingHistory());
     }
 }
