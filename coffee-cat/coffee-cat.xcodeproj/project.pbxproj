@@ -23,6 +23,7 @@
 		A05BE70F2B6A0F190030000D /* 404.json in Resources */ = {isa = PBXBuildFile; fileRef = A05BE70E2B6A0F190030000D /* 404.json */; };
 		A05BE7112B6A123A0030000D /* cat-coffee.json in Resources */ = {isa = PBXBuildFile; fileRef = A05BE7102B6A123A0030000D /* cat-coffee.json */; };
 		A05C506F2B6737A400A42F33 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C506E2B6737A400A42F33 /* UIFont+Extension.swift */; };
+		A068342A2B8DB16C0086CE59 /* profile.json in Resources */ = {isa = PBXBuildFile; fileRef = A06834292B8DB16C0086CE59 /* profile.json */; };
 		A07051D22B7F4E7900DFC2F0 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07051D12B7F4E7900DFC2F0 /* SignInViewModel.swift */; };
 		A073C5F52B7ED534002263DB /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A073C5F42B7ED534002263DB /* AuthenticationModel.swift */; };
 		A073C5F82B7ED612002263DB /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A073C5F72B7ED612002263DB /* RegistrationViewModel.swift */; };
@@ -78,6 +79,7 @@
 		A05BE70E2B6A0F190030000D /* 404.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 404.json; sourceTree = "<group>"; };
 		A05BE7102B6A123A0030000D /* cat-coffee.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "cat-coffee.json"; sourceTree = "<group>"; };
 		A05C506E2B6737A400A42F33 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		A06834292B8DB16C0086CE59 /* profile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = profile.json; sourceTree = "<group>"; };
 		A07051D12B7F4E7900DFC2F0 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		A073C5F42B7ED534002263DB /* AuthenticationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		A073C5F72B7ED612002263DB /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 		A05BE70B2B6A09790030000D /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				A06834292B8DB16C0086CE59 /* profile.json */,
 				A05A7DBA2B82E7B700DCEAF6 /* loading.json */,
 				A0D1D58C2B6B4C0A00CB1ED3 /* coffee.json */,
 				A0BE75D42B6A333E00DE6909 /* authentication.json */,
@@ -418,6 +421,7 @@
 				A0F3EAA92B653BDD0057860A /* LaunchScreen.storyboard in Resources */,
 				A0D1D58D2B6B4C0A00CB1ED3 /* coffee.json in Resources */,
 				A05A7DBB2B82E7B700DCEAF6 /* loading.json in Resources */,
+				A068342A2B8DB16C0086CE59 /* profile.json in Resources */,
 				A0F3EAA62B653BDD0057860A /* Assets.xcassets in Resources */,
 				A0BE75D52B6A333E00DE6909 /* authentication.json in Resources */,
 			);
