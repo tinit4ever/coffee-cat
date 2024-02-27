@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         timer?.invalidate()
         
         // Create a new timer
-        timer = Timer.scheduledTimer(timeInterval: /*(2 * 60 * 60 + 30 * 60)*/ 1.0,
+        timer = Timer.scheduledTimer(timeInterval: /*(2 * 60 * 60 + 30 * 60)*/ 100,
                                      target: self,
                                      selector: #selector(runTask),
                                      userInfo: nil,

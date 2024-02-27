@@ -183,7 +183,7 @@ class ProfileViewController: UIViewController, UIFactory {
     // -MARK: Catch Action
     @objc
     private func cancelButtonTapped() {
-        
+        self.dismiss(animated: true)
     }
     
     @objc

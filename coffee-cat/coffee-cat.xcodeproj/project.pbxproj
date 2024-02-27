@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A01A603F2B8DC21C00E3F372 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A603E2B8DC21C00E3F372 /* ProfileViewModel.swift */; };
+		A01A60422B8DC39000E3F372 /* UserSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A60412B8DC39000E3F372 /* UserSessionManager.swift */; };
 		A03833612B83A57400EBF5D8 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03833602B83A57400EBF5D8 /* Shop.swift */; };
 		A03833632B83B18200EBF5D8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03833622B83B18200EBF5D8 /* HomeViewModel.swift */; };
 		A03A4FF02B778CF900605611 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A03A4FEF2B778CF900605611 /* IQKeyboardManagerSwift */; };
@@ -65,6 +67,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A01A603E2B8DC21C00E3F372 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		A01A60412B8DC39000E3F372 /* UserSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionManager.swift; sourceTree = "<group>"; };
 		A03833602B83A57400EBF5D8 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		A03833622B83B18200EBF5D8 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		A03F56D22B6B1ADF00B3E35B /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
@@ -291,6 +295,7 @@
 			isa = PBXGroup;
 			children = (
 				A05A7DB82B82DFE400DCEAF6 /* APIManager.swift */,
+				A01A60412B8DC39000E3F372 /* UserSessionManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -310,6 +315,7 @@
 			children = (
 				A0DBF5B62B834C2B0072E139 /* ShopDetailsViewModel.swift */,
 				A03833622B83B18200EBF5D8 /* HomeViewModel.swift */,
+				A01A603E2B8DC21C00E3F372 /* ProfileViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -437,6 +443,7 @@
 				A073C5F82B7ED612002263DB /* RegistrationViewModel.swift in Sources */,
 				A07ED87E2B65453000EA4E19 /* UITextField+Extension.swift in Sources */,
 				A07ED8742B65453000EA4E19 /* CircleView.swift in Sources */,
+				A01A60422B8DC39000E3F372 /* UserSessionManager.swift in Sources */,
 				A03F56D32B6B1ADF00B3E35B /* PaymentViewController.swift in Sources */,
 				A07ED8612B6544D300EA4E19 /* SignInViewController.swift in Sources */,
 				A0799CFB2B8AB6D200D1C318 /* SelectTableViewController.swift in Sources */,
@@ -473,6 +480,7 @@
 				A07051D22B7F4E7900DFC2F0 /* SignInViewModel.swift in Sources */,
 				A0BE75D32B6A323400DE6909 /* CreatePasswordViewController.swift in Sources */,
 				A05C506F2B6737A400A42F33 /* UIFont+Extension.swift in Sources */,
+				A01A603F2B8DC21C00E3F372 /* ProfileViewModel.swift in Sources */,
 				A03F56D72B6B227500B3E35B /* UITabBar+Extension.swift in Sources */,
 				A0CBF4FB2B8CDE5F008CFAD3 /* NameConstants.swift in Sources */,
 				A0BE75DB2B6A537700DE6909 /* BookingViewController.swift in Sources */,
