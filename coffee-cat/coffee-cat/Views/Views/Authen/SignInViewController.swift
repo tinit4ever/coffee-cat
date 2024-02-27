@@ -311,8 +311,8 @@ class SignInViewController: UIViewController, UIFactory {
                     DispatchQueue.main.async {
                         if authenticationResponse.status ?? false {
                             self?.hiddenLoadingView()
-                            self?.saveAccessToken(token: authenticationResponse.access_token ?? "")
-                            self?.saveRefreshToken(token: authenticationResponse.refresh_token ?? "")
+                            UserSessionManager.shared.saveAuthenticationResponse(authenticationResponse)
+                            print(UserSessionManager.shared.authenticationResponse as Any)
                             self?.pushToHome()
                         } else {
                             self?.displayLoginError(authenticationResponse.message ?? "Unknown error")
@@ -361,14 +361,6 @@ class SignInViewController: UIViewController, UIFactory {
         self.loadingAnimationView.isHidden = true
         self.loadingAnimationView.stop()
         self.view.isUserInteractionEnabled = true
-    }
-    
-    private func saveAccessToken(token: String) {
-        UserDefaults.standard.set(token, forKey: Token.access)
-    }
-    
-    private func saveRefreshToken(token: String) {
-        UserDefaults.standard.set(token, forKey: Token.refresh)
     }
 }
 
