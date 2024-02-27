@@ -1,14 +1,15 @@
 package com.swd.ccp.services_implementors;
 
-import com.swd.ccp.models.entity_models.MenuItem;
-import com.swd.ccp.models.entity_models.Seat;
+import com.swd.ccp.enums.Constant;
+import com.swd.ccp.models.entity_models.*;
+import com.swd.ccp.models.request_models.CancelBookingRequest;
+import com.swd.ccp.models.request_models.CreateBookingCartRequest;
 import com.swd.ccp.models.request_models.CreateBookingRequest;
 import com.swd.ccp.models.request_models.UpdateBookingCartRequest;
 import com.swd.ccp.models.response_models.BookingCartResponse;
-import com.swd.ccp.repositories.MenuItemRepo;
-import com.swd.ccp.repositories.SeatRepo;
-import com.swd.ccp.repositories.SeatStatusRepo;
-import com.swd.ccp.repositories.ShopRepo;
+import com.swd.ccp.models.response_models.CancelBookingResponse;
+import com.swd.ccp.models.response_models.CreateBookingResponse;
+import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.BookingService;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +31,17 @@ public class BookingServiceImpl implements BookingService {
 
     private final AccountService accountService;
 
+    private final CustomerRepo customerRepo;
+
+    private final BookingStatusRepo bookingStatusRepo;
+
+    private final BookingDetailRepo bookingDetailRepo;
+
+    private final BookingRepo bookingRepo;
 
 
     @Override
-    public BookingCartResponse createBookingCart(CreateBookingRequest request) {
+    public BookingCartResponse createBookingCart(CreateBookingCartRequest request) {
         BookingCartResponse.BookingCartShopResponse bookingCartShopResponse = new BookingCartResponse.BookingCartShopResponse();
         List<BookingCartResponse.BookingCartShopMenuResponse> bookingCartShopMenuResponseList = new ArrayList<>();
 
@@ -44,7 +52,7 @@ public class BookingServiceImpl implements BookingService {
                 request.getMenuItemList().forEach(
                         item -> {
                             MenuItem menuItem = menuItemRepo.findById(item.getItemID()).orElse(null);
-                            if(menuItem != null && menuItem.getQuantity() - item.getQuantity() >= 0){
+                            if(menuItem != null && Constant.MAX_BOOKING_MENU_ITEM_QUANTITY >= item.getQuantity()){
                                 bookingCartShopMenuResponseList.add(
                                         BookingCartResponse.BookingCartShopMenuResponse.builder()
                                                 .itemID(menuItem.getId())
@@ -74,7 +82,6 @@ public class BookingServiceImpl implements BookingService {
             return BookingCartResponse.builder()
                     .status(true)
                     .message("")
-                    .token(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                     .bookingCartShopResponse(bookingCartShopResponse)
                     .build();
         }
@@ -82,22 +89,136 @@ public class BookingServiceImpl implements BookingService {
         return BookingCartResponse.builder()
                 .status(false)
                 .message("Seat is busy")
-                .token(null)
                 .bookingCartShopResponse(null)
                 .build();
     }
 
     @Override
     public BookingCartResponse updateBookingCart(UpdateBookingCartRequest request) {
-        BookingCartResponse bookingCartResponse = new BookingCartResponse();
+        List<BookingCartResponse.BookingCartShopMenuResponse> shopMenuResponseList = new ArrayList<>();
 
-        //Check if new seat is existed
         Seat newSeat = seatRepo.findById(request.getNewCart().getSeatID()).orElse(null);
 
-        if(newSeat != null && !newSeat.getId().equals(request.getOldCart().getSeatID())){
+        //Check if new seat is existed, then access menu item
+        if(newSeat != null && !newSeat.getSeatStatus().getStatus().equals("busy")){
+            request.getNewCart().getList().forEach(
+                    item -> {
+                        MenuItem menuItem = menuItemRepo.findById(item.getItemID()).orElse(null);
+                        if(menuItem != null){
+                            if(Constant.MAX_BOOKING_MENU_ITEM_QUANTITY >= item.getQuantity()){
+                                shopMenuResponseList.add(BookingCartResponse.BookingCartShopMenuResponse.builder()
+                                                .itemID(menuItem.getId())
+                                                .itemName(menuItem.getName())
+                                                .itemPrice(menuItem.getPrice() * item.getQuantity())
+                                                .quantity(item.getQuantity())
+                                        .build());
+                            }
+                        }
+                    }
+            );
+
+            return BookingCartResponse.builder()
+                    .status(true)
+                    .message("Update booking successfully")
+                    .bookingCartShopResponse(
+                            BookingCartResponse.BookingCartShopResponse.builder()
+                                    .shopID(newSeat.getShop().getId())
+                                    .shopName(newSeat.getShop().getName())
+                                    .seatID(newSeat.getId())
+                                    .seatName(newSeat.getName())
+                                    .createDate(new Date(System.currentTimeMillis()))
+                                    .bookingDate(request.getNewCart().getBookingDate())
+                                    .status(newSeat.getSeatStatus().getStatus())
+                                    .extraContent(request.getNewCart().getExtraContent())
+                                    .bookingCartShopMenuResponseList(shopMenuResponseList)
+                                    .build()
+                    )
+                    .build();
 
         }
-        return null;
+        return BookingCartResponse.builder()
+                .status(false)
+                .message("Selected seat is busy")
+                .bookingCartShopResponse(null)
+                .build();
     }
+
+    @Override
+    public CreateBookingResponse createBooking(CreateBookingRequest request) {
+        String errorMsg = createBookingDetail(request);
+        if(errorMsg.isEmpty()){
+            return CreateBookingResponse.builder()
+                    .status(true)
+                    .message("Booking successfully")
+                    .bookingDate(request.getBookingDate())
+                    .build();
+        }
+        return CreateBookingResponse.builder()
+                .status(false)
+                .message(errorMsg)
+                .bookingDate(null)
+                .build();
+    }
+
+    @Override
+    public CancelBookingResponse cancelBooking(CancelBookingRequest request) {
+
+        Booking booking = bookingRepo.findById(request.getBookingID()).orElse(null);
+        if(booking != null && booking.getBookingStatus().getStatus().equals("Pending")){
+            booking.setBookingStatus(bookingStatusRepo.findByStatus("Cancelled").orElse(null));
+            bookingRepo.save(booking);
+            return CancelBookingResponse.builder()
+                    .status(true)
+                    .message("Cancel booking successfully")
+                    .build();
+        }
+        return CancelBookingResponse.builder()
+                .status(false)
+                .message("This booking is not existed or something happened")
+                .build();
+    }
+
+    private String createBookingDetail(CreateBookingRequest request){
+        Seat seat = seatRepo.findById(request.getSeatID()).orElse(null);
+        Booking booking;
+
+        if(seat != null){
+            Customer customer = customerRepo.findByAccount_Email(accountService.getCurrentLoggedUser().getEmail()).orElse(null);
+            if(customer != null){
+                booking = bookingRepo.save(
+                        Booking.builder()
+                                .seat(seat)
+                                .customer(customer)
+                                .bookingStatus(bookingStatusRepo.findByStatus("Pending").orElse(null))
+                                .shopName(seat.getShop().getName())
+                                .seatName(seat.getName())
+                                .extraContent(request.getExtraContent())
+                                .createDate(new Date(System.currentTimeMillis()))
+                                .bookingDate(request.getBookingDate())
+                                .build()
+                );
+
+                Booking finalBooking = booking;
+                request.getBookingShopMenuRequestList().forEach(
+                        item -> {
+                            MenuItem i = menuItemRepo.findById(item.getItemID()).orElse(null);
+                            if(i != null && item.getQuantity() <= Constant.MAX_BOOKING_MENU_ITEM_QUANTITY){
+                                bookingDetailRepo.save(
+                                        BookingDetail.builder()
+                                                .booking(finalBooking)
+                                                .menuItem(i)
+                                                .quantity(item.getQuantity())
+                                                .build()
+                                );
+                            }
+                        }
+                );
+                return "";
+            }
+            return "This account is not a customer";
+        }
+        return "Seat is not existed";
+    }
+
 }
 

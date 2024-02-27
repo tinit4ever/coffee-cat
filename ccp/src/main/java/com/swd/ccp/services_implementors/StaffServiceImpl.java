@@ -78,7 +78,7 @@ public class StaffServiceImpl implements StaffService {
             staffResponse.setPassword(account.getPassword());
             staffResponse.setStaff_status(account.getStatus().getStatus());
             staffResponse.setStatus(true);
-            staffResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
+
             if (account.getName() == null) {
                 staffResponse.setName("N/A");
             }
@@ -133,7 +133,6 @@ public class StaffServiceImpl implements StaffService {
                                         .name(account.getName())
                                         .password(account.getPassword())
                                         .status(true)
-                                        .token(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                                         .build()
                         )
                         .build();
@@ -174,7 +173,6 @@ public class StaffServiceImpl implements StaffService {
             response.setStaffId(staffId);
             response.setMessage("Staff information updated successfully.");
             response.setStatus(true);
-            response.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
 
             return response;
         } else {

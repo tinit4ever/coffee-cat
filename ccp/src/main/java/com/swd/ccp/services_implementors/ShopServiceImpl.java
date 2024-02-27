@@ -174,7 +174,6 @@ public class ShopServiceImpl implements ShopService {
             shopResponse.setShopImageList(imageLinks);
             shopResponse.setAvatar(shop.getAvatar());
             shopResponse.setStatus(true);
-            shopResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
             if (shop.getName() == null) {
                 shopResponse.setName("N/A");
             }
@@ -273,7 +272,6 @@ public class ShopServiceImpl implements ShopService {
             response.setShopId(shopId);
             response.setMessage("Shop information updated successfully.");
             response.setStatus(true);
-            response.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
 
             return response;
         } else {

@@ -9,6 +9,5 @@ public class UpdateStaffResponse {
     private Integer staffId;
     private String message;
     private boolean status;
-    private String token;
 
 }

@@ -14,7 +14,6 @@ import java.util.List;
 public class CatListResponse {
     private List<CatResponse> catList;;
     private boolean status;
-    private String token;
     private String message;
 
 }

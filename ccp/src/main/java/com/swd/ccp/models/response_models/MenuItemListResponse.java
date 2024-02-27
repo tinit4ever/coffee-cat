@@ -14,7 +14,6 @@ import java.util.List;
 public class MenuItemListResponse {
     private List<MenuItemResponse> menuItemList;;
     private boolean status;
-    private String token;
     private String message;
 
 }

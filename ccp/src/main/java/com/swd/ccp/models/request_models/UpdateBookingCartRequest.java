@@ -35,7 +35,7 @@ public class UpdateBookingCartRequest {
 
         private String extraContent;
 
-        private List<BookingCartShopMenuRequest> bookingCartShopMenuResponseList;
+        private List<BookingCartShopMenuRequest> list;
     }
 
     private BookingCartShopRequest oldCart;
