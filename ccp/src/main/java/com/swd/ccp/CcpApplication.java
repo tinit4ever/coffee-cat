@@ -95,6 +95,7 @@ public class CcpApplication {
                         .email("admin@gmail.com")
                         .name("Admin")
                         .password(passwordEncoder.encode("admin"))
+                        .phone("090909090909")
                         .status(accountStatusRepo.findById(1).orElse(null))
                         .role(Role.ADMIN)
                         .build();
@@ -104,6 +105,7 @@ public class CcpApplication {
                         .email("owner@gmail.com")
                         .name("Shop owner")
                         .password(passwordEncoder.encode("owner"))
+                        .phone("090909090909")
                         .status(accountStatusRepo.findById(1).orElse(null))
                         .role(Role.OWNER)
                         .build();
@@ -113,6 +115,7 @@ public class CcpApplication {
                         .email("staff@gmail.com")
                         .name("Staff")
                         .password(passwordEncoder.encode("staff"))
+                        .phone("090909090909")
                         .status(accountStatusRepo.findById(1).orElse(null))
                         .role(Role.STAFF)
                         .build();
@@ -122,6 +125,7 @@ public class CcpApplication {
                         .email("customer@gmail.com")
                         .name("Customer")
                         .password(passwordEncoder.encode("customer"))
+                        .phone("090909090909")
                         .status(accountStatusRepo.findById(1).orElse(null))
                         .role(Role.CUSTOMER)
                         .build();
@@ -167,7 +171,6 @@ public class CcpApplication {
                 customerRepo.save(
                         Customer.builder()
                                 .account(customer)
-                                .phone("090909090909")
                                 .gender("Male")
                                 .dob(new Date(System.currentTimeMillis()))
                                 .build()
@@ -178,7 +181,6 @@ public class CcpApplication {
                         Manager.builder()
                                 .account(staff)
                                 .shop(null)
-                                .name("Alan")
                                 .build()
                 );
 
@@ -186,7 +188,6 @@ public class CcpApplication {
                         Manager.builder()
                                 .account(owner)
                                 .shop(null)
-                                .name("John")
                                 .build()
                 );
 
@@ -202,7 +203,7 @@ public class CcpApplication {
 
                 //init shop
                 Shop shop1 = Shop.builder()
-                        .name("Hoppy")
+                        .name("Don't hate cat")
                         .address("Le Van Viet, Tp Thu Duc")
                         .openTime("08:00")
                         .closeTime("22:00")
@@ -213,7 +214,7 @@ public class CcpApplication {
                         .build();
 
                 Shop shop2 = Shop.builder()
-                        .name("Lala")
+                        .name("MonLeo")
                         .address("Ho Hoan Kiem, Ha Noi")
                         .openTime("07:00")
                         .closeTime("20:00")
