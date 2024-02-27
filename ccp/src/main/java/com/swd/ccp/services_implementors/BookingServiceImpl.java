@@ -2,10 +2,12 @@ package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.enums.Constant;
 import com.swd.ccp.models.entity_models.*;
+import com.swd.ccp.models.request_models.CancelBookingRequest;
 import com.swd.ccp.models.request_models.CreateBookingCartRequest;
 import com.swd.ccp.models.request_models.CreateBookingRequest;
 import com.swd.ccp.models.request_models.UpdateBookingCartRequest;
 import com.swd.ccp.models.response_models.BookingCartResponse;
+import com.swd.ccp.models.response_models.CancelBookingResponse;
 import com.swd.ccp.models.response_models.CreateBookingResponse;
 import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.AccountService;
@@ -164,6 +166,26 @@ public class BookingServiceImpl implements BookingService {
                 .build();
     }
 
+    @Override
+    public CancelBookingResponse cancelBooking(CancelBookingRequest request) {
+
+        Booking booking = bookingRepo.findById(request.getBookingID()).orElse(null);
+        if(booking != null && booking.getBookingStatus().getStatus().equals("Pending")){
+            booking.setBookingStatus(bookingStatusRepo.findByStatus("Cancelled").orElse(null));
+            bookingRepo.save(booking);
+            return CancelBookingResponse.builder()
+                    .status(true)
+                    .message("Cancel booking successfully")
+                    .accessToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
+                    .build();
+        }
+        return CancelBookingResponse.builder()
+                .status(false)
+                .message("This booking is not existed or something happened")
+                .accessToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
+                .build();
+    }
+
     private String createBookingDetail(CreateBookingRequest request){
         Seat seat = seatRepo.findById(request.getSeatID()).orElse(null);
         Booking booking;
@@ -175,7 +197,7 @@ public class BookingServiceImpl implements BookingService {
                         Booking.builder()
                                 .seat(seat)
                                 .customer(customer)
-                                .bookingStatus(bookingStatusRepo.findById(1).orElse(null))
+                                .bookingStatus(bookingStatusRepo.findByStatus("Pending").orElse(null))
                                 .shopName(seat.getShop().getName())
                                 .seatName(seat.getName())
                                 .extraContent(request.getExtraContent())

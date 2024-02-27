@@ -208,7 +208,7 @@ public class CcpApplication {
                         .closeTime("22:00")
                         .rating(5.0)
                         .phone("0987654321")
-                        .status(shopStatusRepo.findById(1).orElse(null))
+                        .status(shopStatusRepo.findByStatus("opened"))
                         .packages(null)
                         .build();
 
@@ -219,12 +219,12 @@ public class CcpApplication {
                         .closeTime("20:00")
                         .rating(4.0)
                         .phone("0925836147")
-                        .status(shopStatusRepo.findById(1).orElse(null))
+                        .status(shopStatusRepo.findByStatus("opened"))
                         .packages(null)
                         .build();
 
-                shopRepo.save(shop1);
-                shopRepo.save(shop2);
+                shop1 = shopRepo.save(shop1);
+                shop2 = shopRepo.save(shop2);
 
                 //init seat status
                 seatStatusRepo.save(SeatStatus.builder().status("available").build());
@@ -232,29 +232,29 @@ public class CcpApplication {
 
                 //init seat
                 Seat seat1 = Seat.builder()
-                        .shop(shopRepo.findById(1).orElse(null))
-                        .seatStatus(seatStatusRepo.findById(1).orElse(null))
+                        .shop(shop1)
+                        .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
                         .name("Seat 01")
                         .capacity(8)
                         .build();
 
                 Seat seat2 = Seat.builder()
-                        .shop(shopRepo.findById(1).orElse(null))
-                        .seatStatus(seatStatusRepo.findById(1).orElse(null))
+                        .shop(shop1)
+                        .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
                         .name("Seat 02")
                         .capacity(4)
                         .build();
 
                 Seat seat3 = Seat.builder()
-                        .shop(shopRepo.findById(2).orElse(null))
-                        .seatStatus(seatStatusRepo.findById(1).orElse(null))
+                        .shop(shop2)
+                        .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
                         .name("Seat 01")
                         .capacity(16)
                         .build();
 
                 Seat seat4 = Seat.builder()
-                        .shop(shopRepo.findById(2).orElse(null))
-                        .seatStatus(seatStatusRepo.findById(1).orElse(null))
+                        .shop(shop2)
+                        .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
                         .name("Seat 02")
                         .capacity(5)
                         .build();
@@ -275,8 +275,8 @@ public class CcpApplication {
                         .description(null)
                         .build();
 
-                menuRepo.save(menu1);
-                menuRepo.save(menu2);
+                menu1 = menuRepo.save(menu1);
+                menu2 = menuRepo.save(menu2);
 
                 //init menu item status
                 menuItemStatusRepo.save(MenuItemStatus.builder().status("available").build());
@@ -284,8 +284,8 @@ public class CcpApplication {
 
                 //init menu item
                 MenuItem menuItem1 = MenuItem.builder()
-                        .menu(menuRepo.findById(1).orElse(null))
-                        .menuItemStatus(menuItemStatusRepo.findById(1).orElse(null))
+                        .menu(menu1)
+                        .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
                         .name("Chicken dizzy")
                         .price(500000)
                         .imgLink(null)
@@ -295,8 +295,8 @@ public class CcpApplication {
                         .build();
 
                 MenuItem menuItem2 = MenuItem.builder()
-                        .menu(menuRepo.findById(1).orElse(null))
-                        .menuItemStatus(menuItemStatusRepo.findById(1).orElse(null))
+                        .menu(menu1)
+                        .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
                         .name("Goat fire")
                         .price(250000)
                         .imgLink(null)
@@ -306,8 +306,8 @@ public class CcpApplication {
                         .build();
 
                 MenuItem menuItem3 = MenuItem.builder()
-                        .menu(menuRepo.findById(2).orElse(null))
-                        .menuItemStatus(menuItemStatusRepo.findById(1).orElse(null))
+                        .menu(menu2)
+                        .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
                         .name("Cow dizzy")
                         .price(1100000)
                         .imgLink(null)
@@ -317,8 +317,8 @@ public class CcpApplication {
                         .build();
 
                 MenuItem menuItem4 = MenuItem.builder()
-                        .menu(menuRepo.findById(2).orElse(null))
-                        .menuItemStatus(menuItemStatusRepo.findById(1).orElse(null))
+                        .menu(menu2)
+                        .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
                         .name("Fish dizzy")
                         .price(100000)
                         .imgLink(null)
