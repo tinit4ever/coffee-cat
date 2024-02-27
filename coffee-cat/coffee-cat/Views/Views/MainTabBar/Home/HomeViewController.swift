@@ -98,6 +98,7 @@ class HomeViewController: UIViewController, UIFactory {
         super.viewDidLoad()
         setupData()
         setupUI()
+        setupAction()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -291,6 +292,20 @@ class HomeViewController: UIViewController, UIFactory {
         ])
     }
     
+    // -MARK: Setup Action
+    private func setupAction() {
+        let accountImageButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountImageButtonTapped))
+        self.accountImageButton.addGestureRecognizer(accountImageButtonGesture)
+        self.accountImageButton.isUserInteractionEnabled = true
+    }
+    
+    // -MARK: Setup Action
+    @objc
+    private func accountImageButtonTapped() {
+        let navigationController = UINavigationController(rootViewController: ProfileViewController())
+        self.present(navigationController, animated: true)
+    }
+    
     // -MARK: Push View
     private func pushToShopDetails(shop: Shop) {
         let shopDetailsViewController = ShopDetailsViewController()
@@ -452,7 +467,8 @@ class HomeViewController: UIViewController, UIFactory {
         self.loadingAnimationView.stop()
     }
     
-    @objc private func pullToRefresh() {
+    @objc
+    private func pullToRefresh() {
         self.refreshControl.beginRefreshing()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             self.shopList.reloadData()
