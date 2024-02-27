@@ -23,6 +23,7 @@ com\swd\ccp\models\response_models\LoginResponse$LoginResponseBuilder.class
 com\swd\ccp\models\entity_models\AccountStatus.class
 com\swd\ccp\models\request_models\CreateBookingCartRequest$MenuItemRequest.class
 com\swd\ccp\models\entity_models\Menu.class
+com\swd\ccp\models\response_models\BookingHistoryResponse$BookingResponse$BookingResponseBuilder.class
 com\swd\ccp\models\response_models\CreateBookingResponse$CreateBookingResponseBuilder.class
 com\swd\ccp\models\request_models\CheckMailExistedRequest$CheckMailExistedRequestBuilder.class
 com\swd\ccp\models\request_models\ShopRequest$ShopRequestBuilder.class
@@ -72,6 +73,7 @@ com\swd\ccp\controllers\MenuController.class
 com\swd\ccp\models\request_models\UpdateBookingCartRequest$BookingCartShopMenuRequest.class
 com\swd\ccp\repositories\BookingDetailRepo.class
 com\swd\ccp\models\request_models\CreateBookingCartRequest$CreateBookingCartRequestBuilder.class
+com\swd\ccp\models\response_models\BookingHistoryResponse$BookingResponse.class
 com\swd\ccp\models\response_models\CreateShopResponse$CreateShopResponseBuilder.class
 com\swd\ccp\configurations\JWTAuthenticationFilter.class
 com\swd\ccp\models\response_models\UpdateStaffResponse.class
@@ -149,6 +151,7 @@ com\swd\ccp\models\response_models\MenuItemResponse.class
 com\swd\ccp\models\response_models\CheckMailExistedResponse.class
 com\swd\ccp\models\response_models\CreateStaffResponse$CreateStaffResponseBuilder.class
 com\swd\ccp\CcpApplication$1.class
+com\swd\ccp\models\response_models\BookingHistoryResponse$BookingHistoryResponseBuilder.class
 com\swd\ccp\models\entity_models\PackageStatus$PackageStatusBuilder.class
 com\swd\ccp\models\response_models\CancelBookingResponse$CancelBookingResponseBuilder.class
 com\swd\ccp\models\request_models\CancelBookingRequest$CancelBookingRequestBuilder.class

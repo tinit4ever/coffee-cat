@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,6 +27,9 @@ public class Seat {
     @ManyToOne
     @JoinColumn(name = "status_id")
     private SeatStatus seatStatus;
+
+    @OneToMany(mappedBy = "seat")
+    List<Booking> bookingList;
 
     private String name;
 

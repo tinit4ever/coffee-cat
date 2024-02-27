@@ -1,17 +1,25 @@
 package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.Exception.NotFoundException;
+import com.swd.ccp.models.entity_models.Account;
+import com.swd.ccp.models.entity_models.Booking;
+import com.swd.ccp.models.entity_models.BookingDetail;
 import com.swd.ccp.models.entity_models.Customer;
 import com.swd.ccp.models.request_models.UpdateProfileRequest;
 import com.swd.ccp.models.response_models.BookingHistoryResponse;
 import com.swd.ccp.models.response_models.CustomerProfile;
 import com.swd.ccp.models.response_models.UpdateProfileResponse;
+import com.swd.ccp.repositories.BookingDetailRepo;
+import com.swd.ccp.repositories.BookingRepo;
 import com.swd.ccp.repositories.CustomerRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.CustomerService;
 import com.swd.ccp.services.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,6 +27,9 @@ import java.util.Optional;
 public class CustomerServiceIml implements CustomerService {
     private final CustomerRepo customerRepo;
     private final JWTService jwtService;
+    private final BookingRepo bookingRepo;
+    private final BookingDetailRepo bookingDetailRepo;
+    private final AccountService accountService;
 
 
     @Override
@@ -75,7 +86,51 @@ public class CustomerServiceIml implements CustomerService {
 
     @Override
     public BookingHistoryResponse getBookingHistory() {
+        Customer customer = takeCustomerFromAccount(accountService.getCurrentLoggedUser());
+        assert customer != null;
+        List<Booking> bookingList = bookingRepo.findAllByCustomer(customer);
+        List<BookingHistoryResponse.BookingResponse> bookingResponseList = new ArrayList<>();
+        if(bookingList != null && !bookingList.isEmpty()){
+            for(Booking booking: bookingList){
+                bookingResponseList.add(
+                        BookingHistoryResponse.BookingResponse.builder()
+                                .bookingID(booking.getId())
+                                .shopName(booking.getShopName())
+                                .seatName(booking.getSeatName())
+                                .totalPrice(calculateTotalPrice(booking))
+                                .bookingDate(booking.getBookingDate())
+                                .status(booking.getBookingStatus().getStatus())
+                                .build()
+                );
+            }
 
-        return null;
+            return BookingHistoryResponse.builder()
+                    .status(true)
+                    .message("Get list successfully")
+                    .bookingList(bookingResponseList)
+                    .build();
+        }
+        return BookingHistoryResponse.builder()
+                .status(false)
+                .message("Fail to get list")
+                .bookingList(null)
+                .build();
+    }
+
+    private Customer takeCustomerFromAccount(Account account){
+        Customer customer = customerRepo.findByAccount_Email(account.getEmail()).orElse(null);
+        assert customer != null;
+        return customer;
+    }
+
+    private float calculateTotalPrice(Booking booking){
+        float result = 0;
+        List<BookingDetail> bookingDetailList = bookingDetailRepo.findAllByBooking(booking);
+        if(bookingDetailList != null && !bookingDetailList.isEmpty()){
+            for(BookingDetail item: bookingDetailList){
+                result += item.getPrice();
+            }
+        }
+        return result;
     }
 }

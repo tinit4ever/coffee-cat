@@ -180,33 +180,31 @@ public class BookingServiceImpl implements BookingService {
 
     private String createBookingDetail(CreateBookingRequest request){
         Seat seat = seatRepo.findById(request.getSeatID()).orElse(null);
-        Booking booking;
 
         if(seat != null){
             Customer customer = customerRepo.findByAccount_Email(accountService.getCurrentLoggedUser().getEmail()).orElse(null);
             if(customer != null){
-                booking = bookingRepo.save(
-                        Booking.builder()
-                                .seat(seat)
-                                .customer(customer)
-                                .bookingStatus(bookingStatusRepo.findByStatus("Pending").orElse(null))
-                                .shopName(seat.getShop().getName())
-                                .seatName(seat.getName())
-                                .extraContent(request.getExtraContent())
-                                .createDate(new Date(System.currentTimeMillis()))
-                                .bookingDate(request.getBookingDate())
-                                .build()
-                );
+                Booking booking = Booking.builder()
+                        .seat(seat)
+                        .customer(customer)
+                        .bookingStatus(bookingStatusRepo.findByStatus("Pending").orElse(null))
+                        .shopName(seat.getShop().getName())
+                        .seatName(seat.getName())
+                        .extraContent(request.getExtraContent())
+                        .createDate(new Date(System.currentTimeMillis()))
+                        .bookingDate(request.getBookingDate())
+                        .build();
+                bookingRepo.save(booking);
 
-                Booking finalBooking = booking;
                 request.getBookingShopMenuRequestList().forEach(
                         item -> {
                             MenuItem i = menuItemRepo.findById(item.getItemID()).orElse(null);
                             if(i != null && item.getQuantity() <= Constant.MAX_BOOKING_MENU_ITEM_QUANTITY){
                                 bookingDetailRepo.save(
                                         BookingDetail.builder()
-                                                .booking(finalBooking)
+                                                .booking(booking)
                                                 .menuItem(i)
+                                                .price(i.getPrice())
                                                 .quantity(item.getQuantity())
                                                 .build()
                                 );

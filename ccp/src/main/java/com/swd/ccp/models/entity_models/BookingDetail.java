@@ -22,9 +22,11 @@ public class BookingDetail {
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "menu_item_id")
     private MenuItem menuItem;
+
+    private float price;
 
     private int quantity;
 }
