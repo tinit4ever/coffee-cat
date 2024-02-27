@@ -14,15 +14,35 @@ class SelectTableViewController: UIViewController, UIFactory {
     let sizeScaler = UIScreen.scalableSize
     
     var didSendData: (([String]) -> Void)?
-    //    var seatList: [String] = []
-    var seatList: [String] = []
     
-    var selectedTable: [String] = []
+    var areaList: [Area] = []
+    
     // MARK: - Create UIComponents
-    lazy var seatListCollectionView = makeCollectionView(space: sizeScaler(20), size: CGSize(width: heightScaler(110), height: heightScaler(110)))
+    lazy var areaTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+    }
+    
+    private func setupUI() {
+        configAppearance()
+        configNavigation()
+        
+        view.addSubview(areaTableView)
+        configAreaTableView()
+    }
+    
+    private func configAppearance() {
+        view.backgroundColor = .systemGray6
+    }
+    
+    private func configNavigation() {
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
         cancelButton.tintColor = .customPink
         
@@ -32,23 +52,19 @@ class SelectTableViewController: UIViewController, UIFactory {
         
         navigationItem.leftBarButtonItem = cancelButton
         navigationItem.rightBarButtonItem = doneButton
-        
-        view.backgroundColor = .systemGray6
-        
-        view.addSubview(seatListCollectionView)
-        configSeatListCollectionView()
     }
     
-    private func configSeatListCollectionView() {
-        seatListCollectionView.delegate = self
-        seatListCollectionView.dataSource = self
-        seatListCollectionView.register(SeatCollectionViewCell.self, forCellWithReuseIdentifier: SeatCollectionViewCell.identifier)
+    private func configAreaTableView() {
+        areaTableView.delegate = self
+        areaTableView.dataSource = self
+        areaTableView.register(AreaTableViewCell.self, forCellReuseIdentifier: AreaTableViewCell.identifier)
+        areaTableView.separatorStyle = .none
         
         NSLayoutConstraint.activate([
-            seatListCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            seatListCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            seatListCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            seatListCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            areaTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            areaTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            areaTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            areaTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -57,39 +73,45 @@ class SelectTableViewController: UIViewController, UIFactory {
     }
     
     @objc private func doneButtonTapped() {
-        didSendData?(self.selectedTable)
+//        didSendData?(self.selectedTable)
         self.dismiss(animated: true)
     }
 }
-extension SelectTableViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return seatList.count
+
+extension SelectTableViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return heightScaler(240)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SeatCollectionViewCell.identifier, for: indexPath) as? SeatCollectionViewCell else {
-            return UICollectionViewCell()
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        self.areaList.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        self.areaList[section].name
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: AreaTableViewCell.identifier, for: indexPath) as? AreaTableViewCell else {
+            return UITableViewCell()
         }
         
-        cell.configure(self.seatList[indexPath.row])
+        if let seatList = self.areaList[indexPath.section].seatList {
+            cell.configure(seatList: seatList)
+        }
         
         return cell
     }
 }
-extension SelectTableViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as? SeatCollectionViewCell
-        if let isSelected = cell?.beforeSelectedState {
-            if isSelected {
-                if let index = self.selectedTable.firstIndex(of: self.seatList[indexPath.row]) {
-                    self.selectedTable.remove(at: index)
-                }
-            } else {
-                self.selectedTable.append(self.seatList[indexPath.row])
-            }
-        }
-    }
+
+extension SelectTableViewController: UITableViewDelegate {
+    
 }
+
 // -MARK: Preview
 struct SelectTableViewControllerPreview: PreviewProvider {
     static var previews: some View {

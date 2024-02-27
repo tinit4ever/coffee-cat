@@ -56,6 +56,7 @@
 		A0BE75DB2B6A537700DE6909 /* BookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75DA2B6A537700DE6909 /* BookingViewController.swift */; };
 		A0BE75DD2B6A53A000DE6909 /* VoucherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */; };
 		A0CA272D2B6B99C300E3D640 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA272C2B6B99C300E3D640 /* ProfileViewController.swift */; };
+		A0CA9E782B8E0755006B75AC /* AreaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA9E772B8E0755006B75AC /* AreaTableViewCell.swift */; };
 		A0CBF4FB2B8CDE5F008CFAD3 /* NameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4FA2B8CDE5F008CFAD3 /* NameConstants.swift */; };
 		A0D1D58D2B6B4C0A00CB1ED3 /* coffee.json in Resources */ = {isa = PBXBuildFile; fileRef = A0D1D58C2B6B4C0A00CB1ED3 /* coffee.json */; };
 		A0DBF5B32B8334470072E139 /* ShopDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DBF5B22B8334470072E139 /* ShopDetailsViewController.swift */; };
@@ -113,6 +114,7 @@
 		A0BE75DA2B6A537700DE6909 /* BookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewController.swift; sourceTree = "<group>"; };
 		A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoucherViewController.swift; sourceTree = "<group>"; };
 		A0CA272C2B6B99C300E3D640 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		A0CA9E772B8E0755006B75AC /* AreaTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaTableViewCell.swift; sourceTree = "<group>"; };
 		A0CBF4FA2B8CDE5F008CFAD3 /* NameConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameConstants.swift; sourceTree = "<group>"; };
 		A0D1D58C2B6B4C0A00CB1ED3 /* coffee.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = coffee.json; sourceTree = "<group>"; };
 		A0DBF5B22B8334470072E139 /* ShopDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailsViewController.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				A05A7DBF2B83058400DCEAF6 /* ShopTableViewCell.swift */,
 				A05A7DC32B83155D00DCEAF6 /* StarRatingView.swift */,
 				A0B7A83F2B89B47B0059DD40 /* SeatCollectionViewCell.swift */,
+				A0CA9E772B8E0755006B75AC /* AreaTableViewCell.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 				A07ED85D2B6544D300EA4E19 /* SignUpViewController.swift in Sources */,
 				A073C5F52B7ED534002263DB /* AuthenticationModel.swift in Sources */,
 				A07ED87D2B65453000EA4E19 /* UIScreen+Extension.swift in Sources */,
+				A0CA9E782B8E0755006B75AC /* AreaTableViewCell.swift in Sources */,
 				A0CA272D2B6B99C300E3D640 /* ProfileViewController.swift in Sources */,
 				A0799CF92B8A9E8200D1C318 /* ScrollViewController.swift in Sources */,
 				A07ED8772B65453000EA4E19 /* TextConstants.swift in Sources */,
