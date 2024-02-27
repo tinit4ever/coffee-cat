@@ -10,7 +10,7 @@ import Alamofire
 import Combine
 
 struct APIConstants {
-//    static let baseURL = "http://localhost:8080/"
+    //    static let baseURL = "http://localhost:8080/"
     static let baseURL = "http://192.168.1.10:8080/"
     
     struct Auth {
@@ -19,6 +19,8 @@ struct APIConstants {
         static let listShop = baseURL + "auth/list-shop"
         static let search = baseURL + "auth/search"
     }
+    
+    static let logout = baseURL + "account/logout"
 }
 
 struct APIParameter {
@@ -68,7 +70,7 @@ class APIManager {
             APIParameter.asc: searchParam.asc,
             APIParameter.sortByColumn: searchParam.sortBy
         ]
-
+        
         return AF.request(url, method: .get, parameters: parameters)
             .publishDecodable(type: ShopList.self)
             .value()
@@ -108,6 +110,29 @@ class APIManager {
                     completion(.failure(error))
                 }
                 
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func logout(accessToken: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
+        let url = APIConstants.logout
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .get, headers: headers).responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let authenticationResponse = try JSONDecoder().decode(AuthenticationResponse.self, from: data)
+                    completion(.success(authenticationResponse))
+                } catch let error {
+                    completion(.failure(error))
+                }
             case .failure(let error):
                 completion(.failure(error))
             }

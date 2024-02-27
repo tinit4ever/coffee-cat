@@ -8,11 +8,11 @@
 import Foundation
 
 protocol ProfileViewModelProtocol {
-    func logout()
+    func logout(accessToken: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void)
 }
 
 class ProfileViewModel: ProfileViewModelProtocol {
-    func logout() {
-        print("Logout")
+    func logout(accessToken: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
+        APIManager.shared.logout(accessToken: accessToken, completion: completion)
     }
 }

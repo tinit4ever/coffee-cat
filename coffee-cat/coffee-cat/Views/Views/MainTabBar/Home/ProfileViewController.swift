@@ -203,7 +203,35 @@ class ProfileViewController: UIViewController, UIFactory {
     
     @objc
     private func logoutButtonTapped() {
+        self.viewModel.logout(accessToken: UserSessionManager.shared.getAccessToken() ?? "") { result in
+            switch result {
+            case .success(let authenticationResponse):
+                UserSessionManager.shared.clearSession()
+                self.displaylogoutSuccess(authenticationResponse.message ?? "Success")
+            case .failure(let error):
+                self.displaylogoutError("Something when wrong")
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    // -MARK: Utilities
+    private func displaylogoutError(_ message: String) {
+        let alertController = UIAlertController(title: "Login Failed", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func displaylogoutSuccess(_ title: String) {
+        let alertController = UIAlertController(title: title, message: "See you!", preferredStyle: .alert)
         
+        let okAction = UIAlertAction(title: "OK", style: .default) { action in
+            self.dismiss(animated: true)
+        }
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
