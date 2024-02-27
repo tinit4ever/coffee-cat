@@ -22,6 +22,5 @@ public class StaffResponse {
     private String staff_status;
     private String message;
     private boolean status;
-    private String token;
 
 }

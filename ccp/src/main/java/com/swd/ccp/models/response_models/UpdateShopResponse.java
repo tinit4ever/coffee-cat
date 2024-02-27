@@ -9,5 +9,4 @@ public class UpdateShopResponse {
     private Long shopId;
     private String message;
     private boolean status;
-    private String token;
 }

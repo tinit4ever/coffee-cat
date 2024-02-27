@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
         public CatListResponse getActiveCats(Integer shopId, SortRequest sortRequest) {
             List<CatStatus> activeStatusList = catStatusRepo.findAllByStatus(ACTIVE);
             if (activeStatusList.isEmpty()) {
-                return new CatListResponse(Collections.emptyList(), false,null, "No active cats found");
+                return new CatListResponse(Collections.emptyList(), false, "No active cats found");
             }
             Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
             Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
             String message = "Successfully retrieved cat list";
             String token = accountService.getAccessToken(accountService.getCurrentLoggedUser().getId());
 
-            return new CatListResponse(mappedCatList, status, message, token);
+            return new CatListResponse(mappedCatList, status, message);
         }
 
     private List<CatResponse> mapToCatDtoList(List<Cat> cats, Integer shopId) {

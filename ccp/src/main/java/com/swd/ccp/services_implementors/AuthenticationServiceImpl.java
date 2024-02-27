@@ -87,8 +87,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     return RegisterResponse.builder()
                             .message("Register successfully")
                             .status(true)
-                            .access_token(accessToken.getToken())
-                            .refresh_token(refreshToken.getToken())
+                            .accessToken(accessToken.getToken())
+                            .refreshToken(refreshToken.getToken())
                             .accountResponse(
                                     AccountResponse.builder()
                                             .id(customer.getAccount().getId())
@@ -106,16 +106,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 return RegisterResponse.builder()
                         .message("Account is already existed")
                         .status(false)
-                        .access_token(null)
-                        .refresh_token(null)
+                        .accessToken(null)
+                        .refreshToken(null)
                         .accountResponse(null)
                         .build();
             }
             return RegisterResponse.builder()
                     .message("Unmatched password and confirmed password")
                     .status(false)
-                    .access_token(null)
-                    .refresh_token(null)
+                    .accessToken(null)
+                    .refreshToken(null)
                     .accountResponse(null)
                     .build();
         }
@@ -151,8 +151,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     return LoginResponse
                             .builder()
                             .message("Login successfully")
-                            .access_token(tokenList.get(0).getToken())
-                            .refresh_token(tokenList.get(1).getToken())
+                            .accessToken(tokenList.get(0).getToken())
+                            .refreshToken(tokenList.get(1).getToken())
                             .status(true)
                             .accountResponse(
                                     AccountResponse
@@ -168,24 +168,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 }
                 return LoginResponse.builder()
                         .message("Account has been banned")
-                        .access_token(null)
-                        .refresh_token(null)
+                        .accessToken(null)
+                        .refreshToken(null)
                         .status(false)
                         .accountResponse(null)
                         .build();
             }
             return LoginResponse.builder()
                     .message("Username or password is incorrect")
-                    .access_token(null)
-                    .refresh_token(null)
+                    .accessToken(null)
+                    .refreshToken(null)
                     .status(false)
                     .accountResponse(null)
                     .build();
         }
         return LoginResponse.builder()
                 .message("Username or password is wrong format")
-                .access_token(null)
-                .refresh_token(null)
+                .accessToken(null)
+                .refreshToken(null)
                 .status(false)
                 .accountResponse(null)
                 .build();

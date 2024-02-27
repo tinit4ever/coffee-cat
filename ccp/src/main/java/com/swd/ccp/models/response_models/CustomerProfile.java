@@ -20,6 +20,5 @@ public class CustomerProfile {
     private java.sql.Date dob;
     private String message;
     private boolean status;
-    private String token;
 
 }

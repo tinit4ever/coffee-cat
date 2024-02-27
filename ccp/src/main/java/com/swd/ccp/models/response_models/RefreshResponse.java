@@ -5,15 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MenuItemListResponse {
-    private List<MenuItemResponse> menuItemList;;
-    private boolean status;
-    private String message;
+public class RefreshResponse {
 
+    private String accessToken;
 }

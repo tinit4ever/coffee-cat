@@ -18,6 +18,4 @@ public class CreateBookingResponse {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private java.sql.Date bookingDate;
-
-    private String accessToken;
 }

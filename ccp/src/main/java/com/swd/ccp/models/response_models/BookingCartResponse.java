@@ -61,7 +61,5 @@ public class BookingCartResponse {
 
     private String message;
 
-    private String token;
-
     private BookingCartShopResponse bookingCartShopResponse;
 }

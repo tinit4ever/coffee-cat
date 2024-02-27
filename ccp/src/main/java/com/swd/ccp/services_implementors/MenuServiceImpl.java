@@ -31,7 +31,7 @@ public class MenuServiceImpl implements MenuService {
         List<MenuItemStatus> activeStatusList = menuItemStatusRepo.findAllByStatus(ACTIVE);
 
         if (activeStatusList.isEmpty()) {
-            return new MenuItemListResponse(Collections.emptyList(), false, null, "No MenuItem found");
+            return new MenuItemListResponse(Collections.emptyList(), false, "No MenuItem found");
         }
         Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
@@ -41,8 +41,7 @@ public class MenuServiceImpl implements MenuService {
 
         boolean status = true;
         String message = "Successfully retrieved menuItem list";
-        String token = accountService.getAccessToken(accountService.getCurrentLoggedUser().getId());
-        return new MenuItemListResponse(mappedMenuItemList, status, message, token);
+        return new MenuItemListResponse(mappedMenuItemList, status, message);
     }
 
     private List<MenuItemResponse> mapToMenuItemDtoList(List<MenuItem> menuItems, Integer shopId) {
@@ -65,7 +64,7 @@ public class MenuServiceImpl implements MenuService {
                     menuItemResponse.setImgLink(menuItem.getImgLink());
                     menuItemResponse.setSoldQuantity(menuItem.getSoldQuantity());
                     menuItemResponse.setStatus(true);
-                    menuItemResponse.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
+
             if (menuItem.getName() == null) {
                 menuItemResponse.setName("N/A");
             }

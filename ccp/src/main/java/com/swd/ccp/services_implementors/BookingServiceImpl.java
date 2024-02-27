@@ -82,7 +82,6 @@ public class BookingServiceImpl implements BookingService {
             return BookingCartResponse.builder()
                     .status(true)
                     .message("")
-                    .token(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                     .bookingCartShopResponse(bookingCartShopResponse)
                     .build();
         }
@@ -90,7 +89,6 @@ public class BookingServiceImpl implements BookingService {
         return BookingCartResponse.builder()
                 .status(false)
                 .message("Seat is busy")
-                .token(null)
                 .bookingCartShopResponse(null)
                 .build();
     }
@@ -122,7 +120,6 @@ public class BookingServiceImpl implements BookingService {
             return BookingCartResponse.builder()
                     .status(true)
                     .message("Update booking successfully")
-                    .token(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                     .bookingCartShopResponse(
                             BookingCartResponse.BookingCartShopResponse.builder()
                                     .shopID(newSeat.getShop().getId())
@@ -142,7 +139,6 @@ public class BookingServiceImpl implements BookingService {
         return BookingCartResponse.builder()
                 .status(false)
                 .message("Selected seat is busy")
-                .token(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                 .bookingCartShopResponse(null)
                 .build();
     }
@@ -155,14 +151,12 @@ public class BookingServiceImpl implements BookingService {
                     .status(true)
                     .message("Booking successfully")
                     .bookingDate(request.getBookingDate())
-                    .accessToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                     .build();
         }
         return CreateBookingResponse.builder()
                 .status(false)
                 .message(errorMsg)
                 .bookingDate(null)
-                .accessToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                 .build();
     }
 
@@ -176,13 +170,11 @@ public class BookingServiceImpl implements BookingService {
             return CancelBookingResponse.builder()
                     .status(true)
                     .message("Cancel booking successfully")
-                    .accessToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                     .build();
         }
         return CancelBookingResponse.builder()
                 .status(false)
                 .message("This booking is not existed or something happened")
-                .accessToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()))
                 .build();
     }
 

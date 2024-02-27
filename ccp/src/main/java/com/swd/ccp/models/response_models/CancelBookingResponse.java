@@ -13,6 +13,4 @@ public class CancelBookingResponse {
     private boolean status;
 
     private String message;
-
-    private String accessToken;
 }

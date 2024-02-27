@@ -23,5 +23,4 @@ public class ShopDetailResponse {
     private List<String> seatList;
     private String message;
     private boolean status;
-    private String token;
 }

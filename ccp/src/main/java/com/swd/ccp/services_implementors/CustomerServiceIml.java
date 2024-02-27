@@ -40,7 +40,6 @@ public class CustomerServiceIml implements CustomerService {
                 profile.setGender(customer.getGender());
                 profile.setDob(customer.getDob());
                 profile.setStatus(true);
-                profile.setToken(accountService.getAccessToken(accountService.getCurrentLoggedUser().getId()));
                 return profile;
             } else {
                 throw new NotFoundException("Customer profile not found.");
