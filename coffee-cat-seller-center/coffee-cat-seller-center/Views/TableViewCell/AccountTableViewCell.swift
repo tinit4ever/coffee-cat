@@ -28,25 +28,15 @@ class AccountTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: widthScaler(60), left: widthScaler(40), bottom: 0, right: widthScaler(40)))
-    }
-    
     private func configUI() {
         contentView.addSubview(nameLabel)
         configNameLabel()
     }
-    private func configNameLabel() {
-        contentView.layer.cornerRadius = sizeScaler(10)
-        contentView.layer.masksToBounds = true
-        contentView.backgroundColor = .systemGray6
-        
-        nameLabel.text = "Account"
+    private func configNameLabel() {        
+        nameLabel.text = "Customer account"
         NSLayoutConstraint.activate([
             nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: widthScaler(40))
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: widthScaler(60))
         ])
     }
 }

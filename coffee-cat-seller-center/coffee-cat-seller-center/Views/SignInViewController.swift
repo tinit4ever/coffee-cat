@@ -14,8 +14,6 @@ class SignInViewController: UIViewController, SignInFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
-//    var viewModel: SignInViewModelProtocol = SignInViewModel()
-    
     // -MARK: Create UI Components
     lazy var welcomeLabel: UILabel = makeLabel()
     

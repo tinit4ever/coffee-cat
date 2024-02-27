@@ -1,14 +1,13 @@
 //
-//  AdminViewController.swift
+//  StaffAccountViewController.swift
 //  coffee-cat-seller-center
 //
-//  Created by Tin on 26/02/2024.
+//  Created by Tin on 27/02/2024.
 //
 
 import UIKit
-import SwiftUI
 
-class AdminViewController: UIViewController, AdminFactory  {
+class StaffAccountViewController: UIViewController, StaffAccountFactory {
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
@@ -22,13 +21,12 @@ class AdminViewController: UIViewController, AdminFactory  {
     lazy var accountTableContainer = makeView()
     lazy var accountTableView = makeTableView()
     lazy var addAccountButton = makeButton()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
     
-    // -MARK: SetupUI
     private func setupUI() {
         self.view.backgroundColor = .systemMint.withAlphaComponent(0.8)
         
@@ -103,7 +101,7 @@ class AdminViewController: UIViewController, AdminFactory  {
             accountTableContainer.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: heightScaler(40)),
             accountTableContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(30)),
             accountTableContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(30)),
-            accountTableContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(40)),
+            accountTableContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(80)),
             
             accountTableView.topAnchor.constraint(equalTo: accountTableContainer.topAnchor),
             accountTableView.leadingAnchor.constraint(equalTo: accountTableContainer.leadingAnchor),
@@ -118,7 +116,7 @@ class AdminViewController: UIViewController, AdminFactory  {
     }
 }
 
-extension AdminViewController: UITableViewDataSource {
+extension StaffAccountViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         30
     }
@@ -141,7 +139,7 @@ extension AdminViewController: UITableViewDataSource {
     }
 }
 
-extension AdminViewController: UITableViewDelegate {
+extension StaffAccountViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
             // Delete loddgic here
@@ -164,14 +162,3 @@ extension AdminViewController: UITableViewDelegate {
     }
 
 }
-
-// -MARK: Preview
-struct AdminViewControllerPreview: PreviewProvider {
-    static var previews: some View {
-        VCPreview {
-            let adminViewControllerPreview = AdminViewController()
-            return adminViewControllerPreview
-        }
-    }
-}
-

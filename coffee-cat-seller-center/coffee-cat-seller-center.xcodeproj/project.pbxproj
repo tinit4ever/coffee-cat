@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A06834202B8D853F0086CE59 /* NameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A068341F2B8D853F0086CE59 /* NameConstants.swift */; };
+		A06834222B8D86220086CE59 /* ShopTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834212B8D86220086CE59 /* ShopTabBarViewController.swift */; };
+		A06834242B8D87180086CE59 /* StaffAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834232B8D87180086CE59 /* StaffAccountViewController.swift */; };
+		A06834262B8D872A0086CE59 /* ShopManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */; };
+		A06834282B8D90280086CE59 /* StaffAccountFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834272B8D90280086CE59 /* StaffAccountFactory.swift */; };
 		A0CBF4BB2B8CD31D008CFAD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4BA2B8CD31D008CFAD3 /* AppDelegate.swift */; };
 		A0CBF4BD2B8CD31D008CFAD3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4BC2B8CD31D008CFAD3 /* SceneDelegate.swift */; };
 		A0CBF4C42B8CD31F008CFAD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0CBF4C32B8CD31F008CFAD3 /* Assets.xcassets */; };
@@ -27,7 +32,6 @@
 		A0CBF4F42B8CDBD9008CFAD3 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4EA2B8CDBD9008CFAD3 /* UINavigationController+Extension.swift */; };
 		A0CBF4F52B8CDBD9008CFAD3 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4EB2B8CDBD9008CFAD3 /* UIScreen+Extension.swift */; };
 		A0CBF4F62B8CDBD9008CFAD3 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4EC2B8CDBD9008CFAD3 /* UITextField+Extension.swift */; };
-		A0CBF4FD2B8CDE8A008CFAD3 /* NameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4FC2B8CDE8A008CFAD3 /* NameConstants.swift */; };
 		A0CBF4FF2B8CE0AC008CFAD3 /* administrator.json in Resources */ = {isa = PBXBuildFile; fileRef = A0CBF4FE2B8CE0AC008CFAD3 /* administrator.json */; };
 		A0CBF5042B8CE5FD008CFAD3 /* AdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF5032B8CE5FD008CFAD3 /* AdminViewController.swift */; };
 		A0CBF5062B8CE6DD008CFAD3 /* AdminFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */; };
@@ -36,6 +40,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A068341F2B8D853F0086CE59 /* NameConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameConstants.swift; sourceTree = "<group>"; };
+		A06834212B8D86220086CE59 /* ShopTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopTabBarViewController.swift; sourceTree = "<group>"; };
+		A06834232B8D87180086CE59 /* StaffAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAccountViewController.swift; sourceTree = "<group>"; };
+		A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopManagerViewController.swift; sourceTree = "<group>"; };
+		A06834272B8D90280086CE59 /* StaffAccountFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAccountFactory.swift; sourceTree = "<group>"; };
 		A0CBF4B72B8CD31D008CFAD3 /* coffee-cat-seller-center.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "coffee-cat-seller-center.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0CBF4BA2B8CD31D008CFAD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A0CBF4BC2B8CD31D008CFAD3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,7 +64,6 @@
 		A0CBF4EA2B8CDBD9008CFAD3 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UINavigationController+Extension.swift"; path = "../../../coffee-cat/coffee-cat/Extensions/UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		A0CBF4EB2B8CDBD9008CFAD3 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIScreen+Extension.swift"; path = "../../../coffee-cat/coffee-cat/Extensions/UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		A0CBF4EC2B8CDBD9008CFAD3 /* UITextField+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITextField+Extension.swift"; path = "../../../coffee-cat/coffee-cat/Extensions/UITextField+Extension.swift"; sourceTree = "<group>"; };
-		A0CBF4FC2B8CDE8A008CFAD3 /* NameConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NameConstants.swift; path = ../../../../../Downloads/NameConstants.swift; sourceTree = "<group>"; };
 		A0CBF4FE2B8CE0AC008CFAD3 /* administrator.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = administrator.json; sourceTree = "<group>"; };
 		A0CBF5032B8CE5FD008CFAD3 /* AdminViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewController.swift; sourceTree = "<group>"; };
 		A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminFactory.swift; sourceTree = "<group>"; };
@@ -153,6 +161,7 @@
 			children = (
 				A0CBF4E02B8CDA04008CFAD3 /* SignInFactory.swift */,
 				A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */,
+				A06834272B8D90280086CE59 /* StaffAccountFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -177,7 +186,7 @@
 		A0CBF4F92B8CDCB4008CFAD3 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				A0CBF4FC2B8CDE8A008CFAD3 /* NameConstants.swift */,
+				A068341F2B8D853F0086CE59 /* NameConstants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -193,6 +202,9 @@
 		A0CBF5012B8CE516008CFAD3 /* ShopOwner */ = {
 			isa = PBXGroup;
 			children = (
+				A06834212B8D86220086CE59 /* ShopTabBarViewController.swift */,
+				A06834232B8D87180086CE59 /* StaffAccountViewController.swift */,
+				A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */,
 			);
 			path = ShopOwner;
 			sourceTree = "<group>";
@@ -294,25 +306,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A06834262B8D872A0086CE59 /* ShopManagerViewController.swift in Sources */,
 				A0CBF5062B8CE6DD008CFAD3 /* AdminFactory.swift in Sources */,
 				A0CBF4F62B8CDBD9008CFAD3 /* UITextField+Extension.swift in Sources */,
 				A0CBF4EF2B8CDBD9008CFAD3 /* UILabel+Extension.swift in Sources */,
 				A0CBF5042B8CE5FD008CFAD3 /* AdminViewController.swift in Sources */,
 				A0CBF4F02B8CDBD9008CFAD3 /* String+Extension.swift in Sources */,
 				A0CBF50B2B8CE9A5008CFAD3 /* AccountTableViewCell.swift in Sources */,
+				A06834222B8D86220086CE59 /* ShopTabBarViewController.swift in Sources */,
 				A0CBF4E12B8CDA04008CFAD3 /* SignInFactory.swift in Sources */,
 				A0CBF4EE2B8CDBD9008CFAD3 /* UIView+Extension.swift in Sources */,
 				A0CBF4ED2B8CDBD9008CFAD3 /* UITabBar+Extension.swift in Sources */,
 				A0CBF4F42B8CDBD9008CFAD3 /* UINavigationController+Extension.swift in Sources */,
+				A06834202B8D853F0086CE59 /* NameConstants.swift in Sources */,
 				A0CBF4F32B8CDBD9008CFAD3 /* UIButton+Extension.swift in Sources */,
 				A0CBF4D12B8CD3C6008CFAD3 /* SignInViewController.swift in Sources */,
 				A0CBF4DD2B8CD962008CFAD3 /* VCPreview.swift in Sources */,
 				A0CBF4BB2B8CD31D008CFAD3 /* AppDelegate.swift in Sources */,
 				A0CBF4F12B8CDBD9008CFAD3 /* UIFont+Extension.swift in Sources */,
-				A0CBF4FD2B8CDE8A008CFAD3 /* NameConstants.swift in Sources */,
 				A0CBF4F22B8CDBD9008CFAD3 /* UIImage+Extension.swift in Sources */,
 				A0CBF4BD2B8CD31D008CFAD3 /* SceneDelegate.swift in Sources */,
+				A06834282B8D90280086CE59 /* StaffAccountFactory.swift in Sources */,
 				A0CBF4F52B8CDBD9008CFAD3 /* UIScreen+Extension.swift in Sources */,
+				A06834242B8D87180086CE59 /* StaffAccountViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
