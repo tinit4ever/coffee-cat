@@ -23,6 +23,4 @@ public class MenuItemResponse {
     private float discount;
 
     private int soldQuantity;
-    private String message;
-    private boolean status;
 }

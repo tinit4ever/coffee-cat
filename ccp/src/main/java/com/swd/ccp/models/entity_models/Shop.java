@@ -48,6 +48,8 @@ public class Shop {
 
     @OneToMany(mappedBy = "shop")
     private  List<Comment> commentList;
+    @OneToMany(mappedBy = "shop")
+    private  List<Area> areaList;
 
     @OneToMany(mappedBy = "shop")
     private List<Manager> managerList;
@@ -55,9 +57,5 @@ public class Shop {
     @OneToMany(mappedBy = "shop")
     private List<ShopImage> shopImageList;
 
-    @OneToMany(mappedBy = "shop")
-    private List<Cat> catList;
 
-    @OneToMany(mappedBy = "shop")
-    private List<Seat> seatList;
 }

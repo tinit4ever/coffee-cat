@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
@@ -29,11 +26,20 @@ import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
 public class ShopServiceImpl implements ShopService {
     private final ShopStatusRepo shopStatusRepo;
     private final ShopRepo shopRepo;
-    private final FollowerCustomerRepo followerCustomerRepo;
+    private final CatStatusRepo catStatusRepo;
     private final AccountService accountService;
     private final SeatRepo seatRepo;
+    private final SeatStatusRepo seatStatusRepo;
     private final ShopImageRepo shopImageRepo;
+    private final CatRepo catRepo;
+    private final MenuItemRepo menuItemRepo;
+    private final MenuItemStatusRepo menuItemStatusRepo;
+    private final MenuRepo menuRepo;
+    private final AreaStatusRepo areaStatusRepo;
+    private final AreaRepo areaRepo;
     private static final String ACTIVE = "opened";
+    private static final String SeatActive = "available";
+    private static final String CATACTIVE = "active";
 
     @Override
     public ShopListResponse getActiveShops(SortRequest sortRequest) {
@@ -41,27 +47,116 @@ public class ShopServiceImpl implements ShopService {
         if (activeStatusList.isEmpty()) {
             return new ShopListResponse(Collections.emptyList(), false, "No active shops found");
         }
+
         Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
         List<Shop> shopList = shopRepo.findAllByStatusIn(activeStatusList, sort);
+
         List<ShopResponseGuest> mappedshopList = mapToShopDtoList(shopList);
+
+
         boolean status = true;
         String message = "Successfully retrieved shop list";
         return new ShopListResponse(mappedshopList, status, message);
     }
 
-    //    @Override
-//    public Page<ShopResponse> getPopularActiveShops(Integer page, Integer size) {
-//        ModelMapper mapper = new ModelMapper();
-//        Pageable pageable = PageRequest.of(page, size);
-//        List<Shop> activeShops = shopRepo.findAllByStatus(ACTIVE, pageable).getContent();
-//        List<Shop> popularActiveShops = activeShops.stream()
-//                .sorted((shop1, shop2) -> Long.compare(shop2.getFollowerCustomerList().size(), shop1.getFollowerCustomerList().size()))
-//                .limit(size)
-//                .collect(Collectors.toList());
-//        List<ShopResponse> responses = popularActiveShops.stream().map(shop -> mapper.map(shop, ShopResponse.class)).collect(Collectors.toList());
-//        return new PageImpl<>(responses, pageable, activeShops.size());
-//    }
+    private List<AreaResponse> mapToAreaResponse(Shop shop) {
+        List<AreaStatus> activeAreaStatusList = areaStatusRepo.findAllByStatus("active");
+        List<Area> activeAreas = areaRepo.findAllByShopAndAreaStatusIn(shop, activeAreaStatusList);
+
+        List<AreaResponse> areaResponseList = new ArrayList<>();
+        for (Area area : activeAreas) {
+            AreaResponse areaResponse = new AreaResponse();
+            areaResponse.setName(area.getName());
+
+            // Lấy danh sách mèo cho từng khu vực cụ thể
+            List<CatResponse> catList = mapToCatResponseList(area.getId());
+            areaResponse.setCatList(catList);
+
+            List<SeatResponse> seatList = mapToSeatResponseList(area.getId());
+            areaResponse.setSeatList(seatList);
+            areaResponseList.add(areaResponse);
+        }
+        return areaResponseList;
+    }
+
+    private List<MenuResponse> mapToMenuResponseList(Shop shop) {
+        List<MenuResponse> menuList = new ArrayList<>();
+        List<Menu> menus = menuRepo.findByShop(shop);
+        for (Menu menu : menus) {
+            MenuResponse menuResponse = new MenuResponse();
+            menuResponse.setDescription(menu.getDescription());
+            List<MenuItemResponse> menuItemList = mapToMenuItemResponseList(menu.getMenuItemList());
+            menuResponse.setMenuItemList(menuItemList);
+            menuList.add(menuResponse);
+        }
+        return menuList;
+    }
+    private List<CatResponse> mapToCatResponseList(Integer areaId) {
+        List<CatResponse> catResponseList = new ArrayList<>();
+        List<CatStatus> activeCatStatusList = catStatusRepo.findAllByStatus(CATACTIVE);
+        List<Cat> catsInArea = catRepo.findByAreaIdAndCatStatusIn(areaId, activeCatStatusList);
+        List<CatResponse> catResponses = mapCatsToCatResponses(catsInArea);
+        catResponseList.addAll(catResponses);
+        return catResponseList;
+    }
+    private List<CatResponse> mapCatsToCatResponses(List<Cat> catList) {
+        List<CatResponse> catResponses = new ArrayList<>();
+        for (Cat cat : catList) {
+            CatResponse catResponse = mapCatToCatResponse(cat);
+            catResponses.add(catResponse);
+        }
+        return catResponses;
+    }
+
+    private CatResponse mapCatToCatResponse(Cat cat) {
+        CatResponse catResponse = new CatResponse();
+        catResponse.setId(cat.getId());
+        catResponse.setDescription(cat.getDescription());
+        catResponse.setType(cat.getType());
+        catResponse.setImgLink(cat.getImgLink());
+        return catResponse;
+    }
+    private List<SeatResponse> mapToSeatResponseList(Integer areaId) {
+        List<SeatResponse> seatResponseList = new ArrayList<>();
+        Collection<SeatStatus> activeSeatStatusList = seatStatusRepo.findAllByStatus(SeatActive);
+        List<Seat> seatsInArea = seatRepo.findAllByAreaIdAndSeatStatusIn(areaId, activeSeatStatusList);
+        List<SeatResponse> seatResponses = mapSeatsToSeatResponses(seatsInArea);
+        seatResponseList.addAll(seatResponses);
+        return seatResponseList;
+    }
+
+    private List<SeatResponse> mapSeatsToSeatResponses(List<Seat> seatList) {
+        List<SeatResponse> seatResponses = new ArrayList<>();
+        for (Seat seat : seatList) {
+
+            SeatResponse seatResponse = mapSeatToSeatResponse(seat);
+            seatResponses.add(seatResponse);
+        }
+        return seatResponses;
+    }
+
+    private SeatResponse mapSeatToSeatResponse(Seat seat) {
+        SeatResponse seatResponse = new SeatResponse();
+        seatResponse.setId(seat.getId());
+        seatResponse.setName(seat.getName());
+        return seatResponse;
+    }
+
+    private List<MenuItemResponse> mapToMenuItemResponseList(List<MenuItem> menuItemList) {
+        return menuItemList.stream()
+                .filter(menuItem -> menuItem.getMenuItemStatus().getId().equals(1))
+                .map(menuItem -> {
+                    MenuItemResponse menuItemResponse = new MenuItemResponse();
+                    menuItemResponse.setId(menuItem.getId());
+                    menuItemResponse.setName(menuItem.getName());
+                    menuItemResponse.setPrice(menuItem.getPrice());
+                    return menuItemResponse;
+                })
+                .collect(Collectors.toList());
+    }
+
+
     @Override
     public ShopListResponse searchShops(String keyword, String searchType, SortRequest sortRequest) {
         List<ShopStatus> activeStatusList = shopStatusRepo.findAllByStatus(ACTIVE);
@@ -95,9 +190,10 @@ public class ShopServiceImpl implements ShopService {
         if (shops.isEmpty()) {
             return Collections.emptyList();
         }
+
         return shops.stream().map(shop -> {
             ShopResponseGuest shopResponse = new ShopResponseGuest();
-
+            shopResponse.setId(shop.getId());
             shopResponse.setName(shop.getName());
             shopResponse.setRating(shop.getRating());
             List<String> imageLinks = shop.getShopImageList().stream()
@@ -109,11 +205,14 @@ public class ShopServiceImpl implements ShopService {
             shopResponse.setAvatar(shop.getAvatar());
             shopResponse.setCommentList(shop.getCommentList().stream().map(Comment::getComment)
                     .collect(Collectors.toList()));
-            shopResponse.setSeatList(shop.getSeatList().stream().map(Seat::getName)
-                    .collect(Collectors.toList()));
-
             shopResponse.setOpenTime(shop.getOpenTime());
             shopResponse.setCloseTime(shop.getCloseTime());
+
+            // Ánh xạ đối tượng AreaResponse cho cửa hàng (shop)
+            List<AreaResponse> area = mapToAreaResponse(shop);
+            shopResponse.setAreaList(area);
+            List<MenuResponse> menu = mapToMenuResponseList(shop);
+            shopResponse.setMenuList(menu);
 
             if (shop.getAddress() == null) {
                 shopResponse.setAddress("N/A");
@@ -137,6 +236,7 @@ public class ShopServiceImpl implements ShopService {
             return shopResponse;
         }).collect(Collectors.toList());
     }
+
 
     @Override
     public Page<ShopResponse> getShops(PaginationRequest pageRequest) {
@@ -181,69 +281,65 @@ public class ShopServiceImpl implements ShopService {
         }).collect(Collectors.toList());
     }
 
-//    @Override
-//    public CreateShopResponse createShop(ShopRequest request) {
-//        if (isStringValid(request.getName())) {
-//            Shop shop = shopRepo.findByName(request.getName());
-//
-//            if (shop == null) {
-//                ShopStatus inactiveStatus = shopStatusRepo.findById(2).orElse(null);
-//
-//                Sea inactiveSeatStatus = seatRepo.findById(2).orElse(null);
-//                shop = shopRepo.save(
-//                        Shop.builder()
-//                                .phone(request.getPhone())
-//                                .name(request.getName())
-//                                .avatar(request.getAvatar())
-//                                .status(inactiveStatus)
-//                                .address(request.getAddress())
-//                                .openTime(request.getOpenTime())
-//                                .closeTime(request.getCloseTime())
-//                                .build()
-//                );
-//
-//                int seatCount = 10;
-//                int seatCapacity = 4;
-//                List<Seat> seatList = new ArrayList<>();
-//                for (int i = 0; i < seatCount; i++) {
-//                    // Tạo chỗ ngồi mới
-//                    Seat seat = Seat.builder()
-//                            .shop(shop)
-//                            .name("Seat " + (i + 1))
-//                            .capacity(seatCapacity)
-//                            .seatStatus(inactiveStatus) // Chỗ ngồi mới được tạo là không hoạt động
-//                            .build();
-//                    seatList.add(seat);
-//                }
-//                // Lưu danh sách chỗ ngồi vào cơ sở dữ liệu
-//                seatRepo.saveAll(seatList);
-//
-//                // Tạo danh sách hình ảnh từ danh sách URL được cung cấp
-//                List<ShopImage> shopImageList = new ArrayList<>();
-//                for (String imageUrl : request.getImageUrls()) {
-//                    // Tạo hình ảnh mới
-//                    ShopImage shopImage = ShopImage.builder()
-//                            .shop(shop)
-//                            .imageUrl(imageUrl)
-//                            .build();
-//                    shopImageList.add(shopImage);
-//                }
-//                // Lưu danh sách hình ảnh vào cơ sở dữ liệu
-//                shopImageRepo.saveAll(shopImageList);
-//
-//                return CreateShopResponse.builder()
-//                        .message("Create a successful shop")
-//                        .status(true)
-//                        .build();
-//            }
-//            return CreateShopResponse.builder()
-//                    .status(false)
-//                    .build();
-//        }
-//        return CreateShopResponse.builder()
-//                .status(false)
-//                .build();
-//    }
+    @Override
+    public CreateShopResponse createShop(ShopRequest request) {
+        if (isStringValid(request.getName())) {
+            Shop shop = shopRepo.findByName(request.getName());
+
+            if (shop == null) {
+                ShopStatus inactiveStatus = shopStatusRepo.findById(2).orElse(null);
+
+                SeatStatus inactiveSeatStatus = seatStatusRepo.findById(1).orElse(null);
+                shop = shopRepo.save(
+                        Shop.builder()
+                                .phone(request.getPhone())
+                                .name(request.getName())
+                                .avatar(request.getAvatar())
+                                .status(inactiveStatus)
+                                .address(request.getAddress())
+                                .openTime(request.getOpenTime())
+                                .closeTime(request.getCloseTime())
+                                .build()
+                );
+
+                int seatCount = 10;
+                int seatCapacity = 4;
+                List<Seat> seatList = new ArrayList<>();
+                for (int i = 0; i < seatCount; i++) {
+                    // Tạo chỗ ngồi mới
+                    Seat seat = Seat.builder()
+                            .name("Seat " + (i + 1))
+                            .capacity(seatCapacity)
+                            .seatStatus(inactiveSeatStatus)
+                            .build();
+                    seatList.add(seat);
+                }
+                seatRepo.saveAll(seatList);
+
+                List<ShopImage> shopImageList = new ArrayList<>();
+                for (ShopImage shopImage : request.getShopImageList()) {
+                    ShopImage newShopImage = ShopImage.builder()
+                            .shop(shop)
+                            .link(shopImage.getLink())
+                            .build();
+                    shopImageList.add(newShopImage);
+                }
+
+                shopImageRepo.saveAll(shopImageList);
+
+                return CreateShopResponse.builder()
+                        .message("Create a successful shop")
+                        .status(true)
+                        .build();
+            }
+            return CreateShopResponse.builder()
+                    .status(false)
+                    .build();
+        }
+        return CreateShopResponse.builder()
+                .status(false)
+                .build();
+    }
 
     @Override
     public UpdateShopResponse updateShop(Long shopId, ShopRequest updateRequest) {
