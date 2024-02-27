@@ -13,16 +13,13 @@ class SelectTableViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
-    var didSendData: ((String) -> Void)?
+    var didSendData: (([String]) -> Void)?
     //    var seatList: [String] = []
     var seatList: [String] = []
     
-    var selectedTable: String?
+    var selectedTable: [String] = []
     // MARK: - Create UIComponents
     lazy var seatListCollectionView = makeCollectionView(space: sizeScaler(20), size: CGSize(width: heightScaler(110), height: heightScaler(110)))
-    
-    lazy var selectButton = makeButton()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +28,7 @@ class SelectTableViewController: UIViewController, UIFactory {
         
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
         doneButton.tintColor = .customPink
-
+        
         
         navigationItem.leftBarButtonItem = cancelButton
         navigationItem.rightBarButtonItem = doneButton
@@ -58,10 +55,9 @@ class SelectTableViewController: UIViewController, UIFactory {
     @objc private func cancelButtonTapped() {
         self.dismiss(animated: true)
     }
+    
     @objc private func doneButtonTapped() {
-        if let selectedTable = self.selectedTable {
-            didSendData?(selectedTable)
-        }
+        didSendData?(self.selectedTable)
         self.dismiss(animated: true)
     }
 }
@@ -82,7 +78,16 @@ extension SelectTableViewController: UICollectionViewDataSource {
 }
 extension SelectTableViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.selectedTable = self.seatList[indexPath.row]
+        let cell = collectionView.cellForItem(at: indexPath) as? SeatCollectionViewCell
+        if let isSelected = cell?.beforeSelectedState {
+            if isSelected {
+                if let index = self.selectedTable.firstIndex(of: self.seatList[indexPath.row]) {
+                    self.selectedTable.remove(at: index)
+                }
+            } else {
+                self.selectedTable.append(self.seatList[indexPath.row])
+            }
+        }
     }
 }
 // -MARK: Preview

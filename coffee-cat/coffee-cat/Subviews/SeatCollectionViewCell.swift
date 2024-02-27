@@ -21,7 +21,17 @@ class SeatCollectionViewCell: UICollectionViewCell {
         didSet {
             isSelectedSubject.send(isSelected)
         }
+        
+        willSet {
+            if self.contentView.backgroundColor == .systemBlue {
+                self.beforeSelectedState = true
+            } else if self.contentView.backgroundColor == .systemGray3 {
+                self.beforeSelectedState = false
+            }
+        }
     }
+    
+    lazy var beforeSelectedState: Bool = false
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -86,9 +96,11 @@ class SeatCollectionViewCell: UICollectionViewCell {
     
     private func updateBackgroundColor(_ isSelected: Bool) {
         if isSelected {
-            self.contentView.backgroundColor = .systemBlue
-        } else {
-            self.contentView.backgroundColor = .systemGray3
+            if self.contentView.backgroundColor == .systemBlue {
+                self.contentView.backgroundColor = .systemGray3
+            } else if self.contentView.backgroundColor == .systemGray3 {
+                self.contentView.backgroundColor = .systemBlue
+            }
         }
     }
     
