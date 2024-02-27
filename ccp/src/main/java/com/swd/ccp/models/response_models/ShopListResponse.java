@@ -1,5 +1,7 @@
 package com.swd.ccp.models.response_models;
 
+import com.swd.ccp.models.entity_models.Menu;
+import com.swd.ccp.models.entity_models.MenuItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ShopListResponse {
-    private List<ShopResponseGuest> shopList;;
+    private List<ShopResponseGuest> shopList;
     private boolean status;
     private String message;
 

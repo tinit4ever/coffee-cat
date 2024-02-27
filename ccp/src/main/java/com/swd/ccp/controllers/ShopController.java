@@ -50,16 +50,18 @@ public class ShopController {
         LOGGER.info("get list successfully");
         return page;
     }
-//    @PostMapping("auth/createShop")
-//    public ResponseEntity<CreateShopResponse> createStaff(@RequestBody ShopRequest request) {
-//        CreateShopResponse response = shopService.createShop(request) ;
-//        if (response.isStatus()) {
-//            return ResponseEntity.ok(response);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-//        }
-//    }
+    @PostMapping("createShop")
+    @PreAuthorize("hasAuthority('owner:read')")
+    public ResponseEntity<CreateShopResponse> createStaff(@RequestBody ShopRequest request) {
+        CreateShopResponse response = shopService.createShop(request) ;
+        if (response.isStatus()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
     @PostMapping("updateShop/{shopId}")
+    @PreAuthorize("hasAuthority('owner:read')")
     public ResponseEntity<UpdateShopResponse> updateStaff(@PathVariable Long shopId,
                                                            @RequestBody ShopRequest updateRequest) {
         try {
@@ -71,8 +73,8 @@ public class ShopController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    @PostMapping("auth/inactive/{shopId}")
-//    @PreAuthorize("hasAuthority('owner:update')")
+    @PostMapping("inactive/{shopId}")
+    @PreAuthorize("hasAuthority('owner:update')")
     public ResponseEntity<String> inactiveStaff(@PathVariable Integer shopId) {
         int result = shopService.inactiveShop(shopId);
         if (result == 1) {
@@ -81,8 +83,8 @@ public class ShopController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PostMapping("auth/active/{shopId}")
-//    @PreAuthorize("hasAuthority('owner:update')")
+    @PostMapping("active/{shopId}")
+    @PreAuthorize("hasAuthority('owner:update')")
     public ResponseEntity<String> activeStaff(@PathVariable Integer shopId) {
         int result = shopService.activeShop(shopId);
         if (result == 1) {

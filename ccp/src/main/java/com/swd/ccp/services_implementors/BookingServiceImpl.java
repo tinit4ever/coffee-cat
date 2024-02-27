@@ -65,7 +65,7 @@ public class BookingServiceImpl implements BookingService {
                         }
                 );
 
-                shopRepo.findById(seat.getShop().getId()).ifPresent(shop -> {
+                shopRepo.findById(seat.getArea().getShop().getId()).ifPresent(shop -> {
                     bookingCartShopResponse.setShopID(shop.getId());
                     bookingCartShopResponse.setShopName(shop.getName());
                     bookingCartShopResponse.setSeatID(seat.getId());
@@ -122,8 +122,8 @@ public class BookingServiceImpl implements BookingService {
                     .message("Update booking successfully")
                     .bookingCartShopResponse(
                             BookingCartResponse.BookingCartShopResponse.builder()
-                                    .shopID(newSeat.getShop().getId())
-                                    .shopName(newSeat.getShop().getName())
+                                    .shopID(newSeat.getArea().getShop().getId())
+                                    .shopName(newSeat.getArea().getShop().getName())
                                     .seatID(newSeat.getId())
                                     .seatName(newSeat.getName())
                                     .createDate(new Date(System.currentTimeMillis()))
@@ -188,7 +188,7 @@ public class BookingServiceImpl implements BookingService {
                         .seat(seat)
                         .customer(customer)
                         .bookingStatus(bookingStatusRepo.findByStatus("Pending").orElse(null))
-                        .shopName(seat.getShop().getName())
+                        .shopName(seat.getArea().getShop().getName())
                         .seatName(seat.getName())
                         .extraContent(request.getExtraContent())
                         .createDate(new Date(System.currentTimeMillis()))

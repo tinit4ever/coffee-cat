@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,6 +54,10 @@ public class CcpApplication {
     private final BookingStatusRepo bookingStatusRepo;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final AreaRepo areaRepo;
+
+    private final AreaStatusRepo areaStatusRepo;
 
     public static void main(String[] args) {
         SpringApplication.run(CcpApplication.class, args);
@@ -177,10 +180,6 @@ public class CcpApplication {
 
 
                 //init account
-                String adtoken;
-                String owtoken;
-                String sttoken;
-                String cutoken;
 
                 Account admin = Account
                         .builder()
@@ -298,34 +297,69 @@ public class CcpApplication {
                 System.out.println("# STAFF token: " + st);
                 System.out.println("# CUSTOMER token: " + cu);
 
+                //init area status
+                areaStatusRepo.save(AreaStatus.builder().status("active").build());
+                areaStatusRepo.save(AreaStatus.builder().status("inactive").build());
+
+                //init area
+                Area area1 = Area.builder()
+                        .name("Area1")
+                        .shop(shops.get(0))
+                        .areaStatus(areaStatusRepo.findByStatus("active").orElse(null))
+                        .build();
+
+                Area area2 = Area.builder()
+                        .name("Area2")
+                        .shop(shops.get(0))
+                        .areaStatus(areaStatusRepo.findByStatus("active").orElse(null))
+                        .build();
+
+                Area area3 = Area.builder()
+                        .name("Area3")
+                        .shop(shops.get(1))
+                        .areaStatus(areaStatusRepo.findByStatus("active").orElse(null))
+                        .build();
+
+                Area area4 = Area.builder()
+                        .name("Area4")
+                        .shop(shops.get(1))
+                        .areaStatus(areaStatusRepo.findByStatus("active").orElse(null))
+                        .build();
+
+                area1 = areaRepo.save(area1);
+                area2 = areaRepo.save(area2);
+                area3 = areaRepo.save(area3);
+                area4 = areaRepo.save(area4);
+
+
                 //init seat status
                 seatStatusRepo.save(SeatStatus.builder().status("available").build());
                 seatStatusRepo.save(SeatStatus.builder().status("busy").build());
 
                 //init seat
                 Seat seat1 = Seat.builder()
-                        .shop(shops.get(0))
+                        .area(area1)
                         .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
                         .name("Seat 01")
                         .capacity(8)
                         .build();
 
                 Seat seat2 = Seat.builder()
-                        .shop(shops.get(0))
+                        .area(area2)
                         .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
                         .name("Seat 02")
                         .capacity(4)
                         .build();
 
                 Seat seat3 = Seat.builder()
-                        .shop(shops.get(1))
+                        .area(area3)
                         .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
                         .name("Seat 01")
                         .capacity(16)
                         .build();
 
                 Seat seat4 = Seat.builder()
-                        .shop(shops.get(1))
+                        .area(area4)
                         .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
                         .name("Seat 02")
                         .capacity(5)
