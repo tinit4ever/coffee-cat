@@ -8,18 +8,10 @@
 import Foundation
 
 protocol ProfileViewModelProtocol {
-    var userInfo: Account {get set}
-    
     func logout()
 }
 
 class ProfileViewModel: ProfileViewModelProtocol {
-    var userInfo: Account
-    
-    init(userInfo: Account) {
-        self.userInfo = userInfo
-    }
-    
     func logout() {
         print("Logout")
     }
