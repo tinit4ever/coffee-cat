@@ -13,7 +13,6 @@ protocol HomeViewModelProtocol {
     var tableViewTitle: String {get set}
     var searchParam: SearchParam {get set}
     var loadingCompleted: Bool {get set}
-    
     func getShopList(completion: @escaping () -> Void)
     func setSearchText(_ searchText: String)
 //    var reloadDataClosure: (() -> Void) { get set }
