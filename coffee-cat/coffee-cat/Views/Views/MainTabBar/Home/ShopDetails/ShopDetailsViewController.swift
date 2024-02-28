@@ -93,18 +93,18 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.viewModel.shop.openTime = "8 AM"
         self.viewModel.shop.closeTime = "8 PM"
         
-//        let s1 = Seat(id: 1, name: "Seat 1")
-//        let s2 = Seat(id: 2, name: "Seat 2")
-//        let s3 = Seat(id: 3, name: "Seat 3")
-//        let s4 = Seat(id: 4, name: "Seat 4")
-//        let s5 = Seat(id: 5, name: "Seat 5")
-//        let s6 = Seat(id: 6, name: "Seat 6")
-//        let s7 = Seat(id: 7, name: "Seat 7")
-//        let s8 = Seat(id: 8, name: "Seat 8")
+        let s1 = Seat(id: 1, name: "Seat 1", status: true)
+        let s2 = Seat(id: 2, name: "Seat 2", status: true)
+        let s3 = Seat(id: 3, name: "Seat 3", status: false)
+        let s4 = Seat(id: 4, name: "Seat 4", status: false)
+        let s5 = Seat(id: 5, name: "Seat 5", status: false)
+        let s6 = Seat(id: 6, name: "Seat 6", status: false)
+        let s7 = Seat(id: 7, name: "Seat 7", status: true)
+        let s8 = Seat(id: 8, name: "Seat 8", status: true)
         
-//        let a1 = Area(name: "Floor 1", seatList: [s1, s2, s3, s4])
-//        let a2 = Area(name: "Floor 2", seatList: [s5, s6, s7, s8])
-//        self.viewModel.shop.areaList = [a1, a2]
+        let a1 = Area(name: "Floor 1", seatList: [s1, s2, s3, s4])
+        let a2 = Area(name: "Floor 2", seatList: [s5, s6, s7, s8])
+        self.viewModel.shop.areaList = [a1, a2]
         
         let mi1 = MenuItem(id: 1, name: "M1", price: 10000, imgLink: "")
         let mi2 = MenuItem(id: 2, name: "M2", price: 20000, imgLink: "")
@@ -310,11 +310,11 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         selectedTableViewController.areaList = self.viewModel.shop.areaList ?? []
         let navigationController = UINavigationController(rootViewController: selectedTableViewController)
         self.present(navigationController, animated: true, completion: nil)
-//        
-//        selectedTableViewController.didSendData = { [weak self] selectedTable in
-//            guard let self = self else { return }
-//            self.chooseTableButton.setTitle("Selected \(selectedTable.count) table", for: .normal)
-//        }
+        
+        selectedTableViewController.didSelectSeat = { [weak self] selectedSeat in
+            guard self != nil else { return }
+            print(selectedSeat)
+        }
     }
     
     @objc

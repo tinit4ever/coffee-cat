@@ -23,16 +23,19 @@ class SeatCollectionViewCell: UICollectionViewCell {
         }
         
         willSet {
-            if self.contentView.backgroundColor == .systemBlue {
-                self.beforeSelectedState = true
-            } else if self.contentView.backgroundColor == .systemGray3 {
+            if self.contentView.layer.borderWidth == 0 {
                 self.beforeSelectedState = false
+            } else {
+                self.beforeSelectedState = true
             }
         }
     }
     
+    lazy var status: Bool = false
+    
     lazy var beforeSelectedState: Bool = false
     
+    // MARK: - Create UIComponents
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         
@@ -95,22 +98,33 @@ class SeatCollectionViewCell: UICollectionViewCell {
         
         isSelectedSubject
             .sink { [weak self] isSelected in
-                self?.updateBackgroundColor(isSelected)
+                self?.updateBorder(isSelected)
             }
             .store(in: &cancellables)
     }
     
-    private func updateBackgroundColor(_ isSelected: Bool) {
-        if isSelected {
-            if self.contentView.backgroundColor == .systemBlue {
-                self.contentView.backgroundColor = .systemGray3
-            } else if self.contentView.backgroundColor == .systemGray3 {
-                self.contentView.backgroundColor = .systemBlue
+    private func updateBorder(_ isSelected: Bool) {
+        if status {
+            if isSelected {
+                if self.contentView.layer.borderWidth == widthScaler(0) {
+                    self.contentView.layer.borderWidth = widthScaler(7)
+                } else {
+                    self.contentView.layer.borderWidth = widthScaler(0)
+                }
             }
         }
     }
     
     func configure(_ seat: Seat) {
         self.titleLabel.text = seat.name
+        guard let status = seat.status else {
+            return
+        }
+        self.status = status
+        if status {
+            self.contentView.backgroundColor = .systemBlue
+        } else {
+            self.contentView.backgroundColor = .systemGray3
+        }
     }
 }
