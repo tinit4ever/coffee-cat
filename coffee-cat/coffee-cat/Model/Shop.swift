@@ -44,6 +44,7 @@ struct Cat: Codable {
 struct Seat: Codable {
     var id : Int?
     var name: String?
+    var status: Bool?
 }
 
 struct MenuItem: Codable {
