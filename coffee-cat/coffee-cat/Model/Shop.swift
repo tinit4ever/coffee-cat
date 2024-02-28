@@ -7,6 +7,12 @@
 
 import Foundation
 
+struct ShopList: Codable {
+    var shopList: [Shop]
+    var status: Bool
+    var message: String
+}
+
 struct Shop: Codable {
     var id: Int?
     var rating: Double?
@@ -19,6 +25,7 @@ struct Shop: Codable {
     var openTime: String?
     var closeTime: String?
     var areaList: [Area]?
+    var menuItemList: [MenuItem]?
 }
 
 struct Area: Codable {
@@ -39,11 +46,16 @@ struct Seat: Codable {
     var name: String?
 }
 
-struct ShopList: Codable {
-    var shopList: [Shop]
-    var status: Bool
-    var message: String
+struct MenuItem: Codable {
+    var id: Int?
+    var name: String?
+    var price: Double?
+    var imgLink: String?
+    var description: String?
+    var discount: Double?
+    var soldQuantity: Int?
 }
+
 
 struct SearchParam {
     var searchType: String
