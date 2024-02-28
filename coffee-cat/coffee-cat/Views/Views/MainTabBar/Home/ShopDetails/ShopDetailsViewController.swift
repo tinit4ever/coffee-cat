@@ -297,10 +297,13 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     @objc
     private func orderFoodButtonTapped() {
         let orderFoodViewController = OrderFoodViewController()
-//        selectedTableViewController.areaList = self.viewModel.shop.areaList ?? []
         orderFoodViewController.menuList = self.viewModel.shop.menuItemList ?? []
         let navigationController = UINavigationController(rootViewController: orderFoodViewController)
         self.present(navigationController, animated: true, completion: nil)
+        
+        orderFoodViewController.didSelectFood = { [weak self] menuBookingList in
+            
+        }
     }
     
     @objc

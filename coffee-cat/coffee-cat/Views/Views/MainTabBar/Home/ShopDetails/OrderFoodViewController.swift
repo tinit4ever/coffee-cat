@@ -17,6 +17,7 @@ class OrderFoodViewController: UIViewController, UIFactory {
     
     var menuBookingList: [MenuBooking] = []
     var selectedCell: MenuCollectionViewCell?
+    var didSelectFood: (([MenuBooking]) -> Void)?
     
     // MARK: - Create UIComponents
     lazy var stepper: UIStepper = {
@@ -99,20 +100,32 @@ class OrderFoodViewController: UIViewController, UIFactory {
     }
     
     @objc private func doneButtonTapped() {
-        //        if let selectedTable = self.selectedTable {
-        //            didSendData?(selectedTable)
-        //        }
-        self.dismiss(animated: true)
+        menuBookingList = menuBookingList.filter { $0.quantity > 0 }
+        if menuBookingList.isEmpty {
+            setupData()
+        } else {
+            self.didSelectFood?(menuBookingList)
+        }
     }
     
     @objc 
     func stepperValueChanged(_ sender: UIStepper) {
-        print(Int(sender.value))
         guard let selectedCell = selectedCell else {
             return
         }
         
         selectedCell.quantity = Int(sender.value)
+        self.updateQuantity(forItemID: selectedCell.id ?? 0, newQuantity: selectedCell.quantity)
+    }
+    
+    // -MARK: Utilities
+    private func updateQuantity(forItemID itemID: Int, newQuantity: Int) {
+        for index in 0..<self.menuBookingList.count {
+            if menuBookingList[index].itemID == itemID {
+                menuBookingList[index].quantity = newQuantity
+                break
+            }
+        }
     }
 }
 
