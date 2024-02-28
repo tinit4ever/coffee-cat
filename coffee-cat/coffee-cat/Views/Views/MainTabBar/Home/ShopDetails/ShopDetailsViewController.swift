@@ -231,7 +231,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         bookingButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
-            bookingButton.topAnchor.constraint(equalTo: shopInforStackView.bottomAnchor, constant: heightScaler(600)),
+            bookingButton.topAnchor.constraint(equalTo: shopInforStackView.bottomAnchor, constant: heightScaler(40)),
             bookingButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: widthScaler(60)),
             bookingButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthScaler(60)),
             bookingButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(60)),
@@ -291,6 +291,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         selectedTableViewController.didSelectSeat = { [weak self] selectedSeat in
             if selectedSeat != nil {
                 self?.chooseTableButton.setTitle("Selected Table", for: .normal)
+                self?.chooseTableButton.backgroundColor = .systemBrown
             } else {
                 self?.chooseTableButton.setTitle("Choose Table", for: .normal)
             }
@@ -305,7 +306,12 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.present(navigationController, animated: true, completion: nil)
         
         orderFoodViewController.didSelectFood = { [weak self] menuBookingList in
-            
+            if menuBookingList != nil {
+                self?.orderFoodButton.setTitle("Ordered Food", for: .normal)
+                self?.orderFoodButton.backgroundColor = .systemBrown
+            } else {
+                self?.orderFoodButton.setTitle("Order Food", for: .normal)
+            }
         }
     }
     
@@ -319,7 +325,6 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     
     @objc private func bookingButtonTapped() {
         print("Tapped1")
-        
     }
     
     // MARK: - Utilities

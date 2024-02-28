@@ -17,7 +17,7 @@ class OrderFoodViewController: UIViewController, UIFactory {
     
     var menuBookingList: [MenuBooking] = []
     var selectedCell: MenuCollectionViewCell?
-    var didSelectFood: (([MenuBooking]) -> Void)?
+    var didSelectFood: (([MenuBooking]?) -> Void)?
     
     // MARK: - Create UIComponents
     lazy var stepper: UIStepper = {
@@ -96,6 +96,7 @@ class OrderFoodViewController: UIViewController, UIFactory {
     
     // -MARK: Catch Action
     @objc private func cancelButtonTapped() {
+        self.didSelectFood?(nil)
         self.dismiss(animated: true)
     }
     
@@ -103,8 +104,10 @@ class OrderFoodViewController: UIViewController, UIFactory {
         menuBookingList = menuBookingList.filter { $0.quantity > 0 }
         if menuBookingList.isEmpty {
             setupData()
+            self.displayErrorAlert()
         } else {
             self.didSelectFood?(menuBookingList)
+            self.dismiss(animated: true)
         }
     }
     
@@ -126,6 +129,13 @@ class OrderFoodViewController: UIViewController, UIFactory {
                 break
             }
         }
+    }
+    
+    private func displayErrorAlert() {
+        let alertController = UIAlertController(title: "Error", message: "Please order at least one food\nYou can close without submit by click close button", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
