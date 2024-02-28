@@ -14,20 +14,21 @@ class SelectTableViewController: UIViewController, UIFactory {
     let sizeScaler = UIScreen.scalableSize
     
     var didSendData: (([String]) -> Void)?
-    
     var areaList: [Area] = []
     
     // MARK: - Create UIComponents
+    lazy var datePicker = makeDatePicker()
+    
     lazy var areaTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAction()
     }
     
     private func setupUI() {
@@ -43,15 +44,26 @@ class SelectTableViewController: UIViewController, UIFactory {
     }
     
     private func configNavigation() {
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonTapped))
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(cancelButtonTapped))
         cancelButton.tintColor = .customPink
         
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
         doneButton.tintColor = .customPink
         
+        let datePicker = UIBarButtonItem(customView: datePicker)
+        configDatePicker()
+        let space = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        space.width = widthScaler(100)
         
-        navigationItem.leftBarButtonItem = cancelButton
-        navigationItem.rightBarButtonItem = doneButton
+        self.navigationItem.leftBarButtonItems = [cancelButton, space, datePicker]
+        self.navigationItem.rightBarButtonItem = doneButton
+    }
+
+    private func configDatePicker() {
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.minimumDate = Date()
+        datePicker.tintColor = .customBlack
     }
     
     private func configAreaTableView() {
@@ -61,20 +73,41 @@ class SelectTableViewController: UIViewController, UIFactory {
         areaTableView.separatorStyle = .none
         
         NSLayoutConstraint.activate([
-            areaTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            areaTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             areaTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             areaTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            areaTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            areaTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
-    @objc private func cancelButtonTapped() {
+    // MARK: - Setup Action
+    private func setupAction() {
+        self.datePicker.addTarget(self, action: #selector(dateChange(_:)), for: .valueChanged)
+    }
+    
+    // MARK: - Catch Action
+    @objc 
+    private func cancelButtonTapped() {
         self.dismiss(animated: true)
     }
     
-    @objc private func doneButtonTapped() {
+    @objc 
+    private func doneButtonTapped() {
 //        didSendData?(self.selectedTable)
         self.dismiss(animated: true)
+    }
+    
+    @objc
+    private func dateChange(_ datePicker: UIDatePicker) {
+        print(datePicker.date)
+        DispatchQueue.main.async {
+            self.datePicker.endEditing(true)
+        }
+    }
+    
+    @objc
+    private func datePickerTapped() {
+        datePicker.becomeFirstResponder()
     }
 }
 
