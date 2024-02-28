@@ -154,4 +154,3 @@ struct SelectTableViewControllerPreview: PreviewProvider {
         }
     }
 }
-
