@@ -10,6 +10,7 @@ import Foundation
 protocol ShopDetailsViewModelProtocol {
     var index: Int { get set }
     var shop: Shop {get set}
+    var areaList: [Area] {get set}
     
     func swipeLeft()
     func swipeRight()
@@ -18,10 +19,12 @@ protocol ShopDetailsViewModelProtocol {
 class ShopDetailsViewModel: ShopDetailsViewModelProtocol {
     var index: Int
     var shop: Shop
+    var areaList: [Area]
     
     init() {
         self.index = 0
         self.shop = Shop(rating: 0.0, name: "", shopImageList: [], commentList: [])
+        self.areaList = []
     }
     
     func swipeLeft() {
