@@ -97,6 +97,9 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         
         self.viewModel.index = 0
         self.viewModel.shop?.shopImageList = ["1", "2", "3", "4"]
+        
+        self.viewModel.setAreasParam(shopId: self.viewModel.shop?.id ?? 0, date: "")
+        print(self.viewModel.areaList as Any)
         loadData()
     }
     
@@ -327,8 +330,8 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     private func updateIndexLabel() {
-        let totalElements = self.viewModel.shop?.shopImageList.count
-        indexLabel.text = "\(self.viewModel.index + 1)/\(String(describing: totalElements))"
+        let totalElements = self.viewModel.shop?.shopImageList.count ?? 1
+        indexLabel.text = "\(self.viewModel.index + 1)/\(totalElements)"
     }
 }
 
