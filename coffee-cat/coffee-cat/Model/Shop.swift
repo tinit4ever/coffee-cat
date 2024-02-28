@@ -24,27 +24,7 @@ struct Shop: Codable {
     var phone: String?
     var openTime: String?
     var closeTime: String?
-    var areaList: [Area]?
     var menuItemList: [MenuItem]?
-}
-
-struct Area: Codable {
-    var name: String?
-    var catList: [Cat]?
-    var seatList: [Seat]?
-}
-
-struct Cat: Codable {
-    var id: Int?
-    var type: String?
-    var description: String
-    var imgLink: String?
-}
-
-struct Seat: Codable {
-    var id : Int?
-    var name: String?
-    var status: Bool?
 }
 
 struct MenuItem: Codable {
@@ -57,10 +37,8 @@ struct MenuItem: Codable {
     var soldQuantity: Int?
 }
 
-
 struct SearchParam {
     var searchType: String
     var sortBy: String
     var asc: Bool
 }
-

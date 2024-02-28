@@ -24,6 +24,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    var id: Int?
     var quantity: Int = 0 {
         didSet {
             quantitySubject.send(quantity)
@@ -157,6 +158,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(_ menuItem: MenuItem) {
+        self.id = menuItem.id
         self.titleLabel.text = menuItem.name
         self.priceLabel.text = "Price: \(String(describing: menuItem.price ?? 0))₫"
         self.quantityLabel.text = "Quantity: \(0)"
