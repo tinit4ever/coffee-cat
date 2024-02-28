@@ -14,7 +14,7 @@ class SelectTableViewController: UIViewController, UIFactory {
     let sizeScaler = UIScreen.scalableSize
     
     var areaList: [Area] = []
-    var didSelectSeat: ((Seat) -> Void)?
+    var didSelectSeat: ((Seat?) -> Void)?
     var availableToSubmit: Int = 0
     var submitSeat: Seat?
     
@@ -169,6 +169,7 @@ class SelectTableViewController: UIViewController, UIFactory {
     @objc 
     private func cancelButtonTapped() {
         self.dismiss(animated: true)
+        self.didSelectSeat?(nil)
     }
     
     @objc 

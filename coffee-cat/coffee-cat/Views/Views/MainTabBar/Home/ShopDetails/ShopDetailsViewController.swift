@@ -312,8 +312,11 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.present(navigationController, animated: true, completion: nil)
         
         selectedTableViewController.didSelectSeat = { [weak self] selectedSeat in
-            guard self != nil else { return }
-            print(selectedSeat)
+            if selectedSeat != nil {
+                self?.chooseTableButton.setTitle("Selected Table", for: .normal)
+            } else {
+                self?.chooseTableButton.setTitle("Choose Table", for: .normal)
+            }
         }
     }
     
