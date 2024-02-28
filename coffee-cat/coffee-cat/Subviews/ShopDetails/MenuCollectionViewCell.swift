@@ -16,10 +16,17 @@ class MenuCollectionViewCell: UICollectionViewCell {
     
     private var cancellables: Set<AnyCancellable> = []
     private var isSelectedSubject = PassthroughSubject<Bool, Never>()
+    private var quantitySubject = PassthroughSubject<Int, Never>()
     
     override var isSelected: Bool {
         didSet {
             isSelectedSubject.send(isSelected)
+        }
+    }
+    
+    var quantity: Int = 0 {
+        didSet {
+            quantitySubject.send(quantity)
         }
     }
     
@@ -75,6 +82,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
         self.contentView.layer.cornerRadius = 10
         self.contentView.layer.masksToBounds = true
         setupUI()
+        setupAsync()
     }
     
     required init?(coder: NSCoder) {
@@ -120,10 +128,18 @@ class MenuCollectionViewCell: UICollectionViewCell {
         contentStack.addArrangedSubview(quantityLabel)
         quantityLabel.setupTitle(text: "Quantity: 0", fontName: FontNames.avenir, size: sizeScaler(22), textColor: .customBlack)
         quantityLabel.setBoldText()
-        
+    }
+    
+    private func setupAsync() {
         isSelectedSubject
             .sink { [weak self] isSelected in
                 self?.updateBorder(isSelected)
+            }
+            .store(in: &cancellables)
+        
+        quantitySubject
+            .sink { [weak self] quantity in
+                self?.updateQuantity(quantity)
             }
             .store(in: &cancellables)
     }
@@ -136,7 +152,13 @@ class MenuCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(_ selectedTable: String) {
-        self.titleLabel.text = selectedTable
+    private func updateQuantity(_ quantity: Int) {
+        self.quantityLabel.text = "Quantity: \(quantity)"
+    }
+    
+    func configure(_ menuItem: MenuItem) {
+        self.titleLabel.text = menuItem.name
+        self.priceLabel.text = "Price: \(String(describing: menuItem.price ?? 0))₫"
+        self.quantityLabel.text = "Quantity: \(0)"
     }
 }

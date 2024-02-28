@@ -25,7 +25,7 @@ struct Shop: Codable {
     var openTime: String?
     var closeTime: String?
     var areaList: [Area]?
-    var menuList: [ShopMenu]?
+    var menuItemList: [MenuItem]?
 }
 
 struct Area: Codable {
@@ -44,12 +44,6 @@ struct Cat: Codable {
 struct Seat: Codable {
     var id : Int?
     var name: String?
-}
-
-
-struct ShopMenu: Codable {
-    var description: String?
-    var menuItemList: [MenuItem]?
 }
 
 struct MenuItem: Codable {

@@ -13,6 +13,11 @@ class OrderFoodViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
+    var menuList: [MenuItem] = []
+    
+    var menuBookingList: [MenuBooking] = []
+    var selectedCell: MenuCollectionViewCell?
+    
     // MARK: - Create UIComponents
     lazy var stepper: UIStepper = {
         let stepper = UIStepper(frame: .zero)
@@ -25,6 +30,7 @@ class OrderFoodViewController: UIViewController, UIFactory {
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupData()
         setupUI()
         setupAction()
     }
@@ -58,6 +64,7 @@ class OrderFoodViewController: UIViewController, UIFactory {
         stepper.minimumValue = 0
         stepper.maximumValue = 10
         stepper.stepValue = 1
+        stepper.isEnabled = false
     }
     
     private func configMenuCollectionView() {
@@ -72,10 +79,18 @@ class OrderFoodViewController: UIViewController, UIFactory {
             menuCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    // -MARK: setupData
+    private func setupData() {
+        for menu in menuList {
+            let menuBooking = MenuBooking(itemID: menu.id ?? 0, quantity: 0)
+            self.menuBookingList.append(menuBooking)
+        }
+    }
+    
     // MARK: - Setup Action
     private func setupAction() {
         self.stepper.addTarget(self, action: #selector(stepperValueChanged(_:)), for: .valueChanged)
-
     }
     
     // -MARK: Catch Action
@@ -93,28 +108,38 @@ class OrderFoodViewController: UIViewController, UIFactory {
     @objc 
     func stepperValueChanged(_ sender: UIStepper) {
         print(Int(sender.value))
+        guard let selectedCell = selectedCell else {
+            return
+        }
+        
+        selectedCell.quantity = Int(sender.value)
     }
-
 }
 
 extension OrderFoodViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //        return seatList.count
-        28
+        return self.menuList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuCollectionViewCell.identifier, for: indexPath) as? MenuCollectionViewCell else {
             return UICollectionViewCell()
         }
-        //        cell.configure(self.seatList[indexPath.row])
+        
+        let menuItem = self.menuList[indexPath.row]
+        cell.configure(menuItem)
         
         return cell
     }
 }
 extension OrderFoodViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //        self.selectedTable = self.seatList[indexPath.row]
+        self.stepper.isEnabled = true
+        guard let cell = collectionView.cellForItem(at: indexPath) as? MenuCollectionViewCell else {
+            return
+        }
+        selectedCell = cell
+        stepper.value = Double(cell.quantity)
     }
 }
 
