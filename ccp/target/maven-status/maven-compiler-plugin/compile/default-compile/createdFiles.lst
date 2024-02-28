@@ -25,6 +25,7 @@ com\swd\ccp\models\response_models\LoginResponse$LoginResponseBuilder.class
 com\swd\ccp\models\entity_models\AccountStatus.class
 com\swd\ccp\models\request_models\CreateBookingCartRequest$MenuItemRequest.class
 com\swd\ccp\models\entity_models\Menu.class
+com\swd\ccp\models\response_models\BookingHistoryResponse$BookingResponse$BookingResponseBuilder.class
 com\swd\ccp\models\response_models\CreateBookingResponse$CreateBookingResponseBuilder.class
 com\swd\ccp\models\request_models\CheckMailExistedRequest$CheckMailExistedRequestBuilder.class
 com\swd\ccp\models\request_models\ShopRequest$ShopRequestBuilder.class
@@ -74,6 +75,7 @@ com\swd\ccp\repositories\AreaRepo.class
 com\swd\ccp\models\request_models\UpdateBookingCartRequest$BookingCartShopMenuRequest.class
 com\swd\ccp\repositories\BookingDetailRepo.class
 com\swd\ccp\models\request_models\CreateBookingCartRequest$CreateBookingCartRequestBuilder.class
+com\swd\ccp\models\response_models\BookingHistoryResponse$BookingResponse.class
 com\swd\ccp\models\response_models\CreateShopResponse$CreateShopResponseBuilder.class
 com\swd\ccp\configurations\JWTAuthenticationFilter.class
 com\swd\ccp\models\response_models\UpdateStaffResponse.class
@@ -133,6 +135,7 @@ com\swd\ccp\models\response_models\LogoutResponse.class
 com\swd\ccp\controllers\AuthenticationController.class
 com\swd\ccp\enums\Constant.class
 com\swd\ccp\models\entity_models\Comment$CommentBuilder.class
+com\swd\ccp\services\AreaService.class
 com\swd\ccp\repositories\MenuRepo.class
 com\swd\ccp\models\response_models\ShopResponse.class
 com\swd\ccp\controllers\AccountController.class
@@ -140,6 +143,7 @@ com\swd\ccp\models\entity_models\ShopImage$ShopImageBuilder.class
 com\swd\ccp\models\request_models\CancelBookingRequest.class
 com\swd\ccp\repositories\BookingStatusRepo.class
 com\swd\ccp\models\entity_models\MenuItem$MenuItemBuilder.class
+com\swd\ccp\services_implementors\AreaServiceIpml.class
 com\swd\ccp\models\entity_models\Package.class
 com\swd\ccp\models\entity_models\Area.class
 com\swd\ccp\models\entity_models\Token.class
@@ -152,9 +156,11 @@ com\swd\ccp\repositories\CustomerRepo.class
 com\swd\ccp\models\response_models\MenuItemResponse.class
 com\swd\ccp\models\response_models\CheckMailExistedResponse.class
 com\swd\ccp\models\response_models\CreateStaffResponse$CreateStaffResponseBuilder.class
+com\swd\ccp\models\response_models\BookingHistoryResponse$BookingHistoryResponseBuilder.class
 com\swd\ccp\models\entity_models\PackageStatus$PackageStatusBuilder.class
 com\swd\ccp\models\response_models\CancelBookingResponse$CancelBookingResponseBuilder.class
 com\swd\ccp\models\request_models\CancelBookingRequest$CancelBookingRequestBuilder.class
+com\swd\ccp\models\response_models\AreaListResponse$AreaListResponseBuilder.class
 com\swd\ccp\models\request_models\SortRequest$SortRequestBuilder.class
 com\swd\ccp\models\request_models\UpdateBookingCartRequest$BookingCartShopRequest$BookingCartShopRequestBuilder.class
 com\swd\ccp\repositories\MenuItemStatusRepo.class
@@ -163,6 +169,7 @@ com\swd\ccp\enums\Role.class
 com\swd\ccp\models\response_models\RegisterResponse$RegisterResponseBuilder.class
 com\swd\ccp\models\entity_models\FollowerCustomer$FollowerCustomerBuilder.class
 com\swd\ccp\models\response_models\LogoutResponse$LogoutResponseBuilder.class
+com\swd\ccp\models\response_models\AreaListResponse.class
 com\swd\ccp\models\response_models\UpdateShopResponse.class
 com\swd\ccp\models\response_models\AccountResponse$AccountResponseBuilder.class
 com\swd\ccp\models\response_models\AreaResponse.class
@@ -177,6 +184,7 @@ com\swd\ccp\models\entity_models\MenuItem.class
 com\swd\ccp\models\response_models\AccountResponse.class
 com\swd\ccp\services\BookingService.class
 com\swd\ccp\controllers\StaffController.class
+com\swd\ccp\controllers\AreaController.class
 com\swd\ccp\models\entity_models\SeatStatus.class
 com\swd\ccp\models\request_models\CreateBookingRequest$BookingShopMenuRequest$BookingShopMenuRequestBuilder.class
 com\swd\ccp\models\response_models\BookingCartResponse$BookingCartResponseBuilder.class
