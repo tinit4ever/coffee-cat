@@ -99,7 +99,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.viewModel.shop?.shopImageList = ["1", "2", "3", "4"]
         
         self.viewModel.setAreasParam(shopId: self.viewModel.shop?.id ?? 0, date: "")
-        print(self.viewModel.areaList as Any)
+        
         loadData()
     }
     
@@ -318,7 +318,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     @objc
     private func viewCatListButtonTapped() {
         let catListViewController = CatListViewController()
-//        catListViewController.areaList = self.viewModel.shop?.areaList ?? []
+        catListViewController.areaList = self.viewModel.areaList ?? []
         let navigationController = UINavigationController(rootViewController: catListViewController)
         self.present(navigationController, animated: true, completion: nil)
     }
