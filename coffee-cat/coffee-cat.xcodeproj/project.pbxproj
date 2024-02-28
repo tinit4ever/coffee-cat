@@ -48,6 +48,8 @@
 		A07ED87C2B65453000EA4E19 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8702B65453000EA4E19 /* UINavigationController+Extension.swift */; };
 		A07ED87D2B65453000EA4E19 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8712B65453000EA4E19 /* UIScreen+Extension.swift */; };
 		A07ED87E2B65453000EA4E19 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8722B65453000EA4E19 /* UITextField+Extension.swift */; };
+		A0A9ED2F2B8ED3EA00CE1177 /* OrderFoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9ED2E2B8ED3EA00CE1177 /* OrderFoodViewController.swift */; };
+		A0A9ED312B8ED3FB00CE1177 /* CatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9ED302B8ED3FB00CE1177 /* CatListViewController.swift */; };
 		A0B7A8402B89B47B0059DD40 /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B7A83F2B89B47B0059DD40 /* SeatCollectionViewCell.swift */; };
 		A0BE75D32B6A323400DE6909 /* CreatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75D22B6A323400DE6909 /* CreatePasswordViewController.swift */; };
 		A0BE75D52B6A333E00DE6909 /* authentication.json in Resources */ = {isa = PBXBuildFile; fileRef = A0BE75D42B6A333E00DE6909 /* authentication.json */; };
@@ -105,6 +107,8 @@
 		A07ED8702B65453000EA4E19 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		A07ED8712B65453000EA4E19 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		A07ED8722B65453000EA4E19 /* UITextField+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		A0A9ED2E2B8ED3EA00CE1177 /* OrderFoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFoodViewController.swift; sourceTree = "<group>"; };
+		A0A9ED302B8ED3FB00CE1177 /* CatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatListViewController.swift; sourceTree = "<group>"; };
 		A0B7A83F2B89B47B0059DD40 /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0BE75D22B6A323400DE6909 /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
 		A0BE75D42B6A333E00DE6909 /* authentication.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = authentication.json; sourceTree = "<group>"; };
@@ -267,11 +271,22 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		A0A9ED2D2B8ED3B300CE1177 /* ShopDetails */ = {
+			isa = PBXGroup;
+			children = (
+				A0DBF5B22B8334470072E139 /* ShopDetailsViewController.swift */,
+				A0799CFA2B8AB6D200D1C318 /* SelectTableViewController.swift */,
+				A0A9ED2E2B8ED3EA00CE1177 /* OrderFoodViewController.swift */,
+				A0A9ED302B8ED3FB00CE1177 /* CatListViewController.swift */,
+			);
+			path = ShopDetails;
+			sourceTree = "<group>";
+		};
 		A0BE75D72B6A513E00DE6909 /* MainTabBar */ = {
 			isa = PBXGroup;
 			children = (
-				A0BE75D82B6A517300DE6909 /* MainTabBarViewController.swift */,
 				A0CA272B2B6B98B900E3D640 /* Home */,
+				A0BE75D82B6A517300DE6909 /* MainTabBarViewController.swift */,
 				A0BE75DA2B6A537700DE6909 /* BookingViewController.swift */,
 				A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */,
 				A03F56D22B6B1ADF00B3E35B /* PaymentViewController.swift */,
@@ -283,10 +298,9 @@
 		A0CA272B2B6B98B900E3D640 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				A0A9ED2D2B8ED3B300CE1177 /* ShopDetails */,
 				A05BE7062B69E8FB0030000D /* HomeViewController.swift */,
 				A0CA272C2B6B99C300E3D640 /* ProfileViewController.swift */,
-				A0DBF5B22B8334470072E139 /* ShopDetailsViewController.swift */,
-				A0799CFA2B8AB6D200D1C318 /* SelectTableViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -449,6 +463,7 @@
 				A0799CFB2B8AB6D200D1C318 /* SelectTableViewController.swift in Sources */,
 				A07ED8602B6544D300EA4E19 /* UserProfileInputViewController.swift in Sources */,
 				A03F56D52B6B1C2300B3E35B /* StoreViewController.swift in Sources */,
+				A0A9ED312B8ED3FB00CE1177 /* CatListViewController.swift in Sources */,
 				A073C5FD2B7ED860002263DB /* String+Extension.swift in Sources */,
 				A07ED87A2B65453000EA4E19 /* UIView+Extension.swift in Sources */,
 				A05A7DC42B83155D00DCEAF6 /* StarRatingView.swift in Sources */,
@@ -481,6 +496,7 @@
 				A0BE75D32B6A323400DE6909 /* CreatePasswordViewController.swift in Sources */,
 				A05C506F2B6737A400A42F33 /* UIFont+Extension.swift in Sources */,
 				A01A603F2B8DC21C00E3F372 /* ProfileViewModel.swift in Sources */,
+				A0A9ED2F2B8ED3EA00CE1177 /* OrderFoodViewController.swift in Sources */,
 				A03F56D72B6B227500B3E35B /* UITabBar+Extension.swift in Sources */,
 				A0CBF4FB2B8CDE5F008CFAD3 /* NameConstants.swift in Sources */,
 				A0BE75DB2B6A537700DE6909 /* BookingViewController.swift in Sources */,

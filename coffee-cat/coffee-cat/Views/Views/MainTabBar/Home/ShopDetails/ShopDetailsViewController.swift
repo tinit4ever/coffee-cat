@@ -32,9 +32,11 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     lazy var openTimeLabel = makeLabel()
     lazy var closeTimeLabel = makeLabel()
     
-    lazy var orderTableButton = makeButton()
-    
+    lazy var bookingOptionStack = makeHorizontalStackView()
+    lazy var chooseTableButton = makeButton()
     lazy var orderFoodButton = makeButton()
+    
+    lazy var viewCatListButton = makeButton()
     
     lazy var bookingButton: UIButton = makeButton()
     
@@ -71,12 +73,17 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     private func setupData() {
-        self.orderTableButton.cornerRadius(cornerRadius: sizeScaler(22))
-        self.orderTableButton.backgroundColor = .customPink
+        self.chooseTableButton.cornerRadius(cornerRadius: sizeScaler(15))
+        self.chooseTableButton.backgroundColor = .customPink
+        self.chooseTableButton.setTitle(title: "Choose Table", fontName: FontNames.avenir, size: sizeScaler(24), color: .customBlack)
+        
         self.orderFoodButton.setTitle(title: "Order Food", fontName: FontNames.avenir, size: sizeScaler(24), color: .customBlack)
-        self.orderFoodButton.cornerRadius(cornerRadius: sizeScaler(22))
-        self.orderTableButton.setTitle(title: "Select Table", fontName: FontNames.avenir, size: sizeScaler(24), color: .customBlack)
+        self.orderFoodButton.cornerRadius(cornerRadius: sizeScaler(15))
         self.orderFoodButton.backgroundColor = .customPink
+        
+        self.viewCatListButton.setTitle(title: "Cat List", fontName: FontNames.avenir, size: sizeScaler(30), color: .customBlack)
+        self.viewCatListButton.cornerRadius(cornerRadius: sizeScaler(15))
+        self.viewCatListButton.backgroundColor = .systemBrown
         
         
         self.viewModel.shop.name = "Coffee Shop"
@@ -222,15 +229,17 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         ])
         
         
-        shopInforStackView.addArrangedSubview(orderTableButton)
-        NSLayoutConstraint.activate([
-            orderTableButton.heightAnchor.constraint(equalToConstant: heightScaler(38))
-        ])
+        shopInforStackView.addArrangedSubview(bookingOptionStack)
+        bookingOptionStack.distribution = .fillEqually
+        bookingOptionStack.spacing = widthScaler(60)
+        bookingOptionStack.heightAnchor.constraint(equalToConstant: heightScaler(45)).isActive = true
+        bookingOptionStack.widthAnchor.constraint(equalTo: shopInforStackView.widthAnchor).isActive = true
+        bookingOptionStack.addArrangedSubview(chooseTableButton)
+        bookingOptionStack.addArrangedSubview(orderFoodButton)
         
-        shopInforStackView.addArrangedSubview(orderFoodButton)
-        NSLayoutConstraint.activate([
-            orderFoodButton.heightAnchor.constraint(equalToConstant: heightScaler(38))
-        ])
+        shopInforStackView.addArrangedSubview(viewCatListButton)
+        viewCatListButton.heightAnchor.constraint(equalToConstant: heightScaler(60)).isActive = true
+        viewCatListButton.widthAnchor.constraint(equalTo: shopInforStackView.widthAnchor).isActive = true
     }
     
     private func configBookingButton() {
@@ -250,7 +259,10 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     // MARK: - Setup Action
     private func setupAction() {
         setupSwipeGesture()
-        orderTableButton.addTarget(self, action: #selector(orderTableButtonTapped), for: .touchUpInside)
+        chooseTableButton.addTarget(self, action: #selector(chooseTableButtonTapped), for: .touchUpInside)
+        orderFoodButton.addTarget(self, action: #selector(orderFoodButtonTapped), for: .touchUpInside)
+        viewCatListButton.addTarget(self, action: #selector(viewCatListButtonTapped), for: .touchUpInside)
+        
         bookingButton.addTarget(self, action: #selector(bookingButtonTapped), for: .touchUpInside)
     }
     
@@ -267,7 +279,8 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     // MARK: - Catch Action
-    @objc private func swipeAction(_ gesture: UISwipeGestureRecognizer) {
+    @objc 
+    private func swipeAction(_ gesture: UISwipeGestureRecognizer) {
         if gesture.direction == .left {
             if self.viewModel.index == self.viewModel.shop.shopImageList.count - 1 {
                 return
@@ -285,7 +298,8 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         }
     }
     
-    @objc private func orderTableButtonTapped() {
+    @objc 
+    private func chooseTableButtonTapped() {
         let selectedTableViewController = SelectTableViewController()
         selectedTableViewController.areaList = self.viewModel.shop.areaList ?? []
         let navigationController = UINavigationController(rootViewController: selectedTableViewController)
@@ -293,8 +307,24 @@ class ShopDetailsViewController: UIViewController, UIFactory {
 //        
 //        selectedTableViewController.didSendData = { [weak self] selectedTable in
 //            guard let self = self else { return }
-//            self.orderTableButton.setTitle("Selected \(selectedTable.count) table", for: .normal)
+//            self.chooseTableButton.setTitle("Selected \(selectedTable.count) table", for: .normal)
 //        }
+    }
+    
+    @objc
+    private func orderFoodButtonTapped() {
+        let orderFoodViewController = OrderFoodViewController()
+//        selectedTableViewController.areaList = self.viewModel.shop.areaList ?? []
+        let navigationController = UINavigationController(rootViewController: orderFoodViewController)
+        self.present(navigationController, animated: true, completion: nil)
+    }
+    
+    @objc
+    private func viewCatListButtonTapped() {
+        let catListViewController = CatListViewController()
+//        catListViewController.areaList = self.viewModel.shop.areaList ?? []
+        let navigationController = UINavigationController(rootViewController: catListViewController)
+        self.present(navigationController, animated: true, completion: nil)
     }
     
     @objc private func bookingButtonTapped() {
