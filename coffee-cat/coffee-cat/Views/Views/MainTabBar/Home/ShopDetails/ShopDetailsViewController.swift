@@ -85,7 +85,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.viewCatListButton.cornerRadius(cornerRadius: sizeScaler(15))
         self.viewCatListButton.backgroundColor = .systemBrown
         
-        self.viewModel.shop.commentList = [
+        self.viewModel.shop?.commentList = [
             "Good",
             "Good",
             "Good",
@@ -96,21 +96,21 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         ]
         
         self.viewModel.index = 0
-        self.viewModel.shop.shopImageList = ["1", "2", "3", "4"]
+        self.viewModel.shop?.shopImageList = ["1", "2", "3", "4"]
         loadData()
     }
     
     private func loadData() {
-        self.shopNameLabel.text = self.viewModel.shop.name
-        self.starRatingView.rating = self.viewModel.shop.rating ?? 0
-        self.phoneLabel.text = "Phone: \(self.viewModel.shop.phone ?? "Unknown")"
-        self.shopAddressLabel.text = "Address: \(self.viewModel.shop.address ?? "Unknown")"
-        self.openTimeLabel.text = "Open Time: \(self.viewModel.shop.openTime ?? "Unknown")"
-        self.closeTimeLabel.text = "Close Time: \(self.viewModel.shop.closeTime ?? "Unknown")"
+        self.shopNameLabel.text = self.viewModel.shop?.name
+        self.starRatingView.rating = self.viewModel.shop?.rating ?? 0
+        self.phoneLabel.text = "Phone: \(self.viewModel.shop?.phone ?? "Unknown")"
+        self.shopAddressLabel.text = "Address: \(self.viewModel.shop?.address ?? "Unknown")"
+        self.openTimeLabel.text = "Open Time: \(self.viewModel.shop?.openTime ?? "Unknown")"
+        self.closeTimeLabel.text = "Close Time: \(self.viewModel.shop?.closeTime ?? "Unknown")"
     }
     
     private func configNavigation() {
-        self.navigationItem.title = self.viewModel.shop.name
+        self.navigationItem.title = self.viewModel.shop?.name
         self.navigationController?.isNavigationBarHidden = false
     }
     
@@ -262,7 +262,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     @objc 
     private func swipeAction(_ gesture: UISwipeGestureRecognizer) {
         if gesture.direction == .left {
-            if self.viewModel.index == self.viewModel.shop.shopImageList.count - 1 {
+            if self.viewModel.index == self.viewModel.shop?.shopImageList.count ?? 0 - 1 {
                 return
             }
             self.viewModel.swipeLeft()
@@ -281,7 +281,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     @objc 
     private func chooseTableButtonTapped() {
         let selectedTableViewController = SelectTableViewController()
-        selectedTableViewController.areaList = self.viewModel.areaList
+        selectedTableViewController.areaList = self.viewModel.areaList ?? []
         let navigationController = UINavigationController(rootViewController: selectedTableViewController)
         self.present(navigationController, animated: true, completion: nil)
         
@@ -297,7 +297,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     @objc
     private func orderFoodButtonTapped() {
         let orderFoodViewController = OrderFoodViewController()
-        orderFoodViewController.menuList = self.viewModel.shop.menuItemList ?? []
+        orderFoodViewController.menuList = self.viewModel.shop?.menuItemList ?? []
         let navigationController = UINavigationController(rootViewController: orderFoodViewController)
         self.present(navigationController, animated: true, completion: nil)
         
@@ -309,7 +309,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     @objc
     private func viewCatListButtonTapped() {
         let catListViewController = CatListViewController()
-//        catListViewController.areaList = self.viewModel.shop.areaList ?? []
+//        catListViewController.areaList = self.viewModel.shop?.areaList ?? []
         let navigationController = UINavigationController(rootViewController: catListViewController)
         self.present(navigationController, animated: true, completion: nil)
     }
@@ -322,13 +322,13 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     // MARK: - Utilities
     private func updateImage(index: Int) {
         UIView.transition(with: overallImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-            self.overallImageView.image = UIImage(named: self.viewModel.shop.shopImageList[index])
+            self.overallImageView.image = UIImage(named: self.viewModel.shop?.shopImageList[index] ?? "")
         }, completion: nil)
     }
     
     private func updateIndexLabel() {
-        let totalElements = self.viewModel.shop.shopImageList.count
-        indexLabel.text = "\(self.viewModel.index + 1)/\(totalElements)"
+        let totalElements = self.viewModel.shop?.shopImageList.count
+        indexLabel.text = "\(self.viewModel.index + 1)/\(String(describing: totalElements))"
     }
 }
 
