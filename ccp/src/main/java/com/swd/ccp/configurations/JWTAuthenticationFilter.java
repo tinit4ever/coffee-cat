@@ -50,6 +50,10 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(accountEmail);
             Account account = accountRepo.findByEmail(userDetails.getUsername()).orElse(null);
             assert account != null;
+            if(!account.getStatus().getStatus().equals("active")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
             Token refreshToken = tokenRepo.findByAccount_IdAndStatusAndType(account.getId(), 1, "refresh").orElse(null);
             assert refreshToken != null;
             //check if refresh token is expired to disable it
