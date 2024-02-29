@@ -46,6 +46,12 @@ class ProfileViewController: UIViewController, UIFactory {
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if !UserSessionManager.shared.isLoggedIn() {
+            self.displayLoginRequire()
+        }
+    }
+    
     private func configAppearance() {
         view.backgroundColor = .systemGray5
     }
@@ -231,6 +237,23 @@ class ProfileViewController: UIViewController, UIFactory {
         }
         
         alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func displayLoginRequire() {
+        let alertController = UIAlertController(title: "Not Login", message: "Please login to see your profile", preferredStyle: .alert)
+        
+        let loginAction = UIAlertAction(title: "Login", style: .default) { action in
+            let signInViewController = SignInViewController()
+            self.navigationController?.pushViewController(signInViewController, animated: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { action in
+            self.dismiss(animated: true)
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(loginAction)
         self.present(alertController, animated: true, completion: nil)
     }
 }
