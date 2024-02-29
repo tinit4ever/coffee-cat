@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct BookingResponse: Codable {
+    var message: String?
+    var status: Bool?
+    var bookingDate: String?
+}
+

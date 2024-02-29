@@ -358,7 +358,16 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     @objc private func bookingButtonTapped() {
-        print("Tapped1")
+        self.viewModel.createBookng(booking: self.viewModel.booking, accessToken: UserSessionManager.shared.getAccessToken() ?? "") { result in
+            switch result {
+            case .success(let message):
+                print(message)
+                self.displayArlet(title: "Success", message: "Your booking have been create\nPlease wait for approving")
+            case .failure(let error):
+                print(error.localizedDescription)
+                self.displayArlet(title: "Error", message: "Opps! Check your connnection")
+            }
+        }
     }
     
     // MARK: - Utilities
@@ -386,6 +395,12 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         } else {
             self.bookingButton.isEnabled = false
         }
+    }
+    
+    private func displayArlet(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }
 

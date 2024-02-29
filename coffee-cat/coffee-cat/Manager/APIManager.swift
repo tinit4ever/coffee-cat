@@ -21,6 +21,10 @@ struct APIConstants {
         static let areas = baseURL + "auth/areas"
     }
     
+    struct Booking {
+        static let create = baseURL + "booking/create"
+    }
+    
     static let logout = baseURL + "account/logout"
 }
 
@@ -150,6 +154,31 @@ class APIManager {
                 do {
                     let authenticationResponse = try JSONDecoder().decode(AuthenticationResponse.self, from: data)
                     completion(.success(authenticationResponse))
+                } catch let error {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func createBooking(booking: Booking, accessToken: String, completion: @escaping (Result<String, Error>) -> Void) {
+        let url = APIConstants.Booking.create
+        
+        let parameters = booking
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .post, parameters: parameters, encoder: JSONParameterEncoder.default, headers: headers).responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let authenticationResponse = try JSONDecoder().decode(AuthenticationResponse.self, from: data)
+                    completion(.success(authenticationResponse.message ?? ""))
                 } catch let error {
                     completion(.failure(error))
                 }
