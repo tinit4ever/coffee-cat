@@ -16,6 +16,7 @@ struct APIConstants {
     
     struct Auth {
         static let login = baseURL + "auth/login"
+        static let checkEmail = baseURL + "auth/check-email"
         static let register = baseURL + "auth/register"
         static let listShop = baseURL + "auth/list-shop"
         static let search = baseURL + "auth/search"
@@ -103,6 +104,24 @@ class APIManager {
                 return error as Error
             }
             .eraseToAnyPublisher()
+    }
+    
+    func checkEmailExisted(email: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        let url = APIConstants.Auth.checkEmail
+        let parameters = ["email": email]
+        AF.request(url, method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let authenticationResponse = try JSONDecoder().decode(AuthenticationResponse.self, from: data)
+                    completion(.success(authenticationResponse.status ?? false))
+                } catch let error {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
     
     func signUp(userRegistration: UserRegistration, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
