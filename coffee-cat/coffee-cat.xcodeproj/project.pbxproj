@@ -56,6 +56,7 @@
 		A0A9ED352B8ED94C00CE1177 /* MenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9ED342B8ED94C00CE1177 /* MenuCollectionViewCell.swift */; };
 		A0A9ED382B8EED1300CE1177 /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9ED372B8EED1300CE1177 /* Booking.swift */; };
 		A0A9ED3A2B8F3B7E00CE1177 /* Area.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9ED392B8F3B7E00CE1177 /* Area.swift */; };
+		A0B47DFF2B9086150031F7EB /* TransitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B47DFE2B9086150031F7EB /* TransitionViewController.swift */; };
 		A0B7A8402B89B47B0059DD40 /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B7A83F2B89B47B0059DD40 /* SeatCollectionViewCell.swift */; };
 		A0BE75D32B6A323400DE6909 /* CreatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75D22B6A323400DE6909 /* CreatePasswordViewController.swift */; };
 		A0BE75D52B6A333E00DE6909 /* authentication.json in Resources */ = {isa = PBXBuildFile; fileRef = A0BE75D42B6A333E00DE6909 /* authentication.json */; };
@@ -122,6 +123,7 @@
 		A0A9ED342B8ED94C00CE1177 /* MenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0A9ED372B8EED1300CE1177 /* Booking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
 		A0A9ED392B8F3B7E00CE1177 /* Area.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Area.swift; sourceTree = "<group>"; };
+		A0B47DFE2B9086150031F7EB /* TransitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionViewController.swift; sourceTree = "<group>"; };
 		A0B7A83F2B89B47B0059DD40 /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0BE75D22B6A323400DE6909 /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
 		A0BE75D42B6A333E00DE6909 /* authentication.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = authentication.json; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 			children = (
 				A0CA272B2B6B98B900E3D640 /* Home */,
 				A0A9ED362B8ED9A100CE1177 /* Process */,
+				A0B47DFE2B9086150031F7EB /* TransitionViewController.swift */,
 			);
 			path = MainTabBar;
 			sourceTree = "<group>";
@@ -518,6 +521,7 @@
 				A07ED85D2B6544D300EA4E19 /* SignUpViewController.swift in Sources */,
 				A073C5F52B7ED534002263DB /* AuthenticationModel.swift in Sources */,
 				A07ED87D2B65453000EA4E19 /* UIScreen+Extension.swift in Sources */,
+				A0B47DFF2B9086150031F7EB /* TransitionViewController.swift in Sources */,
 				A0CA9E782B8E0755006B75AC /* AreaTableViewCell.swift in Sources */,
 				A0A9ED382B8EED1300CE1177 /* Booking.swift in Sources */,
 				A0CCF3A82B9052FF00D5014E /* BookingResponse.swift in Sources */,

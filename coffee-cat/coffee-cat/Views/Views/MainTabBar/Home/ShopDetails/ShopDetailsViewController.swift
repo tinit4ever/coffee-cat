@@ -313,7 +313,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
                     self?.addChoosen(seatID: seat.id ?? 1, date: date)
                 }
             } else {
-                self?.removeOrdere()
+                self?.removeChoosen()
             }
         }
     }
