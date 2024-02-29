@@ -99,7 +99,6 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.viewModel.shop?.shopImageList = ["1", "2", "3", "4"]
         
         self.viewModel.setAreasParam(shopId: self.viewModel.shop?.id ?? 0, date: "")
-        
         loadData()
     }
     
@@ -285,7 +284,10 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     private func chooseTableButtonTapped() {
         let selectedTableViewController = SelectTableViewController()
         var viewModel: SelectTableViewModelProtocol = SelectTableViewModel()
-        let currentDay: String = self.getStringDateFormatter(date: .now)
+        let currentDay: String = self.getStringDateFormatter(date: Date())
+        if let shopId = self.viewModel.shop?.id {
+            viewModel.shopId = shopId
+        }
         viewModel.date = currentDay
         viewModel.areaList = self.viewModel.areaList
         selectedTableViewController.viewModel = viewModel

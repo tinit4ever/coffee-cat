@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Combine
 
 class SelectTableViewController: UIViewController, UIFactory {
     let heightScaler = UIScreen.scalableHeight
@@ -19,6 +20,8 @@ class SelectTableViewController: UIViewController, UIFactory {
 //    var submitSeat: Seat?
     
     var viewModel: SelectTableViewModelProtocol = SelectTableViewModel()
+    
+    private var cancellables: Set<AnyCancellable> = []
     
     // MARK: - Create UIComponents
     lazy var datePicker = makeDatePicker()
@@ -194,9 +197,13 @@ class SelectTableViewController: UIViewController, UIFactory {
     @objc
     private func dateChange(_ datePicker: UIDatePicker) {
         print(datePicker.date)
-        DispatchQueue.main.async {
-            self.datePicker.endEditing(true)
-        }
+        self.viewModel.setAreasParam(shopId: self.viewModel.shopId, date: self.getStringDateFormatter(date: datePicker.date))
+        self.viewModel.dataUpdatedPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.areaTableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
     
     @objc
@@ -230,7 +237,7 @@ extension SelectTableViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
 //        self.areaList.count
-        self.viewModel.areaList?.count ?? 0
+        return self.viewModel.areaList?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -243,8 +250,16 @@ extension SelectTableViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        if let seatList = self.viewModel.areaList?[indexPath.section].seatList {
-            cell.configure(seatList: seatList)
+//        if let seatList = self.viewModel.areaList?[indexPath.section].seatList {
+//            cell.configure(seatList: seatList)
+//        }
+        
+        if let areaList = self.viewModel.areaList, indexPath.section < areaList.count {
+            if let seatList = areaList[indexPath.section].seatList {
+                cell.configure(seatList: seatList)
+            }
+        } else {
+            print("Invalid section index: \(indexPath.section)")
         }
         
         cell.didSelectSeat = { [weak self] selectedSeat, availableToSubmit in
