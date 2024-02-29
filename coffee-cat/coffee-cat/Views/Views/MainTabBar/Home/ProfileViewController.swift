@@ -244,8 +244,13 @@ class ProfileViewController: UIViewController, UIFactory {
         let alertController = UIAlertController(title: "Not Login", message: "Please login to see your profile", preferredStyle: .alert)
         
         let loginAction = UIAlertAction(title: "Login", style: .default) { action in
-            let signInViewController = SignInViewController()
-            self.navigationController?.pushViewController(signInViewController, animated: true)
+            let homeViewController = TransitionViewController()
+            let navigationController = UINavigationController(rootViewController: homeViewController)
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                let window = windowScene.windows.first
+                window?.rootViewController = navigationController
+                window?.makeKeyAndVisible()
+            }
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { action in
