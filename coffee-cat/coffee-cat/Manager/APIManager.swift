@@ -86,14 +86,9 @@ class APIManager {
             return Fail(error: APIError.badUrl).eraseToAnyPublisher()
         }
         
-//        let parameters: [String: Any] = [
-//            "date": date,
-//            "shopId": shopId
-//        ]
-        
         let parameters: [String: Any] = [
-            "date": "2024-11-11",
-            "shopId": 1
+            "date": date,
+            "shopId": shopId
         ]
         
         return AF.request(url, method: .get, parameters: parameters)
