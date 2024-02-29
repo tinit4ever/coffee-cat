@@ -16,6 +16,17 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     
     var viewModel: ShopDetailsViewModelProtocol = ShopDetailsViewModel()
     
+    var isChoosenTable: Bool = false {
+        didSet {
+            self.observeBookingButtonStatus()
+        }
+    }
+    var isOrderedFood: Bool = false {
+        didSet {
+            self.observeBookingButtonStatus()
+        }
+    }
+    
     // MARK: - Create UIComponents
     lazy var overallImageView = makeImageView()
     lazy var indexLabel = makeLabel()
@@ -225,6 +236,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     private func configBookingButton() {
+        bookingButton.isEnabled = false
         bookingButton.cornerRadius(cornerRadius: heightScaler(30))
         bookingButton.setTitle(title: "Book", fontName: FontNames.avenir, size: sizeScaler(40), color: .systemGray5)
         bookingButton.backgroundColor = .customPink
@@ -302,10 +314,15 @@ class ShopDetailsViewController: UIViewController, UIFactory {
                     self?.chooseTableButton.backgroundColor = .systemBrown
                     self?.viewModel.booking.seatID = seat.id ?? 1
                     self?.viewModel.booking.bookingDate = date
+                    self?.viewModel.booking.extraContant = ""
+                    self?.isChoosenTable = true
                 }
             } else {
                 self?.chooseTableButton.setTitle("Choose Table", for: .normal)
                 self?.chooseTableButton.backgroundColor = .customPink
+                self?.isChoosenTable = false
+                self?.viewModel.booking.seatID = nil
+                self?.viewModel.booking.bookingDate = nil
             }
         }
     }
@@ -321,8 +338,13 @@ class ShopDetailsViewController: UIViewController, UIFactory {
             if menuBookingList != nil {
                 self?.orderFoodButton.setTitle("Ordered Food", for: .normal)
                 self?.orderFoodButton.backgroundColor = .systemBrown
+                self?.isOrderedFood = true
+                self?.viewModel.booking.bookingShopMenuRequestList = menuBookingList
             } else {
                 self?.orderFoodButton.setTitle("Order Food", for: .normal)
+                self?.orderFoodButton.backgroundColor = .customPink
+                self?.isOrderedFood = false
+                self?.viewModel.booking.bookingShopMenuRequestList = nil
             }
         }
     }
@@ -355,6 +377,15 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormat.dateFormatterToStore
         return dateFormatter.string(from: date)
+    }
+    
+    func observeBookingButtonStatus() {
+        if self.isOrderedFood == true &&
+            self.isChoosenTable == true {
+            self.bookingButton.isEnabled = true
+        } else {
+            self.bookingButton.isEnabled = false
+        }
     }
 }
 
