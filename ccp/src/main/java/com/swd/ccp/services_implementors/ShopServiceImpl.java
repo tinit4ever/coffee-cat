@@ -26,20 +26,16 @@ import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
 public class ShopServiceImpl implements ShopService {
     private final ShopStatusRepo shopStatusRepo;
     private final ShopRepo shopRepo;
-    private final CatStatusRepo catStatusRepo;
-    private final AccountService accountService;
+
     private final SeatRepo seatRepo;
     private final SeatStatusRepo seatStatusRepo;
     private final ShopImageRepo shopImageRepo;
-    private final CatRepo catRepo;
     private final MenuItemRepo menuItemRepo;
     private final MenuItemStatusRepo menuItemStatusRepo;
     private final MenuRepo menuRepo;
-    private final AreaStatusRepo areaStatusRepo;
-    private final AreaRepo areaRepo;
+
     private static final String ACTIVE = "opened";
-    private static final String SeatActive = "available";
-    private static final String CATACTIVE = "active";
+
 
     @Override
     public ShopListResponse getActiveShops(SortRequest sortRequest) {
@@ -68,14 +64,15 @@ public class ShopServiceImpl implements ShopService {
         for (Menu menu : menus) {
             List<MenuItem> menuItems = menuItemRepo.findByMenu(menu);
             for (MenuItem menuItem : menuItems) {
-                // Lấy giá trị MenuItemStatus từ Optional
                 MenuItemStatus activeMenuItemStatus = menuItemStatusRepo.findByStatus("available").orElse(null);
-                // Kiểm tra nếu MenuItemStatus không null và bằng với MenuItemStatus của MenuItem
+
                 if (activeMenuItemStatus != null && menuItem.getMenuItemStatus().equals(activeMenuItemStatus)) {
                     MenuItemResponse menuItemResponse = new MenuItemResponse();
                     menuItemResponse.setId(menuItem.getId());
                     menuItemResponse.setName(menuItem.getName());
-                    menuItemResponse.setPrice(menuItem.getPrice());
+                    menuItemResponse.setImgLink(menuItem.getImgLink());
+                    menuItemResponse.setDescription(menuItem.getDescription());
+                    menuItemResponse.setPrice((int) menuItem.getPrice());
                     menuItemResponse.setSoldQuantity(menuItem.getSoldQuantity());
                     menuItemResponses.add(menuItemResponse);
                 }
