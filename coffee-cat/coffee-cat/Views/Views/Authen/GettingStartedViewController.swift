@@ -81,25 +81,25 @@ class GettingStartedViewController: UIViewController, UIFactory {
         if traitCollection.userInterfaceStyle == .dark {
             let image = UIImage(named: ImageNames.darkCircleGroup)
             image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
-
+            
             let imageView = UIImageView(image: resizedImage)
             imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             view.addSubview(imageView)
-
+            
         } else {
             let image = UIImage(named: ImageNames.darkCircleGroup)
             image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             let resizedImage = image?.resized(to: CGSize(width: widthScaler(700), height: heightScaler(200)))
-
+            
             let imageView = UIImageView(image: resizedImage)
             imageView.image?.accessibilityIdentifier = ImageNames.darkCircleGroup
-
+            
             view.addSubview(imageView)
-
+            
         }
     }
     
