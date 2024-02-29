@@ -12,7 +12,7 @@ protocol ShopDetailsViewModelProtocol {
     var index: Int { get set }
     var shop: Shop? {get set}
     var areaList: [Area]? {get set}
-    var booking: Booking? {get set}
+    var booking: Booking {get set}
     func setAreasParam(shopId: Int, date: String)
     
     func swipeLeft()
@@ -23,13 +23,14 @@ class ShopDetailsViewModel: ShopDetailsViewModelProtocol {
     var index: Int
     var shop: Shop?
     var areaList: [Area]?
-    var booking: Booking?
+    var booking: Booking
     
     private var cancellables: Set<AnyCancellable> = []
     private var getAreasSubject = CurrentValueSubject<(Int, String), Never>((0, ""))
     
     init() {
         self.index = 0
+        self.booking = Booking(seatID: nil, bookingDate: nil, extraContant: nil, bookingShopMenuRequestList: nil)
         setupAreasPublisher()
     }
     
@@ -58,21 +59,6 @@ class ShopDetailsViewModel: ShopDetailsViewModelProtocol {
     }
     
     func getAreas(shopId: Int, date: String) {
-        
-        let c1 = Cat(id: 1, type: "1", description: "1", imgLink: "")
-        let c2 = Cat(id: 2, type: "2", description: "2", imgLink: "")
-        let c3 = Cat(id: 3, type: "3", description: "3", imgLink: "")
-        let c4 = Cat(id: 4, type: "4", description: "4", imgLink: "")
-        let c5 = Cat(id: 5, type: "5", description: "5", imgLink: "")
-        let c6 = Cat(id: 6, type: "6", description: "6", imgLink: "")
-        let c7 = Cat(id: 7, type: "7", description: "7", imgLink: "")
-        let c8 = Cat(id: 8, type: "8", description: "8", imgLink: "")
-        let c9 = Cat(id: 9, type: "9", description: "9", imgLink: "")
-        
-        let a1 = Area(name: "F1", catList: [c1, c2, c3], seatList: [])
-        let a2 = Area(name: "F2", catList: [c4, c5, c6], seatList: [])
-        let a3 = Area(name: "F3", catList: [c7, c8, c9], seatList: [])
-        
         APIManager.shared.getAreaListByShopId(shopId: shopId, date: date)
             .sink { completion in
                 switch completion {
@@ -84,7 +70,6 @@ class ShopDetailsViewModel: ShopDetailsViewModelProtocol {
             } receiveValue: { [weak self] areaList in
                 self?.areaList = areaList.areaResponseList
                 print(areaList)
-                self?.areaList = [a1, a2, a3]
             }
             .store(in: &cancellables)
     }

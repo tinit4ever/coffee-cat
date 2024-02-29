@@ -8,10 +8,10 @@
 import Foundation
 
 struct Booking: Codable {
-    var seatID: Int
-    var bookingDate: String
-    var extraContant: String
-    var bookingShopMenuRequestList: [MenuBooking]
+    var seatID: Int?
+    var bookingDate: String?
+    var extraContant: String?
+    var bookingShopMenuRequestList: [MenuBooking]?
 }
 
 struct MenuBooking: Codable {
