@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A0047F472B8F58400068B1A1 /* AreaCatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0047F462B8F58400068B1A1 /* AreaCatTableViewCell.swift */; };
+		A0047F492B8F59A50068B1A1 /* CatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0047F482B8F59A50068B1A1 /* CatCollectionViewCell.swift */; };
 		A01A603F2B8DC21C00E3F372 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A603E2B8DC21C00E3F372 /* ProfileViewModel.swift */; };
 		A01A60422B8DC39000E3F372 /* UserSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01A60412B8DC39000E3F372 /* UserSessionManager.swift */; };
 		A03833612B83A57400EBF5D8 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03833602B83A57400EBF5D8 /* Shop.swift */; };
@@ -53,6 +55,7 @@
 		A0A9ED312B8ED3FB00CE1177 /* CatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9ED302B8ED3FB00CE1177 /* CatListViewController.swift */; };
 		A0A9ED352B8ED94C00CE1177 /* MenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9ED342B8ED94C00CE1177 /* MenuCollectionViewCell.swift */; };
 		A0A9ED382B8EED1300CE1177 /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9ED372B8EED1300CE1177 /* Booking.swift */; };
+		A0A9ED3A2B8F3B7E00CE1177 /* Area.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9ED392B8F3B7E00CE1177 /* Area.swift */; };
 		A0B7A8402B89B47B0059DD40 /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B7A83F2B89B47B0059DD40 /* SeatCollectionViewCell.swift */; };
 		A0BE75D32B6A323400DE6909 /* CreatePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75D22B6A323400DE6909 /* CreatePasswordViewController.swift */; };
 		A0BE75D52B6A333E00DE6909 /* authentication.json in Resources */ = {isa = PBXBuildFile; fileRef = A0BE75D42B6A333E00DE6909 /* authentication.json */; };
@@ -72,6 +75,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A0047F462B8F58400068B1A1 /* AreaCatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaCatTableViewCell.swift; sourceTree = "<group>"; };
+		A0047F482B8F59A50068B1A1 /* CatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A01A603E2B8DC21C00E3F372 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		A01A60412B8DC39000E3F372 /* UserSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionManager.swift; sourceTree = "<group>"; };
 		A03833602B83A57400EBF5D8 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
@@ -115,6 +120,7 @@
 		A0A9ED302B8ED3FB00CE1177 /* CatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatListViewController.swift; sourceTree = "<group>"; };
 		A0A9ED342B8ED94C00CE1177 /* MenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0A9ED372B8EED1300CE1177 /* Booking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
+		A0A9ED392B8F3B7E00CE1177 /* Area.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Area.swift; sourceTree = "<group>"; };
 		A0B7A83F2B89B47B0059DD40 /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0BE75D22B6A323400DE6909 /* CreatePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePasswordViewController.swift; sourceTree = "<group>"; };
 		A0BE75D42B6A333E00DE6909 /* authentication.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = authentication.json; sourceTree = "<group>"; };
@@ -197,6 +203,7 @@
 				A073C5F42B7ED534002263DB /* AuthenticationModel.swift */,
 				A03833602B83A57400EBF5D8 /* Shop.swift */,
 				A0A9ED372B8EED1300CE1177 /* Booking.swift */,
+				A0A9ED392B8F3B7E00CE1177 /* Area.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -294,6 +301,8 @@
 				A0B7A83F2B89B47B0059DD40 /* SeatCollectionViewCell.swift */,
 				A0CA9E772B8E0755006B75AC /* AreaTableViewCell.swift */,
 				A0A9ED342B8ED94C00CE1177 /* MenuCollectionViewCell.swift */,
+				A0047F462B8F58400068B1A1 /* AreaCatTableViewCell.swift */,
+				A0047F482B8F59A50068B1A1 /* CatCollectionViewCell.swift */,
 			);
 			path = ShopDetails;
 			sourceTree = "<group>";
@@ -515,11 +524,14 @@
 				A0BE75D92B6A517300DE6909 /* MainTabBarViewController.swift in Sources */,
 				A07ED8752B65453000EA4E19 /* UIFactory.swift in Sources */,
 				A07ED85F2B6544D300EA4E19 /* VCPreview.swift in Sources */,
+				A0047F492B8F59A50068B1A1 /* CatCollectionViewCell.swift in Sources */,
 				A0DBF5B72B834C2B0072E139 /* ShopDetailsViewModel.swift in Sources */,
+				A0A9ED3A2B8F3B7E00CE1177 /* Area.swift in Sources */,
 				A03833632B83B18200EBF5D8 /* HomeViewModel.swift in Sources */,
 				A07ED85E2B6544D300EA4E19 /* GettingStartedViewController.swift in Sources */,
 				A03833612B83A57400EBF5D8 /* Shop.swift in Sources */,
 				A07ED8732B65453000EA4E19 /* GettingStartedViewModel.swift in Sources */,
+				A0047F472B8F58400068B1A1 /* AreaCatTableViewCell.swift in Sources */,
 				A07ED87B2B65453000EA4E19 /* UIImage+Extension.swift in Sources */,
 				A0BE75DD2B6A53A000DE6909 /* VoucherViewController.swift in Sources */,
 				A0B7A8402B89B47B0059DD40 /* SeatCollectionViewCell.swift in Sources */,

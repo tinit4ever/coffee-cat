@@ -18,6 +18,7 @@ struct APIConstants {
         static let register = baseURL + "auth/register"
         static let listShop = baseURL + "auth/list-shop"
         static let search = baseURL + "auth/search"
+        static let areas = baseURL + "auth/areas"
     }
     
     static let logout = baseURL + "account/logout"
@@ -75,6 +76,30 @@ class APIManager {
             .publishDecodable(type: ShopList.self)
             .value()
             .mapError{ error in
+                return error as Error
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func getAreaListByShopId(shopId: Int, date: String) -> AnyPublisher<AreaList, Error> {
+        guard let url = URL(string: APIConstants.Auth.areas) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+//        let parameters: [String: Any] = [
+//            "date": date,
+//            "shopId": shopId
+//        ]
+        
+        let parameters: [String: Any] = [
+            "date": "2024-11-11",
+            "shopId": 1
+        ]
+        
+        return AF.request(url, method: .get, parameters: parameters)
+            .publishDecodable(type: AreaList.self)
+            .value()
+            .mapError { error in
                 return error as Error
             }
             .eraseToAnyPublisher()

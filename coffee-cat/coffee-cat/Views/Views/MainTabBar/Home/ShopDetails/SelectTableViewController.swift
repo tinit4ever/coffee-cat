@@ -206,7 +206,7 @@ class SelectTableViewController: UIViewController, UIFactory {
     
     // MARK: - Utitlities
     private func displayErrorAlert() {
-        let alertController = UIAlertController(title: "Error", message: "Please choose table to submit\n You can close without submit to click close", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Error", message: "Please choose table to submit\nYou can close without submit by click close button", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
         self.present(alertController, animated: true, completion: nil)

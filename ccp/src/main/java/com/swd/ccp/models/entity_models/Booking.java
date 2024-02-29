@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.sql.Date;
 import java.util.List;
@@ -22,10 +23,11 @@ public class Booking {
     private Integer id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "seat_id")
     private Seat seat;
 

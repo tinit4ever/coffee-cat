@@ -25,6 +25,5 @@ public class ShopResponseGuest {
     private String phone;
     private String openTime;
     private String closeTime;
-    private List<AreaResponse> areaList;
-    private List<MenuResponse> menuList;
+    private List<MenuItemResponse> menuItemList;
 }

@@ -85,33 +85,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.viewCatListButton.cornerRadius(cornerRadius: sizeScaler(15))
         self.viewCatListButton.backgroundColor = .systemBrown
         
-        
-        self.viewModel.shop.name = "Coffee Shop"
-        self.viewModel.shop.address = "Pham Van Dong"
-        self.viewModel.shop.phone = "0318249849"
-        self.viewModel.shop.rating = 3.4
-        self.viewModel.shop.openTime = "8 AM"
-        self.viewModel.shop.closeTime = "8 PM"
-        
-        let s1 = Seat(id: 1, name: "Seat 1", status: true)
-        let s2 = Seat(id: 2, name: "Seat 2", status: true)
-        let s3 = Seat(id: 3, name: "Seat 3", status: false)
-        let s4 = Seat(id: 4, name: "Seat 4", status: false)
-        let s5 = Seat(id: 5, name: "Seat 5", status: false)
-        let s6 = Seat(id: 6, name: "Seat 6", status: false)
-        let s7 = Seat(id: 7, name: "Seat 7", status: true)
-        let s8 = Seat(id: 8, name: "Seat 8", status: true)
-        
-        let a1 = Area(name: "Floor 1", seatList: [s1, s2, s3, s4])
-        let a2 = Area(name: "Floor 2", seatList: [s5, s6, s7, s8])
-        self.viewModel.shop.areaList = [a1, a2]
-        
-        let mi1 = MenuItem(id: 1, name: "M1", price: 10000, imgLink: "")
-        let mi2 = MenuItem(id: 2, name: "M2", price: 20000, imgLink: "")
-        let mil = [mi1, mi2]
-        self.viewModel.shop.menuItemList = mil
-        
-        self.viewModel.shop.commentList = [
+        self.viewModel.shop?.commentList = [
             "Good",
             "Good",
             "Good",
@@ -122,21 +96,24 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         ]
         
         self.viewModel.index = 0
-        self.viewModel.shop.shopImageList = ["1", "2", "3", "4"]
+        self.viewModel.shop?.shopImageList = ["1", "2", "3", "4"]
+        
+        self.viewModel.setAreasParam(shopId: self.viewModel.shop?.id ?? 0, date: "")
+        
         loadData()
     }
     
     private func loadData() {
-        self.shopNameLabel.text = self.viewModel.shop.name
-        self.starRatingView.rating = self.viewModel.shop.rating ?? 0
-        self.phoneLabel.text = "Phone: \(self.viewModel.shop.phone ?? "Unknown")"
-        self.shopAddressLabel.text = "Address: \(self.viewModel.shop.address ?? "Unknown")"
-        self.openTimeLabel.text = "Open Time: \(self.viewModel.shop.openTime ?? "Unknown")"
-        self.closeTimeLabel.text = "Close Time: \(self.viewModel.shop.closeTime ?? "Unknown")"
+        self.shopNameLabel.text = self.viewModel.shop?.name
+        self.starRatingView.rating = self.viewModel.shop?.rating ?? 0
+        self.phoneLabel.text = "Phone: \(self.viewModel.shop?.phone ?? "Unknown")"
+        self.shopAddressLabel.text = "Address: \(self.viewModel.shop?.address ?? "Unknown")"
+        self.openTimeLabel.text = "Open Time: \(self.viewModel.shop?.openTime ?? "Unknown")"
+        self.closeTimeLabel.text = "Close Time: \(self.viewModel.shop?.closeTime ?? "Unknown")"
     }
     
     private func configNavigation() {
-        self.navigationItem.title = self.viewModel.shop.name
+        self.navigationItem.title = self.viewModel.shop?.name
         self.navigationController?.isNavigationBarHidden = false
     }
     
@@ -254,7 +231,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         bookingButton.backgroundColor = .customPink
         
         NSLayoutConstraint.activate([
-            bookingButton.topAnchor.constraint(equalTo: shopInforStackView.bottomAnchor, constant: heightScaler(600)),
+            bookingButton.topAnchor.constraint(equalTo: shopInforStackView.bottomAnchor, constant: heightScaler(40)),
             bookingButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: widthScaler(60)),
             bookingButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthScaler(60)),
             bookingButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(60)),
@@ -288,7 +265,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     @objc
     private func swipeAction(_ gesture: UISwipeGestureRecognizer) {
         if gesture.direction == .left {
-            if self.viewModel.index == self.viewModel.shop.shopImageList.count - 1 {
+            if self.viewModel.index == self.viewModel.shop?.shopImageList.count ?? 0 - 1 {
                 return
             }
             self.viewModel.swipeLeft()
@@ -307,15 +284,13 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     @objc
     private func chooseTableButtonTapped() {
         let selectedTableViewController = SelectTableViewController()
-<<<<<<< Updated upstream
-        selectedTableViewController.areaList = self.viewModel.shop.areaList ?? []
+        selectedTableViewController.areaList = self.viewModel.areaList ?? []
         let navigationController = UINavigationController(rootViewController: selectedTableViewController)
         self.present(navigationController, animated: true, completion: nil)
         
         selectedTableViewController.didSelectSeat = { [weak self] selectedSeat in
             if selectedSeat != nil {
                 self?.chooseTableButton.setTitle("Selected Table", for: .normal)
-=======
         var viewModel: SelectTableViewModelProtocol = SelectTableViewModel()
         //        selectedTableViewController.areaList = self.viewModel.areaList ?? []
         let currentDay: String = self.getStringDateFormatter(date: .now)
@@ -334,7 +309,6 @@ class ShopDetailsViewController: UIViewController, UIFactory {
                     self?.viewModel.booking.seatID = seat.id ?? 1
                     self?.viewModel.booking.bookingDate = date
                 }
->>>>>>> Stashed changes
             } else {
                 self?.chooseTableButton.setTitle("Choose Table", for: .normal)
             }
@@ -344,34 +318,41 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     @objc
     private func orderFoodButtonTapped() {
         let orderFoodViewController = OrderFoodViewController()
-//        selectedTableViewController.areaList = self.viewModel.shop.areaList ?? []
-        orderFoodViewController.menuList = self.viewModel.shop.menuItemList ?? []
+        orderFoodViewController.menuList = self.viewModel.shop?.menuItemList ?? []
         let navigationController = UINavigationController(rootViewController: orderFoodViewController)
         self.present(navigationController, animated: true, completion: nil)
+        
+        orderFoodViewController.didSelectFood = { [weak self] menuBookingList in
+            if menuBookingList != nil {
+                self?.orderFoodButton.setTitle("Ordered Food", for: .normal)
+                self?.orderFoodButton.backgroundColor = .systemBrown
+            } else {
+                self?.orderFoodButton.setTitle("Order Food", for: .normal)
+            }
+        }
     }
     
     @objc
     private func viewCatListButtonTapped() {
         let catListViewController = CatListViewController()
-//        catListViewController.areaList = self.viewModel.shop.areaList ?? []
+        catListViewController.areaList = self.viewModel.areaList ?? []
         let navigationController = UINavigationController(rootViewController: catListViewController)
         self.present(navigationController, animated: true, completion: nil)
     }
     
     @objc private func bookingButtonTapped() {
         print("Tapped1")
-        
     }
     
     // MARK: - Utilities
     private func updateImage(index: Int) {
         UIView.transition(with: overallImageView, duration: 0.2, options: .transitionCrossDissolve, animations: {
-            self.overallImageView.image = UIImage(named: self.viewModel.shop.shopImageList[index])
+            self.overallImageView.image = UIImage(named: self.viewModel.shop?.shopImageList[index] ?? "")
         }, completion: nil)
     }
     
     private func updateIndexLabel() {
-        let totalElements = self.viewModel.shop.shopImageList.count
+        let totalElements = self.viewModel.shop?.shopImageList.count ?? 1
         indexLabel.text = "\(self.viewModel.index + 1)/\(totalElements)"
     }
     

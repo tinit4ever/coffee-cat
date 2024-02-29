@@ -6,17 +6,14 @@
 //
 
 import Foundation
+import Combine
 
 protocol ShopDetailsViewModelProtocol {
     var index: Int { get set }
-<<<<<<< Updated upstream
-    var shop: Shop {get set}
-=======
     var shop: Shop? {get set}
     var areaList: [Area]? {get set}
     var booking: Booking {get set}
     func setAreasParam(shopId: Int, date: String)
->>>>>>> Stashed changes
     
     func swipeLeft()
     func swipeRight()
@@ -24,13 +21,6 @@ protocol ShopDetailsViewModelProtocol {
 
 class ShopDetailsViewModel: ShopDetailsViewModelProtocol {
     var index: Int
-<<<<<<< Updated upstream
-    var shop: Shop
-    
-    init() {
-        self.index = 0
-        self.shop = Shop(rating: 0.0, name: "", shopImageList: [], commentList: [])
-=======
     var shop: Shop?
     var areaList: [Area]?
     var booking: Booking
@@ -42,11 +32,10 @@ class ShopDetailsViewModel: ShopDetailsViewModelProtocol {
         self.index = 0
         self.booking = Booking(seatID: nil, bookingDate: nil, extraContant: nil, bookingShopMenuRequestList: nil)
         setupAreasPublisher()
->>>>>>> Stashed changes
     }
     
     func swipeLeft() {
-        if index < shop.shopImageList.count - 1 {
+        if index < (shop?.shopImageList.count ?? 0) - 1 {
             index += 1
         }
     }
@@ -56,8 +45,6 @@ class ShopDetailsViewModel: ShopDetailsViewModelProtocol {
             index -= 1
         }
     }
-<<<<<<< Updated upstream
-=======
     
     func setAreasParam(shopId: Int, date: String) {
         getAreasSubject.send((shopId, date))
@@ -86,5 +73,4 @@ class ShopDetailsViewModel: ShopDetailsViewModelProtocol {
             }
             .store(in: &cancellables)
     }
->>>>>>> Stashed changes
 }
