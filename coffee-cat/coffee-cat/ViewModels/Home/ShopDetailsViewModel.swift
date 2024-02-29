@@ -14,6 +14,7 @@ protocol ShopDetailsViewModelProtocol {
     var areaList: [Area]? {get set}
     var booking: Booking {get set}
     func setAreasParam(shopId: Int, date: String)
+    func createBookng(booking: Booking, accessToken: String, completion: @escaping (Result<String, Error>) -> Void)
     
     func swipeLeft()
     func swipeRight()
@@ -73,4 +74,9 @@ class ShopDetailsViewModel: ShopDetailsViewModelProtocol {
             }
             .store(in: &cancellables)
     }
+    
+    func createBookng(booking: Booking, accessToken: String, completion: @escaping (Result<String, Error>) -> Void) {
+        APIManager.shared.createBooking(booking: booking, accessToken: accessToken, completion: completion)
+    }
+    
 }
