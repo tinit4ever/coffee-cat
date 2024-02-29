@@ -159,13 +159,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A05A7DB52B82CF0400DCEAF6 /* HTTPResponse */ = {
+		A05A7DB52B82CF0400DCEAF6 /* AuthenticationModel */ = {
 			isa = PBXGroup;
 			children = (
+				A073C5F42B7ED534002263DB /* AuthenticationModel.swift */,
 				A05A7DB62B82CF1D00DCEAF6 /* AuthenticationResponse.swift */,
-				A0CCF3A72B9052FF00D5014E /* BookingResponse.swift */,
 			);
-			path = HTTPResponse;
+			path = AuthenticationModel;
 			sourceTree = "<group>";
 		};
 		A05BE7032B69E8BF0030000D /* Authen */ = {
@@ -204,11 +204,9 @@
 		A073C5F32B7ED511002263DB /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				A05A7DB52B82CF0400DCEAF6 /* HTTPResponse */,
-				A073C5F42B7ED534002263DB /* AuthenticationModel.swift */,
-				A03833602B83A57400EBF5D8 /* Shop.swift */,
-				A0A9ED372B8EED1300CE1177 /* Booking.swift */,
-				A0A9ED392B8F3B7E00CE1177 /* Area.swift */,
+				A0CBF0B12B90AAD900BBC2D9 /* Booking */,
+				A0CBF0AF2B90AAB300BBC2D9 /* Shop */,
+				A05A7DB52B82CF0400DCEAF6 /* AuthenticationModel */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -350,6 +348,24 @@
 				A0CA272C2B6B99C300E3D640 /* ProfileViewController.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		A0CBF0AF2B90AAB300BBC2D9 /* Shop */ = {
+			isa = PBXGroup;
+			children = (
+				A0A9ED392B8F3B7E00CE1177 /* Area.swift */,
+				A03833602B83A57400EBF5D8 /* Shop.swift */,
+			);
+			path = Shop;
+			sourceTree = "<group>";
+		};
+		A0CBF0B12B90AAD900BBC2D9 /* Booking */ = {
+			isa = PBXGroup;
+			children = (
+				A0CCF3A72B9052FF00D5014E /* BookingResponse.swift */,
+				A0A9ED372B8EED1300CE1177 /* Booking.swift */,
+			);
+			path = Booking;
 			sourceTree = "<group>";
 		};
 		A0D1D58E2B6B7EBC00CB1ED3 /* Manager */ = {

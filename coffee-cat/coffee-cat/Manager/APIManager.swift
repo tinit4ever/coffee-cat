@@ -10,9 +10,9 @@ import Alamofire
 import Combine
 
 struct APIConstants {
-        static let baseURL = "http://localhost:8080/"
-//    static let baseURL = "http://192.168.1.10:8080/"
-//    static let baseURL = "http://172.20.10.2:8080/"
+    static let baseURL = "http://localhost:8080/"
+    //    static let baseURL = "http://192.168.1.10:8080/"
+    //    static let baseURL = "http://172.20.10.2:8080/"
     
     struct Auth {
         static let login = baseURL + "auth/login"
@@ -25,6 +25,7 @@ struct APIConstants {
     
     struct Booking {
         static let create = baseURL + "booking/create"
+        static let history = baseURL + "customer/history"
     }
     
     static let logout = baseURL + "account/logout"
@@ -206,5 +207,24 @@ class APIManager {
                 completion(.failure(error))
             }
         }
+    }
+    
+    func getBookingHistory(accessToken: String) -> AnyPublisher<BookingResponse, Error> {
+        guard let url = URL(string: APIConstants.Booking.history) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .get, headers: headers)
+            .publishDecodable()
+            .value()
+            .mapError { error in
+                return error as Error
+            }
+            .eraseToAnyPublisher()
     }
 }
