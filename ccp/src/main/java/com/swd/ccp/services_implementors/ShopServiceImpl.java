@@ -26,20 +26,16 @@ import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
 public class ShopServiceImpl implements ShopService {
     private final ShopStatusRepo shopStatusRepo;
     private final ShopRepo shopRepo;
-    private final CatStatusRepo catStatusRepo;
-    private final AccountService accountService;
+
     private final SeatRepo seatRepo;
     private final SeatStatusRepo seatStatusRepo;
     private final ShopImageRepo shopImageRepo;
-    private final CatRepo catRepo;
     private final MenuItemRepo menuItemRepo;
     private final MenuItemStatusRepo menuItemStatusRepo;
     private final MenuRepo menuRepo;
-    private final AreaStatusRepo areaStatusRepo;
-    private final AreaRepo areaRepo;
+
     private static final String ACTIVE = "opened";
-    private static final String SeatActive = "available";
-    private static final String CATACTIVE = "active";
+
 
     @Override
     public ShopListResponse getActiveShops(SortRequest sortRequest) {
@@ -60,102 +56,30 @@ public class ShopServiceImpl implements ShopService {
         return new ShopListResponse(mappedshopList, status, message);
     }
 
-    private List<AreaResponse> mapToAreaResponse(Shop shop) {
-        List<AreaStatus> activeAreaStatusList = areaStatusRepo.findAllByStatus("active");
-        List<Area> activeAreas = areaRepo.findAllByShopAndAreaStatusIn(shop, activeAreaStatusList);
 
-        List<AreaResponse> areaResponseList = new ArrayList<>();
-        for (Area area : activeAreas) {
-            AreaResponse areaResponse = new AreaResponse();
-            areaResponse.setName(area.getName());
 
-            // Lấy danh sách mèo cho từng khu vực cụ thể
-            List<CatResponse> catList = mapToCatResponseList(area.getId());
-            areaResponse.setCatList(catList);
-
-            List<SeatResponse> seatList = mapToSeatResponseList(area.getId());
-            areaResponse.setSeatList(seatList);
-            areaResponseList.add(areaResponse);
-        }
-        return areaResponseList;
-    }
-
-    private List<MenuResponse> mapToMenuResponseList(Shop shop) {
-        List<MenuResponse> menuList = new ArrayList<>();
+    public List<MenuItemResponse> getMenuItemListFromShop(Shop shop) {
         List<Menu> menus = menuRepo.findByShop(shop);
+        List<MenuItemResponse> menuItemResponses = new ArrayList<>();
         for (Menu menu : menus) {
-            MenuResponse menuResponse = new MenuResponse();
-            menuResponse.setDescription(menu.getDescription());
-            List<MenuItemResponse> menuItemList = mapToMenuItemResponseList(menu.getMenuItemList());
-            menuResponse.setMenuItemList(menuItemList);
-            menuList.add(menuResponse);
-        }
-        return menuList;
-    }
-    private List<CatResponse> mapToCatResponseList(Integer areaId) {
-        List<CatResponse> catResponseList = new ArrayList<>();
-        List<CatStatus> activeCatStatusList = catStatusRepo.findAllByStatus(CATACTIVE);
-        List<Cat> catsInArea = catRepo.findByAreaIdAndCatStatusIn(areaId, activeCatStatusList);
-        List<CatResponse> catResponses = mapCatsToCatResponses(catsInArea);
-        catResponseList.addAll(catResponses);
-        return catResponseList;
-    }
-    private List<CatResponse> mapCatsToCatResponses(List<Cat> catList) {
-        List<CatResponse> catResponses = new ArrayList<>();
-        for (Cat cat : catList) {
-            CatResponse catResponse = mapCatToCatResponse(cat);
-            catResponses.add(catResponse);
-        }
-        return catResponses;
-    }
+            List<MenuItem> menuItems = menuItemRepo.findByMenu(menu);
+            for (MenuItem menuItem : menuItems) {
+                MenuItemStatus activeMenuItemStatus = menuItemStatusRepo.findByStatus("available").orElse(null);
 
-    private CatResponse mapCatToCatResponse(Cat cat) {
-        CatResponse catResponse = new CatResponse();
-        catResponse.setId(cat.getId());
-        catResponse.setDescription(cat.getDescription());
-        catResponse.setType(cat.getType());
-        catResponse.setImgLink(cat.getImgLink());
-        return catResponse;
-    }
-    private List<SeatResponse> mapToSeatResponseList(Integer areaId) {
-        List<SeatResponse> seatResponseList = new ArrayList<>();
-        Collection<SeatStatus> activeSeatStatusList = seatStatusRepo.findAllByStatus(SeatActive);
-        List<Seat> seatsInArea = seatRepo.findAllByAreaIdAndSeatStatusIn(areaId, activeSeatStatusList);
-        List<SeatResponse> seatResponses = mapSeatsToSeatResponses(seatsInArea);
-        seatResponseList.addAll(seatResponses);
-        return seatResponseList;
-    }
-
-    private List<SeatResponse> mapSeatsToSeatResponses(List<Seat> seatList) {
-        List<SeatResponse> seatResponses = new ArrayList<>();
-        for (Seat seat : seatList) {
-
-            SeatResponse seatResponse = mapSeatToSeatResponse(seat);
-            seatResponses.add(seatResponse);
-        }
-        return seatResponses;
-    }
-
-    private SeatResponse mapSeatToSeatResponse(Seat seat) {
-        SeatResponse seatResponse = new SeatResponse();
-        seatResponse.setId(seat.getId());
-        seatResponse.setName(seat.getName());
-        return seatResponse;
-    }
-
-    private List<MenuItemResponse> mapToMenuItemResponseList(List<MenuItem> menuItemList) {
-        return menuItemList.stream()
-                .filter(menuItem -> menuItem.getMenuItemStatus().getId().equals(1))
-                .map(menuItem -> {
+                if (activeMenuItemStatus != null && menuItem.getMenuItemStatus().equals(activeMenuItemStatus)) {
                     MenuItemResponse menuItemResponse = new MenuItemResponse();
                     menuItemResponse.setId(menuItem.getId());
                     menuItemResponse.setName(menuItem.getName());
-                    menuItemResponse.setPrice(menuItem.getPrice());
-                    return menuItemResponse;
-                })
-                .collect(Collectors.toList());
+                    menuItemResponse.setImgLink(menuItem.getImgLink());
+                    menuItemResponse.setDescription(menuItem.getDescription());
+                    menuItemResponse.setPrice((int) menuItem.getPrice());
+                    menuItemResponse.setSoldQuantity(menuItem.getSoldQuantity());
+                    menuItemResponses.add(menuItemResponse);
+                }
+            }
+        }
+        return menuItemResponses;
     }
-
 
     @Override
     public ShopListResponse searchShops(String keyword, String searchType, SortRequest sortRequest) {
@@ -208,11 +132,8 @@ public class ShopServiceImpl implements ShopService {
             shopResponse.setOpenTime(shop.getOpenTime());
             shopResponse.setCloseTime(shop.getCloseTime());
 
-            // Ánh xạ đối tượng AreaResponse cho cửa hàng (shop)
-            List<AreaResponse> area = mapToAreaResponse(shop);
-            shopResponse.setAreaList(area);
-            List<MenuResponse> menu = mapToMenuResponseList(shop);
-            shopResponse.setMenuList(menu);
+            List<MenuItemResponse> menuItemList = getMenuItemListFromShop(shop);
+            shopResponse.setMenuItemList(menuItemList);
 
             if (shop.getAddress() == null) {
                 shopResponse.setAddress("N/A");

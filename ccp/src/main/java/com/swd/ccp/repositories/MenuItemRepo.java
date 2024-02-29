@@ -11,4 +11,7 @@ import java.util.List;
 public interface MenuItemRepo extends JpaRepository<MenuItem, Integer> {
     List<MenuItem> findAllByMenuItemStatusIn(List<MenuItemStatus> menuItemStatus, Sort sort);
 
+    List<MenuItem> findAllByMenuInAndMenuItemStatusIn(List<Menu> menu, List<MenuItemStatus> menuItemStatuses);
+
+    List<MenuItem> findByMenu(Menu menu);
 }

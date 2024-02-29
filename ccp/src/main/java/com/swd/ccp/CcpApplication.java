@@ -180,35 +180,36 @@ public class CcpApplication {
 
 
                 //init account
-
                 Account admin = Account
                         .builder()
-                        .email("admin@gmail.com")
-                        .name("Admin")
-                        .password(passwordEncoder.encode("admin"))
+                        .email("null@gmail.com")
+                        .name("Mr Null")
+                        .password(passwordEncoder.encode("null"))
                         .phone("090909090909")
-                        .status(accountStatusRepo.findById(1).orElse(null))
+                        .status(accountStatusRepo.findByStatus("active"))
                         .role(Role.ADMIN)
                         .build();
 
                 accountList.add(admin);
 
-
+                List<String> nameList = new ArrayList<>();
 
                 for (int i = 0; i < 20; i++) {
 
+                    String randomName = getRandomName(nameList);
+                    nameList.add(randomName);
+
                     Account account = Account.builder()
-                            .email(getRandomMail())
-                            .name(getRandomName())
+                            .email(getRandomMail(randomName))
+                            .name(randomName)
                             .password(passwordEncoder.encode(generateRandomPassword()))
                             .phone(generateRandomPhoneNumber())
-                            .status(accountStatusRepo.findById(1).orElse(null))
+                            .status(accountStatusRepo.findByStatus("active"))
                             .role(getRandomRole())
                             .build();
 
                     accountList.add(account);
                 }
-
                 accountRepo.saveAll(accountList);
 
 
@@ -301,142 +302,70 @@ public class CcpApplication {
                 areaStatusRepo.save(AreaStatus.builder().status("active").build());
                 areaStatusRepo.save(AreaStatus.builder().status("inactive").build());
 
-                //init area
-                Area area1 = Area.builder()
-                        .name("Area1")
-                        .shop(shops.get(0))
-                        .areaStatus(areaStatusRepo.findByStatus("active").orElse(null))
-                        .build();
-
-                Area area2 = Area.builder()
-                        .name("Area2")
-                        .shop(shops.get(0))
-                        .areaStatus(areaStatusRepo.findByStatus("active").orElse(null))
-                        .build();
-
-                Area area3 = Area.builder()
-                        .name("Area3")
-                        .shop(shops.get(1))
-                        .areaStatus(areaStatusRepo.findByStatus("active").orElse(null))
-                        .build();
-
-                Area area4 = Area.builder()
-                        .name("Area4")
-                        .shop(shops.get(1))
-                        .areaStatus(areaStatusRepo.findByStatus("active").orElse(null))
-                        .build();
-
-                area1 = areaRepo.save(area1);
-                area2 = areaRepo.save(area2);
-                area3 = areaRepo.save(area3);
-                area4 = areaRepo.save(area4);
-
-
                 //init seat status
                 seatStatusRepo.save(SeatStatus.builder().status("available").build());
                 seatStatusRepo.save(SeatStatus.builder().status("busy").build());
 
-                //init seat
-                Seat seat1 = Seat.builder()
-                        .area(area1)
-                        .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
-                        .name("Seat 01")
-                        .capacity(8)
-                        .build();
+                //init area & seat
+                for(Shop shop: shops){
 
-                Seat seat2 = Seat.builder()
-                        .area(area2)
-                        .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
-                        .name("Seat 02")
-                        .capacity(4)
-                        .build();
+                    for(int areaPos = 0; areaPos < 2; areaPos++){
+                        Area area = Area.builder()
+                                .name("Floor " + (areaPos + 1))
+                                .shop(shop)
+                                .areaStatus(areaStatusRepo.findByStatus("active").orElse(null))
+                                .build();
 
-                Seat seat3 = Seat.builder()
-                        .area(area3)
-                        .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
-                        .name("Seat 01")
-                        .capacity(16)
-                        .build();
+                        area = areaRepo.save(area);
 
-                Seat seat4 = Seat.builder()
-                        .area(area4)
-                        .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
-                        .name("Seat 02")
-                        .capacity(5)
-                        .build();
+                        for(int seatPos = 0; seatPos < 2; seatPos++){
+                            Seat seat = Seat.builder()
+                                    .area(area)
+                                    .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
+                                    .name("Table " + (seatPos + 1))
+                                    .capacity(generateRandomNumber(2, 6))
+                                    .build();
 
-                seatRepo.save(seat1);
-                seatRepo.save(seat2);
-                seatRepo.save(seat3);
-                seatRepo.save(seat4);
+                            seatRepo.save(seat);
+                        }
+                    }
+                }
 
                 //init menu
-                Menu menu1 = Menu.builder()
-                        .shop(shopRepo.findById(1).orElse(null))
-                        .description(null)
-                        .build();
+                List<Menu> menuList = new ArrayList<>();
 
-                Menu menu2 = Menu.builder()
-                        .shop(shopRepo.findById(2).orElse(null))
-                        .description(null)
-                        .build();
+                for(Shop shop: shops){
+                    Menu menu = Menu.builder()
+                            .shop(shop)
+                            .description("")
+                            .build();
 
-                menu1 = menuRepo.save(menu1);
-                menu2 = menuRepo.save(menu2);
+                    menu = menuRepo.save(menu);
+                    menuList.add(menu);
+                }
 
                 //init menu item status
                 menuItemStatusRepo.save(MenuItemStatus.builder().status("available").build());
                 menuItemStatusRepo.save(MenuItemStatus.builder().status("unavailable").build());
 
                 //init menu item
-                MenuItem menuItem1 = MenuItem.builder()
-                        .menu(menu1)
-                        .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
-                        .name("Chicken dizzy")
-                        .price(500000)
-                        .imgLink(null)
-                        .description(null)
-                        .discount(0)
-                        .soldQuantity(0)
-                        .build();
+                List<String> usedFoodName = new ArrayList<>();
+                for(Menu menu: menuList){
+                    for(int item = 0; item < 2; item++){
+                        MenuItem menuItem = MenuItem.builder()
+                                .menu(menu)
+                                .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
+                                .name(generateFoodName(usedFoodName))
+                                .price(generateRandomNumber(2, 10))
+                                .imgLink("Mr Null")
+                                .description("Mr Null")
+                                .discount(0)
+                                .soldQuantity(0)
+                                .build();
 
-                MenuItem menuItem2 = MenuItem.builder()
-                        .menu(menu1)
-                        .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
-                        .name("Goat fire")
-                        .price(250000)
-                        .imgLink(null)
-                        .description(null)
-                        .discount(0)
-                        .soldQuantity(0)
-                        .build();
-
-                MenuItem menuItem3 = MenuItem.builder()
-                        .menu(menu2)
-                        .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
-                        .name("Cow dizzy")
-                        .price(1100000)
-                        .imgLink(null)
-                        .description(null)
-                        .discount(0)
-                        .soldQuantity(0)
-                        .build();
-
-                MenuItem menuItem4 = MenuItem.builder()
-                        .menu(menu2)
-                        .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
-                        .name("Fish dizzy")
-                        .price(100000)
-                        .imgLink(null)
-                        .description(null)
-                        .discount(0)
-                        .soldQuantity(0)
-                        .build();
-
-                menuItemRepo.save(menuItem1);
-                menuItemRepo.save(menuItem2);
-                menuItemRepo.save(menuItem3);
-                menuItemRepo.save(menuItem4);
+                        menuItemRepo.save(menuItem);
+                    }
+                }
 
                 //init booking status
                 BookingStatus pending = BookingStatus.builder()
@@ -486,19 +415,56 @@ public class CcpApplication {
                 return roles[random.nextInt(3)];
             }
 
+            public static int generateRandomNumber(int start, int end) {
+                Random rand = new Random();
+                return rand.nextInt(end - 1) + start; // Generates a random number between 2 and 6
+            }
+
             // Method to get a random name from a list of names
-            private String getRandomName() {
+            private String getRandomName(List<String> nameList) {
                 Random random = new Random();
-                String[] names = {"Sam", "John", "Lisa", "Mike", "Emma", "Alex", "Sara", "Chris", "Natalie", "Peter"};
-                return names[random.nextInt(names.length)];
+                String[] names = {
+                        "Sam",
+                        "John",
+                        "Lisa",
+                        "Mike",
+                        "Emma",
+                        "Alex",
+                        "Sara",
+                        "Chris",
+                        "Natalie",
+                        "Peter",
+                        "Sophia",
+                        "Daniel",
+                        "Olivia",
+                        "Matthew",
+                        "Emily",
+                        "Ryan",
+                        "Grace",
+                        "Lucas",
+                        "Avery",
+                        "Connor"
+                };
+
+                List<String> availableNames = new ArrayList<>();
+                for (String name : names) {
+                    if (!nameList.contains(name)) {
+                        availableNames.add(name);
+                    }
+                }
+
+                if (availableNames.isEmpty()) {
+                    return "No unique names available.";
+                }
+
+                return availableNames.get(random.nextInt(availableNames.size()));
             }
 
             // Method to get a random mail from a list of mail
-            private String getRandomMail() {
+            private String getRandomMail(String name) {
                 Random random = new Random();
-                String[] emails = {"sam", "john", "lisa", "mike", "emma", "alex", "sara", "chris", "natalie", "peter"};
                 String[] domains = {"gmail.com", "yahoo.com", "outlook.com", "hotmail.com"};
-                return emails[random.nextInt(emails.length)] + random.nextInt(100) + random.nextInt(100) + "@" + domains[random.nextInt(domains.length)];
+                return name + random.nextInt(100) + random.nextInt(100) + "@" + domains[random.nextInt(domains.length)];
             }
 
             // Method to get a random gender
@@ -531,6 +497,60 @@ public class CcpApplication {
                 return shops.get(randomIndex);
             }
 
+            public static String generateFoodName(List<String> usedFood) {
+                Random rand = new Random();
+                String[] foodNames = {
+                        "Sizzling Tacos",
+                        "Creamy Carbonara",
+                        "Zesty Lemon Chicken",
+                        "Spicy Chilli Beef",
+                        "Garlic Butter Shrimp",
+                        "Mouthwatering Ravioli",
+                        "Crispy Fried Chicken",
+                        "Sweet and Sour Pork",
+                        "Basil Pesto Pasta",
+                        "Honey Glazed Salmon",
+                        "Succulent BBQ Ribs",
+                        "Buttery Lobster Tail",
+                        "Mango Tango Salad",
+                        "Cheesy Baked Ziti",
+                        "Lemon Herb Roast Chicken",
+                        "Gourmet Mushroom Risotto",
+                        "Teriyaki Glazed Tofu",
+                        "Cajun Blackened Fish",
+                        "Apple Cinnamon Pancakes",
+                        "Pineapple Teriyaki Pork",
+                        "Greek Style Gyros",
+                        "Creamy Mushroom Stroganoff",
+                        "Pesto Parmesan Penne",
+                        "Maple Glazed Ham",
+                        "Chipotle BBQ Brisket",
+                        "Berry Burst Smoothie Bowl",
+                        "Sesame Ginger Stir Fry",
+                        "Rustic Vegetable Lasagna",
+                        "Mint Chocolate Chip Ice Cream",
+                        "Hawaiian BBQ Chicken",
+                        "Crispy Onion Rings",
+                        "Avocado Toast with Eggs",
+                        "Stuffed Bell Peppers",
+                        "Mediterranean Falafel Wrap",
+                        "Caramelized Onion Burger",
+                        "Vietnamese Pho Soup",
+                        "Raspberry Swirl Cheesecake",
+                        "Peach Melba Parfait",
+                        "Herbed Quinoa Salad",
+                        "Cinnamon Sugar Donuts"
+                };
+
+                String randomName = foodNames[rand.nextInt(foodNames.length)];
+
+                while (usedFood.contains(randomName)) {
+                    randomName = foodNames[rand.nextInt(foodNames.length)];
+                }
+
+                usedFood.add(randomName);
+                return randomName;
+            }
         };
     }
 

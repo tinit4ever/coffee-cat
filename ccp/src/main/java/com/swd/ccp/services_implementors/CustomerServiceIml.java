@@ -97,6 +97,7 @@ public class CustomerServiceIml implements CustomerService {
                                 .bookingID(booking.getId())
                                 .shopName(booking.getShopName())
                                 .seatName(booking.getSeatName())
+                                .areaName(booking.getSeat().getArea().getName())
                                 .totalPrice(calculateTotalPrice(booking))
                                 .bookingDate(booking.getBookingDate())
                                 .status(booking.getBookingStatus().getStatus())

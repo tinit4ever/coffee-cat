@@ -1,9 +1,13 @@
 package com.swd.ccp.models.response_models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,7 +18,8 @@ public class MenuItemResponse {
     private Integer id;
     private String name;
 
-    private float price;
+    private Integer price;
+
 
     private String imgLink;
 
@@ -23,4 +28,5 @@ public class MenuItemResponse {
     private float discount;
 
     private int soldQuantity;
+
 }
