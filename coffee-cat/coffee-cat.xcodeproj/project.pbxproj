@@ -48,6 +48,7 @@
 		A07ED87C2B65453000EA4E19 /* UINavigationController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8702B65453000EA4E19 /* UINavigationController+Extension.swift */; };
 		A07ED87D2B65453000EA4E19 /* UIScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8712B65453000EA4E19 /* UIScreen+Extension.swift */; };
 		A07ED87E2B65453000EA4E19 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07ED8722B65453000EA4E19 /* UITextField+Extension.swift */; };
+		A086FB4F2B9005EC00B183E7 /* SelectTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A086FB4E2B9005EC00B183E7 /* SelectTableViewModel.swift */; };
 		A0A9ED2F2B8ED3EA00CE1177 /* OrderFoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9ED2E2B8ED3EA00CE1177 /* OrderFoodViewController.swift */; };
 		A0A9ED312B8ED3FB00CE1177 /* CatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9ED302B8ED3FB00CE1177 /* CatListViewController.swift */; };
 		A0A9ED352B8ED94C00CE1177 /* MenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A9ED342B8ED94C00CE1177 /* MenuCollectionViewCell.swift */; };
@@ -109,6 +110,7 @@
 		A07ED8702B65453000EA4E19 /* UINavigationController+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extension.swift"; sourceTree = "<group>"; };
 		A07ED8712B65453000EA4E19 /* UIScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extension.swift"; sourceTree = "<group>"; };
 		A07ED8722B65453000EA4E19 /* UITextField+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		A086FB4E2B9005EC00B183E7 /* SelectTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTableViewModel.swift; sourceTree = "<group>"; };
 		A0A9ED2E2B8ED3EA00CE1177 /* OrderFoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderFoodViewController.swift; sourceTree = "<group>"; };
 		A0A9ED302B8ED3FB00CE1177 /* CatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatListViewController.swift; sourceTree = "<group>"; };
 		A0A9ED342B8ED94C00CE1177 /* MenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -360,6 +362,7 @@
 				A0DBF5B62B834C2B0072E139 /* ShopDetailsViewModel.swift */,
 				A03833622B83B18200EBF5D8 /* HomeViewModel.swift */,
 				A01A603E2B8DC21C00E3F372 /* ProfileViewModel.swift */,
+				A086FB4E2B9005EC00B183E7 /* SelectTableViewModel.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -485,6 +488,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A073C5F82B7ED612002263DB /* RegistrationViewModel.swift in Sources */,
+				A086FB4F2B9005EC00B183E7 /* SelectTableViewModel.swift in Sources */,
 				A07ED87E2B65453000EA4E19 /* UITextField+Extension.swift in Sources */,
 				A07ED8742B65453000EA4E19 /* CircleView.swift in Sources */,
 				A01A60422B8DC39000E3F372 /* UserSessionManager.swift in Sources */,

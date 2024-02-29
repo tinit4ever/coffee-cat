@@ -13,10 +13,12 @@ class SelectTableViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
-    var areaList: [Area] = []
-    var didSelectSeat: ((Seat?) -> Void)?
+//    var areaList: [Area] = []
+    var didSendData: (((Seat, String)?) -> Void)?
     var availableToSubmit: Int = 0
-    var submitSeat: Seat?
+//    var submitSeat: Seat?
+    
+    var viewModel: SelectTableViewModelProtocol = SelectTableViewModel()
     
     // MARK: - Create UIComponents
     lazy var datePicker = makeDatePicker()
@@ -169,13 +171,20 @@ class SelectTableViewController: UIViewController, UIFactory {
     @objc 
     private func cancelButtonTapped() {
         self.dismiss(animated: true)
-        self.didSelectSeat?(nil)
+        self.didSendData?(nil)
     }
     
     @objc 
     private func doneButtonTapped() {
         if availableToSubmit != 0 {
-            self.didSelectSeat?(submitSeat!)
+            self.viewModel.submitDate = self.getStringDateFormatter(date: self.datePicker.date)
+//            self.viewModel?.submitSeat
+            print(self.viewModel.submitDate as Any)
+            print(self.viewModel.submitSeat as Any)
+            if let seat = self.viewModel.submitSeat,
+               let date = self.viewModel.submitDate {
+                self.didSendData?((seat, date))
+            }
             self.dismiss(animated: true)
         } else {
             self.displayErrorAlert()
@@ -202,6 +211,12 @@ class SelectTableViewController: UIViewController, UIFactory {
         
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    private func getStringDateFormatter(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = DateFormat.dateFormatterToStore
+        return dateFormatter.string(from: date)
+    }
 }
 
 extension SelectTableViewController: UITableViewDataSource {
@@ -214,11 +229,13 @@ extension SelectTableViewController: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        self.areaList.count
+//        self.areaList.count
+        self.viewModel.areaList?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        self.areaList[section].name
+//        self.areaList[section].name
+        self.viewModel.areaList?[section].name
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -226,12 +243,13 @@ extension SelectTableViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        if let seatList = self.areaList[indexPath.section].seatList {
+        if let seatList = self.viewModel.areaList?[indexPath.section].seatList {
             cell.configure(seatList: seatList)
         }
         
         cell.didSelectSeat = { [weak self] selectedSeat, availableToSubmit in
-            self?.submitSeat = selectedSeat
+//            self?.submitSeat = selectedSeat
+            self?.viewModel.submitSeat = selectedSeat
             if availableToSubmit {
                 self?.availableToSubmit += 1
                 print(self?.availableToSubmit as Any)

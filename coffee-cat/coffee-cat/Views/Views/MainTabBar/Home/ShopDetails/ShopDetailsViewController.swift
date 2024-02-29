@@ -285,7 +285,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     // MARK: - Catch Action
-    @objc 
+    @objc
     private func swipeAction(_ gesture: UISwipeGestureRecognizer) {
         if gesture.direction == .left {
             if self.viewModel.index == self.viewModel.shop.shopImageList.count - 1 {
@@ -304,9 +304,10 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         }
     }
     
-    @objc 
+    @objc
     private func chooseTableButtonTapped() {
         let selectedTableViewController = SelectTableViewController()
+<<<<<<< Updated upstream
         selectedTableViewController.areaList = self.viewModel.shop.areaList ?? []
         let navigationController = UINavigationController(rootViewController: selectedTableViewController)
         self.present(navigationController, animated: true, completion: nil)
@@ -314,6 +315,26 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         selectedTableViewController.didSelectSeat = { [weak self] selectedSeat in
             if selectedSeat != nil {
                 self?.chooseTableButton.setTitle("Selected Table", for: .normal)
+=======
+        var viewModel: SelectTableViewModelProtocol = SelectTableViewModel()
+        //        selectedTableViewController.areaList = self.viewModel.areaList ?? []
+        let currentDay: String = self.getStringDateFormatter(date: .now)
+        viewModel.date = currentDay
+        viewModel.areaList = self.viewModel.areaList
+        selectedTableViewController.viewModel = viewModel
+        let navigationController = UINavigationController(rootViewController: selectedTableViewController)
+        self.present(navigationController, animated: true, completion: nil)
+        
+        selectedTableViewController.didSendData = { [weak self] submit in
+            if submit != nil {
+                if let params = submit {
+                    let (seat, date) = params
+                    self?.chooseTableButton.setTitle("Selected Table", for: .normal)
+                    self?.chooseTableButton.backgroundColor = .systemBrown
+                    self?.viewModel.booking.seatID = seat.id ?? 1
+                    self?.viewModel.booking.bookingDate = date
+                }
+>>>>>>> Stashed changes
             } else {
                 self?.chooseTableButton.setTitle("Choose Table", for: .normal)
             }
@@ -352,6 +373,12 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     private func updateIndexLabel() {
         let totalElements = self.viewModel.shop.shopImageList.count
         indexLabel.text = "\(self.viewModel.index + 1)/\(totalElements)"
+    }
+    
+    private func getStringDateFormatter(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = DateFormat.dateFormatterToStore
+        return dateFormatter.string(from: date)
     }
 }
 
