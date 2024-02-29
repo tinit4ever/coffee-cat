@@ -42,6 +42,7 @@ public class AreaServiceIpml implements AreaService {
 
                 boolean isBooked = bookingRepo.existsBySeatIdAndBookingDate(seat.getId(), date);
                 SeatResponse seatResponseDTO = SeatResponse.builder()
+                        .id(seat.getId())
                         .name(seat.getName())
                         .status(!isBooked)
                         .build();
