@@ -284,15 +284,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     @objc
     private func chooseTableButtonTapped() {
         let selectedTableViewController = SelectTableViewController()
-        selectedTableViewController.areaList = self.viewModel.areaList ?? []
-        let navigationController = UINavigationController(rootViewController: selectedTableViewController)
-        self.present(navigationController, animated: true, completion: nil)
-        
-        selectedTableViewController.didSelectSeat = { [weak self] selectedSeat in
-            if selectedSeat != nil {
-                self?.chooseTableButton.setTitle("Selected Table", for: .normal)
         var viewModel: SelectTableViewModelProtocol = SelectTableViewModel()
-        //        selectedTableViewController.areaList = self.viewModel.areaList ?? []
         let currentDay: String = self.getStringDateFormatter(date: .now)
         viewModel.date = currentDay
         viewModel.areaList = self.viewModel.areaList
@@ -311,6 +303,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
                 }
             } else {
                 self?.chooseTableButton.setTitle("Choose Table", for: .normal)
+                self?.chooseTableButton.backgroundColor = .customPink
             }
         }
     }
