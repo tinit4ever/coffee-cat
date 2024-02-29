@@ -14,10 +14,8 @@ class SelectTableViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
-//    var areaList: [Area] = []
     var didSendData: (((Seat, String)?) -> Void)?
     var availableToSubmit: Int = 0
-//    var submitSeat: Seat?
     
     var viewModel: SelectTableViewModelProtocol = SelectTableViewModel()
     
@@ -51,6 +49,11 @@ class SelectTableViewController: UIViewController, UIFactory {
         super.viewDidLoad()
         setupUI()
         setupAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.loadData(date: self.viewModel.date ?? "")
     }
     
     private func setupUI() {
@@ -196,14 +199,7 @@ class SelectTableViewController: UIViewController, UIFactory {
     
     @objc
     private func dateChange(_ datePicker: UIDatePicker) {
-        print(datePicker.date)
-        self.viewModel.setAreasParam(shopId: self.viewModel.shopId, date: self.getStringDateFormatter(date: datePicker.date))
-        self.viewModel.dataUpdatedPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.areaTableView.reloadData()
-            }
-            .store(in: &cancellables)
+        loadData(date: self.getStringDateFormatter(date: datePicker.date))
     }
     
     @objc
@@ -223,6 +219,16 @@ class SelectTableViewController: UIViewController, UIFactory {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormat.dateFormatterToStore
         return dateFormatter.string(from: date)
+    }
+    
+    private func loadData(date: String) {
+        self.viewModel.setAreasParam(shopId: self.viewModel.shopId, date: date)
+        self.viewModel.dataUpdatedPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.areaTableView.reloadData()
+            }
+            .store(in: &cancellables)
     }
 }
 

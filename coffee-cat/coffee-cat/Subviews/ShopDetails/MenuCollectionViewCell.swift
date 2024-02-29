@@ -123,7 +123,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
         titleLabel.widthAnchor.constraint(equalTo: contentStack.widthAnchor).isActive = true
         
         contentStack.addArrangedSubview(priceLabel)
-        priceLabel.setupTitle(text: "Price: 100.000₫", fontName: FontNames.avenir, size: sizeScaler(22), textColor: .customBlack)
+        priceLabel.setupTitle(text: "Price: 100.000$", fontName: FontNames.avenir, size: sizeScaler(22), textColor: .customBlack)
         priceLabel.setBoldText()
         
         contentStack.addArrangedSubview(quantityLabel)
@@ -160,7 +160,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
     func configure(_ menuItem: MenuItem) {
         self.id = menuItem.id
         self.titleLabel.text = menuItem.name
-        self.priceLabel.text = "Price: \(String(describing: menuItem.price ?? 0))₫"
+        self.priceLabel.text = "Price: \(String(describing: menuItem.price ?? 0))$"
         self.quantityLabel.text = "Quantity: \(0)"
     }
 }

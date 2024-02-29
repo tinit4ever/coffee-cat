@@ -10,9 +10,9 @@ import Alamofire
 import Combine
 
 struct APIConstants {
-//        static let baseURL = "http://localhost:8080/"
+        static let baseURL = "http://localhost:8080/"
 //    static let baseURL = "http://192.168.1.10:8080/"
-    static let baseURL = "http://172.20.10.2:8080/"
+//    static let baseURL = "http://172.20.10.2:8080/"
     
     struct Auth {
         static let login = baseURL + "auth/login"

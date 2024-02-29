@@ -310,19 +310,10 @@ class ShopDetailsViewController: UIViewController, UIFactory {
             if submit != nil {
                 if let params = submit {
                     let (seat, date) = params
-                    self?.chooseTableButton.setTitle("Selected Table", for: .normal)
-                    self?.chooseTableButton.backgroundColor = .systemBrown
-                    self?.viewModel.booking.seatID = seat.id ?? 1
-                    self?.viewModel.booking.bookingDate = date
-                    self?.viewModel.booking.extraContant = ""
-                    self?.isChoosenTable = true
+                    self?.addChoosen(seatID: seat.id ?? 1, date: date)
                 }
             } else {
-                self?.chooseTableButton.setTitle("Choose Table", for: .normal)
-                self?.chooseTableButton.backgroundColor = .customPink
-                self?.isChoosenTable = false
-                self?.viewModel.booking.seatID = nil
-                self?.viewModel.booking.bookingDate = nil
+                self?.removeOrdere()
             }
         }
     }
@@ -336,15 +327,9 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         
         orderFoodViewController.didSelectFood = { [weak self] menuBookingList in
             if menuBookingList != nil {
-                self?.orderFoodButton.setTitle("Ordered Food", for: .normal)
-                self?.orderFoodButton.backgroundColor = .systemBrown
-                self?.isOrderedFood = true
-                self?.viewModel.booking.bookingShopMenuRequestList = menuBookingList
+                self?.addOrdered(menuBookingList: menuBookingList!)
             } else {
-                self?.orderFoodButton.setTitle("Order Food", for: .normal)
-                self?.orderFoodButton.backgroundColor = .customPink
-                self?.isOrderedFood = false
-                self?.viewModel.booking.bookingShopMenuRequestList = nil
+                self?.removeOrdere()
             }
         }
     }
@@ -358,15 +343,21 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     }
     
     @objc private func bookingButtonTapped() {
-        self.viewModel.createBookng(booking: self.viewModel.booking, accessToken: UserSessionManager.shared.getAccessToken() ?? "") { result in
-            switch result {
-            case .success(let message):
-                print(message)
-                self.displayArlet(title: "Success", message: "Your booking have been create\nPlease wait for approving")
-            case .failure(let error):
-                print(error.localizedDescription)
-                self.displayArlet(title: "Error", message: "Opps! Check your connnection")
+        if UserSessionManager.shared.isLoggedIn() {
+            self.viewModel.createBookng(booking: self.viewModel.booking, accessToken: UserSessionManager.shared.getAccessToken() ?? "") { result in
+                switch result {
+                case .success(let message):
+                    print(message)
+                    self.displayArlet(title: "Success", message: "Your booking have been create\nPlease wait for approving")
+                    self.removeOrdere()
+                    self.removeChoosen()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.displayArlet(title: "Error", message: "Opps! Check your connnection")
+                }
             }
+        } else {
+            self.displayLoginRequire()
         }
     }
     
@@ -401,6 +392,54 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
+    }
+    
+    private func displayLoginRequire() {
+        let alertController = UIAlertController(title: "Not Login", message: "Please login to see your profile", preferredStyle: .alert)
+        
+        let loginAction = UIAlertAction(title: "Login", style: .default) { action in
+            let signInViewController = SignInViewController()
+            self.navigationController?.pushViewController(signInViewController, animated: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { action in
+            self.dismiss(animated: true)
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(loginAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func addChoosen(seatID: Int, date: String) {
+        self.chooseTableButton.setTitle("Selected Table", for: .normal)
+        self.chooseTableButton.backgroundColor = .systemBrown
+        self.viewModel.booking.seatID = seatID
+        self.viewModel.booking.bookingDate = date
+        self.viewModel.booking.extraContant = ""
+        self.isChoosenTable = true
+    }
+    
+    private func removeChoosen() {
+        self.chooseTableButton.setTitle("Choose Table", for: .normal)
+        self.chooseTableButton.backgroundColor = .customPink
+        self.isChoosenTable = false
+        self.viewModel.booking.seatID = nil
+        self.viewModel.booking.bookingDate = nil
+    }
+    
+    private func addOrdered(menuBookingList: [MenuBooking]) {
+        self.orderFoodButton.setTitle("Ordered Food", for: .normal)
+        self.orderFoodButton.backgroundColor = .systemBrown
+        self.isOrderedFood = true
+        self.viewModel.booking.bookingShopMenuRequestList = menuBookingList
+    }
+    
+    private func removeOrdere() {
+        self.orderFoodButton.setTitle("Order Food", for: .normal)
+        self.orderFoodButton.backgroundColor = .customPink
+        self.isOrderedFood = false
+        self.viewModel.booking.bookingShopMenuRequestList = nil
     }
 }
 
