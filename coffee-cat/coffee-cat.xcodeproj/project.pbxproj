@@ -65,6 +65,8 @@
 		A0BE75DD2B6A53A000DE6909 /* VoucherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */; };
 		A0CA272D2B6B99C300E3D640 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA272C2B6B99C300E3D640 /* ProfileViewController.swift */; };
 		A0CA9E782B8E0755006B75AC /* AreaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA9E772B8E0755006B75AC /* AreaTableViewCell.swift */; };
+		A0CBF0B42B90C75C00BBC2D9 /* UISegmentedControl + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF0B32B90C75C00BBC2D9 /* UISegmentedControl + Extension.swift */; };
+		A0CBF0B72B90D14A00BBC2D9 /* BookingHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF0B62B90D14A00BBC2D9 /* BookingHistoryTableViewCell.swift */; };
 		A0CBF4FB2B8CDE5F008CFAD3 /* NameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4FA2B8CDE5F008CFAD3 /* NameConstants.swift */; };
 		A0CCF3A82B9052FF00D5014E /* BookingResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CCF3A72B9052FF00D5014E /* BookingResponse.swift */; };
 		A0D1D58D2B6B4C0A00CB1ED3 /* coffee.json in Resources */ = {isa = PBXBuildFile; fileRef = A0D1D58C2B6B4C0A00CB1ED3 /* coffee.json */; };
@@ -132,6 +134,8 @@
 		A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoucherViewController.swift; sourceTree = "<group>"; };
 		A0CA272C2B6B99C300E3D640 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		A0CA9E772B8E0755006B75AC /* AreaTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaTableViewCell.swift; sourceTree = "<group>"; };
+		A0CBF0B32B90C75C00BBC2D9 /* UISegmentedControl + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl + Extension.swift"; sourceTree = "<group>"; };
+		A0CBF0B62B90D14A00BBC2D9 /* BookingHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		A0CBF4FA2B8CDE5F008CFAD3 /* NameConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameConstants.swift; sourceTree = "<group>"; };
 		A0CCF3A72B9052FF00D5014E /* BookingResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingResponse.swift; sourceTree = "<group>"; };
 		A0D1D58C2B6B4C0A00CB1ED3 /* coffee.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = coffee.json; sourceTree = "<group>"; };
@@ -249,6 +253,7 @@
 				A05A7DC32B83155D00DCEAF6 /* StarRatingView.swift */,
 				A0A9ED332B8ED91400CE1177 /* Home */,
 				A0A9ED322B8ED8CF00CE1177 /* ShopDetails */,
+				A0CBF0B52B90D11F00BBC2D9 /* Booking */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -283,6 +288,7 @@
 				A05C506E2B6737A400A42F33 /* UIFont+Extension.swift */,
 				A03F56D62B6B227500B3E35B /* UITabBar+Extension.swift */,
 				A073C5FC2B7ED860002263DB /* String+Extension.swift */,
+				A0CBF0B32B90C75C00BBC2D9 /* UISegmentedControl + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -321,6 +327,7 @@
 		A0A9ED362B8ED9A100CE1177 /* Process */ = {
 			isa = PBXGroup;
 			children = (
+				A0B47DFE2B9086150031F7EB /* TransitionViewController.swift */,
 				A0BE75D82B6A517300DE6909 /* MainTabBarViewController.swift */,
 				A0BE75DA2B6A537700DE6909 /* BookingViewController.swift */,
 				A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */,
@@ -335,7 +342,6 @@
 			children = (
 				A0CA272B2B6B98B900E3D640 /* Home */,
 				A0A9ED362B8ED9A100CE1177 /* Process */,
-				A0B47DFE2B9086150031F7EB /* TransitionViewController.swift */,
 			);
 			path = MainTabBar;
 			sourceTree = "<group>";
@@ -364,6 +370,14 @@
 			children = (
 				A0CCF3A72B9052FF00D5014E /* BookingResponse.swift */,
 				A0A9ED372B8EED1300CE1177 /* Booking.swift */,
+			);
+			path = Booking;
+			sourceTree = "<group>";
+		};
+		A0CBF0B52B90D11F00BBC2D9 /* Booking */ = {
+			isa = PBXGroup;
+			children = (
+				A0CBF0B62B90D14A00BBC2D9 /* BookingHistoryTableViewCell.swift */,
 			);
 			path = Booking;
 			sourceTree = "<group>";
@@ -536,6 +550,7 @@
 				A0DBF5B32B8334470072E139 /* ShopDetailsViewController.swift in Sources */,
 				A07ED85D2B6544D300EA4E19 /* SignUpViewController.swift in Sources */,
 				A073C5F52B7ED534002263DB /* AuthenticationModel.swift in Sources */,
+				A0CBF0B42B90C75C00BBC2D9 /* UISegmentedControl + Extension.swift in Sources */,
 				A07ED87D2B65453000EA4E19 /* UIScreen+Extension.swift in Sources */,
 				A0B47DFF2B9086150031F7EB /* TransitionViewController.swift in Sources */,
 				A0CA9E782B8E0755006B75AC /* AreaTableViewCell.swift in Sources */,
@@ -559,6 +574,7 @@
 				A07ED87B2B65453000EA4E19 /* UIImage+Extension.swift in Sources */,
 				A0BE75DD2B6A53A000DE6909 /* VoucherViewController.swift in Sources */,
 				A0B7A8402B89B47B0059DD40 /* SeatCollectionViewCell.swift in Sources */,
+				A0CBF0B72B90D14A00BBC2D9 /* BookingHistoryTableViewCell.swift in Sources */,
 				A0F3EA9D2B653BDB0057860A /* AppDelegate.swift in Sources */,
 				A07ED8782B65453000EA4E19 /* UILabel+Extension.swift in Sources */,
 				A0F3EA9F2B653BDB0057860A /* SceneDelegate.swift in Sources */,
