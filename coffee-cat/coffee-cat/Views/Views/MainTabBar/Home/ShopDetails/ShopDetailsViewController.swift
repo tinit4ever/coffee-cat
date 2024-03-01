@@ -250,7 +250,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
             bookingButton.topAnchor.constraint(equalTo: shopInforStackView.bottomAnchor, constant: heightScaler(40)),
             bookingButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: widthScaler(60)),
             bookingButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthScaler(60)),
-            bookingButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(60)),
+            bookingButton.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -heightScaler(90)),
             bookingButton.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
     }
@@ -403,8 +403,13 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         let alertController = UIAlertController(title: "Not Login", message: "Please login to see your profile", preferredStyle: .alert)
         
         let loginAction = UIAlertAction(title: "Login", style: .default) { action in
-            let signInViewController = SignInViewController()
-            self.navigationController?.pushViewController(signInViewController, animated: true)
+            let homeViewController = TransitionViewController()
+            let navigationController = UINavigationController(rootViewController: homeViewController)
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                let window = windowScene.windows.first
+                window?.rootViewController = navigationController
+                window?.makeKeyAndVisible()
+            }
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { action in

@@ -39,6 +39,9 @@ class BookingViewController: UIViewController, UIFactory {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if !UserSessionManager.shared.isLoggedIn() {
+            self.displayLoginRequire()
+        }
         self.loadData()
     }
     
@@ -181,6 +184,28 @@ class BookingViewController: UIViewController, UIFactory {
         }
         
         alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func displayLoginRequire() {
+        let alertController = UIAlertController(title: "Not Login", message: "Please login to see your profile", preferredStyle: .alert)
+        
+        let loginAction = UIAlertAction(title: "Login", style: .default) { action in
+            let homeViewController = TransitionViewController()
+            let navigationController = UINavigationController(rootViewController: homeViewController)
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                let window = windowScene.windows.first
+                window?.rootViewController = navigationController
+                window?.makeKeyAndVisible()
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { action in
+            self.dismiss(animated: true)
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(loginAction)
         self.present(alertController, animated: true, completion: nil)
     }
 }
