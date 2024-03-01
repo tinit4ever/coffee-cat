@@ -12,6 +12,12 @@
 		A06834242B8D87180086CE59 /* StaffAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834232B8D87180086CE59 /* StaffAccountViewController.swift */; };
 		A06834262B8D872A0086CE59 /* ShopManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */; };
 		A06834282B8D90280086CE59 /* StaffAccountFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834272B8D90280086CE59 /* StaffAccountFactory.swift */; };
+		A0CA420B2B91EC6900BED8FF /* AccountInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA420A2B91EC6900BED8FF /* AccountInputViewController.swift */; };
+		A0CA420D2B91ED2700BED8FF /* AccountInputFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA420C2B91ED2700BED8FF /* AccountInputFactory.swift */; };
+		A0CA42102B91F59600BED8FF /* AccountInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA420F2B91F59600BED8FF /* AccountInputViewModel.swift */; };
+		A0CA42132B91F5F800BED8FF /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA42122B91F5F800BED8FF /* AccountModel.swift */; };
+		A0CA42162B91F78400BED8FF /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA42152B91F78400BED8FF /* APIManager.swift */; };
+		A0CA42182B91F7D900BED8FF /* AuthenticationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA42172B91F7D900BED8FF /* AuthenticationResponse.swift */; };
 		A0CBF4BB2B8CD31D008CFAD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4BA2B8CD31D008CFAD3 /* AppDelegate.swift */; };
 		A0CBF4BD2B8CD31D008CFAD3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF4BC2B8CD31D008CFAD3 /* SceneDelegate.swift */; };
 		A0CBF4C42B8CD31F008CFAD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0CBF4C32B8CD31F008CFAD3 /* Assets.xcassets */; };
@@ -45,6 +51,12 @@
 		A06834232B8D87180086CE59 /* StaffAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAccountViewController.swift; sourceTree = "<group>"; };
 		A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopManagerViewController.swift; sourceTree = "<group>"; };
 		A06834272B8D90280086CE59 /* StaffAccountFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAccountFactory.swift; sourceTree = "<group>"; };
+		A0CA420A2B91EC6900BED8FF /* AccountInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInputViewController.swift; sourceTree = "<group>"; };
+		A0CA420C2B91ED2700BED8FF /* AccountInputFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInputFactory.swift; sourceTree = "<group>"; };
+		A0CA420F2B91F59600BED8FF /* AccountInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInputViewModel.swift; sourceTree = "<group>"; };
+		A0CA42122B91F5F800BED8FF /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
+		A0CA42152B91F78400BED8FF /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		A0CA42172B91F7D900BED8FF /* AuthenticationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationResponse.swift; sourceTree = "<group>"; };
 		A0CBF4B72B8CD31D008CFAD3 /* coffee-cat-seller-center.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "coffee-cat-seller-center.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0CBF4BA2B8CD31D008CFAD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A0CBF4BC2B8CD31D008CFAD3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +97,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A0CA420E2B91F57900BED8FF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A0CA420F2B91F59600BED8FF /* AccountInputViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A0CA42112B91F5EB00BED8FF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A0CA42122B91F5F800BED8FF /* AccountModel.swift */,
+				A0CA42172B91F7D900BED8FF /* AuthenticationResponse.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		A0CA42142B91F76F00BED8FF /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				A0CA42152B91F78400BED8FF /* APIManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		A0CBF4AE2B8CD31D008CFAD3 = {
 			isa = PBXGroup;
 			children = (
@@ -104,11 +141,14 @@
 		A0CBF4B92B8CD31D008CFAD3 /* coffee-cat-seller-center */ = {
 			isa = PBXGroup;
 			children = (
+				A0CA42142B91F76F00BED8FF /* Manager */,
+				A0CA42112B91F5EB00BED8FF /* Models */,
 				A0CBF4F92B8CDCB4008CFAD3 /* Constants */,
 				A0CBF4E22B8CDBAD008CFAD3 /* Extensions */,
 				A0CBF4DF2B8CD9D2008CFAD3 /* Factories */,
 				A0CBF4DE2B8CD99E008CFAD3 /* Animations */,
 				A0CBF4DB2B8CD94D008CFAD3 /* Previews */,
+				A0CA420E2B91F57900BED8FF /* ViewModels */,
 				A0CBF4CF2B8CD3B1008CFAD3 /* Views */,
 				A0CBF4CE2B8CD37C008CFAD3 /* Supporting */,
 				A0CBF4C82B8CD31F008CFAD3 /* Info.plist */,
@@ -162,6 +202,7 @@
 				A0CBF4E02B8CDA04008CFAD3 /* SignInFactory.swift */,
 				A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */,
 				A06834272B8D90280086CE59 /* StaffAccountFactory.swift */,
+				A0CA420C2B91ED2700BED8FF /* AccountInputFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -205,6 +246,7 @@
 				A06834212B8D86220086CE59 /* ShopTabBarViewController.swift */,
 				A06834232B8D87180086CE59 /* StaffAccountViewController.swift */,
 				A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */,
+				A0CA420A2B91EC6900BED8FF /* AccountInputViewController.swift */,
 			);
 			path = ShopOwner;
 			sourceTree = "<group>";
@@ -309,6 +351,7 @@
 				A06834262B8D872A0086CE59 /* ShopManagerViewController.swift in Sources */,
 				A0CBF5062B8CE6DD008CFAD3 /* AdminFactory.swift in Sources */,
 				A0CBF4F62B8CDBD9008CFAD3 /* UITextField+Extension.swift in Sources */,
+				A0CA42102B91F59600BED8FF /* AccountInputViewModel.swift in Sources */,
 				A0CBF4EF2B8CDBD9008CFAD3 /* UILabel+Extension.swift in Sources */,
 				A0CBF5042B8CE5FD008CFAD3 /* AdminViewController.swift in Sources */,
 				A0CBF4F02B8CDBD9008CFAD3 /* String+Extension.swift in Sources */,
@@ -320,12 +363,17 @@
 				A0CBF4F42B8CDBD9008CFAD3 /* UINavigationController+Extension.swift in Sources */,
 				A06834202B8D853F0086CE59 /* NameConstants.swift in Sources */,
 				A0CBF4F32B8CDBD9008CFAD3 /* UIButton+Extension.swift in Sources */,
+				A0CA420B2B91EC6900BED8FF /* AccountInputViewController.swift in Sources */,
 				A0CBF4D12B8CD3C6008CFAD3 /* SignInViewController.swift in Sources */,
 				A0CBF4DD2B8CD962008CFAD3 /* VCPreview.swift in Sources */,
 				A0CBF4BB2B8CD31D008CFAD3 /* AppDelegate.swift in Sources */,
+				A0CA42132B91F5F800BED8FF /* AccountModel.swift in Sources */,
+				A0CA42162B91F78400BED8FF /* APIManager.swift in Sources */,
 				A0CBF4F12B8CDBD9008CFAD3 /* UIFont+Extension.swift in Sources */,
 				A0CBF4F22B8CDBD9008CFAD3 /* UIImage+Extension.swift in Sources */,
+				A0CA420D2B91ED2700BED8FF /* AccountInputFactory.swift in Sources */,
 				A0CBF4BD2B8CD31D008CFAD3 /* SceneDelegate.swift in Sources */,
+				A0CA42182B91F7D900BED8FF /* AuthenticationResponse.swift in Sources */,
 				A06834282B8D90280086CE59 /* StaffAccountFactory.swift in Sources */,
 				A0CBF4F52B8CDBD9008CFAD3 /* UIScreen+Extension.swift in Sources */,
 				A06834242B8D87180086CE59 /* StaffAccountViewController.swift in Sources */,

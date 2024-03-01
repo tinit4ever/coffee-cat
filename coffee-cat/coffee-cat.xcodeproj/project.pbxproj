@@ -349,8 +349,8 @@
 		A0BE75D72B6A513E00DE6909 /* MainTabBar */ = {
 			isa = PBXGroup;
 			children = (
-				A0EEEED12B9154CE0000FF9C /* Booking */,
 				A0CA272B2B6B98B900E3D640 /* Home */,
+				A0EEEED12B9154CE0000FF9C /* Booking */,
 				A0A9ED362B8ED9A100CE1177 /* Process */,
 			);
 			path = MainTabBar;
