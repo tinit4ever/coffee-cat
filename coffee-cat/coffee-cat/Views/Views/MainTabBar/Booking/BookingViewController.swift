@@ -19,15 +19,15 @@ class BookingViewController: UIViewController, UIFactory {
     lazy var viewTitle = makeLabel()
     lazy var segmentedControl: SquareSegmentedControl = {
         var segment = SquareSegmentedControl(items: segmenItems)
-//        segment.frame = .zero
+        //        segment.frame = .zero
         segment.selectedSegmentIndex = 0
         segment.translatesAutoresizingMaskIntoConstraints = false
         return segment
     }()
-   
+    
     lazy var bookingTableViewContainer = makeView()
     lazy var bookingTableView = makeTableView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
@@ -128,7 +128,7 @@ class BookingViewController: UIViewController, UIFactory {
     @objc
     private func segmentValueChanged(_ sender: UISegmentedControl) {
         let selectedSegment = sender.selectedSegmentIndex
-
+        
         switch selectedSegment {
         case 0:
             print("PENDING")
@@ -151,6 +151,10 @@ class BookingViewController: UIViewController, UIFactory {
         DispatchQueue.main.async {
             self.bookingTableView.reloadData()
         }
+    }
+    
+    private func cancelBooking(indexPath: IndexPath) {
+        //        self.viewModel.currentList
     }
 }
 
@@ -175,7 +179,12 @@ extension BookingViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if segmentedControl.selectedSegmentIndex == 2 {
+            return UISwipeActionsConfiguration(actions: [])
+        }
+        
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
+            self.cancelBooking(indexPath: indexPath)
             completionHandler(true)
         }
         let image = UIImage(systemName: "trash.fill")?.withTintColor(.customPink, renderingMode: .alwaysOriginal).resized(to: CGSize(width: heightScaler(40), height: heightScaler(45)))
