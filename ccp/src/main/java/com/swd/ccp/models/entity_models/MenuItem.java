@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class MenuItem {
     private MenuItemStatus menuItemStatus;
 
     @OneToMany(mappedBy = "menuItem")
+    @JsonIgnore
     List<BookingDetail> bookingDetailList;
 
     private String name;

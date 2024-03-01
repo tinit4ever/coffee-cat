@@ -1,7 +1,6 @@
 package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.models.entity_models.*;
-import com.swd.ccp.models.request_models.SortRequest;
 import com.swd.ccp.models.response_models.AreaListResponse;
 import com.swd.ccp.models.response_models.AreaResponse;
 import com.swd.ccp.models.response_models.CatResponse;
@@ -9,18 +8,19 @@ import com.swd.ccp.models.response_models.SeatResponse;
 import com.swd.ccp.repositories.AreaRepo;
 import com.swd.ccp.repositories.AreaStatusRepo;
 import com.swd.ccp.repositories.BookingRepo;
+import com.swd.ccp.repositories.BookingStatusRepo;
 import com.swd.ccp.services.AreaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class AreaServiceIpml implements AreaService {
+public class AreaServiceImpl implements AreaService {
     private final AreaRepo areaRepo;
     private final BookingRepo bookingRepo;
+    private final BookingStatusRepo bookingStatusRepo;
     private final AreaStatusRepo areaStatusRepo;
     public AreaListResponse getAreasWithSeatsAndActiveCats(Integer shopId, Date date) {
         List<AreaStatus> activeAreaStatusList = areaStatusRepo.findAllByStatus("active");
@@ -39,8 +39,9 @@ public class AreaServiceIpml implements AreaService {
             List<SeatResponse> seatResponseList = new ArrayList<>();
 
             for (Seat seat : seatList) {
+                Booking booking = bookingRepo.findBySeatIdAndBookingDate(seat.getId(), date).orElse(null);
 
-                boolean isBooked = bookingRepo.existsBySeatIdAndBookingDate(seat.getId(), date);
+                boolean isBooked = booking != null && !booking.getBookingStatus().getStatus().equals("Cancelled");
                 SeatResponse seatResponseDTO = SeatResponse.builder()
                         .id(seat.getId())
                         .name(seat.getName())

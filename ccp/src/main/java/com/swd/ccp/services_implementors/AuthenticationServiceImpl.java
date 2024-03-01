@@ -122,11 +122,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public CheckMailExistedResponse checkUserIsExisted(String email) {
         if(accountRepo.findByEmail(email).orElse(null) != null){
             return CheckMailExistedResponse.builder()
+                    .status(false)
                     .message("User is existed")
                     .build();
         }
         return CheckMailExistedResponse.builder()
-                .message("User is not existed")
+                .status(true)
+                .message("")
                 .build();
     }
 

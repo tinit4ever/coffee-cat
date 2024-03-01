@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class Seat {
     private SeatStatus seatStatus;
 
     @OneToMany(mappedBy = "seat")
+    @JsonIgnore
     List<Booking> bookingList;
 
     private String name;

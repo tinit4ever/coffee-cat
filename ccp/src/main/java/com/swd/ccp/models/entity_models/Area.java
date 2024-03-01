@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
 
@@ -23,9 +24,11 @@ public class Area {
     @JoinColumn(name = "shop_id")
     private Shop shop;
     @OneToMany(mappedBy = "area")
+    @JsonIgnore
     private List<Cat> catList;
 
     @OneToMany(mappedBy = "area")
+    @JsonIgnore
     private List<Seat> seatList;
     @ManyToOne
     @JoinColumn(name = "status_id")

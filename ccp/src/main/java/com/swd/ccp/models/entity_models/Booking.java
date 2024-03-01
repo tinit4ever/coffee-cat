@@ -23,7 +23,6 @@ public class Booking {
     private Integer id;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
@@ -51,5 +50,6 @@ public class Booking {
     private String extraContent;
 
     @OneToMany(mappedBy = "booking")
+    @JsonIgnore
     private List<BookingDetail> bookingDetailList;
 }
