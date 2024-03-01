@@ -25,6 +25,7 @@ struct APIConstants {
     
     struct Booking {
         static let create = baseURL + "booking/create"
+        static let cancel = baseURL + "booking/cancel"
         static let history = baseURL + "customer/history"
     }
     
@@ -187,12 +188,12 @@ class APIManager {
     func createBooking(booking: Booking, accessToken: String, completion: @escaping (Result<String, Error>) -> Void) {
         let url = APIConstants.Booking.create
         
-        let parameters = booking
-        
         let headers: HTTPHeaders = [
             "Authorization": "Bearer \(accessToken)",
             "Content-Type": "application/json"
         ]
+        
+        let parameters = booking
         
         AF.request(url, method: .post, parameters: parameters, encoder: JSONParameterEncoder.default, headers: headers).responseData { response in
             switch response.result {
@@ -207,6 +208,27 @@ class APIManager {
                 completion(.failure(error))
             }
         }
+    }
+    
+    func cancelBooking(bookingId: Int, accessToken: String) -> AnyPublisher<String, Error> {
+        let url = APIConstants.Booking.cancel
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Int] = [
+            "bookingID": bookingId
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, headers: headers)
+            .publishDecodable()
+            .value()
+            .mapError { error in
+                return error as Error
+            }
+            .eraseToAnyPublisher()
     }
     
     func getBookingHistory(accessToken: String) -> AnyPublisher<BookingResponse, Error> {
