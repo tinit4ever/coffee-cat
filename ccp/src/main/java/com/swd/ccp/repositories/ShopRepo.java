@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ShopRepo extends JpaRepository<Shop, Integer> {
-    Page<Shop> findAll (Pageable pageable);
+    List<Shop> findAll (Sort sort);
     List<Shop> findAllByStatusIn(List<ShopStatus> status, Sort sort);
     @Query("SELECT s FROM Shop s WHERE s.status IN :status AND " +
             "(LOWER(s.name) LIKE LOWER(CONCAT('%', :keyword, '%')) ) " )

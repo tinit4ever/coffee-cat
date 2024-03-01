@@ -10,7 +10,6 @@ com\swd\ccp\repositories\SeatRepo.class
 com\swd\ccp\models\entity_models\Booking.class
 com\swd\ccp\models\request_models\StaffRequest$StaffRequestBuilder.class
 com\swd\ccp\repositories\ShopStatusRepo.class
-com\swd\ccp\services_implementors\AreaServiceImpl.class
 com\swd\ccp\services\JWTService.class
 com\swd\ccp\services\ShopService.class
 com\swd\ccp\models\request_models\UpdateBookingCartRequest.class
@@ -43,6 +42,7 @@ com\swd\ccp\repositories\FollowerCustomerRepo.class
 com\swd\ccp\repositories\CatStatusRepo.class
 com\swd\ccp\models\response_models\BookingHistoryResponse.class
 com\swd\ccp\models\response_models\RespondObject.class
+com\swd\ccp\models\response_models\ShopManageResponse.class
 com\swd\ccp\models\entity_models\Manager.class
 com\swd\ccp\models\entity_models\Menu$MenuBuilder.class
 com\swd\ccp\models\response_models\ShopListResponse$ShopListResponseBuilder.class
@@ -66,6 +66,7 @@ com\swd\ccp\models\response_models\BookingCartResponse$BookingCartShopResponse$B
 com\swd\ccp\models\entity_models\Area$AreaBuilder.class
 com\swd\ccp\models\response_models\BookingCartResponse$BookingCartShopMenuResponse.class
 com\swd\ccp\models\response_models\BookingCartResponse.class
+com\swd\ccp\models\response_models\StaffListResponse.class
 com\swd\ccp\models\entity_models\Seat.class
 com\swd\ccp\models\response_models\MenuItemResponse$MenuItemResponseBuilder.class
 com\swd\ccp\models\request_models\ListRequest.class
@@ -73,6 +74,7 @@ com\swd\ccp\services_implementors\AuthenticationServiceImpl.class
 com\swd\ccp\models\response_models\RespondObject$RespondObjectBuilder.class
 com\swd\ccp\services\UserService.class
 com\swd\ccp\models\response_models\CustomerProfile.class
+com\swd\ccp\models\response_models\StaffListResponse$StaffListResponseBuilder.class
 com\swd\ccp\repositories\AreaRepo.class
 com\swd\ccp\models\request_models\UpdateBookingCartRequest$BookingCartShopMenuRequest.class
 com\swd\ccp\repositories\BookingDetailRepo.class
@@ -81,6 +83,7 @@ com\swd\ccp\models\response_models\BookingHistoryResponse$BookingResponse.class
 com\swd\ccp\models\response_models\CreateShopResponse$CreateShopResponseBuilder.class
 com\swd\ccp\configurations\JWTAuthenticationFilter.class
 com\swd\ccp\models\response_models\UpdateStaffResponse.class
+com\swd\ccp\models\response_models\ShopManageResponse$ShopManageResponseBuilder.class
 com\swd\ccp\enums\Permission.class
 com\swd\ccp\models\response_models\CatResponse$CatResponseBuilder.class
 com\swd\ccp\models\response_models\StaffResponse$StaffResponseBuilder.class
@@ -151,6 +154,7 @@ com\swd\ccp\models\entity_models\ShopImage$ShopImageBuilder.class
 com\swd\ccp\models\request_models\CancelBookingRequest.class
 com\swd\ccp\repositories\BookingStatusRepo.class
 com\swd\ccp\models\entity_models\MenuItem$MenuItemBuilder.class
+com\swd\ccp\services_implementors\AreaServiceIpml.class
 com\swd\ccp\models\entity_models\Package.class
 com\swd\ccp\models\entity_models\Area.class
 com\swd\ccp\models\entity_models\Token.class
