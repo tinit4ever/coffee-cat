@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "delish-210419-carne-asada-torta-01-portrait-jg-1620136948.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

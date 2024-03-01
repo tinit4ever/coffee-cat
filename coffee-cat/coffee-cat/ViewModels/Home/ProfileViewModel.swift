@@ -8,19 +8,11 @@
 import Foundation
 
 protocol ProfileViewModelProtocol {
-    var userInfo: Account {get set}
-    
-    func logout()
+    func logout(accessToken: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void)
 }
 
 class ProfileViewModel: ProfileViewModelProtocol {
-    var userInfo: Account
-    
-    init(userInfo: Account) {
-        self.userInfo = userInfo
-    }
-    
-    func logout() {
-        print("Logout")
+    func logout(accessToken: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
+        APIManager.shared.logout(accessToken: accessToken, completion: completion)
     }
 }
