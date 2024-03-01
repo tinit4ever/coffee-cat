@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
 
@@ -44,17 +45,23 @@ public class Shop {
     private Package packages;
 
     @OneToMany(mappedBy = "shop")
+    @JsonIgnore
     private List<FollowerCustomer> followerCustomerList;
 
     @OneToMany(mappedBy = "shop")
+    @JsonIgnore
     private  List<Comment> commentList;
+
     @OneToMany(mappedBy = "shop")
+    @JsonIgnore
     private  List<Area> areaList;
 
     @OneToMany(mappedBy = "shop")
+    @JsonIgnore
     private List<Manager> managerList;
 
     @OneToMany(mappedBy = "shop")
+    @JsonIgnore
     private List<ShopImage> shopImageList;
 
 

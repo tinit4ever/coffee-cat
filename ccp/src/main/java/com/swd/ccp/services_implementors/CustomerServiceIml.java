@@ -1,10 +1,7 @@
 package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.Exception.NotFoundException;
-import com.swd.ccp.models.entity_models.Account;
-import com.swd.ccp.models.entity_models.Booking;
-import com.swd.ccp.models.entity_models.BookingDetail;
-import com.swd.ccp.models.entity_models.Customer;
+import com.swd.ccp.models.entity_models.*;
 import com.swd.ccp.models.request_models.UpdateProfileRequest;
 import com.swd.ccp.models.response_models.BookingHistoryResponse;
 import com.swd.ccp.models.response_models.CustomerProfile;
@@ -12,6 +9,7 @@ import com.swd.ccp.models.response_models.UpdateProfileResponse;
 import com.swd.ccp.repositories.BookingDetailRepo;
 import com.swd.ccp.repositories.BookingRepo;
 import com.swd.ccp.repositories.CustomerRepo;
+import com.swd.ccp.repositories.MenuItemRepo;
 import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.CustomerService;
 import com.swd.ccp.services.JWTService;
@@ -30,6 +28,7 @@ public class CustomerServiceIml implements CustomerService {
     private final BookingRepo bookingRepo;
     private final BookingDetailRepo bookingDetailRepo;
     private final AccountService accountService;
+    private final MenuItemRepo menuItemRepo;
 
 
     @Override
@@ -92,6 +91,21 @@ public class CustomerServiceIml implements CustomerService {
         List<BookingHistoryResponse.BookingResponse> bookingResponseList = new ArrayList<>();
         if(bookingList != null && !bookingList.isEmpty()){
             for(Booking booking: bookingList){
+                List<BookingDetail> bookingDetailList = bookingDetailRepo.findAllByBooking(booking);
+                assert bookingDetailList != null;
+                List<BookingHistoryResponse.MenuItemResponse> itemResponseList = new ArrayList<>();
+                for(BookingDetail bookingDetail: bookingDetailList){
+                    MenuItem item = menuItemRepo.findById(bookingDetail.getMenuItem().getId()).orElse(null);
+                    assert item != null;
+                    itemResponseList.add(
+                            BookingHistoryResponse.MenuItemResponse.builder()
+                                    .itemName(item.getName())
+                                    .itemPrice(bookingDetail.getPrice() * bookingDetail.getQuantity())
+                                    .quantity(bookingDetail.getQuantity())
+                                    .build()
+                    );
+                }
+
                 bookingResponseList.add(
                         BookingHistoryResponse.BookingResponse.builder()
                                 .bookingID(booking.getId())
@@ -101,24 +115,26 @@ public class CustomerServiceIml implements CustomerService {
                                 .totalPrice(calculateTotalPrice(booking))
                                 .bookingDate(booking.getBookingDate())
                                 .status(booking.getBookingStatus().getStatus())
+                                .itemResponseList(itemResponseList)
                                 .build()
                 );
             }
 
             return BookingHistoryResponse.builder()
                     .status(true)
-                    .message("Get list successfully")
+                    .message("")
                     .bookingList(bookingResponseList)
                     .build();
         }
         return BookingHistoryResponse.builder()
                 .status(false)
-                .message("Fail to get list")
+                .message("There is no booking available yet")
                 .bookingList(null)
                 .build();
     }
 
-    private Customer takeCustomerFromAccount(Account account){
+    @Override
+    public Customer takeCustomerFromAccount(Account account){
         Customer customer = customerRepo.findByAccount_Email(account.getEmail()).orElse(null);
         assert customer != null;
         return customer;

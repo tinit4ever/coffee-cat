@@ -18,6 +18,16 @@ public class BookingHistoryResponse {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    public static class MenuItemResponse{
+        private String itemName;
+        private float itemPrice;
+        private int quantity;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
     public static class BookingResponse{
         private Integer bookingID;
         private String shopName;
@@ -27,7 +37,7 @@ public class BookingHistoryResponse {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         private java.sql.Date bookingDate;
         private String status;
-
+        private List<MenuItemResponse> itemResponseList;
     }
     private boolean status;
 

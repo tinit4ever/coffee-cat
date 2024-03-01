@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.sql.Date;
 import java.util.List;
@@ -30,9 +31,11 @@ public class Customer {
     private Date dob;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<FollowerCustomer> followerCustomerList;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     private List<Booking> bookingList;
 
     public void setDob(java.util.Date dob) {

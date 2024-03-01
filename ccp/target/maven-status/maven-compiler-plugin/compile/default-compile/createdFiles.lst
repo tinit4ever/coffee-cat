@@ -10,6 +10,7 @@ com\swd\ccp\repositories\SeatRepo.class
 com\swd\ccp\models\entity_models\Booking.class
 com\swd\ccp\models\request_models\StaffRequest$StaffRequestBuilder.class
 com\swd\ccp\repositories\ShopStatusRepo.class
+com\swd\ccp\services_implementors\AreaServiceImpl.class
 com\swd\ccp\services\JWTService.class
 com\swd\ccp\services\ShopService.class
 com\swd\ccp\models\request_models\UpdateBookingCartRequest.class
@@ -87,6 +88,7 @@ com\swd\ccp\models\response_models\CatResponse.class
 com\swd\ccp\models\request_models\CheckMailExistedRequest.class
 com\swd\ccp\models\entity_models\BookingStatus.class
 com\swd\ccp\models\entity_models\BookingDetail$BookingDetailBuilder.class
+com\swd\ccp\models\response_models\BookingHistoryResponse$MenuItemResponse.class
 com\swd\ccp\models\response_models\GetAllAccountAdminResponse$GetAllAccountAdminResponseBuilder.class
 com\swd\ccp\repositories\CommentRepo.class
 com\swd\ccp\repositories\PackageRepo.class
@@ -96,6 +98,7 @@ com\swd\ccp\controllers\ShopController.class
 com\swd\ccp\Exception\NotFoundException.class
 com\swd\ccp\models\response_models\SeatResponse$SeatResponseBuilder.class
 com\swd\ccp\models\response_models\CheckMailExistedResponse$CheckMailExistedResponseBuilder.class
+com\swd\ccp\models\response_models\BookingHistoryResponse$MenuItemResponse$MenuItemResponseBuilder.class
 com\swd\ccp\models\entity_models\BookingDetail.class
 com\swd\ccp\models\entity_models\ShopStatus.class
 com\swd\ccp\models\response_models\CreateStaffResponse.class
@@ -148,7 +151,6 @@ com\swd\ccp\models\entity_models\ShopImage$ShopImageBuilder.class
 com\swd\ccp\models\request_models\CancelBookingRequest.class
 com\swd\ccp\repositories\BookingStatusRepo.class
 com\swd\ccp\models\entity_models\MenuItem$MenuItemBuilder.class
-com\swd\ccp\services_implementors\AreaServiceIpml.class
 com\swd\ccp\models\entity_models\Package.class
 com\swd\ccp\models\entity_models\Area.class
 com\swd\ccp\models\entity_models\Token.class

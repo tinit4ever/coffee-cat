@@ -3,6 +3,7 @@ package com.swd.ccp;
 import com.swd.ccp.enums.Role;
 import com.swd.ccp.models.entity_models.*;
 import com.swd.ccp.repositories.*;
+import com.swd.ccp.services.CustomerService;
 import com.swd.ccp.services.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,6 +60,12 @@ public class CcpApplication {
     private final AreaRepo areaRepo;
 
     private final AreaStatusRepo areaStatusRepo;
+
+    private final CatRepo catRepo;
+
+    private final CatStatusRepo catStatusRepo;
+
+    private final CustomerService customerService;
 
     public static void main(String[] args) {
         SpringApplication.run(CcpApplication.class, args);
@@ -190,7 +198,29 @@ public class CcpApplication {
                         .role(Role.ADMIN)
                         .build();
 
+                Account customCustomerAccount = Account
+                        .builder()
+                        .email("an@gmail.com")
+                        .name("Mr An")
+                        .password(passwordEncoder.encode("an123456"))
+                        .phone("090909090909")
+                        .status(accountStatusRepo.findByStatus("active"))
+                        .role(Role.CUSTOMER)
+                        .build();
+
+                Account customOwnerAccount = Account
+                        .builder()
+                        .email("tin@gmail.com")
+                        .name("Mr Tin")
+                        .password(passwordEncoder.encode("an123456"))
+                        .phone("090909090909")
+                        .status(accountStatusRepo.findByStatus("active"))
+                        .role(Role.OWNER)
+                        .build();
+
                 accountList.add(admin);
+                accountList.add(customCustomerAccount);
+                accountList.add(customOwnerAccount);
 
                 List<String> nameList = new ArrayList<>();
 
@@ -216,12 +246,27 @@ public class CcpApplication {
                 //init token
                 String admin_token = jwtService.generateToken(admin);
                 String admin_refresh_token = jwtService.generateRefreshToken(admin);
+                String customCus_token = jwtService.generateToken(customCustomerAccount);
+                String customCus_refresh_token = jwtService.generateRefreshToken(customCustomerAccount);
+                String customOwner_token = jwtService.generateToken(customOwnerAccount);
+                String customOwner_refresh_token = jwtService.generateRefreshToken(customOwnerAccount);
+
 
                 Token adminAccess = Token.builder().account(admin).token(admin_token).type("access").status(1).build();
                 Token adminRefresh = Token.builder().account(admin).token(admin_refresh_token).type("refresh").status(1).build();
+                Token customCusAccess = Token.builder().account(admin).token(customCus_token).type("access").status(1).build();
+                Token customCusRefresh = Token.builder().account(admin).token(customCus_refresh_token).type("refresh").status(1).build();
+                Token customOwnerAccess = Token.builder().account(admin).token(customOwner_token).type("access").status(1).build();
+                Token customOwnerRefresh = Token.builder().account(admin).token(customOwner_refresh_token).type("refresh").status(1).build();
+
 
                 tokenList.add(adminAccess);
                 tokenList.add(adminRefresh);
+                tokenList.add(customCusAccess);
+                tokenList.add(customCusRefresh);
+                tokenList.add(customOwnerAccess);
+                tokenList.add(customOwnerRefresh);
+
 
                 accountList.forEach(acc -> {
                     String accessToken = jwtService.generateToken(acc);
@@ -306,7 +351,13 @@ public class CcpApplication {
                 seatStatusRepo.save(SeatStatus.builder().status("available").build());
                 seatStatusRepo.save(SeatStatus.builder().status("busy").build());
 
-                //init area & seat
+                //init cat status
+                catStatusRepo.save(CatStatus.builder().status("available").build());
+                catStatusRepo.save(CatStatus.builder().status("unavailable").build());
+
+                //init area & seat & cat
+                List<String> catNameList = new ArrayList<>();
+
                 for(Shop shop: shops){
 
                     for(int areaPos = 0; areaPos < 2; areaPos++){
@@ -318,7 +369,20 @@ public class CcpApplication {
 
                         area = areaRepo.save(area);
 
-                        for(int seatPos = 0; seatPos < 2; seatPos++){
+                        for(int catPos = 0; catPos < 5; catPos++){
+                            Cat cat = Cat.builder()
+                                    .area(area)
+                                    .name(getCatRandomName(catNameList))
+                                    .catStatus(catStatusRepo.findByStatus("available"))
+                                    .type("Cat")
+                                    .description("Uncle Null")
+                                    .imgLink("Aunt Null")
+                                    .build();
+
+                            catRepo.save(cat);
+                        }
+
+                        for(int seatPos = 0; seatPos < 10; seatPos++){
                             Seat seat = Seat.builder()
                                     .area(area)
                                     .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
@@ -351,7 +415,7 @@ public class CcpApplication {
                 //init menu item
                 List<String> usedFoodName = new ArrayList<>();
                 for(Menu menu: menuList){
-                    for(int item = 0; item < 2; item++){
+                    for(int item = 0; item < 6; item++){
                         MenuItem menuItem = MenuItem.builder()
                                 .menu(menu)
                                 .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
@@ -383,6 +447,75 @@ public class CcpApplication {
                 bookingStatusRepo.save(pending);
                 bookingStatusRepo.save(confirmed);
                 bookingStatusRepo.save(cancelled);
+
+                //init booking
+                bookingRepo.save(
+                        Booking.builder()
+                                .customer(customerService.takeCustomerFromAccount(customCustomerAccount))
+                                .seat(seatRepo.findAll().get(1))
+                                .bookingStatus(pending)
+                                .shopName(seatRepo.findAll().get(1).getArea().getShop().getName())
+                                .seatName(seatRepo.findAll().get(1).getName())
+                                .createDate(new Date(System.currentTimeMillis()))
+                                .bookingDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 5))
+                                .extraContent("Sir Null")
+                                .build()
+                );
+
+                bookingRepo.save(
+                        Booking.builder()
+                                .customer(customerService.takeCustomerFromAccount(customCustomerAccount))
+                                .seat(seatRepo.findAll().get(21))
+                                .bookingStatus(confirmed)
+                                .shopName(seatRepo.findAll().get(21).getArea().getShop().getName())
+                                .seatName(seatRepo.findAll().get(21).getName())
+                                .createDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                                .bookingDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 10))
+                                .extraContent("Uncle Null")
+                                .build()
+                );
+
+                bookingRepo.save(
+                        Booking.builder()
+                                .customer(customerService.takeCustomerFromAccount(customCustomerAccount))
+                                .seat(seatRepo.findAll().get(41))
+                                .bookingStatus(cancelled)
+                                .shopName(seatRepo.findAll().get(41).getArea().getShop().getName())
+                                .seatName(seatRepo.findAll().get(41).getName())
+                                .createDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 2))
+                                .bookingDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 15))
+                                .extraContent("Mama Null")
+                                .build()
+                );
+
+                //init booking detail
+                bookingDetailRepo.save(
+                        BookingDetail.builder()
+                                .booking(bookingRepo.findAll().get(0))
+                                .menuItem(menuItemRepo.findAll().get(0))
+                                .price(menuItemRepo.findAll().get(0).getPrice())
+                                .quantity(generateRandomNumber(1, 20))
+                                .build()
+                );
+
+                bookingDetailRepo.save(
+                        BookingDetail.builder()
+                                .booking(bookingRepo.findAll().get(1))
+                                .menuItem(menuItemRepo.findAll().get(6))
+                                .price(menuItemRepo.findAll().get(6).getPrice())
+                                .quantity(generateRandomNumber(1, 20))
+                                .build()
+                );
+
+                bookingDetailRepo.save(
+                        BookingDetail.builder()
+                                .booking(bookingRepo.findAll().get(2))
+                                .menuItem(menuItemRepo.findAll().get(12))
+                                .price(menuItemRepo.findAll().get(12).getPrice())
+                                .quantity(generateRandomNumber(1, 20))
+                                .build()
+                );
+
 
             }
 
@@ -424,30 +557,54 @@ public class CcpApplication {
             private String getRandomName(List<String> nameList) {
                 Random random = new Random();
                 String[] names = {
-                        "Sam",
-                        "John",
-                        "Lisa",
-                        "Mike",
-                        "Emma",
-                        "Alex",
-                        "Sara",
-                        "Chris",
-                        "Natalie",
-                        "Peter",
-                        "Sophia",
-                        "Daniel",
-                        "Olivia",
-                        "Matthew",
-                        "Emily",
-                        "Ryan",
-                        "Grace",
-                        "Lucas",
-                        "Avery",
-                        "Connor"
+                        "Sam", "John", "Lisa", "Mike", "Emma",
+                        "Alex", "Sara", "Chris", "Natalie", "Peter",
+                        "Sophia", "Daniel", "Olivia", "Matthew", "Emily",
+                        "Ryan", "Grace", "Lucas", "Avery", "Connor"
                 };
 
                 List<String> availableNames = new ArrayList<>();
                 for (String name : names) {
+                    if (!nameList.contains(name)) {
+                        availableNames.add(name);
+                    }
+                }
+
+                if (availableNames.isEmpty()) {
+                    return "No unique names available.";
+                }
+
+                return availableNames.get(random.nextInt(availableNames.size()));
+            }
+
+            // Method to get a random cat name from a list of names
+            private String getCatRandomName(List<String> nameList) {
+                Random random = new Random();
+                String[] catNames = {
+                        "Whiskers", "Mittens", "Shadow", "Felix", "Luna", "Simba", "Cleo", "Oliver", "Chloe", "Leo",
+                        "Milo", "Lily", "Tiger", "Sophie", "Max", "Zoe", "Charlie", "Lucy", "Bella", "Oreo",
+                        "Tigger", "Nala", "Smokey", "Ginger", "Mittens", "Boots", "Angel", "Coco", "Rocky", "Misty",
+                        "Sylvester", "Missy", "Whiskey", "Garfield", "Snowball", "Pumpkin", "Princess", "Buddy", "Sasha", "Midnight",
+                        "Patch", "Sunny", "Peanut", "Cinnamon", "Biscuit", "Pepper", "Muffin", "Oreo", "Cupcake",
+                        "Whiskers Jr.", "Misty", "Snowflake", "Mittens Jr.", "Smokey Jr.", "Rusty", "Fluffy", "Whiskers II", "Shadow Jr.", "Midnight II",
+                        "Lucky", "Pebbles", "Princess II", "Whiskers III", "Marshmallow", "Socks", "Angel II", "Cocoa", "Sunny II", "Muffin II",
+                        "Tigger II", "Whiskers IV", "Ginger Jr.", "Pumpkin II", "Simba Jr.", "Felix Jr.", "Whiskers V", "Boots Jr.", "Patch Jr.", "Oreo Jr.",
+                        "Max Jr.", "Missy Jr.", "Buddy Jr.", "Mocha", "Whiskers VI", "Luna II", "Copper", "Olive", "Periwinkle", "Gizmo",
+                        "Bluebell", "Sparkle", "Whiskers VII", "Shadow II", "Tiger Jr.", "Whiskers VIII", "Whiskers IX", "Bella II", "Whiskers X",
+                        "Whiskers Jr.", "Mittens Jr.", "Shadow Jr.", "Felix Jr.", "Luna Jr.", "Simba Jr.", "Cleo Jr.", "Oliver Jr.", "Chloe Jr.", "Leo Jr.",
+                        "Milo Jr.", "Lily Jr.", "Tiger Jr.", "Sophie Jr.", "Max Jr.", "Zoe Jr.", "Charlie Jr.", "Lucy Jr.", "Bella Jr.", "Oreo Jr.",
+                        "Tigger Jr.", "Nala Jr.", "Smokey Jr.", "Ginger Jr.", "Mittens Jr. II", "Boots Jr.", "Angel Jr.", "Coco Jr.", "Rocky Jr.", "Misty Jr.",
+                        "Sylvester Jr.", "Missy Jr.", "Whiskey Jr.", "Garfield Jr.", "Snowball Jr.", "Pumpkin Jr.", "Princess Jr.", "Buddy Jr.", "Sasha Jr.", "Midnight Jr.",
+                        "Patch Jr.", "Sunny Jr.", "Peanut Jr.", "Cinnamon Jr.", "Biscuit Jr.", "Pepper Jr.", "Muffin Jr.", "Oreo Jr.", "Cupcake Jr.", "Whiskers Jr. II",
+                        "Whiskers III", "Mittens III", "Shadow III", "Felix III", "Luna III", "Simba III", "Cleo III", "Oliver III", "Chloe III", "Leo III",
+                        "Milo III", "Lily III", "Tiger III", "Sophie III", "Max III", "Zoe III", "Charlie III", "Lucy III", "Bella III", "Oreo III", "Tigger III", "Nala III", "Smokey III", "Ginger III", "Mittens III",
+                        "Boots III", "Angel III", "Coco III", "Rocky III", "Misty III", "Sylvester III", "Missy III", "Whiskey III", "Garfield III", "Snowball III",
+                        "Pumpkin III", "Princess III", "Buddy III", "Sasha III", "Midnight III", "Patch III", "Sunny III", "Peanut III", "Cinnamon III", "Biscuit III",
+                        "Pepper III", "Muffin III", "Oreo III", "Cupcake III", "Whiskers IV"
+                };
+
+                List<String> availableNames = new ArrayList<>();
+                for (String name : catNames) {
                     if (!nameList.contains(name)) {
                         availableNames.add(name);
                     }
@@ -500,46 +657,46 @@ public class CcpApplication {
             public static String generateFoodName(List<String> usedFood) {
                 Random rand = new Random();
                 String[] foodNames = {
-                        "Sizzling Tacos",
-                        "Creamy Carbonara",
-                        "Zesty Lemon Chicken",
-                        "Spicy Chilli Beef",
-                        "Garlic Butter Shrimp",
-                        "Mouthwatering Ravioli",
-                        "Crispy Fried Chicken",
-                        "Sweet and Sour Pork",
-                        "Basil Pesto Pasta",
-                        "Honey Glazed Salmon",
-                        "Succulent BBQ Ribs",
-                        "Buttery Lobster Tail",
-                        "Mango Tango Salad",
-                        "Cheesy Baked Ziti",
-                        "Lemon Herb Roast Chicken",
-                        "Gourmet Mushroom Risotto",
-                        "Teriyaki Glazed Tofu",
-                        "Cajun Blackened Fish",
-                        "Apple Cinnamon Pancakes",
-                        "Pineapple Teriyaki Pork",
-                        "Greek Style Gyros",
-                        "Creamy Mushroom Stroganoff",
-                        "Pesto Parmesan Penne",
-                        "Maple Glazed Ham",
-                        "Chipotle BBQ Brisket",
-                        "Berry Burst Smoothie Bowl",
-                        "Sesame Ginger Stir Fry",
-                        "Rustic Vegetable Lasagna",
-                        "Mint Chocolate Chip Ice Cream",
-                        "Hawaiian BBQ Chicken",
-                        "Crispy Onion Rings",
-                        "Avocado Toast with Eggs",
-                        "Stuffed Bell Peppers",
-                        "Mediterranean Falafel Wrap",
-                        "Caramelized Onion Burger",
-                        "Vietnamese Pho Soup",
-                        "Raspberry Swirl Cheesecake",
-                        "Peach Melba Parfait",
-                        "Herbed Quinoa Salad",
-                        "Cinnamon Sugar Donuts"
+                        "Sizzling Tacos", "Creamy Carbonara", "Zesty Lemon Chicken",
+                        "Spicy Chilli Beef", "Garlic Butter Shrimp", "Mouthwatering Ravioli",
+                        "Crispy Fried Chicken", "Sweet and Sour Pork", "Basil Pesto Pasta",
+                        "Honey Glazed Salmon", "Succulent BBQ Ribs", "Buttery Lobster Tail",
+                        "Mango Tango Salad", "Cheesy Baked Ziti", "Lemon Herb Roast Chicken",
+                        "Gourmet Mushroom Risotto", "Teriyaki Glazed Tofu", "Cajun Blackened Fish",
+                        "Apple Cinnamon Pancakes", "Pineapple Teriyaki Pork", "Greek Style Gyros",
+                        "Creamy Mushroom Stroganoff", "Pesto Parmesan Penne", "Maple Glazed Ham",
+                        "Chipotle BBQ Brisket", "Berry Burst Smoothie Bowl", "Sesame Ginger Stir Fry",
+                        "Rustic Vegetable Lasagna", "Mint Chocolate Chip Ice Cream", "Hawaiian BBQ Chicken",
+                        "Crispy Onion Rings", "Avocado Toast with Eggs", "Stuffed Bell Peppers",
+                        "Mediterranean Falafel Wrap", "Caramelized Onion Burger", "Vietnamese Pho Soup",
+                        "Raspberry Swirl Cheesecake", "Peach Melba Parfait", "Herbed Quinoa Salad",
+                        "Cinnamon Sugar Donuts", "Jerk Chicken", "Caprese Salad",
+                        "Beef Wellington", "Pad Thai", "Baklava",
+                        "Tandoori Chicken", "Shakshuka", "Goulash",
+                        "Sushi Rolls", "Moussaka", "Ceviche",
+                        "Bison Burger", "Chimichurri Steak", "Turkish Delight",
+                        "Banh Mi", "Kimchi Fried Rice", "Empanadas",
+                        "Peking Duck", "Coq au Vin", "Tiramisu",
+                        "Paella", "Shawarma", "Calamari",
+                        "Ratatouille", "Fish Tacos", "Gyoza",
+                        "Korean BBQ", "Eggplant Parmesan", "Tuna Tartare",
+                        "Soba Noodles", "Cornish Pasty", "Baba Ganoush",
+                        "Okonomiyaki", "Pho Bo", "Lamb Tagine",
+                        "Pierogi", "Chicken Shawarma", "Croque Monsieur",
+                        "Moules Frites", "Spanakopita", "Buffalo Wings",
+                        "Chicken Katsu", "Cottage Pie", "Escarole Soup",
+                        "Duck Confit", "Korma Curry", "Pork Schnitzel",
+                        "Tikka Masala", "Zuppa Toscana", "Bangers and Mash",
+                        "Lobster Bisque", "Quinoa Salad", "Beef Stroganoff",
+                        "Lemon Pepper Chicken", "Stuffed Grape Leaves", "Chicken Tikka",
+                        "Ravioli Carbonara", "Truffle Risotto", "Chimichurri Salmon",
+                        "Mango Sticky Rice", "Corned Beef Hash", "Butternut Squash Soup",
+                        "Stuffed Cabbage Rolls", "Moroccan Couscous", "Fish and Chips",
+                        "Peking Pork Belly", "Pistachio Baklava", "Chicken Satay",
+                        "Lamb Biryani", "Coconut Curry Shrimp", "Pumpkin Ravioli",
+                        "Tofu Stir Fry", "Barbecue Pork Ribs", "Lemon Sorbet",
+                        "Baklava Ice Cream", "Lobster Mac and Cheese", "Moroccan Tagine",
+                        "Crispy Pork Belly", "Crab Rangoon", "Coconut Shrimp Curry"
                 };
 
                 String randomName = foodNames[rand.nextInt(foodNames.length)];

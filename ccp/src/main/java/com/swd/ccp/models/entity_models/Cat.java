@@ -18,6 +18,8 @@ public class Cat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String name;
+
     @ManyToOne
     @JoinColumn(name = "area_id")
     private Area area;
