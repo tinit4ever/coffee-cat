@@ -9,5 +9,7 @@ public interface TokenRepo extends JpaRepository<Token, Integer> {
 
     Optional<Token> findByAccount_IdAndStatusAndType (Integer accountId, int status, String type);
 
+    boolean existsByToken(String token);
+
     Optional<Token> findByToken(String token);
 }

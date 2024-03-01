@@ -1,10 +1,7 @@
 package com.swd.ccp.models.entity_models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.sql.Date;
@@ -30,7 +27,7 @@ public class Package {
     private Date purchaseDate;
 
     @OneToMany(mappedBy = "packages")
-    @JsonIgnore
+    @ToString.Exclude
     private List<Shop> shopList;
 
     @ManyToOne

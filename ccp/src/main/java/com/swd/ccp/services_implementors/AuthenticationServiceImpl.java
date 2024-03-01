@@ -140,13 +140,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
             if (account != null && passwordEncoder.matches(request.getPassword(), account.getPassword())) {
                 List<Token> tokenList = refreshToken(account);
-                if (account.getStatus().getId() == 1) {
-                    tokenList.forEach(token -> {
-                        Token t = tokenRepo.findByToken(token.getToken()).orElse(null);
-                        if (t == null) {
+                if (account.getStatus().getStatus().equals("active") && tokenList.size() == 2) {
+                    for(Token token: tokenList){
+                        if (!tokenRepo.existsByToken(token.getToken())) {
                             tokenRepo.save(token);
                         }
-                    });
+                    }
 
                     return LoginResponse
                             .builder()

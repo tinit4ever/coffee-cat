@@ -1,10 +1,7 @@
 package com.swd.ccp.models.entity_models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
@@ -45,23 +42,23 @@ public class Shop {
     private Package packages;
 
     @OneToMany(mappedBy = "shop")
-    @JsonIgnore
+    @ToString.Exclude
     private List<FollowerCustomer> followerCustomerList;
 
     @OneToMany(mappedBy = "shop")
-    @JsonIgnore
+    @ToString.Exclude
     private  List<Comment> commentList;
 
     @OneToMany(mappedBy = "shop")
-    @JsonIgnore
+    @ToString.Exclude
     private  List<Area> areaList;
 
     @OneToMany(mappedBy = "shop")
-    @JsonIgnore
+    @ToString.Exclude
     private List<Manager> managerList;
 
     @OneToMany(mappedBy = "shop")
-    @JsonIgnore
+    @ToString.Exclude
     private List<ShopImage> shopImageList;
 
 
