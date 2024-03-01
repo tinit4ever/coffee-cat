@@ -1,11 +1,10 @@
 package com.swd.ccp.controllers;
 
 import com.swd.ccp.Exception.NotFoundException;
+import com.swd.ccp.models.request_models.SortRequest;
 import com.swd.ccp.models.request_models.StaffRequest;
 import com.swd.ccp.models.request_models.PaginationRequest;
-import com.swd.ccp.models.response_models.CreateStaffResponse;
-import com.swd.ccp.models.response_models.StaffResponse;
-import com.swd.ccp.models.response_models.UpdateStaffResponse;
+import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.services.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,10 +23,11 @@ public class StaffController {
 
     @GetMapping("/list-staff")
     @PreAuthorize("hasAuthority('owner:read')")
-    public Page<StaffResponse> getStaffList(@RequestBody PaginationRequest pageRequest) {
-        Page<StaffResponse> page = staffService.getStaffList(pageRequest);
-        LOGGER.info("get list successfully");
-        return page;
+    public ResponseEntity<StaffListResponse> GetStaff(@RequestParam(value = "sortByColumn", defaultValue = "id") String sortByColumn,
+                                                      @RequestParam(value = "asc", defaultValue = "true") boolean ascending) {
+        SortRequest sortRequest = new SortRequest(ascending, sortByColumn);
+        StaffListResponse Staff = staffService.getStaffList(sortRequest);
+        return ResponseEntity.ok(Staff);
     }
 
     @PostMapping("/createStaff")

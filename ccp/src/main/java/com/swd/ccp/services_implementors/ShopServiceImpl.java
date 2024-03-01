@@ -33,6 +33,7 @@ public class ShopServiceImpl implements ShopService {
     private final MenuItemRepo menuItemRepo;
     private final MenuItemStatusRepo menuItemStatusRepo;
     private final MenuRepo menuRepo;
+    private final AreaRepo areaRepo;
 
     private static final String ACTIVE = "opened";
 
@@ -160,20 +161,20 @@ public class ShopServiceImpl implements ShopService {
 
 
     @Override
-    public Page<ShopResponse> getShops(PaginationRequest pageRequest) {
+    public ShopManageResponse getShops(SortRequest sortRequest) {
 
-        Pageable pageable = PageRequest.of(
-                pageRequest.getPageNo(),
-                pageRequest.getPageSize(),
-                Sort.by(pageRequest.getSort().isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
-                        pageRequest.getSortByColumn())
-        );
 
-        Page<Shop> shopList = shopRepo.findAll(pageable);
 
-        List<ShopResponse> shopDtoList = mapToShopList(shopList.getContent());
+        Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
+        List<Shop> shopList = shopRepo.findAll(sort);
 
-        return new PageImpl<>(shopDtoList, pageable, shopList.getTotalElements());
+        List<ShopResponse> mappedshopList = mapToShopList(shopList);
+
+
+        boolean status = true;
+        String message = "Successfully retrieved shop list";
+        return new ShopManageResponse(mappedshopList, status, message);
     }
 
     private List<ShopResponse> mapToShopList(List<Shop> shops) {
@@ -194,7 +195,6 @@ public class ShopServiceImpl implements ShopService {
                     .collect(Collectors.toList());
             shopResponse.setShopImageList(imageLinks);
             shopResponse.setAvatar(shop.getAvatar());
-            shopResponse.setStatus(true);
             if (shop.getName() == null) {
                 shopResponse.setName("N/A");
             }
@@ -210,7 +210,6 @@ public class ShopServiceImpl implements ShopService {
             if (shop == null) {
                 ShopStatus inactiveStatus = shopStatusRepo.findById(2).orElse(null);
 
-                SeatStatus inactiveSeatStatus = seatStatusRepo.findById(1).orElse(null);
                 shop = shopRepo.save(
                         Shop.builder()
                                 .phone(request.getPhone())
@@ -223,19 +222,16 @@ public class ShopServiceImpl implements ShopService {
                                 .build()
                 );
 
-                int seatCount = 10;
-                int seatCapacity = 4;
-                List<Seat> seatList = new ArrayList<>();
-                for (int i = 0; i < seatCount; i++) {
-                    // Tạo chỗ ngồi mới
-                    Seat seat = Seat.builder()
-                            .name("Seat " + (i + 1))
-                            .capacity(seatCapacity)
-                            .seatStatus(inactiveSeatStatus)
+                int areaCount = 10;
+                List<Area> areaList = new ArrayList<>();
+                for (int i = 0; i < areaCount; i++) {
+
+                    Area area = Area.builder()
+                            .name("Area " + (i + 1))
                             .build();
-                    seatList.add(seat);
+                    areaList.add(area);
                 }
-                seatRepo.saveAll(seatList);
+                areaRepo.saveAll(areaList);
 
                 List<ShopImage> shopImageList = new ArrayList<>();
                 for (ShopImage shopImage : request.getShopImageList()) {
