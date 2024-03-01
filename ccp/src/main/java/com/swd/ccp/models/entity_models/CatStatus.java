@@ -1,10 +1,7 @@
 package com.swd.ccp.models.entity_models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
@@ -24,6 +21,6 @@ public class CatStatus {
     private String status;
 
     @OneToMany(mappedBy = "catStatus")
-    @JsonIgnore
+    @ToString.Exclude
     private List<Cat> catList;
 }
