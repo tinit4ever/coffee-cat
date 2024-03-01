@@ -145,9 +145,8 @@ class ProfileViewController: UIViewController, UIFactory {
         guard let userInfor = UserSessionManager.shared.getUserProfile() else {
             return
         }
-        guard let email: String = userInfor.email else {
-            return
-        }
+
+        let email = userInfor.email
         
         let username = userInfor.username
         let phone = userInfor.phone
