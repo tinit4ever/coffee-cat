@@ -28,6 +28,7 @@
 		A05BE7112B6A123A0030000D /* cat-coffee.json in Resources */ = {isa = PBXBuildFile; fileRef = A05BE7102B6A123A0030000D /* cat-coffee.json */; };
 		A05C506F2B6737A400A42F33 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C506E2B6737A400A42F33 /* UIFont+Extension.swift */; };
 		A068342A2B8DB16C0086CE59 /* profile.json in Resources */ = {isa = PBXBuildFile; fileRef = A06834292B8DB16C0086CE59 /* profile.json */; };
+		A06DEB212B90E7F400AE3B1E /* BookingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DEB202B90E7F400AE3B1E /* BookingViewModel.swift */; };
 		A07051D22B7F4E7900DFC2F0 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07051D12B7F4E7900DFC2F0 /* SignInViewModel.swift */; };
 		A073C5F52B7ED534002263DB /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A073C5F42B7ED534002263DB /* AuthenticationModel.swift */; };
 		A073C5F82B7ED612002263DB /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A073C5F72B7ED612002263DB /* RegistrationViewModel.swift */; };
@@ -98,6 +99,7 @@
 		A05BE7102B6A123A0030000D /* cat-coffee.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "cat-coffee.json"; sourceTree = "<group>"; };
 		A05C506E2B6737A400A42F33 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		A06834292B8DB16C0086CE59 /* profile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = profile.json; sourceTree = "<group>"; };
+		A06DEB202B90E7F400AE3B1E /* BookingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewModel.swift; sourceTree = "<group>"; };
 		A07051D12B7F4E7900DFC2F0 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		A073C5F42B7ED534002263DB /* AuthenticationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
 		A073C5F72B7ED612002263DB /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
@@ -205,6 +207,14 @@
 			path = Animations;
 			sourceTree = "<group>";
 		};
+		A06DEB1F2B90E7DC00AE3B1E /* Booking */ = {
+			isa = PBXGroup;
+			children = (
+				A06DEB202B90E7F400AE3B1E /* BookingViewModel.swift */,
+			);
+			path = Booking;
+			sourceTree = "<group>";
+		};
 		A073C5F32B7ED511002263DB /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +250,7 @@
 		A07ED8622B65453000EA4E19 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				A06DEB1F2B90E7DC00AE3B1E /* Booking */,
 				A0DBF5B52B834C1B0072E139 /* Home */,
 				A0DBF5B42B834C110072E139 /* Authen */,
 			);
@@ -538,6 +549,7 @@
 				A07ED8742B65453000EA4E19 /* CircleView.swift in Sources */,
 				A01A60422B8DC39000E3F372 /* UserSessionManager.swift in Sources */,
 				A03F56D32B6B1ADF00B3E35B /* PaymentViewController.swift in Sources */,
+				A06DEB212B90E7F400AE3B1E /* BookingViewModel.swift in Sources */,
 				A07ED8612B6544D300EA4E19 /* SignInViewController.swift in Sources */,
 				A0799CFB2B8AB6D200D1C318 /* SelectTableViewController.swift in Sources */,
 				A07ED8602B6544D300EA4E19 /* UserProfileInputViewController.swift in Sources */,
