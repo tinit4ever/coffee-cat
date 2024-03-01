@@ -464,47 +464,14 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         }
         
         self.viewModel?.updateUserProfile(name, phoneNumber, datePicker.date, gender ?? "")
-        
-        self.viewModel?.registerUser(completion: { [weak self] result in
-            switch result {
-            case .success(let data):
-                print(data)
-                DispatchQueue.main.async {
-                    self?.hiddenLoadingView()
-                    self?.displaySuccessAlert(message: "Registration successful")
-                }
-            case .failure(let error):
-                print(error)
-                DispatchQueue.main.async {
-                    self?.hiddenLoadingView()
-                    self?.displayErrorAlert(message: "Could not connect to the server\n Please check your internet connection")
-                }
-            }
-        })
+        self.register()
     }
     
     @objc
     private func skipButtonTapped() {
         self.showLoadingView()
-        
         self.viewModel?.setNullUserProfile()
-        
-        self.viewModel?.registerUser(completion: { [weak self] result in
-            switch result {
-            case .success(let data):
-                print(data)
-                DispatchQueue.main.async {
-                    self?.hiddenLoadingView()
-                    self?.displaySuccessAlert(message: "Registration successful")
-                }
-            case .failure(let error):
-                print(error)
-                DispatchQueue.main.async {
-                    self?.hiddenLoadingView()
-                    self?.displayErrorAlert(message: "Could not connect to the server\n Please check your internet connection")
-                }
-            }
-        })
+        self.register()
     }
     
     // -MARK: Display Alert
@@ -552,6 +519,26 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         self.loadingAnimationView.isHidden = true
         self.loadingAnimationView.stop()
         self.view.isUserInteractionEnabled = true
+    }
+    
+    private func register() {
+        self.viewModel?.registerUser(completion: { [weak self] result in
+            switch result {
+            case .success(let authenticationResponse):
+                print(authenticationResponse)
+                DispatchQueue.main.async {
+                    UserSessionManager.shared.saveAuthenticationResponse(authenticationResponse)
+                    self?.hiddenLoadingView()
+                    self?.displaySuccessAlert(message: "Registration successful")
+                }
+            case .failure(let error):
+                print(error)
+                DispatchQueue.main.async {
+                    self?.hiddenLoadingView()
+                    self?.displayErrorAlert(message: "Could not connect to the server\n Please check your internet connection")
+                }
+            }
+        })
     }
 }
 
