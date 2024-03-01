@@ -507,7 +507,6 @@ class UserProfileInputViewController: UIViewController, UIFactory {
         })
     }
     
-    
     // -MARK: Display Alert
     private func displayInvalidInput(_ message: String) {
         let alert = UIAlertController(title: "Input Error", message: message, preferredStyle: .alert)
