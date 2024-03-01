@@ -14,8 +14,19 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
-    var viewModel: AccountInputViewModelProtocol = AccountInputViewModel()
+    var viewModel: AccountInputViewModelProtocol
+    
     var cancellables: Set<AnyCancellable> = []
+    
+    init(viewModel: AccountInputViewModelProtocol) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        self.cancellables = []
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // -MARK: Create UI Components
     lazy var inputStackView = makeVerticalStackView()
@@ -39,11 +50,12 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     lazy var confirmPasswordLabel: UILabel = makeLabel()
     lazy var confirmPasswordTextFieldContainer: UIView = makeRoundedContainer()
     lazy var confirmPasswordTextField: UITextField = makeTextField(placeholder: "Enter confirm password")
-
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
+        setupData()
         setupAction()
     }
     
@@ -105,6 +117,14 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
         confirmPasswordStackView.addArrangedSubview(confirmPasswordTextFieldContainer)
         confirmPasswordTextFieldContainer.addRoundedTextField(confirmPasswordTextField)
         confirmPasswordTextFieldContainer.heightAnchor.constraint(equalToConstant: heightScaler(60)).isActive = true
+    }
+    
+    // -MARK: Setup Data
+    private func setupData() {
+        self.nameTextField.text = self.viewModel.userRegistration?.name
+        self.emailTextField.text = self.viewModel.userRegistration?.email
+        self.passwordTextField.text = self.viewModel.userRegistration?.password
+        self.confirmPasswordTextField.text = self.viewModel.userRegistration?.password
     }
     
     // -MARK: Setup Action
@@ -207,13 +227,20 @@ extension AccountInputViewController: UITextFieldDelegate {
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
     }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.text = ""
+    }
 }
 
 // -MARK: Preview
 struct AccountInputViewControllerPreview: PreviewProvider {
     static var previews: some View {
         VCPreview {
-            let accountInputViewController = AccountInputViewController()
+            let userRegistration = UserRegistration(name: "Tin", email: "tin@gmail.com", password: "tin123445")
+            var accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
+            accountInputViewModel.userRegistration = userRegistration
+            let accountInputViewController = AccountInputViewController(viewModel: accountInputViewModel)
             return accountInputViewController
         }
     }
