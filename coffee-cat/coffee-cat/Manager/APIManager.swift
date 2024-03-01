@@ -108,7 +108,7 @@ class APIManager {
             .eraseToAnyPublisher()
     }
     
-    func checkEmailExisted(email: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+    func checkEmailExisteda(email: String, completion: @escaping (Result<Bool, Error>) -> Void) {
         let url = APIConstants.Auth.checkEmail
         let parameters = ["email": email]
         AF.request(url, method: .post, parameters: parameters, encoder: JSONParameterEncoder.default).responseData { response in
@@ -124,6 +124,25 @@ class APIManager {
                 completion(.failure(error))
             }
         }
+    }
+    
+    func checkEmailExisted(email: String) -> AnyPublisher<AuthenticationResponse, Error> {
+        let url = APIConstants.Auth.checkEmail
+        let parameters: [String: Any] = ["email": email]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+            .publishData()
+            .tryMap { response in
+                guard let data = response.data else {
+                    throw AFError.responseValidationFailed(reason: .dataFileNil)
+                }
+                do {
+                    return try JSONDecoder().decode(AuthenticationResponse.self, from: data)
+                } catch {
+                    throw error
+                }
+            }
+            .eraseToAnyPublisher()
     }
     
     func signUp(userRegistration: UserRegistration, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
