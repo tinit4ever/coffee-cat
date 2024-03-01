@@ -49,6 +49,8 @@ class ShopDetailsViewController: UIViewController, UIFactory {
     
     lazy var viewCatListButton = makeButton()
     
+    lazy var totalPriceLabel = makeLabel()
+    
     lazy var bookingButton: UIButton = makeButton()
     
     lazy var scrollView = makeScrollViewContainer()
@@ -221,7 +223,6 @@ class ShopDetailsViewController: UIViewController, UIFactory {
             closeTimeLabel.heightAnchor.constraint(equalToConstant: heightScaler(28))
         ])
         
-        
         shopInforStackView.addArrangedSubview(bookingOptionStack)
         bookingOptionStack.distribution = .fillEqually
         bookingOptionStack.spacing = widthScaler(60)
@@ -233,6 +234,10 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         shopInforStackView.addArrangedSubview(viewCatListButton)
         viewCatListButton.heightAnchor.constraint(equalToConstant: heightScaler(60)).isActive = true
         viewCatListButton.widthAnchor.constraint(equalTo: shopInforStackView.widthAnchor).isActive = true
+        
+        shopInforStackView.addArrangedSubview(totalPriceLabel)
+        totalPriceLabel.setupTitle(text: "Total Price: 0$", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+        totalPriceLabel.setBoldText()
     }
     
     private func configBookingButton() {
@@ -433,6 +438,10 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.orderFoodButton.backgroundColor = .systemBrown
         self.isOrderedFood = true
         self.viewModel.booking.bookingShopMenuRequestList = menuBookingList
+        if let menuItems = self.viewModel.shop?.menuItemList {
+            let totalPrice = self.calculateTotalPrice(bookings: menuBookingList, items: menuItems)
+            self.totalPriceLabel.text = "Total Price: \(Int(totalPrice))$"
+        }
     }
     
     private func removeOrdere() {
@@ -440,6 +449,23 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.orderFoodButton.backgroundColor = .customPink
         self.isOrderedFood = false
         self.viewModel.booking.bookingShopMenuRequestList = nil
+        self.totalPriceLabel.text = "Total Price: 0$"
+    }
+    
+    func calculateTotalPrice(bookings: [MenuBooking], items: [MenuItem]) -> Double {
+        var totalPrice = 0.0
+        
+        for booking in bookings {
+            // Find the corresponding MenuItem for the given itemID
+            if let menuItem = items.first(where: { $0.id == booking.itemID }) {
+                let itemPrice = menuItem.price ?? 0.0
+                let totalPriceForBooking = Double(booking.quantity) * itemPrice
+                
+                totalPrice += totalPriceForBooking
+            }
+        }
+        
+        return totalPrice
     }
 }
 
