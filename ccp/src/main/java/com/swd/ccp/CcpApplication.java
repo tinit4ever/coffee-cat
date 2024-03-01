@@ -244,29 +244,6 @@ public class CcpApplication {
 
 
                 //init token
-                String admin_token = jwtService.generateToken(admin);
-                String admin_refresh_token = jwtService.generateRefreshToken(admin);
-                String customCus_token = jwtService.generateToken(customCustomerAccount);
-                String customCus_refresh_token = jwtService.generateRefreshToken(customCustomerAccount);
-                String customOwner_token = jwtService.generateToken(customOwnerAccount);
-                String customOwner_refresh_token = jwtService.generateRefreshToken(customOwnerAccount);
-
-
-                Token adminAccess = Token.builder().account(admin).token(admin_token).type("access").status(1).build();
-                Token adminRefresh = Token.builder().account(admin).token(admin_refresh_token).type("refresh").status(1).build();
-                Token customCusAccess = Token.builder().account(admin).token(customCus_token).type("access").status(1).build();
-                Token customCusRefresh = Token.builder().account(admin).token(customCus_refresh_token).type("refresh").status(1).build();
-                Token customOwnerAccess = Token.builder().account(admin).token(customOwner_token).type("access").status(1).build();
-                Token customOwnerRefresh = Token.builder().account(admin).token(customOwner_refresh_token).type("refresh").status(1).build();
-
-
-                tokenList.add(adminAccess);
-                tokenList.add(adminRefresh);
-                tokenList.add(customCusAccess);
-                tokenList.add(customCusRefresh);
-                tokenList.add(customOwnerAccess);
-                tokenList.add(customOwnerRefresh);
-
 
                 accountList.forEach(acc -> {
                     String accessToken = jwtService.generateToken(acc);
@@ -278,7 +255,6 @@ public class CcpApplication {
                     tokenList.add(access);
                     tokenList.add(refresh);
                 });
-
                 tokenRepo.saveAll(tokenList);
 
                 accountList.forEach(acc -> {

@@ -27,7 +27,6 @@ public class MenuItem {
     private MenuItemStatus menuItemStatus;
 
     @OneToMany(mappedBy = "menuItem")
-    @ToString.Exclude
     List<BookingDetail> bookingDetailList;
 
     private String name;

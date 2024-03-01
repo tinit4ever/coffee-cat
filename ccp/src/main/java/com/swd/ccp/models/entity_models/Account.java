@@ -31,7 +31,6 @@ public class Account implements UserDetails {
 
     private String phone;
 
-    @ToString.Exclude
     @OneToMany(mappedBy = "account")
     private List<Token> tokenList;
 

@@ -28,11 +28,9 @@ public class Customer {
     private Date dob;
 
     @OneToMany(mappedBy = "customer")
-    @ToString.Exclude
     private List<FollowerCustomer> followerCustomerList;
 
     @OneToMany(mappedBy = "customer")
-    @ToString.Exclude
     private List<Booking> bookingList;
 
     public void setDob(java.util.Date dob) {

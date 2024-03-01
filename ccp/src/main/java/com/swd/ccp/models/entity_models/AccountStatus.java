@@ -20,7 +20,6 @@ public class AccountStatus {
 
     private String status;
 
-    @ToString.Exclude
     @OneToMany(mappedBy = "status")
     private List<Account> accountList;
 

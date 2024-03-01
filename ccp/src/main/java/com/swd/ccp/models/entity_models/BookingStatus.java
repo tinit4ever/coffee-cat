@@ -21,6 +21,5 @@ public class BookingStatus {
     private String status;
 
     @OneToMany(mappedBy = "bookingStatus")
-    @ToString.Exclude
     private List<Booking> bookingList;
 }

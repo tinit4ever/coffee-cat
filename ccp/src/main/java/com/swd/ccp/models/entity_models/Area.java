@@ -23,11 +23,9 @@ public class Area {
     private Shop shop;
 
     @OneToMany(mappedBy = "area")
-    @ToString.Exclude
     private List<Cat> catList;
 
     @OneToMany(mappedBy = "area")
-    @ToString.Exclude
     private List<Seat> seatList;
 
     @ManyToOne

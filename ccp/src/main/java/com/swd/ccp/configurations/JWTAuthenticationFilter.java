@@ -1,7 +1,6 @@
 package com.swd.ccp.configurations;
 
 import com.swd.ccp.models.entity_models.Account;
-import com.swd.ccp.models.entity_models.AccountStatus;
 import com.swd.ccp.models.entity_models.Token;
 import com.swd.ccp.repositories.AccountRepo;
 import com.swd.ccp.repositories.TokenRepo;

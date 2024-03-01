@@ -21,6 +21,5 @@ public class PackageStatus {
     private String status;
 
     @OneToMany(mappedBy = "status")
-    @ToString.Exclude
     private List<Package> packageList;
 }

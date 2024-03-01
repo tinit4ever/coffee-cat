@@ -42,24 +42,17 @@ public class Shop {
     private Package packages;
 
     @OneToMany(mappedBy = "shop")
-    @ToString.Exclude
     private List<FollowerCustomer> followerCustomerList;
 
     @OneToMany(mappedBy = "shop")
-    @ToString.Exclude
     private  List<Comment> commentList;
 
     @OneToMany(mappedBy = "shop")
-    @ToString.Exclude
     private  List<Area> areaList;
 
     @OneToMany(mappedBy = "shop")
-    @ToString.Exclude
     private List<Manager> managerList;
 
     @OneToMany(mappedBy = "shop")
-    @ToString.Exclude
     private List<ShopImage> shopImageList;
-
-
 }
