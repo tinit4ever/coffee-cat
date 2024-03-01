@@ -9,12 +9,30 @@ import Foundation
 import Combine
 
 protocol BookingViewModelProtocol {
+    var pendingList: [BookingDetail]? {get set}
+    var confirmedList: [BookingDetail]? {get set}
+    var cancelledList: [BookingDetail]? {get set}
+    
+    var currentList: [BookingDetail]? {get set}
+    
     var bookingHistories: [BookingDetail]? {get set}
+    
     func getBookingHistories(accessToken: String, onReceived: @escaping () -> Void)
+    
+    func updateCurrentList(currentStatus: BookingStatus)
 }
 
 class BookingViewModel: BookingViewModelProtocol {
+    var pendingList: [BookingDetail]?
+    
+    var confirmedList: [BookingDetail]?
+    
+    var cancelledList: [BookingDetail]?
+    
+    var currentList: [BookingDetail]?
+    
     var bookingHistories: [BookingDetail]?
+    
     var cancellables: Set<AnyCancellable> = []
     
     func getBookingHistories(accessToken: String, onReceived: @escaping () -> Void) {
@@ -28,9 +46,38 @@ class BookingViewModel: BookingViewModelProtocol {
                     print(error.localizedDescription)
                 }
             } receiveValue: { bookingResponse in
-                self.bookingHistories = bookingResponse.bookingList
+                self.setupData(bookingHistories: bookingResponse.bookingList ?? [])
                 onReceived()
             }
             .store(in: &cancellables)
+    }
+    
+    func updateCurrentList(currentStatus: BookingStatus) {
+        switch currentStatus {
+        case .pending:
+            self.currentList = self.pendingList
+        case .confirmed:
+            self.currentList = self.confirmedList
+        case .cancelled:
+            self.currentList = self.cancelledList
+        }
+    }
+    
+    private func setupData(bookingHistories: [BookingDetail]) {
+        self.pendingList = []
+        self.confirmedList = []
+        self.cancelledList = []
+        for bookingHistory in bookingHistories {
+            switch bookingHistory.status {
+            case .pending:
+                self.pendingList?.append(bookingHistory)
+            case .confirmed:
+                self.confirmedList?.append(bookingHistory)
+            case .cancelled:
+                self.cancelledList?.append(bookingHistory)
+            }
+        }
+        
+        self.currentList = pendingList
     }
 }

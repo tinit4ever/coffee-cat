@@ -240,7 +240,6 @@
 			isa = PBXGroup;
 			children = (
 				A0BE75D72B6A513E00DE6909 /* MainTabBar */,
-				A05BE7042B69E8CD0030000D /* Preview */,
 				A05BE7032B69E8BF0030000D /* Authen */,
 			);
 			name = Views;
@@ -340,7 +339,6 @@
 			children = (
 				A0B47DFE2B9086150031F7EB /* TransitionViewController.swift */,
 				A0BE75D82B6A517300DE6909 /* MainTabBarViewController.swift */,
-				A0BE75DA2B6A537700DE6909 /* BookingViewController.swift */,
 				A0BE75DC2B6A53A000DE6909 /* VoucherViewController.swift */,
 				A03F56D22B6B1ADF00B3E35B /* PaymentViewController.swift */,
 				A03F56D42B6B1C2300B3E35B /* StoreViewController.swift */,
@@ -351,6 +349,7 @@
 		A0BE75D72B6A513E00DE6909 /* MainTabBar */ = {
 			isa = PBXGroup;
 			children = (
+				A0EEEED12B9154CE0000FF9C /* Booking */,
 				A0CA272B2B6B98B900E3D640 /* Home */,
 				A0A9ED362B8ED9A100CE1177 /* Process */,
 			);
@@ -423,6 +422,14 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		A0EEEED12B9154CE0000FF9C /* Booking */ = {
+			isa = PBXGroup;
+			children = (
+				A0BE75DA2B6A537700DE6909 /* BookingViewController.swift */,
+			);
+			path = Booking;
+			sourceTree = "<group>";
+		};
 		A0F3EA902B653BDB0057860A = {
 			isa = PBXGroup;
 			children = (
@@ -452,6 +459,7 @@
 				A07ED8622B65453000EA4E19 /* ViewModels */,
 				A07ED8572B6544D300EA4E19 /* Views */,
 				A07ED8532B65434C00EA4E19 /* Support */,
+				A05BE7042B69E8CD0030000D /* Preview */,
 				A0F3EAAA2B653BDD0057860A /* Info.plist */,
 			);
 			path = "coffee-cat";

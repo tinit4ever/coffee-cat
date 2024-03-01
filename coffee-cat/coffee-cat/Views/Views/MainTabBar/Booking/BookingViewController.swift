@@ -12,6 +12,7 @@ class BookingViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     let segmenItems = ["PENDING", "CONFIRMED", "CANCELLED"]
+    var viewModel: BookingViewModelProtocol = BookingViewModel()
     
     // MARK: Create UIComponents
     lazy var topView = makeView()
@@ -30,6 +31,19 @@ class BookingViewController: UIViewController, UIFactory {
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
+        loadData()
+        setupAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.loadData()
+    }
+    
+    private func loadData() {
+        self.viewModel.getBookingHistories(accessToken: UserSessionManager.shared.getAccessToken() ?? "") {
+            self.reloadData()
+        }
     }
     
     // MARK: Config UI
@@ -104,11 +118,45 @@ class BookingViewController: UIViewController, UIFactory {
             self.bookingTableView.bottomAnchor.constraint(equalTo: bookingTableViewContainer.bottomAnchor, constant: heightScaler(-15)),
         ])
     }
+    
+    // MARK: Setup Action
+    private func setupAction() {
+        self.segmentedControl.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
+    }
+    
+    // MARK: Catch Action
+    @objc
+    private func segmentValueChanged(_ sender: UISegmentedControl) {
+        let selectedSegment = sender.selectedSegmentIndex
+
+        switch selectedSegment {
+        case 0:
+            print("PENDING")
+            self.viewModel.updateCurrentList(currentStatus: .pending)
+        case 1:
+            print("CONFIRMED")
+            self.viewModel.updateCurrentList(currentStatus: .confirmed)
+        case 2:
+            print("CANCELLED")
+            self.viewModel.updateCurrentList(currentStatus: .cancelled)
+        default:
+            print("No segment is selected")
+        }
+        
+        reloadData()
+    }
+    
+    // MARK: Utilities
+    private func reloadData() {
+        DispatchQueue.main.async {
+            self.bookingTableView.reloadData()
+        }
+    }
 }
 
 extension BookingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        20
+        self.viewModel.currentList?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
