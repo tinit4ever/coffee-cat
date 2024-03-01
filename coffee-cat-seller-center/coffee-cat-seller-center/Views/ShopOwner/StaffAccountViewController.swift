@@ -21,7 +21,7 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     lazy var accountTableContainer = makeView()
     lazy var accountTableView = makeTableView()
     lazy var addAccountButton = makeButton()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -124,7 +124,22 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     
     @objc
     private func addAccountButtonTapped() {
-        let viewController = AccountInputViewController()
+        var accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
+        accountInputViewModel.userRegistration = UserRegistration(name: "", email: "", password: "")
+        let viewController = AccountInputViewController(viewModel: accountInputViewModel)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        self.present(navigationController, animated: true)
+    }
+        
+    private func deleteAccount(indexPath: IndexPath) {
+        
+    }
+    
+    private func updateAccount(indexPath: IndexPath) {
+        let userRegistration = UserRegistration(name: "Tin", email: "tin@gmail.com", password: "tin123445")
+        var accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
+        accountInputViewModel.userRegistration = userRegistration
+        let viewController = AccountInputViewController(viewModel: accountInputViewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
         self.present(navigationController, animated: true)
     }
@@ -156,7 +171,7 @@ extension StaffAccountViewController: UITableViewDataSource {
 extension StaffAccountViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
-            // Delete loddgic here
+            self.deleteAccount(indexPath: indexPath)
             completionHandler(true)
         }
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
@@ -166,7 +181,7 @@ extension StaffAccountViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let updateAction = UIContextualAction(style: .normal, title: "Update") { _, _, completionHandler in
-            // Update logic here
+            self.updateAccount(indexPath: indexPath)
             completionHandler(true)
         }
         
