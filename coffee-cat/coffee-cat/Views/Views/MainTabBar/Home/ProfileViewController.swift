@@ -142,10 +142,9 @@ class ProfileViewController: UIViewController, UIFactory {
     
     // -MARK: Setup Data
     private func setupData() {
-        guard let userInfor = UserSessionManager.shared.authenticationResponse?.accountResponse else {
+        guard let userInfor = UserSessionManager.shared.getUserProfile() else {
             return
         }
-        
         guard let email: String = userInfor.email else {
             return
         }

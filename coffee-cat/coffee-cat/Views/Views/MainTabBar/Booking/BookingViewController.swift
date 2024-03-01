@@ -6,30 +6,46 @@
 //
 
 import UIKit
+import Combine
 
 class BookingViewController: UIViewController, UIFactory {
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     let segmenItems = ["PENDING", "CONFIRMED", "CANCELLED"]
+    var viewModel: BookingViewModelProtocol = BookingViewModel()
+    var cancellables: Set<AnyCancellable> = []
     
     // MARK: Create UIComponents
     lazy var topView = makeView()
     lazy var viewTitle = makeLabel()
     lazy var segmentedControl: SquareSegmentedControl = {
         var segment = SquareSegmentedControl(items: segmenItems)
-//        segment.frame = .zero
+        //        segment.frame = .zero
         segment.selectedSegmentIndex = 0
         segment.translatesAutoresizingMaskIntoConstraints = false
         return segment
     }()
-   
+    
     lazy var bookingTableViewContainer = makeView()
     lazy var bookingTableView = makeTableView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
+        loadData()
+        setupAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.loadData()
+    }
+    
+    private func loadData() {
+        self.viewModel.getBookingHistories(accessToken: UserSessionManager.shared.getAccessToken() ?? "") {
+            self.reloadData()
+        }
     }
     
     // MARK: Config UI
@@ -104,11 +120,74 @@ class BookingViewController: UIViewController, UIFactory {
             self.bookingTableView.bottomAnchor.constraint(equalTo: bookingTableViewContainer.bottomAnchor, constant: heightScaler(-15)),
         ])
     }
+    
+    // MARK: Setup Action
+    private func setupAction() {
+        self.segmentedControl.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
+    }
+    
+    // MARK: Catch Action
+    @objc
+    private func segmentValueChanged(_ sender: UISegmentedControl) {
+        let selectedSegment = sender.selectedSegmentIndex
+        
+        switch selectedSegment {
+        case 0:
+            print("PENDING")
+            self.viewModel.updateCurrentList(currentStatus: .pending)
+        case 1:
+            print("CONFIRMED")
+            self.viewModel.updateCurrentList(currentStatus: .confirmed)
+        case 2:
+            print("CANCELLED")
+            self.viewModel.updateCurrentList(currentStatus: .cancelled)
+        default:
+            print("No segment is selected")
+        }
+        
+        reloadData()
+    }
+    
+    // MARK: Utilities
+    private func reloadData() {
+        DispatchQueue.main.async {
+            self.bookingTableView.reloadData()
+        }
+    }
+    
+    private func cancelBooking(indexPath: IndexPath) {
+        if let bookingID = self.viewModel.currentList?[indexPath.row].bookingID {
+            self.viewModel.cancelBooking(bookingID: bookingID, accessToken: UserSessionManager.shared.getAccessToken() ?? "")
+                .sink { [weak self] completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        self?.displayArlet(title: "Error", message: error.localizedDescription)
+                    }
+                } receiveValue: { success in
+                    self.displayArlet(title: "Success", message: "Success")
+                    self.loadData()
+                }
+                .store(in: &cancellables)
+        }
+    }
+    
+    private func displayArlet(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { action in
+            self.dismiss(animated: true)
+        }
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
 }
 
 extension BookingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        20
+        self.viewModel.currentList?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -127,7 +206,12 @@ extension BookingViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if segmentedControl.selectedSegmentIndex == 2 {
+            return UISwipeActionsConfiguration(actions: [])
+        }
+        
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
+            self.cancelBooking(indexPath: indexPath)
             completionHandler(true)
         }
         let image = UIImage(systemName: "trash.fill")?.withTintColor(.customPink, renderingMode: .alwaysOriginal).resized(to: CGSize(width: heightScaler(40), height: heightScaler(45)))

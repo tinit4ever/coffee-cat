@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum BookingStatus: String, Codable {
+    case pending = "Pending"
+    case confirmed = "Confirmed"
+    case cancelled = "Cancelled"
+}
+
 struct BookingResponse: Codable {
     var message: String?
     var status: Bool?
@@ -18,6 +24,6 @@ struct BookingDetail: Codable {
     var bookingID: Int
     var totalPrice: Double
     var bookingDate: String
-    var status: String
+    var status: BookingStatus
 }
 
