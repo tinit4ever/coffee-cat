@@ -43,12 +43,12 @@ public class StaffServiceImpl implements StaffService {
     private static final String INACTIVE = "InActive";
     private final PasswordEncoder passwordEncoder;
     @Override
-    public StaffListResponse getStaffList(SortRequest sortRequest) {
+    public StaffListResponse getStaffList(Integer shopOwnerId,SortRequest sortRequest) {
 
 
         Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
-        List<Account> staffList = accountRepo.findByRole(Role.STAFF,sort);
+        List<Account> staffList = accountRepo.findByIdAndRole(shopOwnerId,Role.STAFF,sort);
 
         List<StaffResponse> mappedshopList = mapToStaffDtoList(staffList);
 
@@ -57,6 +57,9 @@ public class StaffServiceImpl implements StaffService {
         String message = "Successfully retrieved shop list";
         return new StaffListResponse(mappedshopList, status, message);
     }
+
+
+
 
     private List<StaffResponse> mapToStaffDtoList(List<Account> accounts) {
         if (accounts == null) {

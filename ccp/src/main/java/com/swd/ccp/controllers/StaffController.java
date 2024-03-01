@@ -7,6 +7,7 @@ import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.services.StaffService;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +24,11 @@ public class StaffController {
 
     @GetMapping("/list-staff")
     @PreAuthorize("hasAuthority('owner:read')")
-    public ResponseEntity<StaffListResponse> GetStaff(@RequestParam(value = "sortByColumn", defaultValue = "id") String sortByColumn,
+    public ResponseEntity<StaffListResponse> GetStaff(@PathVariable Integer shopOwnerId,
+                                                      @RequestParam(value = "sortByColumn", defaultValue = "id") String sortByColumn,
                                                       @RequestParam(value = "asc", defaultValue = "true") boolean ascending) {
         SortRequest sortRequest = new SortRequest(ascending, sortByColumn);
-        StaffListResponse Staff = staffService.getStaffList(sortRequest);
+        StaffListResponse Staff = staffService.getStaffList(shopOwnerId,sortRequest);
         return ResponseEntity.ok(Staff);
     }
 

@@ -43,14 +43,14 @@ public class ShopController {
     }
 
 
-    @GetMapping("/shop")
-    @PreAuthorize("hasAuthority('owner:read')")
-    public ResponseEntity<ShopManageResponse> GetShops(@RequestParam(value = "sortByColumn", defaultValue = "id") String sortByColumn,
-                                                           @RequestParam(value = "asc", defaultValue = "true") boolean ascending) {
-        SortRequest sortRequest = new SortRequest(ascending, sortByColumn);
-        ShopManageResponse Shops = shopService.getShops(sortRequest);
-        return ResponseEntity.ok(Shops);
-    }
+//    @GetMapping("/shop")
+//    @PreAuthorize("hasAuthority('owner:read')")
+//    public ResponseEntity<ShopManageResponse> GetShops(@RequestParam(value = "sortByColumn", defaultValue = "id") String sortByColumn,
+//                                                           @RequestParam(value = "asc", defaultValue = "true") boolean ascending) {
+//        SortRequest sortRequest = new SortRequest(ascending, sortByColumn);
+//        ShopManageResponse Shops = shopService.getShops(sortRequest);
+//        return ResponseEntity.ok(Shops);
+//    }
     @PostMapping("createShop")
     @PreAuthorize("hasAuthority('owner:create')")
     public ResponseEntity<CreateShopResponse> createStaff(@RequestBody ShopRequest request) {

@@ -10,7 +10,7 @@ import com.swd.ccp.models.response_models.UpdateStaffResponse;
 import org.springframework.data.domain.Page;
 
 public interface StaffService {
-    StaffListResponse getStaffList(SortRequest sortRequest);
+    StaffListResponse getStaffList(Integer shopOwnerId,SortRequest sortRequest);
     CreateStaffResponse createStaff(StaffRequest request);
     UpdateStaffResponse updateStaff(Integer staffId, StaffRequest updateRequest);
     int inactiveStaff(Integer staffId);
