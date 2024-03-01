@@ -7,10 +7,13 @@
 
 import Foundation
 import Alamofire
+import Combine
 
 protocol RegistrationViewModelProtocol {
     var userRegistration: UserRegistration {get set}
     var alertMessage: String {get set}
+    
+    func checkEmailExisted(email: String) -> AnyPublisher<Bool, Error>
     
     func validateEmail(_ email: String) -> Bool
     func updateEmail(_ email: String)
@@ -32,13 +35,27 @@ class RegistrationViewModel {
     var userRegistration: UserRegistration
     var alertMessage: String
     
+    var cancellables: Set<AnyCancellable> = []
+    
     init() {
         self.alertMessage = ""
         self.userRegistration = UserRegistration(email: "", password: "", phone: "", name: "", dob: "", gender: "")
     }
+    
+    deinit {
+        cancellables.forEach { $0.cancel() }
+    }
 }
 
 extension RegistrationViewModel: RegistrationViewModelProtocol {
+    func checkEmailExisted(email: String) -> AnyPublisher<Bool, Error> {
+        return APIManager.shared.checkEmailExisted(email: email)
+            .map { authenticationResponse in
+                return !(authenticationResponse.status ?? true)
+            }
+            .eraseToAnyPublisher()
+    }
+    
     func validateEmail(_ email: String) -> Bool {
         if email.isValidEmail {
             updateEmail(email)
