@@ -45,30 +45,33 @@ class BookingHistoryTableViewCell: UITableViewCell, UIFactory {
         self.contentView.layer.borderWidth = sizeScaler(4)
         self.contentView.layer.borderColor = UIColor(ciColor: .gray).cgColor
         self.stackBookingDetails.addArrangedSubview(shopNameLabel)
-//        stackBookingDetails.backgroundColor = .green
         stackBookingDetails.distribution = .equalCentering
-//        shopNameLabel.backgroundColor = .red
         shopNameLabel.setupTitle(text: "Shop 1", fontName: FontNames.avenir, size: sizeScaler(40), textColor: .customBlack)
         shopNameLabel.setBoldText()
         shopNameLabel.textAlignment = .left
         
         self.stackBookingDetails.addArrangedSubview(priceLabel)
         
-        NSLayoutConstraint.activate([
-            self.stackBookingDetails.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: sizeScaler(30)),
-            self.stackBookingDetails.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: sizeScaler(30)),
-            self.stackBookingDetails.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: sizeScaler(-30)),
-            self.stackBookingDetails.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: sizeScaler(-30))
-        ])
         
         NSLayoutConstraint.activate([
             self.bookingDateLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: sizeScaler(30)),
-//            self.bookingDateLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: sizeScaler(30)),
             self.bookingDateLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: sizeScaler(-30)),
-//            self.bookingDateLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: sizeScaler(-30))
+        ])
+        
+        NSLayoutConstraint.activate([
+            self.stackBookingDetails.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: sizeScaler(30)),
+            self.stackBookingDetails.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: sizeScaler(30)),
+            self.stackBookingDetails.trailingAnchor.constraint(equalTo: self.bookingDateLabel.leadingAnchor, constant: sizeScaler(-30)),
+            self.stackBookingDetails.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: sizeScaler(-30))
         ])
     }
     
-    func configure() {
+    func configure(bookingDetail: BookingDetail) {
+        if let shopName = bookingDetail.shopName {
+            self.shopNameLabel.text = shopName
+        }
+        
+        self.bookingDateLabel.text = bookingDetail.bookingDate
+        self.priceLabel.text = "\(Int(bookingDetail.totalPrice))$"
     }
 }

@@ -22,6 +22,7 @@ struct BookingResponse: Codable {
 
 struct BookingDetail: Codable {
     var bookingID: Int
+    var shopName: String?
     var totalPrice: Double
     var bookingDate: String
     var status: BookingStatus

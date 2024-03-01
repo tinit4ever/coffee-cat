@@ -195,6 +195,10 @@ extension BookingViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        if let bookingDetail = self.viewModel.currentList?[indexPath.row] {
+            cell.configure(bookingDetail: bookingDetail)
+        }
+        
         cell.selectionStyle = .none
         return cell
     }
