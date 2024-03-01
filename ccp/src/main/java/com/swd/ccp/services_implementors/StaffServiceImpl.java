@@ -2,15 +2,12 @@ package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.Exception.NotFoundException;
 import com.swd.ccp.enums.Role;
-import com.swd.ccp.models.entity_models.Account;
+import com.swd.ccp.models.entity_models.*;
 
-import com.swd.ccp.models.entity_models.AccountStatus;
-import com.swd.ccp.models.entity_models.Token;
+import com.swd.ccp.models.request_models.SortRequest;
 import com.swd.ccp.models.request_models.StaffRequest;
 import com.swd.ccp.models.request_models.PaginationRequest;
-import com.swd.ccp.models.response_models.CreateStaffResponse;
-import com.swd.ccp.models.response_models.StaffResponse;
-import com.swd.ccp.models.response_models.UpdateStaffResponse;
+import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.repositories.AccountRepo;
 import com.swd.ccp.repositories.AccountStatusRepo;
 import com.swd.ccp.repositories.CustomerRepo;
@@ -20,6 +17,7 @@ import com.swd.ccp.services.JWTService;
 import com.swd.ccp.services.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -43,23 +41,25 @@ public class StaffServiceImpl implements StaffService {
     private final TokenRepo tokenRepo;
     private static final String ACTIVE = "opened";
     private static final String INACTIVE = "InActive";
-
+    private final PasswordEncoder passwordEncoder;
     @Override
-    public Page<StaffResponse> getStaffList(PaginationRequest pageRequest) {
+    public StaffListResponse getStaffList(Integer shopOwnerId,SortRequest sortRequest) {
 
-        Pageable pageable = PageRequest.of(
-                pageRequest.getPageNo(),
-                pageRequest.getPageSize(),
-                Sort.by(pageRequest.getSort().isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,
-                        pageRequest.getSortByColumn())
-        );
 
-        Page<Account> staffList = accountRepo.findByRole(Role.STAFF, pageable);
+        Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
+        List<Account> staffList = accountRepo.findByIdAndRole(shopOwnerId,Role.STAFF,sort);
 
-        List<StaffResponse> staffDtoList = mapToStaffDtoList(staffList.getContent());
+        List<StaffResponse> mappedshopList = mapToStaffDtoList(staffList);
 
-        return new PageImpl<>(staffDtoList, pageable, staffList.getTotalElements());
+
+        boolean status = true;
+        String message = "Successfully retrieved shop list";
+        return new StaffListResponse(mappedshopList, status, message);
     }
+
+
+
 
     private List<StaffResponse> mapToStaffDtoList(List<Account> accounts) {
         if (accounts == null) {
@@ -75,9 +75,7 @@ public class StaffServiceImpl implements StaffService {
             staffResponse.setId(account.getId());
             staffResponse.setEmail(account.getEmail());
             staffResponse.setName(account.getName());
-            staffResponse.setPassword(account.getPassword());
             staffResponse.setStaff_status(account.getStatus().getStatus());
-            staffResponse.setStatus(true);
 
             if (account.getName() == null) {
                 staffResponse.setName("N/A");
@@ -131,8 +129,7 @@ public class StaffServiceImpl implements StaffService {
                                         .email(account.getEmail())
                                         .staff_status(account.getStatus().getStatus())
                                         .name(account.getName())
-                                        .password(account.getPassword())
-                                        .status(true)
+
                                         .build()
                         )
                         .build();
@@ -166,6 +163,10 @@ public class StaffServiceImpl implements StaffService {
             }
             if (updateRequest.getName() != null) {
                 staff.setName(updateRequest.getName());
+            }
+            if (updateRequest.getPassword() != null) {
+                String encodedPassword = passwordEncoder.encode(updateRequest.getPassword());
+                staff.setPassword(encodedPassword);
             }
             accountRepo.save(staff);
 

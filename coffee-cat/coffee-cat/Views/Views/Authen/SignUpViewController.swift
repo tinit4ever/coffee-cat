@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Combine
 
 class SignUpViewController: UIViewController, UIFactory {
     let heightScaler = UIScreen.scalableHeight
@@ -14,6 +15,7 @@ class SignUpViewController: UIViewController, UIFactory {
     let sizeScaler = UIScreen.scalableSize
     
     var viewModel: RegistrationViewModelProtocol = RegistrationViewModel()
+    var cancellables: Set<AnyCancellable> = []
     
     // -MARK: Create UI Components
     lazy var welcomeLabel: UILabel = makeLabel()
@@ -297,6 +299,7 @@ class SignUpViewController: UIViewController, UIFactory {
     @objc
     private func nextButtonTapped() {
         self.showLoadingView()
+        
         guard let email = emailTextField.text,
               self.viewModel.validateEmail(email) else {
             displayInvalidEmailAlert(self.viewModel.alertMessage)
@@ -305,11 +308,29 @@ class SignUpViewController: UIViewController, UIFactory {
             return
         }
         
-        let createPasswordViewController = CreatePasswordViewController()
-        createPasswordViewController.viewModel = self.viewModel
+        self.viewModel.checkEmailExisted(email: email)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            } receiveValue: { [weak self] isExisted in
+                guard !isExisted else {
+                    self?.displayInvalidEmailAlert("Email is existed")
+                    self?.hiddenLoadingView()
+                    return
+                }
+                
+                self?.hiddenLoadingView()
+                let createPasswordViewController = CreatePasswordViewController()
+                createPasswordViewController.viewModel = self?.viewModel
+                self?.pushViewController(viewController: createPasswordViewController)
+            }
+            .store(in: &cancellables)
         
-        self.hiddenLoadingView()
-        pushViewController(viewController: createPasswordViewController)
+        
     }
     
     @objc
@@ -319,7 +340,7 @@ class SignUpViewController: UIViewController, UIFactory {
     
     // -MARK: Utilities
     private func displayInvalidEmailAlert(_ message: String) {
-        let alert = UIAlertController(title: "Invalid Email", message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }

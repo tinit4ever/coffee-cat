@@ -43,15 +43,16 @@ public class ShopController {
     }
 
 
-    @GetMapping("/shop")
-    @PreAuthorize("hasAuthority('owner:read')")
-    public Page<ShopResponse> getShops(@RequestBody PaginationRequest pageRequest) {
-        Page<ShopResponse> page = shopService.getShops(pageRequest);
-        LOGGER.info("get list successfully");
-        return page;
-    }
+//    @GetMapping("/shop")
+//    @PreAuthorize("hasAuthority('owner:read')")
+//    public ResponseEntity<ShopManageResponse> GetShops(@RequestParam(value = "sortByColumn", defaultValue = "id") String sortByColumn,
+//                                                           @RequestParam(value = "asc", defaultValue = "true") boolean ascending) {
+//        SortRequest sortRequest = new SortRequest(ascending, sortByColumn);
+//        ShopManageResponse Shops = shopService.getShops(sortRequest);
+//        return ResponseEntity.ok(Shops);
+//    }
     @PostMapping("createShop")
-    @PreAuthorize("hasAuthority('owner:read')")
+    @PreAuthorize("hasAuthority('owner:create')")
     public ResponseEntity<CreateShopResponse> createStaff(@RequestBody ShopRequest request) {
         CreateShopResponse response = shopService.createShop(request) ;
         if (response.isStatus()) {
@@ -61,7 +62,7 @@ public class ShopController {
         }
     }
     @PostMapping("updateShop/{shopId}")
-    @PreAuthorize("hasAuthority('owner:read')")
+    @PreAuthorize("hasAuthority('owner:update')")
     public ResponseEntity<UpdateShopResponse> updateStaff(@PathVariable Long shopId,
                                                            @RequestBody ShopRequest updateRequest) {
         try {

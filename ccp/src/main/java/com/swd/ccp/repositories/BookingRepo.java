@@ -1,7 +1,6 @@
 package com.swd.ccp.repositories;
 
 import com.swd.ccp.models.entity_models.Booking;
-import com.swd.ccp.models.entity_models.BookingStatus;
 import com.swd.ccp.models.entity_models.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,5 +12,6 @@ public interface BookingRepo extends JpaRepository<Booking, Integer> {
 
     List<Booking> findAllByCustomer(Customer customer);
 
-    Optional<Booking> findBySeatIdAndBookingDate(Integer id, Date bookingDate);
+    boolean existsBySeatIdAndBookingDate(Integer id, Date bookingDate);
+
 }

@@ -309,9 +309,24 @@ class SignInViewController: UIViewController, UIFactory {
                 case .success(let authenticationResponse):
                     DispatchQueue.main.async {
                         if authenticationResponse.status ?? false {
-                            self?.hiddenLoadingView()
-                            UserSessionManager.shared.saveAuthenticationResponse(authenticationResponse)
-                            self?.pushToHome()
+                            if let role = authenticationResponse.accountResponse?.role,
+                               let accountStatus = authenticationResponse.accountResponse?.status {
+                                switch role {
+                                case .customer:
+                                    switch accountStatus {
+                                    case .active:
+                                        self?.handleLoginAvailable(authenticationResponse: authenticationResponse)
+                                    case .inactive:
+                                        self?.handleLoginUnavailable("You have been banned")
+                                    }
+                                case .admin:
+                                    self?.handleLoginUnavailable("You don't have permission")
+                                case .shopOwner:
+                                    self?.handleLoginUnavailable("You don't have permission")
+                                case .staff:
+                                    self?.handleLoginUnavailable("You don't have permission")
+                                }
+                            }
                         } else {
                             self?.displayLoginError(authenticationResponse.message ?? "Unknown error")
                         }
@@ -359,6 +374,16 @@ class SignInViewController: UIViewController, UIFactory {
         self.loadingAnimationView.isHidden = true
         self.loadingAnimationView.stop()
         self.view.isUserInteractionEnabled = true
+    }
+    
+    private func handleLoginAvailable(authenticationResponse: AuthenticationResponse) {
+        UserSessionManager.shared.saveAuthenticationResponse(authenticationResponse)
+        self.hiddenLoadingView()
+        self.pushToHome()
+    }
+    
+    private func handleLoginUnavailable(_ message: String) {
+        self.displayLoginError(message)
     }
 }
 
