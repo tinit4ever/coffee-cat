@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class BookingViewController: UIViewController, UIFactory {
     let heightScaler = UIScreen.scalableHeight
@@ -13,6 +14,7 @@ class BookingViewController: UIViewController, UIFactory {
     let sizeScaler = UIScreen.scalableSize
     let segmenItems = ["PENDING", "CONFIRMED", "CANCELLED"]
     var viewModel: BookingViewModelProtocol = BookingViewModel()
+    var cancellables: Set<AnyCancellable> = []
     
     // MARK: Create UIComponents
     lazy var topView = makeView()
@@ -154,7 +156,32 @@ class BookingViewController: UIViewController, UIFactory {
     }
     
     private func cancelBooking(indexPath: IndexPath) {
-        //        self.viewModel.currentList
+        if let bookingID = self.viewModel.currentList?[indexPath.row].bookingID {
+            self.viewModel.cancelBooking(bookingID: bookingID, accessToken: UserSessionManager.shared.getAccessToken() ?? "")
+                .sink { [weak self] completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        self?.displayArlet(title: "Error", message: error.localizedDescription)
+                    }
+                } receiveValue: { success in
+                    self.displayArlet(title: "Success", message: "Success")
+                    self.loadData()
+                }
+                .store(in: &cancellables)
+        }
+    }
+    
+    private func displayArlet(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { action in
+            self.dismiss(animated: true)
+        }
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 

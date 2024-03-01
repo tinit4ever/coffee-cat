@@ -18,3 +18,7 @@ struct MenuBooking: Codable {
     var itemID: Int
     var quantity: Int
 }
+
+struct CancelBookingBody: Codable {
+    var bookingID: Int
+}

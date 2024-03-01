@@ -20,6 +20,8 @@ protocol BookingViewModelProtocol {
     func getBookingHistories(accessToken: String, onReceived: @escaping () -> Void)
     
     func updateCurrentList(currentStatus: BookingStatus)
+    
+    func cancelBooking(bookingID: Int, accessToken: String) -> AnyPublisher<Bool, Error>
 }
 
 class BookingViewModel: BookingViewModelProtocol {
@@ -46,8 +48,10 @@ class BookingViewModel: BookingViewModelProtocol {
                     print(error.localizedDescription)
                 }
             } receiveValue: { bookingResponse in
-                self.setupData(bookingHistories: bookingResponse.bookingList ?? [])
-                onReceived()
+                if let bookingList = bookingResponse.bookingList {
+                    self.setupData(bookingHistories: bookingList)
+                    onReceived()
+                }
             }
             .store(in: &cancellables)
     }
@@ -79,5 +83,9 @@ class BookingViewModel: BookingViewModelProtocol {
         }
         
         self.currentList = pendingList
+    }
+    
+    func cancelBooking(bookingID: Int, accessToken: String) -> AnyPublisher<Bool, Error> {
+        return APIManager.shared.cancelBooking(bookingID: bookingID, accessToken: accessToken)
     }
 }

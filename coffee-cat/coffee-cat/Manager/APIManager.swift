@@ -210,7 +210,7 @@ class APIManager {
         }
     }
     
-    func cancelBooking(bookingId: Int, accessToken: String) -> AnyPublisher<String, Error> {
+    func cancelBooking(bookingID: Int, accessToken: String) -> AnyPublisher<Bool, Error> {
         let url = APIConstants.Booking.cancel
         
         let headers: HTTPHeaders = [
@@ -218,13 +218,16 @@ class APIManager {
             "Content-Type": "application/json"
         ]
         
-        let parameters: [String: Int] = [
-            "bookingID": bookingId
-        ]
+        let parameters = CancelBookingBody(bookingID: bookingID)
         
-        return AF.request(url, method: .post, parameters: parameters, headers: headers)
-            .publishDecodable()
-            .value()
+        return AF.request(url, method: .post, parameters: parameters, encoder: JSONParameterEncoder.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard (200...299).contains(response.response?.statusCode ?? 0) else {
+                    throw AFError.responseValidationFailed(reason: .unacceptableStatusCode(code: response.response?.statusCode ?? 0))
+                }
+                return true
+            }
             .mapError { error in
                 return error as Error
             }
