@@ -45,7 +45,6 @@ class SignInViewController: UIViewController, UIFactory {
         super.viewDidLoad()
         setupUI()
         setupAction()
-        
     }
     
     // -MARK: Override
@@ -146,7 +145,7 @@ class SignInViewController: UIViewController, UIFactory {
         welcomeLabel.setBoldText()
         
         NSLayoutConstraint.activate([
-            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 150),
+            welcomeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: UIScreen.screenHeightUnit * 160),
             welcomeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: UIScreen.screenWidthtUnit * 30),
             welcomeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(UIScreen.screenWidthtUnit * 30)),
         ])
@@ -312,7 +311,6 @@ class SignInViewController: UIViewController, UIFactory {
                         if authenticationResponse.status ?? false {
                             self?.hiddenLoadingView()
                             UserSessionManager.shared.saveAuthenticationResponse(authenticationResponse)
-                            print(UserSessionManager.shared.authenticationResponse as Any)
                             self?.pushToHome()
                         } else {
                             self?.displayLoginError(authenticationResponse.message ?? "Unknown error")

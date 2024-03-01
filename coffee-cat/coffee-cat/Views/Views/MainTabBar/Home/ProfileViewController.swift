@@ -13,6 +13,8 @@ class ProfileViewController: UIViewController, UIFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
+    var viewModel: ProfileViewModelProtocol = ProfileViewModel()
+    
     // -MARK: Create UI Components
     lazy var animationView = makeLottieAnimationView(animationName: "profile")
     
@@ -40,8 +42,14 @@ class ProfileViewController: UIViewController, UIFactory {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         setupData()
+        setupUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if !UserSessionManager.shared.isLoggedIn() {
+            self.displayLoginRequire()
+        }
     }
     
     private func configAppearance() {
@@ -134,13 +142,25 @@ class ProfileViewController: UIViewController, UIFactory {
     
     // -MARK: Setup Data
     private func setupData() {
+        guard let userInfor = UserSessionManager.shared.getUserProfile() else {
+            return
+        }
+        guard let email: String = userInfor.email else {
+            return
+        }
+        
+        let username = userInfor.username
+        let phone = userInfor.phone
+        let gender = userInfor.gender
+        let dob = userInfor.dob
+        
         emailTitle.setupTitle(text: "Email", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         emailTitle.setBoldText()
         emailTitle.backgroundColor = .customPink
         emailTitle.layer.cornerRadius = sizeScaler(10)
         emailTitle.layer.masksToBounds = true
         
-        emailLabel.setupTitle(text: "tin@mgmail.com", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+        emailLabel.setupTitle(text: email, fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         emailLabel.textAlignment = .left
         
         usernameTitle.setupTitle(text: "Username", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
@@ -149,7 +169,7 @@ class ProfileViewController: UIViewController, UIFactory {
         usernameTitle.layer.cornerRadius = sizeScaler(10)
         usernameTitle.layer.masksToBounds = true
         
-        usernameLabel.setupTitle(text: "Nguyen Trung Tin", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+        usernameLabel.setupTitle(text: username ?? "Unknown", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         usernameLabel.textAlignment = .left
         
         phoneTitle.setupTitle(text: "Phone", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
@@ -158,7 +178,7 @@ class ProfileViewController: UIViewController, UIFactory {
         phoneTitle.layer.cornerRadius = sizeScaler(10)
         phoneTitle.layer.masksToBounds = true
         
-        phoneLabel.setupTitle(text: "035888771", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+        phoneLabel.setupTitle(text: phone ?? "Unknown", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         phoneLabel.textAlignment = .left
         
         genderTitle.setupTitle(text: "Gender", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
@@ -167,7 +187,7 @@ class ProfileViewController: UIViewController, UIFactory {
         genderTitle.layer.cornerRadius = sizeScaler(10)
         genderTitle.layer.masksToBounds = true
         
-        genderLabel.setupTitle(text: "Man", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+        genderLabel.setupTitle(text: gender ?? "Unknown", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         genderLabel.textAlignment = .left
         
         dobTitle.setupTitle(text: "Day of birth", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
@@ -176,7 +196,7 @@ class ProfileViewController: UIViewController, UIFactory {
         dobTitle.layer.cornerRadius = sizeScaler(10)
         dobTitle.layer.masksToBounds = true
         
-        dobLabel.setupTitle(text: "26-06-2002", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+        dobLabel.setupTitle(text: dob ?? "Unknown", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         dobLabel.textAlignment = .left
     }
     
@@ -188,7 +208,57 @@ class ProfileViewController: UIViewController, UIFactory {
     
     @objc
     private func logoutButtonTapped() {
+        self.viewModel.logout(accessToken: UserSessionManager.shared.getAccessToken() ?? "") { result in
+            switch result {
+            case .success(let authenticationResponse):
+                UserSessionManager.shared.clearSession()
+                self.displaylogoutSuccess(authenticationResponse.message ?? "Success")
+            case .failure(let error):
+                self.displaylogoutError("Something when wrong")
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    // -MARK: Utilities
+    private func displaylogoutError(_ message: String) {
+        let alertController = UIAlertController(title: "Login Failed", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func displaylogoutSuccess(_ title: String) {
+        let alertController = UIAlertController(title: title, message: "See you!", preferredStyle: .alert)
         
+        let okAction = UIAlertAction(title: "OK", style: .default) { action in
+            self.dismiss(animated: true)
+        }
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func displayLoginRequire() {
+        let alertController = UIAlertController(title: "Not Login", message: "Please login to see your profile", preferredStyle: .alert)
+        
+        let loginAction = UIAlertAction(title: "Login", style: .default) { action in
+            let homeViewController = TransitionViewController()
+            let navigationController = UINavigationController(rootViewController: homeViewController)
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                let window = windowScene.windows.first
+                window?.rootViewController = navigationController
+                window?.makeKeyAndVisible()
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { action in
+            self.dismiss(animated: true)
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(loginAction)
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
