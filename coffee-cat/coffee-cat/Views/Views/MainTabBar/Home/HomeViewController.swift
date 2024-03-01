@@ -299,7 +299,7 @@ class HomeViewController: UIViewController, UIFactory {
         self.accountImageButton.isUserInteractionEnabled = true
     }
     
-    // -MARK: Setup Action
+    // -MARK: Catch Action
     @objc
     private func accountImageButtonTapped() {
         let navigationController = UINavigationController(rootViewController: ProfileViewController())

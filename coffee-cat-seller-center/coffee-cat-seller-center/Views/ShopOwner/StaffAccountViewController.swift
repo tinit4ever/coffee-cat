@@ -25,10 +25,12 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAction()
     }
     
     private func setupUI() {
         self.view.backgroundColor = .systemMint.withAlphaComponent(0.8)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         
         view.addSubview(topView)
         configTopView()
@@ -113,6 +115,18 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
             addAccountButton.trailingAnchor.constraint(equalTo: accountTableContainer.trailingAnchor),
             addAccountButton.bottomAnchor.constraint(equalTo: accountTableContainer.bottomAnchor)
         ])
+    }
+    
+    // -MARK: Setup Action
+    private func setupAction() {
+        self.addAccountButton.addTarget(self, action: #selector(addAccountButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc
+    private func addAccountButtonTapped() {
+        let viewController = AccountInputViewController()
+        let navigationController = UINavigationController(rootViewController: viewController)
+        self.present(navigationController, animated: true)
     }
 }
 
