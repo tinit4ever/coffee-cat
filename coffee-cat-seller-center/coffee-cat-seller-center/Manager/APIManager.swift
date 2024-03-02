@@ -104,8 +104,28 @@ class APIManager {
         }
     }
     
-    //    func getListStaff() -> AnyPublisher< {
-    //        
-    //    }
+    func getListStaff(shopId: Int, accessToken: String, getParameter: GetParameter) -> AnyPublisher<AccountListResponse, Error> {
+        guard let url = URL(string: APIConstants.getListStaff + "\(shopId)") else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+//            "Authorization": "Bearer \(accessToken)",
+            "Authorization": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0aW5AZ21haWwuY29tIiwiaWF0IjoxNzA5MzQ5MDQ3LCJleHAiOjE3MDkzNTk4NDd9.pNqjSB6oSIkMvKwJGBq1LeYgK-pjZwReRV_4s-ak_iYOG2Jz4VgS30oEtoz6yQch",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            APIParameter.asc: getParameter.asc,
+            APIParameter.sortByColumn: getParameter.sortByColumn
+        ]
+        
+        return AF.request(url, method: .get, parameters: parameters, headers: headers)
+            .publishDecodable(type: AccountListResponse.self)
+            .value()
+            .mapError { error in
+                return error as Error
+            }
+            .eraseToAnyPublisher()
+    }
 }
-
