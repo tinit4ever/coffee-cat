@@ -8,21 +8,26 @@
 import Foundation
 import Combine
 
-protocol AccountInputViewModelProtocol {
-    var userRegistration: UserRegistration? {get set}
+protocol AccountInputViewModelProtocol: AnyObject {
+    var accountCreation: CreateAccountModel? {get set}
     var alertMessage: String {get set}
+    var accountCreationResultSubject: PassthroughSubject<Result<Void, Error>, Never> {get}
     
     func checkEmailExisted(email: String) -> AnyPublisher<Bool, Error>
     func validateEmail(_ email: String) -> Bool
     func validatePassword(_ password: String, _ confirmPassword: String) -> Bool
     func validateName(_ name: String) -> Bool
-    func setUserRegistration(name: String, email: String, password: String)
-    func getUserRegistration() -> UserRegistration
-    func createAccount()
+    func setShopId(shopId: Int)
+    func setName(name: String)
+    func setEmail(email: String)
+    func setPassword(password: String)
+    func getUserRegistration() -> CreateAccountModel
+    func createAccount(model: CreateAccountModel, accessToken: String)
 }
 
 class AccountInputViewModel: AccountInputViewModelProtocol {
-    var userRegistration: UserRegistration?
+    var accountCreation: CreateAccountModel?
+    var accountCreationResultSubject = PassthroughSubject<Result<Void, Error>, Never>()
     
     var alertMessage: String = ""
     var cancellables: Set<AnyCancellable> = []
@@ -71,17 +76,38 @@ extension AccountInputViewModel {
         }
     }
     
-    func setUserRegistration(name: String, email: String, password: String) {
-        self.userRegistration?.name = name
-        self.userRegistration?.email = email
-        self.userRegistration?.password = password
+    func setShopId(shopId: Int) {
+        self.accountCreation?.shopId = shopId
     }
     
-    func getUserRegistration() -> UserRegistration {
-        self.userRegistration ?? UserRegistration(name: "", email: "", password: "")
+    func setName(name: String) {
+        self.accountCreation?.name = name
+    }
+    
+    func setEmail(email: String) {
+        self.accountCreation?.email = email
+    }
+    
+    func setPassword(password: String) {
+        self.accountCreation?.password = password
+    }
+    
+    func getUserRegistration() -> CreateAccountModel {
+        self.accountCreation ?? CreateAccountModel(shopId: 1, email: "", password: "", name: "")
     }
 
-    func createAccount() {
-//        APIManager.shared.signUp(userRegistration: self.userRegistration, completion: completion)
+    func createAccount(model: CreateAccountModel, accessToken: String) {
+        return APIManager.shared.createStaff(with: model, accessToken: accessToken)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    self.accountCreationResultSubject.send(.failure(error))
+                }
+            } receiveValue: {
+                self.accountCreationResultSubject.send(.success(()))
+            }
+            .store(in: &cancellables)
     }
 }

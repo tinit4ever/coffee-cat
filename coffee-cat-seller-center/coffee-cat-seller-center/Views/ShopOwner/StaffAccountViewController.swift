@@ -33,6 +33,11 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         setupAction()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setupData()
+    }
+    
     private func setupUI() {
         self.view.backgroundColor = .systemMint.withAlphaComponent(0.8)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -134,7 +139,9 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         (self.viewModel as! StaffAccountViewModel).$staffList
             .receive(on: DispatchQueue.main)
             .sink { [weak self] staffList in
-                print("UpdateUI")
+                DispatchQueue.main.async {
+                    self?.accountTableView.reloadData()
+                }
             }
             .store(in: &cancellables)
     }
@@ -158,7 +165,7 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     @objc
     private func addAccountButtonTapped() {
         var accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
-        accountInputViewModel.userRegistration = UserRegistration(name: "", email: "", password: "")
+        accountInputViewModel.accountCreation = CreateAccountModel(shopId: 1, email: "", password: "", name: "")
         let viewController = AccountInputViewController(viewModel: accountInputViewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
         self.present(navigationController, animated: true)
@@ -169,9 +176,9 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     }
     
     private func updateAccount(indexPath: IndexPath) {
-        let userRegistration = UserRegistration(name: "Tin", email: "tin@gmail.com", password: "tin123445")
+        let userRegistration = CreateAccountModel(shopId: 1, email: "tin@gmail.com", password: "tin123445", name: "Tin")
         var accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
-        accountInputViewModel.userRegistration = userRegistration
+        accountInputViewModel.accountCreation = userRegistration
         let viewController = AccountInputViewController(viewModel: accountInputViewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
         self.present(navigationController, animated: true)
@@ -180,7 +187,7 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
 
 extension StaffAccountViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        30
+        self.viewModel.staffList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -188,12 +195,15 @@ extension StaffAccountViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        let account = self.viewModel.staffList[indexPath.row]
+        cell.config(account: account)
+        
         cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightScaler(60)
+        return heightScaler(100)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

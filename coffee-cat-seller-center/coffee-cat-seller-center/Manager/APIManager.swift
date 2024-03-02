@@ -21,6 +21,7 @@ struct APIConstants {
     }
     
     static let getListStaff = baseURL + "staff/"
+    static let createStaff = baseURL + "staff/createStaff"
     
     static let logout = baseURL + "account/logout"
 }
@@ -111,7 +112,7 @@ class APIManager {
         
         let headers: HTTPHeaders = [
 //            "Authorization": "Bearer \(accessToken)",
-            "Authorization": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0aW5AZ21haWwuY29tIiwiaWF0IjoxNzA5MzQ5MDQ3LCJleHAiOjE3MDkzNTk4NDd9.pNqjSB6oSIkMvKwJGBq1LeYgK-pjZwReRV_4s-ak_iYOG2Jz4VgS30oEtoz6yQch",
+            "Authorization": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0aW5AZ21haWwuY29tIiwiaWF0IjoxNzA5MzY0OTM3LCJleHAiOjE3MDkzNzU3Mzd9.rme7Xq--TFK5MGSXuOf5WtK_w5uURVquWu1lOmC0W8HvrLxK3yFfjWmt1Aj3IiHa",
             "Content-Type": "application/json"
         ]
         
@@ -126,6 +127,28 @@ class APIManager {
             .mapError { error in
                 return error as Error
             }
+            .eraseToAnyPublisher()
+    }
+    
+    func createStaff(with model: CreateAccountModel, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.createStaff) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .post, parameters: model, encoder: JSONParameterEncoder.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { $0 as Error }
+            .map{ _ in }
             .eraseToAnyPublisher()
     }
 }
