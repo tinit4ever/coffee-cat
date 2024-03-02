@@ -1,9 +1,11 @@
 package com.swd.ccp.controllers;
 
 import com.swd.ccp.Exception.NotFoundException;
+import com.swd.ccp.models.request_models.ChangeStatusStaffRequest;
 import com.swd.ccp.models.request_models.SortStaffListRequest;
 import com.swd.ccp.models.request_models.CreateStaffRequest;
 import com.swd.ccp.models.request_models.UpdateStaffRequest;
+import com.swd.ccp.models.response_models.ChangeStatusStaffResponse;
 import com.swd.ccp.models.response_models.CreateStaffResponse;
 import com.swd.ccp.models.response_models.StaffListResponse;
 import com.swd.ccp.models.response_models.UpdateStaffResponse;
@@ -40,22 +42,12 @@ public class ShopOwnerController {
     }
     @PostMapping("/staff/inactive")
     @PreAuthorize("hasAuthority('owner:update')")
-    public ResponseEntity<String> inactiveStaff(@PathVariable Integer staffId) {
-        int result = shopOwnerService.inactiveStaff(staffId);
-        if (result == 1) {
-            return ResponseEntity.ok("Staff with ID " + staffId + " has been successfully inactivated.");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ChangeStatusStaffResponse> inactiveStaff(@RequestBody ChangeStatusStaffRequest request) {
+        return ResponseEntity.ok().body(shopOwnerService.changeStatusStaff(request, "ban"));
     }
     @PostMapping("/staff/active")
     @PreAuthorize("hasAuthority('owner:update')")
-    public ResponseEntity<String> activeStaff(@PathVariable Integer staffId) {
-        int result = shopOwnerService.activeStaff(staffId);
-        if (result == 1) {
-            return ResponseEntity.ok("Staff with ID " + staffId + " has been successfully activated.");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ChangeStatusStaffResponse> activeStaff(@RequestBody ChangeStatusStaffRequest request) {
+        return ResponseEntity.ok().body(shopOwnerService.changeStatusStaff(request, "unban"));
     }
 }

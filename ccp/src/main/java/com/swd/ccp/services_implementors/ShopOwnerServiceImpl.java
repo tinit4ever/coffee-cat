@@ -2,9 +2,11 @@ package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.enums.Role;
 import com.swd.ccp.models.entity_models.*;
+import com.swd.ccp.models.request_models.ChangeStatusStaffRequest;
 import com.swd.ccp.models.request_models.SortStaffListRequest;
 import com.swd.ccp.models.request_models.CreateStaffRequest;
 import com.swd.ccp.models.request_models.UpdateStaffRequest;
+import com.swd.ccp.models.response_models.ChangeStatusStaffResponse;
 import com.swd.ccp.models.response_models.CreateStaffResponse;
 import com.swd.ccp.models.response_models.StaffListResponse;
 import com.swd.ccp.models.response_models.UpdateStaffResponse;
@@ -212,12 +214,48 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
                 .staffResponse(null)
                 .build();
     }
+
     @Override
-    public int inactiveStaff(Integer staffId) {
-        return 0;
+    public ChangeStatusStaffResponse changeStatusStaff(ChangeStatusStaffRequest request, String type) {
+        Account account = accountService.getCurrentLoggedUser();
+        if(account.getRole().equals(Role.OWNER)){
+            Manager owner = managerRepo.findByAccount(account).orElse(null);
+            Manager staff = managerRepo.findById(request.getStaffId()).orElse(null);
+            assert owner != null;
+
+            if(staff != null && owner.getShop().getManagerList().contains(staff)){
+                String newStatus = "active";
+                if(type.equals("ban")) newStatus = "inactive";
+
+                if(!staff.getAccount().getStatus().getStatus().equals(newStatus)){
+                    AccountStatus accountStatus = accountStatusRepo.findByStatus(newStatus);
+                    staff.getAccount().setStatus(accountStatus);
+                    managerRepo.save(staff);
+
+                    return ChangeStatusStaffResponse.builder()
+                            .status(true)
+                            .message("This account is now been " + newStatus)
+                            .staffResponse(
+                                    ChangeStatusStaffResponse.StaffResponse.builder()
+                                            .id(staff.getId())
+                                            .status(staff.getAccount().getStatus().getStatus())
+                                            .build()
+                            )
+                            .build();
+                }
+                return ChangeStatusStaffResponse.builder()
+                        .status(false)
+                        .message("This account is already " + newStatus)
+                        .staffResponse(null)
+                        .build();
+            }
+        }
+
+        return ChangeStatusStaffResponse.builder()
+                .status(false)
+                .message("This account doesn't have enough permission to use this feature")
+                .staffResponse(null)
+                .build();
     }
-    @Override
-    public int activeStaff(Integer staffId) {
-        return 0;
-    }
+
 }
