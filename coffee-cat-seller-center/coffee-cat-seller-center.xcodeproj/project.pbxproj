@@ -10,6 +10,10 @@
 		A06452672B92BDBD00148032 /* UserSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06452662B92BDBD00148032 /* UserSignIn.swift */; };
 		A064526A2B92BDF300148032 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06452692B92BDF300148032 /* SignInViewModel.swift */; };
 		A064526C2B92C05E00148032 /* UserSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A064526B2B92C05E00148032 /* UserSessionManager.swift */; };
+		A064526E2B92C79A00148032 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A064526D2B92C79900148032 /* ProfileViewController.swift */; };
+		A06452712B92C7EA00148032 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06452702B92C7EA00148032 /* ProfileViewModel.swift */; };
+		A06452732B92C85F00148032 /* ProfileFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06452722B92C85F00148032 /* ProfileFactory.swift */; };
+		A06452782B92CCE100148032 /* profile.json in Resources */ = {isa = PBXBuildFile; fileRef = A06452772B92CCE000148032 /* profile.json */; };
 		A06834202B8D853F0086CE59 /* NameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A068341F2B8D853F0086CE59 /* NameConstants.swift */; };
 		A06834222B8D86220086CE59 /* ShopTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834212B8D86220086CE59 /* ShopTabBarViewController.swift */; };
 		A06834242B8D87180086CE59 /* StaffAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834232B8D87180086CE59 /* StaffAccountViewController.swift */; };
@@ -53,6 +57,10 @@
 		A06452662B92BDBD00148032 /* UserSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignIn.swift; sourceTree = "<group>"; };
 		A06452692B92BDF300148032 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		A064526B2B92C05E00148032 /* UserSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionManager.swift; sourceTree = "<group>"; };
+		A064526D2B92C79900148032 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		A06452702B92C7EA00148032 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		A06452722B92C85F00148032 /* ProfileFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFactory.swift; sourceTree = "<group>"; };
+		A06452772B92CCE000148032 /* profile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = profile.json; sourceTree = "<group>"; };
 		A068341F2B8D853F0086CE59 /* NameConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameConstants.swift; sourceTree = "<group>"; };
 		A06834212B8D86220086CE59 /* ShopTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopTabBarViewController.swift; sourceTree = "<group>"; };
 		A06834232B8D87180086CE59 /* StaffAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAccountViewController.swift; sourceTree = "<group>"; };
@@ -114,11 +122,29 @@
 			path = ShopOwner;
 			sourceTree = "<group>";
 		};
+		A064526F2B92C7D100148032 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A06452692B92BDF300148032 /* SignInViewModel.swift */,
+				A06452702B92C7EA00148032 /* ProfileViewModel.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		A06452742B92C93300148032 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A0CBF4D02B8CD3C6008CFAD3 /* SignInViewController.swift */,
+				A064526D2B92C79900148032 /* ProfileViewController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		A0CA420E2B91F57900BED8FF /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				A064526F2B92C7D100148032 /* Auth */,
 				A06452682B92BDDF00148032 /* ShopOwner */,
-				A06452692B92BDF300148032 /* SignInViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -190,11 +216,11 @@
 		A0CBF4CF2B8CD3B1008CFAD3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A06452742B92C93300148032 /* Auth */,
 				A0CBF5092B8CE96B008CFAD3 /* TableViewCell */,
 				A0CBF5022B8CE51F008CFAD3 /* Staff */,
 				A0CBF5012B8CE516008CFAD3 /* ShopOwner */,
 				A0CBF5002B8CE510008CFAD3 /* Admin */,
-				A0CBF4D02B8CD3C6008CFAD3 /* SignInViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -210,6 +236,7 @@
 		A0CBF4DE2B8CD99E008CFAD3 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				A06452772B92CCE000148032 /* profile.json */,
 				A0CBF5072B8CE802008CFAD3 /* coffee.json */,
 				A0CBF4FE2B8CE0AC008CFAD3 /* administrator.json */,
 			);
@@ -223,6 +250,7 @@
 				A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */,
 				A06834272B8D90280086CE59 /* StaffAccountFactory.swift */,
 				A0CA420C2B91ED2700BED8FF /* AccountInputFactory.swift */,
+				A06452722B92C85F00148032 /* ProfileFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -354,6 +382,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A06452782B92CCE100148032 /* profile.json in Resources */,
 				A0CBF4C72B8CD31F008CFAD3 /* LaunchScreen.storyboard in Resources */,
 				A0CBF4FF2B8CE0AC008CFAD3 /* administrator.json in Resources */,
 				A0CBF4C42B8CD31F008CFAD3 /* Assets.xcassets in Resources */,
@@ -392,15 +421,18 @@
 				A0CBF4BB2B8CD31D008CFAD3 /* AppDelegate.swift in Sources */,
 				A0CA42132B91F5F800BED8FF /* AccountModel.swift in Sources */,
 				A0CA42162B91F78400BED8FF /* APIManager.swift in Sources */,
+				A064526E2B92C79A00148032 /* ProfileViewController.swift in Sources */,
 				A0CBF4F12B8CDBD9008CFAD3 /* UIFont+Extension.swift in Sources */,
 				A0CBF4F22B8CDBD9008CFAD3 /* UIImage+Extension.swift in Sources */,
 				A0CA420D2B91ED2700BED8FF /* AccountInputFactory.swift in Sources */,
+				A06452732B92C85F00148032 /* ProfileFactory.swift in Sources */,
 				A06452672B92BDBD00148032 /* UserSignIn.swift in Sources */,
 				A0CBF4BD2B8CD31D008CFAD3 /* SceneDelegate.swift in Sources */,
 				A0CA42182B91F7D900BED8FF /* AuthenticationResponse.swift in Sources */,
 				A06834282B8D90280086CE59 /* StaffAccountFactory.swift in Sources */,
 				A0CBF4F52B8CDBD9008CFAD3 /* UIScreen+Extension.swift in Sources */,
 				A06834242B8D87180086CE59 /* StaffAccountViewController.swift in Sources */,
+				A06452712B92C7EA00148032 /* ProfileViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
