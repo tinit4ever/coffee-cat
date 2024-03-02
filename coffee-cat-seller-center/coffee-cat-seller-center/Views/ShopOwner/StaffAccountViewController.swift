@@ -164,7 +164,7 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     
     @objc
     private func addAccountButtonTapped() {
-        var accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
+        let accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
         accountInputViewModel.accountCreation = CreateAccountModel(shopId: 1, email: "", password: "", name: "")
         let viewController = AccountInputViewController(viewModel: accountInputViewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
@@ -176,9 +176,18 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     }
     
     private func updateAccount(indexPath: IndexPath) {
-        let userRegistration = CreateAccountModel(shopId: 1, email: "tin@gmail.com", password: "tin123445", name: "Tin")
-        var accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
-        accountInputViewModel.accountCreation = userRegistration
+        let account = self.viewModel.staffList[indexPath.row]
+        let accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
+        guard let name = account.username,
+              let password = account.password else {
+            return
+        }
+        let email = account.email
+        
+        accountInputViewModel.setName(name: name)
+        accountInputViewModel.setEmail(email: email)
+        accountInputViewModel.setPassword(password: password)
+        accountInputViewModel.initEmailWhenUpdate = email
         let viewController = AccountInputViewController(viewModel: accountInputViewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
         self.present(navigationController, animated: true)
