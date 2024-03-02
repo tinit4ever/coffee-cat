@@ -158,6 +158,8 @@ class ProfileViewController: UIViewController, UIFactory {
         emailTitle.backgroundColor = .customPink
         emailTitle.layer.cornerRadius = sizeScaler(10)
         emailTitle.layer.masksToBounds = true
+        emailStack.heightAnchor.constraint(equalToConstant: heightScaler(40)).isActive = true
+        emailTitle.heightAnchor.constraint(equalToConstant: heightScaler(40)).isActive = true
         
         emailLabel.setupTitle(text: email, fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         emailLabel.textAlignment = .left
@@ -167,6 +169,8 @@ class ProfileViewController: UIViewController, UIFactory {
         usernameTitle.backgroundColor = .customPink
         usernameTitle.layer.cornerRadius = sizeScaler(10)
         usernameTitle.layer.masksToBounds = true
+        usernameStack.heightAnchor.constraint(equalToConstant: heightScaler(40)).isActive = true
+        usernameTitle.heightAnchor.constraint(equalToConstant: heightScaler(40)).isActive = true
         
         usernameLabel.setupTitle(text: username ?? "Unknown", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         usernameLabel.textAlignment = .left
@@ -176,6 +180,8 @@ class ProfileViewController: UIViewController, UIFactory {
         phoneTitle.backgroundColor = .customPink
         phoneTitle.layer.cornerRadius = sizeScaler(10)
         phoneTitle.layer.masksToBounds = true
+        phoneStack.heightAnchor.constraint(equalToConstant: heightScaler(40)).isActive = true
+        phoneTitle.heightAnchor.constraint(equalToConstant: heightScaler(40)).isActive = true
         
         phoneLabel.setupTitle(text: phone ?? "Unknown", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         phoneLabel.textAlignment = .left
@@ -185,6 +191,8 @@ class ProfileViewController: UIViewController, UIFactory {
         genderTitle.backgroundColor = .customPink
         genderTitle.layer.cornerRadius = sizeScaler(10)
         genderTitle.layer.masksToBounds = true
+        genderStack.heightAnchor.constraint(equalToConstant: heightScaler(40)).isActive = true
+        genderTitle.heightAnchor.constraint(equalToConstant: heightScaler(40)).isActive = true
         
         genderLabel.setupTitle(text: gender ?? "Unknown", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         genderLabel.textAlignment = .left
@@ -194,6 +202,8 @@ class ProfileViewController: UIViewController, UIFactory {
         dobTitle.backgroundColor = .customPink
         dobTitle.layer.cornerRadius = sizeScaler(10)
         dobTitle.layer.masksToBounds = true
+        dobStack.heightAnchor.constraint(equalToConstant: heightScaler(40)).isActive = true
+        dobTitle.heightAnchor.constraint(equalToConstant: heightScaler(40)).isActive = true
         
         dobLabel.setupTitle(text: dob ?? "Unknown", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         dobLabel.textAlignment = .left
