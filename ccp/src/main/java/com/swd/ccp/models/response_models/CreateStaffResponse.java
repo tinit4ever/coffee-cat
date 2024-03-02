@@ -10,6 +10,19 @@ import lombok.NoArgsConstructor;
 @Data
 public class CreateStaffResponse {
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class StaffResponse {
+        private Integer id;
+
+        private String email;
+
+        private String username;
+
+        private String status;
+    }
 
     private boolean status;
 

@@ -14,8 +14,8 @@ import java.sql.Date;
 @Builder
 public class GetAreaListRequest {
 
-    private int shopID;
+    private int shopId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date bookingDate;
+    private Date date;
 }

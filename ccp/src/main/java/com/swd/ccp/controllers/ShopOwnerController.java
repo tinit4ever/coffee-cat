@@ -21,16 +21,13 @@ public class ShopOwnerController {
 
 
     private final ShopOwnerService shopOwnerService;
-    @GetMapping("/list")
+    @PostMapping("/staff/list")
     @PreAuthorize("hasAuthority('owner:read')")
-    public ResponseEntity<StaffListResponse> GetStaff(@RequestParam(value = "sortByColumn", defaultValue = "id") String sortByColumn,
-                                                      @RequestParam(value = "asc", defaultValue = "true") boolean ascending) {
-        SortRequest sortRequest = new SortRequest(ascending, sortByColumn);
-        StaffListResponse Staff = shopOwnerService.getStaffList(sortRequest);
-        return ResponseEntity.ok(Staff);
+    public ResponseEntity<StaffListResponse> GetStaffList(@RequestBody SortRequest request) {
+        return ResponseEntity.ok().body(shopOwnerService.getStaffList(request));
     }
 
-    @PostMapping("/createStaff")
+    @PostMapping("/staff/create")
     @PreAuthorize("hasAuthority('owner:create')")
     public ResponseEntity<CreateStaffResponse> createStaff(@RequestBody StaffRequest request) {
         CreateStaffResponse response = shopOwnerService.createStaff(request);
@@ -40,7 +37,7 @@ public class ShopOwnerController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
-    @PostMapping("updateStaff/{staffId}")
+    @PostMapping("/staff/update")
     @PreAuthorize("hasAuthority('owner:update')")
     public ResponseEntity<UpdateStaffResponse> updateStaff(@PathVariable Integer staffId,
                                                            @RequestBody StaffRequest updateRequest) {
@@ -53,7 +50,7 @@ public class ShopOwnerController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-    @PostMapping("/inactive/{staffId}")
+    @PostMapping("/staff/inactive")
     @PreAuthorize("hasAuthority('owner:update')")
     public ResponseEntity<String> inactiveStaff(@PathVariable Integer staffId) {
         int result = shopOwnerService.inactiveStaff(staffId);
@@ -63,7 +60,7 @@ public class ShopOwnerController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PostMapping("/active/{staffId}")
+    @PostMapping("/staff/active")
     @PreAuthorize("hasAuthority('owner:update')")
     public ResponseEntity<String> activeStaff(@PathVariable Integer staffId) {
         int result = shopOwnerService.activeStaff(staffId);

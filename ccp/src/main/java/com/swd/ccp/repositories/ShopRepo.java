@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ShopRepo extends JpaRepository<Shop, Integer> {
-    List<Shop> findAll (Sort sort);
     List<Shop> findAllByStatusIn(List<ShopStatus> status, Sort sort);
     @Query("SELECT s FROM Shop s WHERE s.status IN :status AND " +
             "(LOWER(s.name) LIKE LOWER(CONCAT('%', :keyword, '%')) ) " )
@@ -21,8 +20,5 @@ public interface ShopRepo extends JpaRepository<Shop, Integer> {
             "(LOWER(s.address) LIKE LOWER(CONCAT('%', :keyword, '%')) ) " )
     List<Shop> findAllByStatusInAndAddressContainingIgnoreCase(List<ShopStatus> status, String keyword, Sort sort);
 
-    Shop findByIdAndStatus(Long id,ShopStatus status);
-    Shop findByName(String name);
-    Optional<Shop> findById(long shopId);
 
 }

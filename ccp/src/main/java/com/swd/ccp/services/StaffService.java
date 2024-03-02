@@ -5,7 +5,6 @@ import com.swd.ccp.models.request_models.StaffRequest;
 import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.response_models.CreateStaffResponse;
 import com.swd.ccp.models.response_models.StaffListResponse;
-import com.swd.ccp.models.response_models.StaffResponse;
 import com.swd.ccp.models.response_models.UpdateStaffResponse;
 import org.springframework.data.domain.Page;
 

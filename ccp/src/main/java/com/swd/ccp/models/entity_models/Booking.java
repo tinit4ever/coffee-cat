@@ -47,5 +47,6 @@ public class Booking {
     private String extraContent;
 
     @OneToMany(mappedBy = "booking")
+    @ToString.Exclude
     private List<BookingDetail> bookingDetailList;
 }

@@ -20,5 +20,6 @@ public class AreaStatus {
     private String status;
 
     @OneToMany(mappedBy = "areaStatus")
+    @ToString.Exclude
     private List<Area> areaList;
 }

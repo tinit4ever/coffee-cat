@@ -25,5 +25,6 @@ public class Menu {
     private String description;
 
     @OneToMany(mappedBy = "menu")
+    @ToString.Exclude
     private List<MenuItem> menuItemList;
 }

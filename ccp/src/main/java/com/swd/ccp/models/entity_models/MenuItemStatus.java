@@ -21,5 +21,6 @@ public class MenuItemStatus {
     private String status;
 
     @OneToMany(mappedBy = "menuItemStatus")
+    @ToString.Exclude
     private List<MenuItem> menuItemList;
 }

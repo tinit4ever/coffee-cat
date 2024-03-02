@@ -12,8 +12,22 @@ import java.util.List;
 @Builder
 public class StaffListResponse {
 
-        private List<StaffResponse> staffList;
-        private boolean status;
-        private String message;
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class StaffResponse {
+        private Integer id;
+
+        private String email;
+
+        private String username;
+
+        private String status;
+    }
+
+    private List<StaffResponse> staffList;
+    private boolean status;
+    private String message;
 
     }

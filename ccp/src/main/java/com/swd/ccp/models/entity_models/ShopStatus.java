@@ -21,5 +21,6 @@ public class ShopStatus {
     private String status;
 
     @OneToMany(mappedBy = "status")
+    @ToString.Exclude
     private List<Shop> shopList;
 }

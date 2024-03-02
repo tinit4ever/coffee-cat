@@ -27,6 +27,7 @@ public class Package {
     private Date purchaseDate;
 
     @OneToMany(mappedBy = "packages")
+    @ToString.Exclude
     private List<Shop> shopList;
 
     @ManyToOne

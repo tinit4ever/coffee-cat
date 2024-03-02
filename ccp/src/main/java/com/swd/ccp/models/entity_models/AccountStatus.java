@@ -20,8 +20,8 @@ public class AccountStatus {
 
     private String status;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "status")
+    @ToString.Exclude
     private List<Account> accountList;
 
 }

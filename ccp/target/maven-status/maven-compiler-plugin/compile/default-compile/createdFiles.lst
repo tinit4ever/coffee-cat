@@ -1,3 +1,4 @@
+com\swd\ccp\controllers\ShopOwnerController.class
 com\swd\ccp\repositories\AreaStatusRepo.class
 com\swd\ccp\models\response_models\CreateShopResponse.class
 com\swd\ccp\models\response_models\RefreshResponse$RefreshResponseBuilder.class
@@ -34,7 +35,6 @@ com\swd\ccp\models\request_models\ShopRequest$ShopRequestBuilder.class
 com\swd\ccp\services_implementors\StaffServiceImpl.class
 com\swd\ccp\models\entity_models\Cat.class
 com\swd\ccp\models\request_models\CreateBookingCartRequest$MenuItemRequest$MenuItemRequestBuilder.class
-com\swd\ccp\models\request_models\GetAreaListRequest.class
 com\swd\ccp\models\request_models\PaginationRequest.class
 com\swd\ccp\services_implementors\CustomerServiceIml.class
 com\swd\ccp\CcpApplication.class
@@ -66,7 +66,6 @@ com\swd\ccp\models\entity_models\Package$PackageBuilder.class
 com\swd\ccp\repositories\SeatStatusRepo.class
 com\swd\ccp\models\response_models\BookingCartResponse$BookingCartShopResponse$BookingCartShopResponseBuilder.class
 com\swd\ccp\models\entity_models\Area$AreaBuilder.class
-com\swd\ccp\models\request_models\GetAreaListRequest$GetAreaListRequestBuilder.class
 com\swd\ccp\models\response_models\BookingCartResponse$BookingCartShopMenuResponse.class
 com\swd\ccp\models\response_models\BookingCartResponse.class
 com\swd\ccp\models\response_models\StaffListResponse.class
@@ -152,6 +151,7 @@ com\swd\ccp\services\AreaService.class
 com\swd\ccp\repositories\MenuRepo.class
 com\swd\ccp\models\response_models\GetAllAccountAdminResponse$AccountResponse.class
 com\swd\ccp\models\response_models\ShopResponse.class
+com\swd\ccp\services\ShopOwnerService.class
 com\swd\ccp\controllers\AccountController.class
 com\swd\ccp\models\entity_models\ShopImage$ShopImageBuilder.class
 com\swd\ccp\models\request_models\CancelBookingRequest.class
@@ -170,6 +170,7 @@ com\swd\ccp\models\response_models\MenuItemResponse.class
 com\swd\ccp\models\response_models\CheckMailExistedResponse.class
 com\swd\ccp\models\response_models\CreateStaffResponse$CreateStaffResponseBuilder.class
 com\swd\ccp\CcpApplication$1.class
+com\swd\ccp\services_implementors\ShopOwnerServiceImpl.class
 com\swd\ccp\models\response_models\BookingHistoryResponse$BookingHistoryResponseBuilder.class
 com\swd\ccp\models\entity_models\PackageStatus$PackageStatusBuilder.class
 com\swd\ccp\models\response_models\CancelBookingResponse$CancelBookingResponseBuilder.class

@@ -11,13 +11,6 @@ import org.springframework.data.domain.Sort;
 @NoArgsConstructor
 @Builder
 public class SortRequest {
-    private boolean asc;
-    private String sortByColumn ;
-    private String keyword;
-    private String searchType;
-
-    public SortRequest(boolean asc, String sortByColumn) {
-        this.sortByColumn = sortByColumn;
-        this.asc = asc;
-    }
+    private boolean ascOrder;
+    private String column;
 }

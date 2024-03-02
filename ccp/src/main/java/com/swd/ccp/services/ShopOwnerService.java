@@ -8,7 +8,7 @@ import com.swd.ccp.models.response_models.UpdateStaffResponse;
 
 public interface ShopOwnerService {
 
-    StaffListResponse getStaffList(SortRequest sortRequest);
+    StaffListResponse getStaffList(SortRequest request);
     CreateStaffResponse createStaff(StaffRequest request);
     UpdateStaffResponse updateStaff(Integer staffId, StaffRequest updateRequest);
     int inactiveStaff(Integer staffId);

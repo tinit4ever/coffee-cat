@@ -13,6 +13,6 @@ public interface BookingRepo extends JpaRepository<Booking, Integer> {
 
     List<Booking> findAllByCustomer(Customer customer);
 
-    Optional<Booking> findBySeatAndBookingDate(Seat seat, java.sql.Date bookingDate);
+    Optional<Booking> findBySeatAndBookingDate(Seat seat, Date bookingDate);
 
 }

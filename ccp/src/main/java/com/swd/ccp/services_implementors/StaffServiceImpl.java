@@ -10,7 +10,6 @@ import com.swd.ccp.models.request_models.SortRequest;
 import com.swd.ccp.models.request_models.StaffRequest;
 import com.swd.ccp.models.response_models.CreateStaffResponse;
 import com.swd.ccp.models.response_models.StaffListResponse;
-import com.swd.ccp.models.response_models.StaffResponse;
 import com.swd.ccp.models.response_models.UpdateStaffResponse;
 import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.AccountService;
