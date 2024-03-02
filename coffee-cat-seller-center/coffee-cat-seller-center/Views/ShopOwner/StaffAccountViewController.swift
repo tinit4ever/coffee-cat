@@ -120,6 +120,17 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     // -MARK: Setup Action
     private func setupAction() {
         self.addAccountButton.addTarget(self, action: #selector(addAccountButtonTapped), for: .touchUpInside)
+        
+        let accountImageButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountImageButtonTapped))
+        self.accountImageButton.addGestureRecognizer(accountImageButtonGesture)
+        self.accountImageButton.isUserInteractionEnabled = true
+    }
+    
+    // -MARK: Catch Action
+    @objc
+    private func accountImageButtonTapped() {
+        let navigationController = UINavigationController(rootViewController: ProfileViewController())
+        self.present(navigationController, animated: true)
     }
     
     @objc
@@ -130,7 +141,7 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         let navigationController = UINavigationController(rootViewController: viewController)
         self.present(navigationController, animated: true)
     }
-        
+    
     private func deleteAccount(indexPath: IndexPath) {
         
     }
@@ -177,7 +188,7 @@ extension StaffAccountViewController: UITableViewDelegate {
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
         return configuration
     }
-
+    
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let updateAction = UIContextualAction(style: .normal, title: "Update") { _, _, completionHandler in
@@ -189,5 +200,5 @@ extension StaffAccountViewController: UITableViewDelegate {
         let configuration = UISwipeActionsConfiguration(actions: [updateAction])
         return configuration
     }
-
+    
 }

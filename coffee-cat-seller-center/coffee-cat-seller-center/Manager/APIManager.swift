@@ -81,8 +81,31 @@ class APIManager {
             .eraseToAnyPublisher()
     }
     
-//    func getListStaff() -> AnyPublisher< {
-//        
-//    }
+    func logout(accessToken: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
+        let url = APIConstants.logout
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        AF.request(url, method: .get, headers: headers).responseData { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let authenticationResponse = try JSONDecoder().decode(AuthenticationResponse.self, from: data)
+                    completion(.success(authenticationResponse))
+                } catch let error {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    //    func getListStaff() -> AnyPublisher< {
+    //        
+    //    }
 }
 
