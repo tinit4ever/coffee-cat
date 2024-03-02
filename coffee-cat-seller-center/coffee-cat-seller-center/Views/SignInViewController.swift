@@ -14,6 +14,8 @@ class SignInViewController: UIViewController, SignInFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
+    var viewModel: SignInViewModelProtocol = SignInViewModel()
+    
     // -MARK: Create UI Components
     lazy var welcomeLabel: UILabel = makeLabel()
     
@@ -147,12 +149,12 @@ class SignInViewController: UIViewController, SignInFactory {
     }
     
     private func pushToHome() {
-//        let homeViewController = MainTabBarViewController()
-//        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-//            let window = windowScene.windows.first
-//            window?.rootViewController = homeViewController
-//            window?.makeKeyAndVisible()
-//        }
+        //        let homeViewController = MainTabBarViewController()
+        //        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+        //            let window = windowScene.windows.first
+        //            window?.rootViewController = homeViewController
+        //            window?.makeKeyAndVisible()
+        //        }
     }
     
     // -MARK: Setup Action
@@ -168,6 +170,31 @@ class SignInViewController: UIViewController, SignInFactory {
     // -MARK: Catch Action
     @objc
     private func signInButtonTapped() {
+        guard let email = emailTextField.text,
+              let password = passwordTextField.text else {
+            return
+        }
+        
+        self.viewModel.signIn(email, password) { [weak self] result in
+            self?.showLoadingView()
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let authenticationResponse):
+                    DispatchQueue.main.async {
+                        if authenticationResponse.status ?? false {
+                            self?.handleLogin(authenticationResponse: authenticationResponse)
+                        } else {
+                            self?.displayLoginError(authenticationResponse.message ?? "Unknown error")
+                        }
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        print(error.localizedDescription)
+                        self?.displayLoginError("Could not connect to the server\n Please check your internet connection")
+                    }
+                }
+            }
+        }
     }
     
     @objc
@@ -198,6 +225,33 @@ class SignInViewController: UIViewController, SignInFactory {
         self.loadingAnimationView.isHidden = true
         self.loadingAnimationView.stop()
         self.view.isUserInteractionEnabled = true
+    }
+    
+    private func handleLogin(authenticationResponse: AuthenticationResponse) {
+        if let role = authenticationResponse.accountResponse?.role,
+           let accountStatus = authenticationResponse.accountResponse?.status {
+            guard role != .customer else {
+                self.handleLoginUnavailable("You don't have permission")
+                return
+            }
+            
+            switch accountStatus {
+            case .active:
+                self.handleLoginAvailable(authenticationResponse: authenticationResponse)
+            case .inactive:
+                self.handleLoginUnavailable("You have been banned")
+            }
+        }
+    }
+    
+    private func handleLoginAvailable(authenticationResponse: AuthenticationResponse) {
+        UserSessionManager.shared.saveAuthenticationResponse(authenticationResponse)
+        self.hiddenLoadingView()
+        self.pushToHome()
+    }
+    
+    private func handleLoginUnavailable(_ message: String) {
+        self.displayLoginError(message)
     }
 }
 
