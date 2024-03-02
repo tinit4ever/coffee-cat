@@ -28,9 +28,5 @@ public class CreateStaffResponse {
 
     private String message;
 
-    private String access_token;
-
-    private String refresh_token;
-
     private StaffResponse staffResponse;
 }

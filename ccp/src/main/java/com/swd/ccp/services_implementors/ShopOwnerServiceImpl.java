@@ -120,7 +120,48 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
 
     @Override
     public CreateStaffResponse createStaff(StaffRequest request) {
-        return null;
+        Account account = accountService.getCurrentLoggedUser();
+        if(account.getRole().equals(Role.OWNER)){
+            Manager owner = managerRepo.findByAccount(account).orElse(null);
+            Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
+            assert owner != null;
+            if(acc == null){
+                acc = Account.builder()
+                        .email(request.getEmail())
+                        .name(request.getName())
+                        .password(passwordEncoder.encode(request.getPassword()))
+                        .phone(request.getPhone())
+                        .status(accountStatusRepo.findByStatus("active"))
+                        .role(Role.STAFF)
+                        .build();
+                accountRepo.save(acc);
+
+                Manager staff = managerRepo.save(Manager.builder().account(acc).shop(owner.getShop()).build());
+
+                return CreateStaffResponse.builder()
+                        .status(true)
+                        .message("Create staff account for " + request.getEmail() + " successfully")
+                        .staffResponse(
+                                CreateStaffResponse.StaffResponse.builder()
+                                        .id(staff.getId())
+                                        .email(staff.getAccount().getEmail())
+                                        .username(staff.getAccount().getUsername())
+                                        .status(staff.getAccount().getStatus().getStatus())
+                                        .build()
+                        )
+                        .build();
+            }
+            return CreateStaffResponse.builder()
+                    .status(false)
+                    .message("This account is already existed")
+                    .staffResponse(null)
+                    .build();
+        }
+        return CreateStaffResponse.builder()
+                .status(false)
+                .message("This account doesn't have enough permission to use this feature")
+                .staffResponse(null)
+                .build();
     }
 
     private boolean isStringValid(String string) {

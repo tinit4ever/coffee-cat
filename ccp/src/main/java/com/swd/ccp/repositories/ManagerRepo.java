@@ -14,4 +14,6 @@ import java.util.Optional;
 public interface ManagerRepo extends JpaRepository<Manager, Integer> {
 
     Optional<Manager> findByAccount(Account account);
+
+    boolean existsByAccount(Account account);
 }

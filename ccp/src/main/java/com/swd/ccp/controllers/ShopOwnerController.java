@@ -30,12 +30,7 @@ public class ShopOwnerController {
     @PostMapping("/staff/create")
     @PreAuthorize("hasAuthority('owner:create')")
     public ResponseEntity<CreateStaffResponse> createStaff(@RequestBody StaffRequest request) {
-        CreateStaffResponse response = shopOwnerService.createStaff(request);
-        if (response.isStatus()) {
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
+        return ResponseEntity.ok().body(shopOwnerService.createStaff(request));
     }
     @PostMapping("/staff/update")
     @PreAuthorize("hasAuthority('owner:update')")

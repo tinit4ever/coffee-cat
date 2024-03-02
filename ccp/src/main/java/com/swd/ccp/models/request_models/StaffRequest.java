@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class StaffRequest {
-        private Integer shopId;
+    private String email;
 
-        private String email;
+    private String password;
 
-        private String password;
+    private String name;
 
-        private String name;
-    }
+    private String phone;
+}
