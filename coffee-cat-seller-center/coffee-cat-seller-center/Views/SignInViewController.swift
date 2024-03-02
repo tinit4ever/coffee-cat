@@ -148,13 +148,12 @@ class SignInViewController: UIViewController, SignInFactory {
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
-    private func pushToHome() {
-        //        let homeViewController = MainTabBarViewController()
-        //        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-        //            let window = windowScene.windows.first
-        //            window?.rootViewController = homeViewController
-        //            window?.makeKeyAndVisible()
-        //        }
+    private func pushToHome(homeViewController: UIViewController) {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let window = windowScene.windows.first
+            window?.rootViewController = homeViewController
+            window?.makeKeyAndVisible()
+        }
     }
     
     // -MARK: Setup Action
@@ -237,17 +236,26 @@ class SignInViewController: UIViewController, SignInFactory {
             
             switch accountStatus {
             case .active:
-                self.handleLoginAvailable(authenticationResponse: authenticationResponse)
+                self.handleLoginAvailable(authenticationResponse: authenticationResponse, role: role)
             case .inactive:
                 self.handleLoginUnavailable("You have been banned")
             }
         }
     }
     
-    private func handleLoginAvailable(authenticationResponse: AuthenticationResponse) {
+    private func handleLoginAvailable(authenticationResponse: AuthenticationResponse, role: Role) {
         UserSessionManager.shared.saveAuthenticationResponse(authenticationResponse)
         self.hiddenLoadingView()
-        self.pushToHome()
+        switch role {
+        case .admin:
+            self.pushToHome(homeViewController: AdminViewController())
+        case .shopOwner:
+            self.pushToHome(homeViewController: ShopTabBarViewController())
+        case .staff:
+            self.pushToHome(homeViewController: StaffAccountViewController())
+        case .customer:
+            break
+        }
     }
     
     private func handleLoginUnavailable(_ message: String) {
