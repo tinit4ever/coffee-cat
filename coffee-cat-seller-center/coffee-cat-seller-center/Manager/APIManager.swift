@@ -110,7 +110,8 @@ class APIManager {
         }
         
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(accessToken)",
+//            "Authorization": "Bearer \(accessToken)",
+            "Authorization": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0aW5AZ21haWwuY29tIiwiaWF0IjoxNzA5MzQ5MDQ3LCJleHAiOjE3MDkzNTk4NDd9.pNqjSB6oSIkMvKwJGBq1LeYgK-pjZwReRV_4s-ak_iYOG2Jz4VgS30oEtoz6yQch",
             "Content-Type": "application/json"
         ]
         
@@ -128,4 +129,3 @@ class APIManager {
             .eraseToAnyPublisher()
     }
 }
-

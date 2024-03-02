@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import Combine
 
 class StaffAccountViewController: UIViewController, StaffAccountFactory {
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
+    
+    var cancellables: Set<AnyCancellable> = []
+    var viewModel: StaffAccountViewModelProtocol = StaffAccountViewModel()
     
     // -MARK: Create UI Components
     lazy var topView = makeView()
@@ -25,6 +29,7 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupData()
         setupAction()
     }
     
@@ -115,6 +120,23 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
             addAccountButton.trailingAnchor.constraint(equalTo: accountTableContainer.trailingAnchor),
             addAccountButton.bottomAnchor.constraint(equalTo: accountTableContainer.bottomAnchor)
         ])
+    }
+    
+    // -MARK: Setup Data
+    private func setupData() {
+        self.bindViewModel()
+        
+        let getParameter = GetParameter(sortByColumn: "id", asc: false)
+        self.viewModel.getListOfStaff(shopId: 1, accessToken: "", getParameter: getParameter)
+    }
+    
+    private func bindViewModel() {
+        (self.viewModel as! StaffAccountViewModel).$staffList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] staffList in
+                print("UpdateUI")
+            }
+            .store(in: &cancellables)
     }
     
     // -MARK: Setup Action
