@@ -33,6 +33,11 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         setupAction()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setupData()
+    }
+    
     private func setupUI() {
         self.view.backgroundColor = .systemMint.withAlphaComponent(0.8)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
@@ -160,7 +165,7 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     @objc
     private func addAccountButtonTapped() {
         var accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
-        accountInputViewModel.userRegistration = UserRegistration(name: "", email: "", password: "")
+        accountInputViewModel.accountCreation = CreateAccountModel(shopId: 1, email: "", password: "", name: "")
         let viewController = AccountInputViewController(viewModel: accountInputViewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
         self.present(navigationController, animated: true)
@@ -171,9 +176,9 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     }
     
     private func updateAccount(indexPath: IndexPath) {
-        let userRegistration = UserRegistration(name: "Tin", email: "tin@gmail.com", password: "tin123445")
+        let userRegistration = CreateAccountModel(shopId: 1, email: "tin@gmail.com", password: "tin123445", name: "Tin")
         var accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
-        accountInputViewModel.userRegistration = userRegistration
+        accountInputViewModel.accountCreation = userRegistration
         let viewController = AccountInputViewController(viewModel: accountInputViewModel)
         let navigationController = UINavigationController(rootViewController: viewController)
         self.present(navigationController, animated: true)

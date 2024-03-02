@@ -15,6 +15,7 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     let sizeScaler = UIScreen.scalableSize
     
     var viewModel: AccountInputViewModelProtocol
+    private var emailExistedSubject = PassthroughSubject<Result<String, Error>, Never>()
     
     var cancellables: Set<AnyCancellable> = []
     
@@ -121,10 +122,10 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     
     // -MARK: Setup Data
     private func setupData() {
-        self.nameTextField.text = self.viewModel.userRegistration?.name
-        self.emailTextField.text = self.viewModel.userRegistration?.email
-        self.passwordTextField.text = self.viewModel.userRegistration?.password
-        self.confirmPasswordTextField.text = self.viewModel.userRegistration?.password
+        self.nameTextField.text = self.viewModel.accountCreation?.name
+        self.emailTextField.text = self.viewModel.accountCreation?.email
+        self.passwordTextField.text = self.viewModel.accountCreation?.password
+        self.confirmPasswordTextField.text = self.viewModel.accountCreation?.password
     }
     
     // -MARK: Setup Action
@@ -133,6 +134,30 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
         self.emailTextField.delegate = self
         self.passwordTextField.delegate = self
         self.confirmPasswordTextField.delegate = self
+        
+        self.viewModel.accountCreationResultSubject
+            .sink { [weak self] completion in
+                switch completion {
+                case .success:
+                    self?.displaySucces(message: "Creation account success")
+                case .failure(let error):
+                    self?.displayErrorAlert(message: "Error \(error.localizedDescription)")
+                }
+            }
+            .store(in: &cancellables)
+        
+        emailExistedSubject
+            .sink { [weak self] completion in
+                switch completion {
+                case .success (let email):
+                    self?.viewModel.setEmail(email: email)
+                    self?.createAccount()
+                    self?.displaySucces(message: "Account creation success")
+                case .failure(let error):
+                    print("Error \(error)")
+                }
+            }
+            .store(in: &cancellables)
     }
     
     // -MARK: Catch Action
@@ -150,18 +175,30 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
             return
         }
         guard validateName(name: name),
-              validateEmail(email: email),
-              checkEmailExistedAndValidatePassword(email: email, password: password, confirmPassword: confirmPassword) else {
+              validateEmail(email: email) else {
             return
         }
+        validatePassword(password: password, confirmPassword: confirmPassword)
         
-        self.viewModel.setUserRegistration(name: name, email: email, password: password)
+        self.viewModel.setName(name: name)
+        self.viewModel.setPassword(password: password)
+        
+        checkEmailExisted(email: email)
     }
     
     // MARK: -Utilities
     private func displayErrorAlert(message: String) {
         let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func displaySucces(message: String) {
+        let alertController = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            self.dismiss(animated: true)
+        }))
         
         self.present(alertController, animated: true, completion: nil)
     }
@@ -186,36 +223,40 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
         return true
     }
     
-    private func checkEmailExistedAndValidatePassword(email: String, password: String, confirmPassword: String) -> Bool {
-        var result: Bool = false
+    private func checkEmailExisted(email: String) {
         self.viewModel.checkEmailExisted(email: email)
             .sink { completion in
                 switch completion {
                 case .finished:
                     break
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    self.emailExistedSubject.send(.failure(error))
                 }
             } receiveValue: { [weak self] isExisted in
                 if isExisted {
                     self?.displayErrorAlert(message: "Email is existed")
-                    result = false
                 } else {
-                    result = self?.validatePassword(password: password, confirmPassword: confirmPassword) ?? false
+                    self?.emailExistedSubject.send(.success(email))
                 }
             }
             .store(in: &cancellables)
-        
-        return result
     }
     
-    private func validatePassword(password: String, confirmPassword: String) -> Bool {
+    private func createAccount() {
+        if let shopId = UserSessionManager.shared.authenticationResponse?.accountResponse?.shopId {
+            self.viewModel.setShopId(shopId: shopId)
+        }
+        
+        if let accessToken = UserSessionManager.shared.getAccessToken() {
+            self.viewModel.createAccount(model: self.viewModel.getUserRegistration(), accessToken: accessToken)
+        }
+    }
+    
+    private func validatePassword(password: String, confirmPassword: String) {
         if !self.viewModel.validatePassword(password, confirmPassword) {
             self.displayErrorAlert(message: self.viewModel.alertMessage)
             self.viewModel.alertMessage = ""
-            return false
         }
-        return true
     }
 }
 
@@ -229,7 +270,9 @@ extension AccountInputViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        textField.text = ""
+        if isFirstResponder {
+            textField.text = ""
+        }
     }
 }
 
@@ -237,9 +280,9 @@ extension AccountInputViewController: UITextFieldDelegate {
 struct AccountInputViewControllerPreview: PreviewProvider {
     static var previews: some View {
         VCPreview {
-            let userRegistration = UserRegistration(name: "Tin", email: "tin@gmail.com", password: "tin123445")
-            var accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
-            accountInputViewModel.userRegistration = userRegistration
+            let accountCreation = CreateAccountModel(shopId: 1, email: "tin@gmail.com", password: "tin123445", name: "Tin")
+            let accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
+            accountInputViewModel.accountCreation = accountCreation
             let accountInputViewController = AccountInputViewController(viewModel: accountInputViewModel)
             return accountInputViewController
         }

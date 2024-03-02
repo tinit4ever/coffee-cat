@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A03CFCDC2B93223E00FBD1EE /* CreateAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03CFCDB2B93223E00FBD1EE /* CreateAccountModel.swift */; };
 		A06452672B92BDBD00148032 /* UserSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06452662B92BDBD00148032 /* UserSignIn.swift */; };
 		A064526A2B92BDF300148032 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06452692B92BDF300148032 /* SignInViewModel.swift */; };
 		A064526C2B92C05E00148032 /* UserSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A064526B2B92C05E00148032 /* UserSessionManager.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A03CFCDB2B93223E00FBD1EE /* CreateAccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountModel.swift; sourceTree = "<group>"; };
 		A06452662B92BDBD00148032 /* UserSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignIn.swift; sourceTree = "<group>"; };
 		A06452692B92BDF300148032 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		A064526B2B92C05E00148032 /* UserSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionManager.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				A0CA42122B91F5F800BED8FF /* AccountModel.swift */,
 				A06452662B92BDBD00148032 /* UserSignIn.swift */,
 				A064527B2B92D4D900148032 /* AccountListResponse.swift */,
+				A03CFCDB2B93223E00FBD1EE /* CreateAccountModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 				A0CBF4F62B8CDBD9008CFAD3 /* UITextField+Extension.swift in Sources */,
 				A0CA42102B91F59600BED8FF /* AccountInputViewModel.swift in Sources */,
 				A064526A2B92BDF300148032 /* SignInViewModel.swift in Sources */,
+				A03CFCDC2B93223E00FBD1EE /* CreateAccountModel.swift in Sources */,
 				A0CBF4EF2B8CDBD9008CFAD3 /* UILabel+Extension.swift in Sources */,
 				A0CBF5042B8CE5FD008CFAD3 /* AdminViewController.swift in Sources */,
 				A064526C2B92C05E00148032 /* UserSessionManager.swift in Sources */,
