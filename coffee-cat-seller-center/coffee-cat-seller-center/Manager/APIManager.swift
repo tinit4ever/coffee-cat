@@ -20,6 +20,8 @@ struct APIConstants {
         static let createAccount = baseURL + "auth/register"
     }
     
+    static let getListStaff = baseURL + "staff/"
+    
     static let logout = baseURL + "account/logout"
 }
 
@@ -58,5 +60,9 @@ class APIManager {
             }
             .eraseToAnyPublisher()
     }
+    
+//    func getListStaff() -> AnyPublisher< {
+//        
+//    }
 }
 
