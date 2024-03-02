@@ -1,23 +1,15 @@
 package com.swd.ccp.services_implementors;
 
-import com.swd.ccp.Exception.NotFoundException;
 import com.swd.ccp.models.entity_models.*;
 import com.swd.ccp.models.request_models.ShopRequest;
-import com.swd.ccp.models.request_models.SortRequest;
+import com.swd.ccp.models.request_models.SortStaffListRequest;
 import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.ShopService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +26,7 @@ public class ShopServiceImpl implements ShopService {
 
 
     @Override
-    public ShopListResponse getActiveShops(SortRequest sortRequest) {
+    public ShopListResponse getActiveShops(SortStaffListRequest sortStaffListRequest) {
         return null;
     }
 
@@ -45,7 +37,7 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public ShopListResponse searchShops(String keyword, String searchType, SortRequest sortRequest) {
+    public ShopListResponse searchShops(String keyword, String searchType, SortStaffListRequest sortStaffListRequest) {
         return null;
     }
 
@@ -55,7 +47,7 @@ public class ShopServiceImpl implements ShopService {
 
 
     @Override
-    public ShopManageResponse getShops(SortRequest sortRequest) {
+    public ShopManageResponse getShops(SortStaffListRequest sortStaffListRequest) {
         return null;
     }
 

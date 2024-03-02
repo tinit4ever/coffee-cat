@@ -1,13 +1,32 @@
 package com.swd.ccp.models.response_models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UpdateStaffResponse {
-    private Integer staffId;
-    private String message;
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class StaffResponse {
+        private Integer id;
+
+        private String email;
+
+        private String username;
+
+        private String phone;
+
+        private String status;
+    }
+
     private boolean status;
+
+    private String message;
+
+    private StaffResponse staffResponse;
 
 }

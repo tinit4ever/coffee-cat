@@ -1,6 +1,5 @@
 package com.swd.ccp.models.request_models;
 
-import com.swd.ccp.models.entity_models.AccountStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class StaffRequest {
+public class CreateStaffRequest {
     private String email;
 
     private String password;

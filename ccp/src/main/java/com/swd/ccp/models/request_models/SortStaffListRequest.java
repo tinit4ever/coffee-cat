@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.domain.Sort;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SortRequest {
+public class SortStaffListRequest {
     private boolean ascOrder;
     private String column;
 }
