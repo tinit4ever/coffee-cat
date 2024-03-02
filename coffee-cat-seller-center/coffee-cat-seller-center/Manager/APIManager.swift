@@ -22,6 +22,7 @@ struct APIConstants {
     
     static let getListStaff = baseURL + "staff/"
     static let createStaff = baseURL + "staff/createStaff"
+    static let updateStaff = baseURL + "staff/updateStaff"
     
     static let logout = baseURL + "account/logout"
 }
@@ -132,6 +133,28 @@ class APIManager {
     
     func createStaff(with model: CreateAccountModel, accessToken: String) -> AnyPublisher<Void, Error> {
         guard let url = URL(string: APIConstants.createStaff) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .post, parameters: model, encoder: JSONParameterEncoder.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { $0 as Error }
+            .map{ _ in }
+            .eraseToAnyPublisher()
+    }
+    
+    func updateStaff(with model: CreateAccountModel, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.updateStaff) else {
             return Fail(error: APIError.badUrl).eraseToAnyPublisher()
         }
         

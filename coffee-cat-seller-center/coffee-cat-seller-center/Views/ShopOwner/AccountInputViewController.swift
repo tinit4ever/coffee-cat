@@ -146,13 +146,23 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
             }
             .store(in: &cancellables)
         
+        self.viewModel.accountUpdateResultSubject
+            .sink { [weak self] completion in
+                switch completion {
+                case .success:
+                    self?.displaySucces(message: "Update account success")
+                case .failure(let error):
+                    self?.displayErrorAlert(message: "Error \(error.localizedDescription)")
+                }
+            }
+            .store(in: &cancellables)
+        
         emailExistedSubject
             .sink { [weak self] completion in
                 switch completion {
                 case .success (let email):
                     self?.viewModel.setEmail(email: email)
-                    self?.createAccount()
-                    self?.displaySucces(message: "Account creation success")
+                    self?.setAccount()
                 case .failure(let error):
                     print("Error \(error)")
                 }
@@ -183,7 +193,16 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
         self.viewModel.setName(name: name)
         self.viewModel.setPassword(password: password)
         
-        checkEmailExisted(email: email)
+        if let initEmail = self.viewModel.initEmailWhenUpdate {
+            if initEmail == email {
+                self.emailExistedSubject.send(.success(email))
+            } else {
+                self.checkEmailExisted(email: email)
+            }
+        } else {
+            self.checkEmailExisted(email: email)
+        }
+        
     }
     
     // MARK: -Utilities
@@ -242,7 +261,7 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
             .store(in: &cancellables)
     }
     
-    private func createAccount() {
+    private func setAccount() {
         if let shopId = UserSessionManager.shared.authenticationResponse?.accountResponse?.shopId {
             self.viewModel.setShopId(shopId: shopId)
         }

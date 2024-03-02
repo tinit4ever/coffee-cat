@@ -9,9 +9,11 @@ import Foundation
 import Combine
 
 protocol AccountInputViewModelProtocol: AnyObject {
+    var initEmailWhenUpdate: String? {get set}
     var accountCreation: CreateAccountModel? {get set}
     var alertMessage: String {get set}
     var accountCreationResultSubject: PassthroughSubject<Result<Void, Error>, Never> {get}
+    var accountUpdateResultSubject: PassthroughSubject<Result<Void, Error>, Never> {get}
     
     func checkEmailExisted(email: String) -> AnyPublisher<Bool, Error>
     func validateEmail(_ email: String) -> Bool
@@ -26,8 +28,11 @@ protocol AccountInputViewModelProtocol: AnyObject {
 }
 
 class AccountInputViewModel: AccountInputViewModelProtocol {
+    var initEmailWhenUpdate: String?
+    
     var accountCreation: CreateAccountModel?
     var accountCreationResultSubject = PassthroughSubject<Result<Void, Error>, Never>()
+    var accountUpdateResultSubject = PassthroughSubject<Result<Void, Error>, Never>()
     
     var alertMessage: String = ""
     var cancellables: Set<AnyCancellable> = []
@@ -107,6 +112,21 @@ extension AccountInputViewModel {
                 }
             } receiveValue: {
                 self.accountCreationResultSubject.send(.success(()))
+            }
+            .store(in: &cancellables)
+    }
+    
+    func updateAccount(model: CreateAccountModel, accessToken: String) {
+        return APIManager.shared.updateStaff(with: model, accessToken: accessToken)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    self.accountUpdateResultSubject.send(.failure(error))
+                }
+            } receiveValue: {
+                self.accountUpdateResultSubject.send(.success(()))
             }
             .store(in: &cancellables)
     }
