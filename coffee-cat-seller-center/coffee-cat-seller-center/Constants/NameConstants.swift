@@ -24,3 +24,8 @@ enum FontNames {
 enum SymbolNames {
     static let chevronBackward = "chevron.backward"
 }
+
+enum Token {
+    static let access = "AccessToken"
+    static let refresh = "RefreshToken"
+}

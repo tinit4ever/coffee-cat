@@ -32,7 +32,7 @@ extension AccountInputViewModel {
     func checkEmailExisted(email: String) -> AnyPublisher<Bool, Error> {
         return APIManager.shared.checkEmailExisted(email: email)
             .map { authenticationResponse in
-                return !(authenticationResponse.status)
+                return !(authenticationResponse.status ?? true)
             }
             .eraseToAnyPublisher()
     }
