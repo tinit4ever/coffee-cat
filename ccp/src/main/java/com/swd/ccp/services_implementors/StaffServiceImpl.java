@@ -8,10 +8,7 @@ import com.swd.ccp.models.request_models.SortRequest;
 import com.swd.ccp.models.request_models.StaffRequest;
 import com.swd.ccp.models.request_models.PaginationRequest;
 import com.swd.ccp.models.response_models.*;
-import com.swd.ccp.repositories.AccountRepo;
-import com.swd.ccp.repositories.AccountStatusRepo;
-import com.swd.ccp.repositories.CustomerRepo;
-import com.swd.ccp.repositories.TokenRepo;
+import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.JWTService;
 import com.swd.ccp.services.StaffService;
@@ -34,27 +31,28 @@ public class StaffServiceImpl implements StaffService {
     private final JWTService jwtService;
 
     private final AccountStatusRepo accountStatusRepo;
-
+    private final ManagerRepo managerRepo;
 
     private final AccountService accountService;
+    private final ShopRepo shopRepo;
 
     private final TokenRepo tokenRepo;
     private static final String ACTIVE = "opened";
     private static final String INACTIVE = "InActive";
     private final PasswordEncoder passwordEncoder;
     @Override
-    public StaffListResponse getStaffList(Integer shopOwnerId,SortRequest sortRequest) {
+    public StaffListResponse getStaffList(Integer shopId,SortRequest sortRequest) {
 
 
         Sort.Direction sortDirection = sortRequest.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(sortDirection, sortRequest.getSortByColumn());
-        List<Account> staffList = accountRepo.findByIdAndRole(shopOwnerId,Role.STAFF,sort);
+        List<Account> staffList = managerRepo.findStaffByShopIdAndRole(shopId,Role.STAFF,sort);
 
         List<StaffResponse> mappedshopList = mapToStaffDtoList(staffList);
 
 
         boolean status = true;
-        String message = "Successfully retrieved shop list";
+        String message = "Successfully retrieved staff list";
         return new StaffListResponse(mappedshopList, status, message);
     }
 
@@ -75,7 +73,7 @@ public class StaffServiceImpl implements StaffService {
             staffResponse.setId(account.getId());
             staffResponse.setEmail(account.getEmail());
             staffResponse.setName(account.getName());
-            staffResponse.setStaff_status(account.getStatus().getStatus());
+            staffResponse.setStatus(account.getStatus().getStatus());
 
             if (account.getName() == null) {
                 staffResponse.setName("N/A");
@@ -86,8 +84,7 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public CreateStaffResponse createStaff(StaffRequest request) {
-        if (isStringValid(request.getEmail()) &&
-                isStringValid(request.getPassword())) {
+        if (isStringValid(request.getEmail()) && isStringValid(request.getPassword())) {
             Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
 
             if (account == null) {
@@ -100,6 +97,13 @@ public class StaffServiceImpl implements StaffService {
                                 .role(Role.STAFF)
                                 .build()
                 );
+
+                // Lưu thông tin nhân viên vào bảng ShopManager
+                Manager shopManager = Manager.builder()
+                        .account(account)
+                        .shop(shopRepo.findById(request.getShopId()).orElse(null)) // Lưu shopId
+                        .build();
+                managerRepo.save(shopManager);
 
                 Token accessToken = tokenRepo.save(
                         Token.builder()
@@ -117,7 +121,6 @@ public class StaffServiceImpl implements StaffService {
                                 .build()
                 );
 
-
                 return CreateStaffResponse.builder()
                         .message("Register successfully")
                         .status(true)
@@ -127,9 +130,8 @@ public class StaffServiceImpl implements StaffService {
                                 StaffResponse.builder()
                                         .id(account.getId())
                                         .email(account.getEmail())
-                                        .staff_status(account.getStatus().getStatus())
+                                        .status(account.getStatus().getStatus())
                                         .name(account.getName())
-
                                         .build()
                         )
                         .build();
@@ -150,6 +152,7 @@ public class StaffServiceImpl implements StaffService {
                 .staffResponse(null)
                 .build();
     }
+
     private boolean isStringValid(String string) {
         return string != null && !string.isEmpty();
     }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class StaffRequest {
-
+        private Integer shopId;
 
         private String email;
 

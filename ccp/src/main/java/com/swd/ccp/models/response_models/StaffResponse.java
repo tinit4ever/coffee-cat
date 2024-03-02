@@ -17,10 +17,9 @@ public class StaffResponse {
 
     private String name;
 
-    private String password;
 
-    private String staff_status;
-    private String message;
-    private boolean status;
+
+    private String status;
+
 
 }
