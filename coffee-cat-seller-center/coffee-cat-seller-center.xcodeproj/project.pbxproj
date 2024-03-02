@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A03B91D52B93770900D5AD44 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03B91D42B93770900D5AD44 /* PlaceViewController.swift */; };
 		A03CFCDC2B93223E00FBD1EE /* CreateAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03CFCDB2B93223E00FBD1EE /* CreateAccountModel.swift */; };
 		A06452672B92BDBD00148032 /* UserSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06452662B92BDBD00148032 /* UserSignIn.swift */; };
 		A064526A2B92BDF300148032 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06452692B92BDF300148032 /* SignInViewModel.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A03B91D42B93770900D5AD44 /* PlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
 		A03CFCDB2B93223E00FBD1EE /* CreateAccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountModel.swift; sourceTree = "<group>"; };
 		A06452662B92BDBD00148032 /* UserSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignIn.swift; sourceTree = "<group>"; };
 		A06452692B92BDF300148032 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				A06834232B8D87180086CE59 /* StaffAccountViewController.swift */,
 				A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */,
 				A0CA420A2B91EC6900BED8FF /* AccountInputViewController.swift */,
+				A03B91D42B93770900D5AD44 /* PlaceViewController.swift */,
 			);
 			path = ShopOwner;
 			sourceTree = "<group>";
@@ -432,6 +435,7 @@
 				A06834202B8D853F0086CE59 /* NameConstants.swift in Sources */,
 				A0CBF4F32B8CDBD9008CFAD3 /* UIButton+Extension.swift in Sources */,
 				A0CA420B2B91EC6900BED8FF /* AccountInputViewController.swift in Sources */,
+				A03B91D52B93770900D5AD44 /* PlaceViewController.swift in Sources */,
 				A0CBF4D12B8CD3C6008CFAD3 /* SignInViewController.swift in Sources */,
 				A0CBF4DD2B8CD962008CFAD3 /* VCPreview.swift in Sources */,
 				A0CBF4BB2B8CD31D008CFAD3 /* AppDelegate.swift in Sources */,
