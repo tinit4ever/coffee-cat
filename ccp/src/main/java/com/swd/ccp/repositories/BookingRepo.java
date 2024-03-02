@@ -2,6 +2,7 @@ package com.swd.ccp.repositories;
 
 import com.swd.ccp.models.entity_models.Booking;
 import com.swd.ccp.models.entity_models.Customer;
+import com.swd.ccp.models.entity_models.Seat;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;
@@ -12,6 +13,6 @@ public interface BookingRepo extends JpaRepository<Booking, Integer> {
 
     List<Booking> findAllByCustomer(Customer customer);
 
-    boolean existsBySeatIdAndBookingDate(Integer id, Date bookingDate);
+    Optional<Booking> findBySeatAndBookingDate(Seat seat, java.sql.Date bookingDate);
 
 }

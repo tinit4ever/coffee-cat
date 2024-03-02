@@ -22,13 +22,13 @@ import static org.hibernate.sql.ast.SqlTreeCreationLogger.LOGGER;
 public class StaffController {
     private final StaffService staffService;
 
-    @GetMapping("/list-staff")
+    @GetMapping("/{shopId}")
     @PreAuthorize("hasAuthority('owner:read')")
-    public ResponseEntity<StaffListResponse> GetStaff(@PathVariable Integer shopOwnerId,
+    public ResponseEntity<StaffListResponse> GetStaff(@PathVariable Integer shopId,
                                                       @RequestParam(value = "sortByColumn", defaultValue = "id") String sortByColumn,
                                                       @RequestParam(value = "asc", defaultValue = "true") boolean ascending) {
         SortRequest sortRequest = new SortRequest(ascending, sortByColumn);
-        StaffListResponse Staff = staffService.getStaffList(shopOwnerId,sortRequest);
+        StaffListResponse Staff = staffService.getStaffList(shopId,sortRequest);
         return ResponseEntity.ok(Staff);
     }
 

@@ -257,6 +257,7 @@ public class CcpApplication {
                 });
                 tokenRepo.saveAll(tokenList);
 
+                List<Shop> usedShops = new ArrayList<>();
                 accountList.forEach(acc -> {
                     if(acc.getRole().name().equals(Role.CUSTOMER.name())){
                         customerRepo.save(
@@ -272,7 +273,7 @@ public class CcpApplication {
                         managerRepo.save(
                                 Manager.builder()
                                         .account(acc)
-                                        .shop(getRandomShop(shops))
+                                        .shop(getRandomShop(shops, acc, usedShops))
                                         .build()
                         );
                     }
@@ -620,14 +621,28 @@ public class CcpApplication {
             }
 
             // Method to generate a random shop from list
-            public Shop getRandomShop(List<Shop> shops) {
+            public Shop getRandomShop(List<Shop> shops, Account account, List<Shop> usedShops) {
                 if (shops == null || shops.isEmpty()) {
                     return null;
                 }
 
                 Random random = new Random();
                 int randomIndex = random.nextInt(shops.size());
-                return shops.get(randomIndex);
+                Shop shop = shops.get(randomIndex);
+                if(account.getRole().equals(Role.OWNER)){
+                    Manager owner = managerRepo.findByAccount(account).orElse(null);
+                    if(owner != null){
+                        while (true){
+                            if(!usedShops.contains(shop)){
+                                usedShops.add(shop);
+                                break;
+                            }
+                            shop = shops.get(randomIndex);
+                        }
+                    }
+                }
+
+                return shop;
             }
 
             public static String generateFoodName(List<String> usedFood) {

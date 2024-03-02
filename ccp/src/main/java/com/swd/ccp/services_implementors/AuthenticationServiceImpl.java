@@ -1,17 +1,17 @@
 package com.swd.ccp.services_implementors;
 
-import com.swd.ccp.models.entity_models.Customer;
-import com.swd.ccp.models.request_models.LoginRequest;
-import com.swd.ccp.models.request_models.RegisterRequest;
-import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.enums.Role;
 import com.swd.ccp.models.entity_models.Account;
+import com.swd.ccp.models.entity_models.Customer;
+import com.swd.ccp.models.entity_models.Manager;
 import com.swd.ccp.models.entity_models.Token;
-import com.swd.ccp.repositories.AccountRepo;
-import com.swd.ccp.repositories.AccountStatusRepo;
-import com.swd.ccp.repositories.CustomerRepo;
-import com.swd.ccp.repositories.TokenRepo;
-import com.swd.ccp.services.AccountService;
+import com.swd.ccp.models.request_models.LoginRequest;
+import com.swd.ccp.models.request_models.RegisterRequest;
+import com.swd.ccp.models.response_models.AccountResponse;
+import com.swd.ccp.models.response_models.CheckMailExistedResponse;
+import com.swd.ccp.models.response_models.LoginResponse;
+import com.swd.ccp.models.response_models.RegisterResponse;
+import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.AuthenticationService;
 import com.swd.ccp.services.JWTService;
 import lombok.NonNull;
@@ -37,6 +37,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final TokenRepo tokenRepo;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final ManagerRepo managerRepo;
 
     @Override
     public RegisterResponse register(RegisterRequest request) {
@@ -138,7 +140,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (isStringValid(request.getEmail() ) && isStringValid(request.getPassword())) {
             Account account = accountRepo.findByEmail(request.getEmail()).orElse(null);
 
-            if (account != null && passwordEncoder.matches(request.getPassword(), account.getPassword())) {
+            if (account != null
+                    && passwordEncoder.matches(request.getPassword(), account.getPassword())
+            ) {
                 List<Token> tokenList = refreshToken(account);
                 if (account.getStatus().getStatus().equals("active") && tokenList.size() == 2) {
                     for(Token token: tokenList){
@@ -147,43 +151,91 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         }
                     }
 
-                    return LoginResponse
-                            .builder()
-                            .message("Login successfully")
-                            .accessToken(tokenList.get(0).getToken())
-                            .refreshToken(tokenList.get(1).getToken())
-                            .status(true)
-                            .accountResponse(
-                                    AccountResponse
-                                            .builder()
-                                            .id(1)
-                                            .email(account.getEmail())
-                                            .username(account.getName())
-                                            .phone(account.getPhone())
-                                            .gender(checkIfAccountIsCustomer(account) != null ? checkIfAccountIsCustomer(account).getGender() : null)
-                                            .dob(checkIfAccountIsCustomer(account) != null ? checkIfAccountIsCustomer(account).getDob() : null)
-                                            .status(account.getStatus().getStatus())
-                                            .role(account.getRole().name())
-                                            .build()
-                            )
-                            .build();
+                    if(account.getRole().equals(Role.STAFF) || account.getRole().equals(Role.OWNER)){
+                        return loginStaffAndOwnerResponse(tokenList, account);
+                    }
+
+                    return loginCustomerResponse(tokenList, account);
                 }
-                return LoginResponse.builder()
-                        .message("Account has been banned")
-                        .accessToken(null)
-                        .refreshToken(null)
-                        .status(false)
-                        .accountResponse(null)
-                        .build();
+                return loginAccountBannedResponse();
             }
-            return LoginResponse.builder()
-                    .message("Username or password is incorrect")
-                    .accessToken(null)
-                    .refreshToken(null)
-                    .status(false)
-                    .accountResponse(null)
-                    .build();
+            return loginNameOrPassIncorrectResponse();
         }
+        return loginNameOrPassIncorrectFormatResponse();
+    }
+
+    private LoginResponse loginCustomerResponse(List<Token> tokenList, Account account){
+        return LoginResponse
+                .builder()
+                .message("Login successfully")
+                .accessToken(tokenList.get(0).getToken())
+                .refreshToken(tokenList.get(1).getToken())
+                .status(true)
+                .accountResponse(
+                        AccountResponse
+                                .builder()
+                                .id(1)
+                                .email(account.getEmail())
+                                .username(account.getName())
+                                .phone(account.getPhone())
+                                .gender(checkIfAccountIsCustomer(account) != null ? checkIfAccountIsCustomer(account).getGender() : null)
+                                .dob(checkIfAccountIsCustomer(account) != null ? checkIfAccountIsCustomer(account).getDob() : null)
+                                .status(account.getStatus().getStatus())
+                                .shopID(null)
+                                .role(account.getRole().name())
+                                .build()
+                )
+                .build();
+    }
+
+    private LoginResponse loginStaffAndOwnerResponse(List<Token> tokenList, Account account){
+        Manager manager = managerRepo.findByAccount(account).orElse(null);
+        assert manager != null;
+
+        return LoginResponse
+                .builder()
+                .message("Login successfully")
+                .accessToken(tokenList.get(0).getToken())
+                .refreshToken(tokenList.get(1).getToken())
+                .status(true)
+                .accountResponse(
+                        AccountResponse
+                                .builder()
+                                .id(1)
+                                .email(account.getEmail())
+                                .username(account.getName())
+                                .phone(account.getPhone())
+                                .gender(checkIfAccountIsCustomer(account) != null ? checkIfAccountIsCustomer(account).getGender() : null)
+                                .dob(checkIfAccountIsCustomer(account) != null ? checkIfAccountIsCustomer(account).getDob() : null)
+                                .status(account.getStatus().getStatus())
+                                .shopID(manager.getShop().getId())
+                                .role(account.getRole().name())
+                                .build()
+                )
+                .build();
+    }
+
+    private LoginResponse loginAccountBannedResponse(){
+        return LoginResponse.builder()
+                .message("Account has been banned")
+                .accessToken(null)
+                .refreshToken(null)
+                .status(false)
+                .accountResponse(null)
+                .build();
+    }
+
+    private LoginResponse loginNameOrPassIncorrectResponse(){
+        return LoginResponse.builder()
+                .message("Username or password is incorrect")
+                .accessToken(null)
+                .refreshToken(null)
+                .status(false)
+                .accountResponse(null)
+                .build();
+    }
+
+    private LoginResponse loginNameOrPassIncorrectFormatResponse(){
         return LoginResponse.builder()
                 .message("Username or password is wrong format")
                 .accessToken(null)
@@ -192,6 +244,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .accountResponse(null)
                 .build();
     }
+
+
 
     private Customer checkIfAccountIsCustomer(Account account){
         return customerRepo.findByAccount_Email(account.getEmail()).orElse(null);

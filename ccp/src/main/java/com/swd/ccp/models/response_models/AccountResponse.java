@@ -23,6 +23,8 @@ public class AccountResponse {
 
     private String gender;
 
+    private Integer shopID;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private java.sql.Date dob;
 

@@ -20,6 +20,7 @@ public class AccountStatus {
 
     private String status;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "status")
     private List<Account> accountList;
 

@@ -15,11 +15,11 @@ public class StaffResponse {
 
     private String email;
 
-    private String name;
+    private String username;
 
     private String password;
 
-    private String staff_status;
+    private String staffStatus;
     private String message;
     private boolean status;
 

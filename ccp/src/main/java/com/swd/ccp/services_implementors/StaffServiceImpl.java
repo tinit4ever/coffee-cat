@@ -74,11 +74,11 @@ public class StaffServiceImpl implements StaffService {
             StaffResponse staffResponse = new StaffResponse();
             staffResponse.setId(account.getId());
             staffResponse.setEmail(account.getEmail());
-            staffResponse.setName(account.getName());
-            staffResponse.setStaff_status(account.getStatus().getStatus());
+            staffResponse.setUsername(account.getName());
+            staffResponse.setStaffStatus(account.getStatus().getStatus());
 
             if (account.getName() == null) {
-                staffResponse.setName("N/A");
+                staffResponse.setUsername("N/A");
             }
             return staffResponse;
         }).collect(Collectors.toList());
@@ -127,8 +127,8 @@ public class StaffServiceImpl implements StaffService {
                                 StaffResponse.builder()
                                         .id(account.getId())
                                         .email(account.getEmail())
-                                        .staff_status(account.getStatus().getStatus())
-                                        .name(account.getName())
+                                        .staffStatus(account.getStatus().getStatus())
+                                        .username(account.getName())
 
                                         .build()
                         )
