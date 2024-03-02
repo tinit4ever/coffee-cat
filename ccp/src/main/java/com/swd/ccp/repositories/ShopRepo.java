@@ -24,4 +24,5 @@ public interface ShopRepo extends JpaRepository<Shop, Integer> {
     Shop findByIdAndStatus(Long id,ShopStatus status);
     Shop findByName(String name);
     Optional<Shop> findById(long shopId);
+
 }

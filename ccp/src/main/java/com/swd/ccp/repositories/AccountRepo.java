@@ -8,16 +8,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface AccountRepo extends JpaRepository<Account, Integer> {
 
+    @Query("SELECT m.account FROM Manager m WHERE m.shop.id = :shopId AND m.account.role = :role")
+    List<Account> findAccountByShopIdAndRole(@Param("shopId") Integer shopId, @Param("role") Role role, Sort sort);
+
     Optional<Account> findByEmail(String email);
-    List<Account> findByIdAndRole(Integer id,Role role, Sort sort);
-
-    Optional<Account> findByEmailAndPassword(String email, String password);
-
-    List<Account> findByRole(Role role);
 }

@@ -51,7 +51,7 @@ public class ShopController {
 //        ShopManageResponse Shops = shopService.getShops(sortRequest);
 //        return ResponseEntity.ok(Shops);
 //    }
-    @PostMapping("createShop")
+    @PostMapping("shop/createShop")
     @PreAuthorize("hasAuthority('owner:create')")
     public ResponseEntity<CreateShopResponse> createStaff(@RequestBody ShopRequest request) {
         CreateShopResponse response = shopService.createShop(request) ;
