@@ -21,7 +21,7 @@ struct Account: Codable {
     var gender: String?
     var dob: String?
     var status: Status
-    var role: Role
+    var role: Role?
 }
 
 enum Role: String, Codable {

@@ -134,7 +134,9 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         (self.viewModel as! StaffAccountViewModel).$staffList
             .receive(on: DispatchQueue.main)
             .sink { [weak self] staffList in
-                print("UpdateUI")
+                DispatchQueue.main.async {
+                    self?.accountTableView.reloadData()
+                }
             }
             .store(in: &cancellables)
     }
@@ -180,7 +182,7 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
 
 extension StaffAccountViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        30
+        self.viewModel.staffList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -188,12 +190,15 @@ extension StaffAccountViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        let account = self.viewModel.staffList[indexPath.row]
+        cell.config(account: account)
+        
         cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightScaler(60)
+        return heightScaler(100)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
