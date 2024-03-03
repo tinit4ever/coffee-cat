@@ -171,7 +171,7 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         let viewController = AccountInputViewController(viewModel: accountInputViewModel)
         viewController.dismissCompletion = { [weak self] in
             DispatchQueue.main.async {
-                self?.loadView()
+                self?.setupData()
             }
         }
         let navigationController = UINavigationController(rootViewController: viewController)
@@ -185,17 +185,24 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     private func updateAccount(indexPath: IndexPath) {
         let account = self.viewModel.staffList[indexPath.row]
         let accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
-        guard let name = account.username,
-              let password = account.password else {
+
+        guard let name = account.username else {
             return
         }
         let email = account.email
         
+        let accountModel = CreateAccountModel(email: "", password: "", name: "", phone: "")
+        accountInputViewModel.accountCreation = accountModel
+        accountInputViewModel.setId(id: account.id)
         accountInputViewModel.setName(name: name)
         accountInputViewModel.setEmail(email: email)
-        accountInputViewModel.setPassword(password: password)
         accountInputViewModel.initEmailWhenUpdate = email
         let viewController = AccountInputViewController(viewModel: accountInputViewModel)
+        viewController.dismissCompletion = { [weak self] in
+            DispatchQueue.main.async {
+                self?.setupData()
+            }
+        }
         let navigationController = UINavigationController(rootViewController: viewController)
         self.present(navigationController, animated: true)
     }
