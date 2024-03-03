@@ -6,5 +6,5 @@ import com.swd.ccp.models.response_models.*;
 
 public interface ShopService {
     ShopListResponse getActiveShops(SortStaffListRequest request);
-    ShopListResponse searchShops(String keyword, String searchType, SortStaffListRequest sortStaffListRequest);
+    ShopListResponse searchShops(String keyword, String searchType, SortStaffListRequest request);
 }

@@ -20,8 +20,7 @@ public class ShopController {
     public ResponseEntity<ShopListResponse> getActiveShops(@RequestParam(value = "sortByColumn", defaultValue = "name") String sortByColumn,
                                                              @RequestParam(value = "asc", defaultValue = "true") boolean ascending) {
         SortStaffListRequest sortStaffListRequest = new SortStaffListRequest(ascending, sortByColumn);
-        ShopListResponse activeShops = shopService.getActiveShops(sortStaffListRequest);
-        return ResponseEntity.ok(activeShops);
+        return ResponseEntity.ok().body(shopService.getActiveShops(sortStaffListRequest));
     }
     @GetMapping("auth/search")
     public ResponseEntity<ShopListResponse> searchShops(
@@ -32,7 +31,6 @@ public class ShopController {
     )
     {
         SortStaffListRequest sortStaffListRequest = new SortStaffListRequest(asc, sortByColumn);
-        ShopListResponse shops = shopService.searchShops(keyword, searchType, sortStaffListRequest);
-        return ResponseEntity.ok(shops);
+        return ResponseEntity.ok().body(shopService.searchShops(keyword, searchType, sortStaffListRequest));
     }
 }
