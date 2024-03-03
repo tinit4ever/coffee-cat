@@ -16,6 +16,7 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     
     var viewModel: AccountInputViewModelProtocol
     private var emailExistedSubject = PassthroughSubject<Result<String, Error>, Never>()
+    var dismissCompletion: (() -> Void)?
     
     var cancellables: Set<AnyCancellable> = []
     
@@ -173,7 +174,7 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     // -MARK: Catch Action
     @objc
     private func cancelButtonTapped() {
-        self.dismiss(animated: true)
+        self.dismissViewController()
     }
     
     @objc
@@ -216,10 +217,15 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     private func displaySucces(message: String) {
         let alertController = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-            self.dismiss(animated: true)
+            self.dismissViewController()
         }))
         
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func dismissViewController() {
+        dismissCompletion?()
+        self.dismiss(animated: true, completion: nil)
     }
     
     private func validateName(name: String) -> Bool {
@@ -262,10 +268,6 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     }
     
     private func setAccount() {
-        if let shopId = UserSessionManager.shared.authenticationResponse?.accountResponse?.shopId {
-            self.viewModel.setShopId(shopId: shopId)
-        }
-        
         if let accessToken = UserSessionManager.shared.getAccessToken() {
             self.viewModel.createAccount(model: self.viewModel.getUserRegistration(), accessToken: accessToken)
         }
@@ -299,7 +301,7 @@ extension AccountInputViewController: UITextFieldDelegate {
 struct AccountInputViewControllerPreview: PreviewProvider {
     static var previews: some View {
         VCPreview {
-            let accountCreation = CreateAccountModel(shopId: 1, email: "tin@gmail.com", password: "tin123445", name: "Tin")
+            let accountCreation = CreateAccountModel(email: "tin@gmail.com", password: "tin123445", name: "Tin", phone: "0358887710")
             let accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
             accountInputViewModel.accountCreation = accountCreation
             let accountInputViewController = AccountInputViewController(viewModel: accountInputViewModel)

@@ -95,11 +95,11 @@ class APIManager {
         }
         
         let parameters: [String: Any] = [
-            "date": date,
-            "shopId": shopId
+            "shopId": shopId,
+            "date": date
         ]
         
-        return AF.request(url, method: .get, parameters: parameters)
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .publishDecodable(type: AreaList.self)
             .value()
             .mapError { error in

@@ -21,18 +21,18 @@ struct APIConstants {
         static let areas = baseURL + "auth/areas"
     }
     
-    static let getListStaff = baseURL + "staff/"
-    static let createStaff = baseURL + "staff/createStaff"
-    static let updateStaff = baseURL + "staff/updateStaff"
+    static let getListStaff = baseURL + "owner/staff/list"
+    static let createStaff = baseURL + "owner/staff/create"
+    static let updateStaff = baseURL + "owner/staff/update"
     
     static let logout = baseURL + "account/logout"
 }
 
 struct APIParameter {
-    static let keyword = "keyword"
-    static let searchType = "searchType"
-    static let sortByColumn = "sortByColumn"
-    static let asc = "asc"
+//    static let keyword = "keyword"
+//    static let searchType = "searchType"
+    static let sortByColumn = "column"
+    static let asc = "ascOrder"
 }
 
 enum APIError: Error {
@@ -46,7 +46,8 @@ class APIManager {
     private init() {}
     
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
-        let userSignIn = UserSignIn(email: email, password: password)
+//        let userSignIn = UserSignIn(email: email, password: password)
+        let userSignIn = UserSignIn(email: "tin@gmail.com", password: "an123456")
         let apiUrl = APIConstants.Auth.login
         
         AF.request(apiUrl, method: .post, parameters: userSignIn, encoder: JSONParameterEncoder.default).responseData { response in
@@ -66,23 +67,23 @@ class APIManager {
     }
     
     func getAreaListByShopId(shopId: Int, date: String) -> AnyPublisher<AreaList, Error> {
-            guard let url = URL(string: APIConstants.Auth.areas) else {
-                return Fail(error: APIError.badUrl).eraseToAnyPublisher()
-            }
-            
-            let parameters: [String: Any] = [
-                "date": date,
-                "shopId": shopId
-            ]
-            
-            return AF.request(url, method: .get, parameters: parameters)
-                .publishDecodable(type: AreaList.self)
-                .value()
-                .mapError { error in
-                    return error as Error
-                }
-                .eraseToAnyPublisher()
+        guard let url = URL(string: APIConstants.Auth.areas) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
         }
+        
+        let parameters: [String: Any] = [
+            "shopId": shopId,
+            "date": date
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
+            .publishDecodable(type: AreaList.self)
+            .value()
+            .mapError { error in
+                return error as Error
+            }
+            .eraseToAnyPublisher()
+    }
     
     func checkEmailExisted(email: String) -> AnyPublisher<AuthenticationResponse, Error> {
         let url = APIConstants.Auth.checkEmail
@@ -127,13 +128,12 @@ class APIManager {
     }
     
     func getListStaff(shopId: Int, accessToken: String, getParameter: GetParameter) -> AnyPublisher<AccountListResponse, Error> {
-        guard let url = URL(string: APIConstants.getListStaff + "\(shopId)") else {
+        guard let url = URL(string: APIConstants.getListStaff) else {
             return Fail(error: APIError.badUrl).eraseToAnyPublisher()
         }
         
         let headers: HTTPHeaders = [
-//            "Authorization": "Bearer \(accessToken)",
-            "Authorization": "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0aW5AZ21haWwuY29tIiwiaWF0IjoxNzA5MzY0OTM3LCJleHAiOjE3MDkzNzU3Mzd9.rme7Xq--TFK5MGSXuOf5WtK_w5uURVquWu1lOmC0W8HvrLxK3yFfjWmt1Aj3IiHa",
+            "Authorization": "Bearer \(accessToken)",
             "Content-Type": "application/json"
         ]
         
@@ -142,7 +142,7 @@ class APIManager {
             APIParameter.sortByColumn: getParameter.sortByColumn
         ]
         
-        return AF.request(url, method: .get, parameters: parameters, headers: headers)
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .publishDecodable(type: AccountListResponse.self)
             .value()
             .mapError { error in

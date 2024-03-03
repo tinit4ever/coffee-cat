@@ -132,7 +132,9 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         self.bindViewModel()
         
         let getParameter = GetParameter(sortByColumn: "id", asc: false)
-        self.viewModel.getListOfStaff(shopId: 1, accessToken: "", getParameter: getParameter)
+        if let accessToken = UserSessionManager.shared.getAccessToken() {
+            self.viewModel.getListOfStaff(shopId: 1, accessToken: accessToken, getParameter: getParameter)
+        }
     }
     
     private func bindViewModel() {
@@ -165,13 +167,18 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     @objc
     private func addAccountButtonTapped() {
         let accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
-        accountInputViewModel.accountCreation = CreateAccountModel(shopId: 1, email: "", password: "", name: "")
+        accountInputViewModel.accountCreation = CreateAccountModel(email: "", password: "", name: "", phone: "")
         let viewController = AccountInputViewController(viewModel: accountInputViewModel)
+        viewController.dismissCompletion = { [weak self] in
+            DispatchQueue.main.async {
+                self?.loadView()
+            }
+        }
         let navigationController = UINavigationController(rootViewController: viewController)
         self.present(navigationController, animated: true)
     }
     
-    private func deleteAccount(indexPath: IndexPath) {
+    private func banAccount(indexPath: IndexPath) {
         
     }
     
@@ -212,7 +219,7 @@ extension StaffAccountViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightScaler(100)
+        return heightScaler(110)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -222,11 +229,11 @@ extension StaffAccountViewController: UITableViewDataSource {
 
 extension StaffAccountViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
-            self.deleteAccount(indexPath: indexPath)
+        let banAction = UIContextualAction(style: .destructive, title: "Ban") { _, _, completionHandler in
+            self.banAccount(indexPath: indexPath)
             completionHandler(true)
         }
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        let configuration = UISwipeActionsConfiguration(actions: [banAction])
         return configuration
     }
     
