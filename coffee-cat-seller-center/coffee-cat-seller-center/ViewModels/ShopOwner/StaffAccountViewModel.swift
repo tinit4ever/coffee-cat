@@ -10,15 +10,20 @@ import Combine
 
 protocol StaffAccountViewModelProtocol {
     var staffList: [Account] {get}
-    func getListOfStaff(shopId: Int, accessToken: String, getParameter: GetParameter)
+    var isChangeStatusSubject: PassthroughSubject<Result<Void, Error>, Never> {get}
+    
+    func getListOfStaff(accessToken: String, getParameter: GetParameter)
+    func banStaff(staffId: Int, accessToken: String)
+    func unbanStaff(staffId: Int, accessToken: String)
 }
 
 class StaffAccountViewModel: StaffAccountViewModelProtocol {
     @Published var staffList: [Account] = []
     var cancellables: Set<AnyCancellable> = []
+    var isChangeStatusSubject = PassthroughSubject<Result<Void, Error>, Never>()
     
-    func getListOfStaff(shopId: Int, accessToken: String, getParameter: GetParameter) {
-        APIManager.shared.getListStaff(shopId: 20, accessToken: accessToken, getParameter: getParameter)
+    func getListOfStaff(accessToken: String, getParameter: GetParameter) {
+        APIManager.shared.getListStaff(accessToken: accessToken, getParameter: getParameter)
             .sink(receiveCompletion: { completion in
                 switch completion {
                 case .finished:
@@ -34,6 +39,37 @@ class StaffAccountViewModel: StaffAccountViewModelProtocol {
             })
             .store(in: &cancellables)
     }
+    
+    func banStaff(staffId: Int, accessToken: String) {
+        return APIManager.shared.banStaff(with: staffId, accessToken: accessToken)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                        break
+                case .failure(let error):
+                    self.isChangeStatusSubject.send(.failure(error))
+                }
+            } receiveValue: {
+                self.isChangeStatusSubject.send(.success(()))
+            }
+            .store(in: &cancellables)
+    }
+    
+    func unbanStaff(staffId: Int, accessToken: String) {
+        return APIManager.shared.unbanStaff(with: staffId, accessToken: accessToken)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                        break
+                case .failure(let error):
+                    self.isChangeStatusSubject.send(.failure(error))
+                }
+            } receiveValue: {
+                self.isChangeStatusSubject.send(.success(()))
+            }
+            .store(in: &cancellables)
+    }
+    
     
     deinit {
         cancellables.forEach { $0.cancel() }

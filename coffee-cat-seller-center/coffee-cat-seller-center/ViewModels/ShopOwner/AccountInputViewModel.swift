@@ -19,11 +19,13 @@ protocol AccountInputViewModelProtocol: AnyObject {
     func validateEmail(_ email: String) -> Bool
     func validatePassword(_ password: String, _ confirmPassword: String) -> Bool
     func validateName(_ name: String) -> Bool
+    func setId(id: Int)
     func setName(name: String)
     func setEmail(email: String)
     func setPassword(password: String)
     func getUserRegistration() -> CreateAccountModel
     func createAccount(model: CreateAccountModel, accessToken: String)
+    func updateAccount(model: CreateAccountModel, accessToken: String)
 }
 
 class AccountInputViewModel: AccountInputViewModelProtocol {
@@ -69,7 +71,7 @@ extension AccountInputViewModel {
     }
 
     func validateName(_ name: String) -> Bool {
-        if name.count > /*23*/ 5 {
+        if name.count > 23 {
             self.alertMessage = "Name too long"
             return false
         } else if name.isEmpty {
@@ -78,6 +80,10 @@ extension AccountInputViewModel {
         } else {
             return true
         }
+    }
+    
+    func setId(id: Int) {
+        self.accountCreation?.staffId = id
     }
     
     func setName(name: String) {

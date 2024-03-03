@@ -17,6 +17,7 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     var viewModel: AccountInputViewModelProtocol
     private var emailExistedSubject = PassthroughSubject<Result<String, Error>, Never>()
     var dismissCompletion: (() -> Void)?
+    var isUpdate: Bool = false
     
     var cancellables: Set<AnyCancellable> = []
     
@@ -59,6 +60,11 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
         configUI()
         setupData()
         setupAction()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.isUpdate = false
     }
     
     // -MARK: Config UI
@@ -194,6 +200,10 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
         self.viewModel.setName(name: name)
         self.viewModel.setPassword(password: password)
         
+        if self.viewModel.accountCreation?.staffId != nil {
+            self.isUpdate = true
+        }
+        
         if let initEmail = self.viewModel.initEmailWhenUpdate {
             if initEmail == email {
                 self.emailExistedSubject.send(.success(email))
@@ -225,7 +235,7 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     
     private func dismissViewController() {
         dismissCompletion?()
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true)
     }
     
     private func validateName(name: String) -> Bool {
@@ -269,7 +279,11 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     
     private func setAccount() {
         if let accessToken = UserSessionManager.shared.getAccessToken() {
-            self.viewModel.createAccount(model: self.viewModel.getUserRegistration(), accessToken: accessToken)
+            if isUpdate {
+                self.viewModel.updateAccount(model: self.viewModel.getUserRegistration(), accessToken: accessToken)
+            } else {
+                self.viewModel.createAccount(model: self.viewModel.getUserRegistration(), accessToken: accessToken)
+            }
         }
     }
     
