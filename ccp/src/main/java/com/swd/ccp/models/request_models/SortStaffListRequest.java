@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SortStaffListRequest {
     private boolean ascOrder;
+
     private String column;
 }

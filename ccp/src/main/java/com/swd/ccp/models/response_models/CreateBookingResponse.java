@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CreateBookingResponse {
-
     private boolean status;
 
     private String message;

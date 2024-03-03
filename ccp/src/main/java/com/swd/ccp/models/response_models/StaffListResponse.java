@@ -29,7 +29,8 @@ public class StaffListResponse {
     }
 
     private List<StaffResponse> staffList;
-    private boolean status;
-    private String message;
 
-    }
+    private boolean status;
+
+    private String message;
+}

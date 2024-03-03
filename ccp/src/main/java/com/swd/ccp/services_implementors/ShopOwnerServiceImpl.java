@@ -39,7 +39,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
                         StaffListResponse.StaffResponse.builder()
                                 .id(manager.getId())
                                 .email(manager.getAccount().getEmail())
-                                .username(manager.getAccount().getUsername())
+                                .username(manager.getAccount().getName())
                                 .phone(manager.getAccount().getPhone())
                                 .status(manager.getAccount().getStatus().getStatus())
                                 .build()

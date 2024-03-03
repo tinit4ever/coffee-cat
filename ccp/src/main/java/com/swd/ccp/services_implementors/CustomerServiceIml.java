@@ -108,7 +108,7 @@ public class CustomerServiceIml implements CustomerService {
 
                 bookingResponseList.add(
                         BookingHistoryResponse.BookingResponse.builder()
-                                .bookingID(booking.getId())
+                                .bookingId(booking.getId())
                                 .shopName(booking.getShopName())
                                 .seatName(booking.getSeatName())
                                 .areaName(booking.getSeat().getArea().getName())

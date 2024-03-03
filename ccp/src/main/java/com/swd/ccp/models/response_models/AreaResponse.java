@@ -12,6 +12,7 @@ import java.util.List;
 @Builder
 public class AreaResponse {
     private String name;
+
     private List<CatResponse> catList;
 
     private List<SeatResponse> seatList;

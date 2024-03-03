@@ -11,10 +11,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UpdateShopRequest {
     private String name;
+
     private String address;
+
     private String openTime;
+
     private String closeTime;
+
     private String phone;
+
     private String avatar;
 
 }

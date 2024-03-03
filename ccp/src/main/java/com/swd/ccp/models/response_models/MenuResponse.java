@@ -14,6 +14,6 @@ import java.util.List;
 @Builder
 public class MenuResponse {
     private String description;
-    private List<MenuItemResponse> menuItemList;
 
+    private List<MenuItemResponse> menuItemList;
 }

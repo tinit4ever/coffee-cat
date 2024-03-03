@@ -45,17 +45,17 @@ public class BookingServiceImpl implements BookingService {
         BookingCartResponse.BookingCartShopResponse bookingCartShopResponse = new BookingCartResponse.BookingCartShopResponse();
         List<BookingCartResponse.BookingCartShopMenuResponse> bookingCartShopMenuResponseList = new ArrayList<>();
 
-        Seat seat = seatRepo.findById(request.getSeatID()).orElse(null);
+        Seat seat = seatRepo.findById(request.getSeatId()).orElse(null);
         if(seat != null && seat.getSeatStatus().getStatus().equals("available")){
             if(request.getMenuItemList() != null && !request.getMenuItemList().isEmpty()){
 
                 request.getMenuItemList().forEach(
                         item -> {
-                            MenuItem menuItem = menuItemRepo.findById(item.getItemID()).orElse(null);
+                            MenuItem menuItem = menuItemRepo.findById(item.getItemId()).orElse(null);
                             if(menuItem != null && Constant.MAX_BOOKING_MENU_ITEM_QUANTITY >= item.getQuantity()){
                                 bookingCartShopMenuResponseList.add(
                                         BookingCartResponse.BookingCartShopMenuResponse.builder()
-                                                .itemID(menuItem.getId())
+                                                .itemId(menuItem.getId())
                                                 .itemName(menuItem.getName())
                                                 .itemPrice(menuItem.getPrice() * item.getQuantity())
                                                 .quantity(item.getQuantity())
@@ -66,9 +66,9 @@ public class BookingServiceImpl implements BookingService {
                 );
 
                 shopRepo.findById(seat.getArea().getShop().getId()).ifPresent(shop -> {
-                    bookingCartShopResponse.setShopID(shop.getId());
+                    bookingCartShopResponse.setShopId(shop.getId());
                     bookingCartShopResponse.setShopName(shop.getName());
-                    bookingCartShopResponse.setSeatID(seat.getId());
+                    bookingCartShopResponse.setSeatId(seat.getId());
                     bookingCartShopResponse.setSeatName(seat.getName());
                     bookingCartShopResponse.setCreateDate(new Date(System.currentTimeMillis()));
                     bookingCartShopResponse.setBookingDate(request.getBookingDate());
@@ -97,17 +97,17 @@ public class BookingServiceImpl implements BookingService {
     public BookingCartResponse updateBookingCart(UpdateBookingCartRequest request) {
         List<BookingCartResponse.BookingCartShopMenuResponse> shopMenuResponseList = new ArrayList<>();
 
-        Seat newSeat = seatRepo.findById(request.getNewCart().getSeatID()).orElse(null);
+        Seat newSeat = seatRepo.findById(request.getNewCart().getSeatId()).orElse(null);
 
         //Check if new seat is existed, then access menu item
         if(newSeat != null && !newSeat.getSeatStatus().getStatus().equals("busy")){
             request.getNewCart().getList().forEach(
                     item -> {
-                        MenuItem menuItem = menuItemRepo.findById(item.getItemID()).orElse(null);
+                        MenuItem menuItem = menuItemRepo.findById(item.getItemId()).orElse(null);
                         if(menuItem != null){
                             if(Constant.MAX_BOOKING_MENU_ITEM_QUANTITY >= item.getQuantity()){
                                 shopMenuResponseList.add(BookingCartResponse.BookingCartShopMenuResponse.builder()
-                                                .itemID(menuItem.getId())
+                                                .itemId(menuItem.getId())
                                                 .itemName(menuItem.getName())
                                                 .itemPrice(menuItem.getPrice() * item.getQuantity())
                                                 .quantity(item.getQuantity())
@@ -122,9 +122,9 @@ public class BookingServiceImpl implements BookingService {
                     .message("Update booking successfully")
                     .bookingCartShopResponse(
                             BookingCartResponse.BookingCartShopResponse.builder()
-                                    .shopID(newSeat.getArea().getShop().getId())
+                                    .shopId(newSeat.getArea().getShop().getId())
                                     .shopName(newSeat.getArea().getShop().getName())
-                                    .seatID(newSeat.getId())
+                                    .seatId(newSeat.getId())
                                     .seatName(newSeat.getName())
                                     .createDate(new Date(System.currentTimeMillis()))
                                     .bookingDate(request.getNewCart().getBookingDate())
@@ -163,7 +163,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public CancelBookingResponse cancelBooking(CancelBookingRequest request) {
 
-        Booking booking = bookingRepo.findById(request.getBookingID()).orElse(null);
+        Booking booking = bookingRepo.findById(request.getBookingId()).orElse(null);
         if(booking != null && booking.getBookingStatus().getStatus().equals("Pending")){
             booking.setBookingStatus(bookingStatusRepo.findByStatus("Cancelled").orElse(null));
             bookingRepo.save(booking);
@@ -179,7 +179,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private String createBookingDetail(CreateBookingRequest request){
-        Seat seat = seatRepo.findById(request.getSeatID()).orElse(null);
+        Seat seat = seatRepo.findById(request.getSeatId()).orElse(null);
 
         if(seat != null){
             Customer customer = customerRepo.findByAccount_Email(accountService.getCurrentLoggedUser().getEmail()).orElse(null);
@@ -198,7 +198,7 @@ public class BookingServiceImpl implements BookingService {
 
                 request.getBookingShopMenuRequestList().forEach(
                         item -> {
-                            MenuItem i = menuItemRepo.findById(item.getItemID()).orElse(null);
+                            MenuItem i = menuItemRepo.findById(item.getItemId()).orElse(null);
                             if(i != null && item.getQuantity() <= Constant.MAX_BOOKING_MENU_ITEM_QUANTITY){
                                 bookingDetailRepo.save(
                                         BookingDetail.builder()

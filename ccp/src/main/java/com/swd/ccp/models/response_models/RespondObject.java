@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class RespondObject {
-
     private String message;
 
     private Object payload;

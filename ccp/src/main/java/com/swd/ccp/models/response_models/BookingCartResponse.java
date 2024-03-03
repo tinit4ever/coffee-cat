@@ -14,14 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class BookingCartResponse {
-
-    static DecimalFormat df = new DecimalFormat("##0.####");
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
     public static class BookingCartShopMenuResponse{
-        private Integer itemID;
+        private Integer itemId;
 
         private String itemName;
 
@@ -37,11 +35,11 @@ public class BookingCartResponse {
     @NoArgsConstructor
     @Builder
     public static class BookingCartShopResponse{
-        private Integer shopID;
+        private Integer shopId;
 
         private String shopName;
 
-        private Integer seatID;
+        private Integer seatId;
 
         private String seatName;
 

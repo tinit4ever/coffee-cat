@@ -30,6 +30,7 @@ com\swd\ccp\models\response_models\LoginResponse$LoginResponseBuilder.class
 com\swd\ccp\models\entity_models\AccountStatus.class
 com\swd\ccp\models\request_models\CreateBookingCartRequest$MenuItemRequest.class
 com\swd\ccp\models\entity_models\Menu.class
+com\swd\ccp\models\request_models\UpdateShopRequest$UpdateShopRequestBuilder.class
 com\swd\ccp\models\response_models\BookingHistoryResponse$BookingResponse$BookingResponseBuilder.class
 com\swd\ccp\models\response_models\CreateBookingResponse$CreateBookingResponseBuilder.class
 com\swd\ccp\models\request_models\CheckMailExistedRequest$CheckMailExistedRequestBuilder.class
@@ -47,6 +48,7 @@ com\swd\ccp\repositories\FollowerCustomerRepo.class
 com\swd\ccp\repositories\CatStatusRepo.class
 com\swd\ccp\models\response_models\BookingHistoryResponse.class
 com\swd\ccp\models\response_models\RespondObject.class
+com\swd\ccp\models\request_models\UpdateShopRequest.class
 com\swd\ccp\models\response_models\ShopManageResponse.class
 com\swd\ccp\models\entity_models\Manager.class
 com\swd\ccp\models\entity_models\Menu$MenuBuilder.class
@@ -68,6 +70,7 @@ com\swd\ccp\models\response_models\MenuResponse.class
 com\swd\ccp\models\entity_models\Customer$CustomerBuilder.class
 com\swd\ccp\models\entity_models\Package$PackageBuilder.class
 com\swd\ccp\repositories\SeatStatusRepo.class
+com\swd\ccp\models\response_models\UpdateShopResponse$ShopResponse.class
 com\swd\ccp\models\response_models\BookingCartResponse$BookingCartShopResponse$BookingCartShopResponseBuilder.class
 com\swd\ccp\models\entity_models\Area$AreaBuilder.class
 com\swd\ccp\models\response_models\UpdateStaffResponse$StaffResponse$StaffResponseBuilder.class
@@ -134,6 +137,7 @@ com\swd\ccp\models\entity_models\AreaStatus$AreaStatusBuilder.class
 com\swd\ccp\repositories\BookingRepo.class
 com\swd\ccp\models\response_models\RefreshResponse.class
 com\swd\ccp\models\entity_models\Account$AccountBuilder.class
+com\swd\ccp\models\response_models\UpdateShopResponse$UpdateShopResponseBuilder.class
 com\swd\ccp\repositories\ManagerRepo.class
 com\swd\ccp\models\entity_models\Cat$CatBuilder.class
 com\swd\ccp\models\request_models\CreateStaffRequest.class
@@ -210,6 +214,7 @@ com\swd\ccp\services\CustomerService.class
 com\swd\ccp\models\entity_models\Token$TokenBuilder.class
 com\swd\ccp\models\entity_models\Booking$BookingBuilder.class
 com\swd\ccp\repositories\CatRepo.class
+com\swd\ccp\models\response_models\UpdateShopResponse$ShopResponse$ShopResponseBuilder.class
 com\swd\ccp\models\entity_models\Comment.class
 com\swd\ccp\models\entity_models\MenuItem.class
 com\swd\ccp\models\response_models\AccountResponse.class

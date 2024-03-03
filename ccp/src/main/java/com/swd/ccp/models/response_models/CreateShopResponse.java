@@ -8,6 +8,7 @@ import lombok.*;
 @Data
 public class CreateShopResponse {
     private String message;
+
     private boolean status;
 
 }

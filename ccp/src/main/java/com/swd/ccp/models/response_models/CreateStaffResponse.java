@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class CreateStaffResponse {
-
     @Data
     @AllArgsConstructor
     @NoArgsConstructor

@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ListRequest {
     private boolean status;
+
     private String token;
+
     private String message;
 }

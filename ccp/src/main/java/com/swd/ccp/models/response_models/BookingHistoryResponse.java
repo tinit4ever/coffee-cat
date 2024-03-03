@@ -13,14 +13,15 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class BookingHistoryResponse {
-
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
     public static class MenuItemResponse{
         private String itemName;
+
         private float itemPrice;
+
         private int quantity;
     }
 
@@ -29,14 +30,21 @@ public class BookingHistoryResponse {
     @NoArgsConstructor
     @Builder
     public static class BookingResponse{
-        private Integer bookingID;
+        private Integer bookingId;
+
         private String shopName;
+
         private String seatName;
+
         private String areaName;
+
         private float totalPrice;
+
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         private java.sql.Date bookingDate;
+
         private String status;
+
         private List<MenuItemResponse> itemResponseList;
     }
     private boolean status;

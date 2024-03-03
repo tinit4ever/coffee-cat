@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SeatResponse {
     private Integer id;
+
     private String name;
+
     private Boolean status;
 }

@@ -13,6 +13,9 @@ import java.util.List;
 @Builder
 public class AreaListResponse {
     private List<AreaResponse> areaResponseList;
+
     private boolean status;
+
     private String message;
+
 }

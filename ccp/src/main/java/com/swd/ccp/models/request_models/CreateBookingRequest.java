@@ -18,12 +18,12 @@ public class CreateBookingRequest {
     @NoArgsConstructor
     @Builder
     public static class BookingShopMenuRequest{
-        private Integer itemID;
+        private Integer itemId;
 
         private int quantity;
     }
 
-    private Integer seatID;
+    private Integer seatId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private java.sql.Date bookingDate;

@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CustomerProfile {
-
     private String email;
 
     private String username;
@@ -18,7 +17,9 @@ public class CustomerProfile {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private java.sql.Date dob;
+
     private String message;
+
     private boolean status;
 
 }

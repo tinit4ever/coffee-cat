@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CheckMailExistedResponse {
-
     private String message;
+
     private boolean status;
 }

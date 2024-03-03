@@ -100,8 +100,8 @@ public class CcpApplication {
                 accountStatusRepo.deleteAll();
 
                 //init shop status
-                shopStatusRepo.save(ShopStatus.builder().status("opened").build());
-                shopStatusRepo.save(ShopStatus.builder().status("closed").build());
+                shopStatusRepo.save(ShopStatus.builder().status("active").build());
+                shopStatusRepo.save(ShopStatus.builder().status("inactive").build());
                 shopStatusRepo.save(ShopStatus.builder().status("banned").build());
 
                 //init shop
@@ -173,7 +173,7 @@ public class CcpApplication {
                             .closeTime(String.format("%02d:%02d", closeHour, closeMin))
                             .rating(Double.parseDouble(df.format(random.nextDouble() * 4 + 1)))
                             .phone(String.valueOf(100000000 + random.nextInt(900000000)))
-                            .status(shopStatusRepo.findByStatus("opened"))
+                            .status(shopStatusRepo.findByStatus("active"))
                             .packages(null)
                             .build();
 

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ChangeStatusStaffResponse {
-
     @Data
     @AllArgsConstructor
     @NoArgsConstructor

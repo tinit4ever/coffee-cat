@@ -14,12 +14,11 @@ import java.util.Locale;
 @Builder
 @Data
 public class MenuItemResponse {
-
     private Integer id;
+
     private String name;
 
     private Integer price;
-
 
     private String imgLink;
 

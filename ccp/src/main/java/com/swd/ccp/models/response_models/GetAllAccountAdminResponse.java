@@ -12,15 +12,17 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class GetAllAccountAdminResponse {
-
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
     public static class AccountResponse{
         private Integer id;
+
         private String email;
+
         private String name;
+
         private String phone;
     }
 

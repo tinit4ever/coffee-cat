@@ -12,8 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CatListResponse {
-    private List<CatResponse> catList;;
+    private List<CatResponse> catList;
+
     private boolean status;
+
     private String message;
 
 }

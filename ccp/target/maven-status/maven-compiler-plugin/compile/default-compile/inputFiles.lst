@@ -62,6 +62,7 @@ D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\Respond
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\AreaStatusRepo.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\controllers\AdminController.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\Menu.java
+D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\UpdateShopRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\GetAllAccountAdminResponse.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\Token.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\CancelBookingResponse.java

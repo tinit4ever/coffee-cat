@@ -13,7 +13,6 @@ import java.sql.Date;
 @AllArgsConstructor
 @Builder
 public class GetAreaListRequest {
-
     private int shopId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

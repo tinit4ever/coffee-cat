@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PopularActiveShopsRequest {
     private Integer page;
+
     private Integer size;
 
     // Constructors, getters, and setters omitted for brevity

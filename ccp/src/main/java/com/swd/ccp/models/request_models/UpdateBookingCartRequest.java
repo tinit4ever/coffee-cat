@@ -18,7 +18,7 @@ public class UpdateBookingCartRequest {
     @NoArgsConstructor
     @Builder
     public static class BookingCartShopMenuRequest{
-        private Integer itemID;
+        private Integer itemId;
 
         private int quantity;
     }
@@ -28,7 +28,7 @@ public class UpdateBookingCartRequest {
     @NoArgsConstructor
     @Builder
     public static class BookingCartShopRequest{
-        private Integer seatID;
+        private Integer seatId;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         private java.sql.Date bookingDate;

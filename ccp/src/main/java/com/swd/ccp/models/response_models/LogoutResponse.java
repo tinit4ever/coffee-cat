@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class LogoutResponse {
-
     private boolean status;
 
     private String message;

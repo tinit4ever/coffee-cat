@@ -8,8 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MenuRepo extends JpaRepository<Menu, Integer> {
-    List<Menu> findByShop (Shop shop);
+    Optional<Menu> findByShop (Shop shop);
 
 }

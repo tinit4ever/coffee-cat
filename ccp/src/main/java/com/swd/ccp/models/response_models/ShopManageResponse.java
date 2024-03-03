@@ -16,7 +16,9 @@ import java.util.List;
 @Builder
 public class ShopManageResponse {
     private List<ShopResponse> shopList;
+
     private boolean status;
+
     private String message;
 
 }

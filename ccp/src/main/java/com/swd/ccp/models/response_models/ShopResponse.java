@@ -14,10 +14,14 @@ import java.util.List;
 
 public class ShopResponse {
     private Integer id;
-    private Double rating;
-    private String name;
-    private List<String> shopImageList;
-    private String avatar;
-private String status;
 
+    private Double rating;
+
+    private String name;
+
+    private List<String> shopImageList;
+
+    private String avatar;
+
+    private String status;
 }
