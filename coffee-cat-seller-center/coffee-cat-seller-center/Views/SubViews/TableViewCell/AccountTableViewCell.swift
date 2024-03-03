@@ -26,6 +26,12 @@ class AccountTableViewCell: UITableViewCell {
         return label
     }()
     
+    lazy var phoneLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     lazy var activeStack: UIStackView = {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .horizontal
@@ -61,12 +67,14 @@ class AccountTableViewCell: UITableViewCell {
     
     private func configUI() {
         contentView.addSubview(stackContent)
+        contentView.addSubview(phoneLabel)
         configStackContent()
+        
     }
     
     private func configStackContent() {
-//        contentView.backgroundColor = .red
         nameLabel.setupTitle(text: "Customer account", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+        phoneLabel.setupTitle(text: "Phone", fontName: FontNames.avenir, size: sizeScaler(26), textColor: .systemGray)
         activeLabel.setupTitle(text: "active", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .systemGreen)
         stackContent.spacing = heightScaler(20)
         stackContent.alignment = .leading
@@ -85,13 +93,19 @@ class AccountTableViewCell: UITableViewCell {
         activeStack.addArrangedSubview(activeImageView)
         
         NSLayoutConstraint.activate([
-            nameLabel.heightAnchor.constraint(equalToConstant: heightScaler(20)),
+            nameLabel.heightAnchor.constraint(equalToConstant: heightScaler(30)),
             activeStack.heightAnchor.constraint(equalToConstant: heightScaler(20)),
+            phoneLabel.heightAnchor.constraint(equalToConstant: heightScaler(26)),
+            phoneLabel.topAnchor.constraint(equalTo: stackContent.topAnchor),
+            phoneLabel.trailingAnchor.constraint(equalTo: stackContent.trailingAnchor)
         ])
     }
     
     func config(account: Account) {
         self.nameLabel.text = account.username
+        if let phone = account.phone {
+            self.phoneLabel.text = phone
+        }
         switch account.status {
         case .active:
             activeLabel.textColor = .systemGreen

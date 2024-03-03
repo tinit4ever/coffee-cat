@@ -8,8 +8,8 @@
 import Foundation
 
 struct CreateAccountModel: Codable {
-    var shopId: Int
     var email: String
     var password: String
     var name: String
+    var phone: String
 }

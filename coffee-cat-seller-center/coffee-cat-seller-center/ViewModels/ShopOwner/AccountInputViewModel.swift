@@ -19,7 +19,6 @@ protocol AccountInputViewModelProtocol: AnyObject {
     func validateEmail(_ email: String) -> Bool
     func validatePassword(_ password: String, _ confirmPassword: String) -> Bool
     func validateName(_ name: String) -> Bool
-    func setShopId(shopId: Int)
     func setName(name: String)
     func setEmail(email: String)
     func setPassword(password: String)
@@ -81,10 +80,6 @@ extension AccountInputViewModel {
         }
     }
     
-    func setShopId(shopId: Int) {
-        self.accountCreation?.shopId = shopId
-    }
-    
     func setName(name: String) {
         self.accountCreation?.name = name
     }
@@ -98,7 +93,7 @@ extension AccountInputViewModel {
     }
     
     func getUserRegistration() -> CreateAccountModel {
-        self.accountCreation ?? CreateAccountModel(shopId: 1, email: "", password: "", name: "")
+        self.accountCreation ?? CreateAccountModel(email: "", password: "", name: "", phone: "")
     }
 
     func createAccount(model: CreateAccountModel, accessToken: String) {
