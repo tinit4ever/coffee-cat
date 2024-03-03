@@ -18,6 +18,7 @@ struct APIConstants {
         static let login = baseURL + "auth/login"
         static let checkEmail = baseURL + "auth/check-email"
         static let createAccount = baseURL + "auth/register"
+        static let areas = baseURL + "auth/areas"
     }
     
     static let getListStaff = baseURL + "staff/"
@@ -63,6 +64,25 @@ class APIManager {
             }
         }
     }
+    
+    func getAreaListByShopId(shopId: Int, date: String) -> AnyPublisher<AreaList, Error> {
+            guard let url = URL(string: APIConstants.Auth.areas) else {
+                return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+            }
+            
+            let parameters: [String: Any] = [
+                "date": date,
+                "shopId": shopId
+            ]
+            
+            return AF.request(url, method: .get, parameters: parameters)
+                .publishDecodable(type: AreaList.self)
+                .value()
+                .mapError { error in
+                    return error as Error
+                }
+                .eraseToAnyPublisher()
+        }
     
     func checkEmailExisted(email: String) -> AnyPublisher<AuthenticationResponse, Error> {
         let url = APIConstants.Auth.checkEmail

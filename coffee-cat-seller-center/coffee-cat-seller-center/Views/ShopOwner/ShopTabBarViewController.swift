@@ -43,7 +43,7 @@ class ShopTabBarViewController: UITabBarController {
         let menu = self.createNav(with: "Menu", and: UIImage(systemName: "menucard"), viewController: PlaceViewController())
         let cat = self.createNav(with: "Cat", and: UIImage(systemName: "cat"), viewController: PlaceViewController())
         let shopManager = self.createNav(with: "Manager", and: UIImage(systemName: "storefront"), viewController: ShopManagerViewController())
-        self.setViewControllers([staffAccount, place, menu, cat, shopManager], animated: true)
+        self.setViewControllers([place, staffAccount, menu, cat, shopManager], animated: true)
     }
     
     private func createNav(with title: String, and image: UIImage?, viewController: UIViewController) -> UINavigationController {
