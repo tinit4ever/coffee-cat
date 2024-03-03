@@ -2,14 +2,8 @@ package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.enums.Role;
 import com.swd.ccp.models.entity_models.*;
-import com.swd.ccp.models.request_models.ChangeStatusStaffRequest;
-import com.swd.ccp.models.request_models.SortStaffListRequest;
-import com.swd.ccp.models.request_models.CreateStaffRequest;
-import com.swd.ccp.models.request_models.UpdateStaffRequest;
-import com.swd.ccp.models.response_models.ChangeStatusStaffResponse;
-import com.swd.ccp.models.response_models.CreateStaffResponse;
-import com.swd.ccp.models.response_models.StaffListResponse;
-import com.swd.ccp.models.response_models.UpdateStaffResponse;
+import com.swd.ccp.models.request_models.*;
+import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.JWTService;
@@ -24,12 +18,10 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ShopOwnerServiceImpl implements ShopOwnerService {
     private final AccountRepo accountRepo;
-    private final JWTService jwtService;
     private final AccountStatusRepo accountStatusRepo;
     private final ManagerRepo managerRepo;
     private final AccountService accountService;
     private final ShopRepo shopRepo;
-    private final TokenRepo tokenRepo;
     private final PasswordEncoder passwordEncoder;
     @Override
     public StaffListResponse getStaffList(SortStaffListRequest request) {
@@ -48,6 +40,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
                                 .id(manager.getId())
                                 .email(manager.getAccount().getEmail())
                                 .username(manager.getAccount().getUsername())
+                                .phone(manager.getAccount().getPhone())
                                 .status(manager.getAccount().getStatus().getStatus())
                                 .build()
                 );
@@ -255,6 +248,46 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
                 .status(false)
                 .message("This account doesn't have enough permission to use this feature")
                 .staffResponse(null)
+                .build();
+    }
+
+    @Override
+    public UpdateShopResponse updateShop(UpdateShopRequest request) {
+        Account account = accountService.getCurrentLoggedUser();
+        if(account.getRole().equals(Role.OWNER)) {
+            Manager owner = managerRepo.findByAccount(account).orElse(null);
+            assert owner != null;
+
+            Shop shop = owner.getShop();
+            shop.setName(request.getName());
+            shop.setAddress(request.getAddress());
+            shop.setOpenTime(request.getOpenTime());
+            shop.setCloseTime(request.getCloseTime());
+            shop.setPhone(request.getPhone());
+            shop.setAvatar(request.getAvatar());
+            owner.setShop(shop);
+            managerRepo.save(owner);
+
+            return UpdateShopResponse.builder()
+                    .status(true)
+                    .message("")
+                    .response(
+                            UpdateShopResponse.ShopResponse.builder()
+                                    .name(shop.getName())
+                                    .address(shop.getAddress())
+                                    .openTime(shop.getOpenTime())
+                                    .closeTime(shop.getCloseTime())
+                                    .phone(shop.getPhone())
+                                    .avatar(shop.getAvatar())
+                                    .build()
+                    )
+                    .build();
+        }
+
+        return UpdateShopResponse.builder()
+                .status(false)
+                .message("This account doesn't have enough permission to use this feature")
+                .response(null)
                 .build();
     }
 

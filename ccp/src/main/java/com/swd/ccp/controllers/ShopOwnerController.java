@@ -1,14 +1,8 @@
 package com.swd.ccp.controllers;
 
 import com.swd.ccp.Exception.NotFoundException;
-import com.swd.ccp.models.request_models.ChangeStatusStaffRequest;
-import com.swd.ccp.models.request_models.SortStaffListRequest;
-import com.swd.ccp.models.request_models.CreateStaffRequest;
-import com.swd.ccp.models.request_models.UpdateStaffRequest;
-import com.swd.ccp.models.response_models.ChangeStatusStaffResponse;
-import com.swd.ccp.models.response_models.CreateStaffResponse;
-import com.swd.ccp.models.response_models.StaffListResponse;
-import com.swd.ccp.models.response_models.UpdateStaffResponse;
+import com.swd.ccp.models.request_models.*;
+import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.services.ShopOwnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,5 +43,11 @@ public class ShopOwnerController {
     @PreAuthorize("hasAuthority('owner:update')")
     public ResponseEntity<ChangeStatusStaffResponse> activeStaff(@RequestBody ChangeStatusStaffRequest request) {
         return ResponseEntity.ok().body(shopOwnerService.changeStatusStaff(request, "unban"));
+    }
+
+    @PostMapping("/shop/update")
+    @PreAuthorize("hasAuthority('owner:update')")
+    public ResponseEntity<UpdateShopResponse> updateShop(@RequestBody UpdateShopRequest request){
+        return ResponseEntity.ok().body(shopOwnerService.updateShop(request));
     }
 }

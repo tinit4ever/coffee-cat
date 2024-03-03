@@ -1,12 +1,28 @@
 package com.swd.ccp.models.response_models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UpdateShopResponse {
-    private Long shopId;
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class ShopResponse{
+        private String name;
+        private String address;
+        private String openTime;
+        private String closeTime;
+        private String phone;
+        private String avatar;
+    }
+
     private String message;
     private boolean status;
+    private ShopResponse response;
+
 }
