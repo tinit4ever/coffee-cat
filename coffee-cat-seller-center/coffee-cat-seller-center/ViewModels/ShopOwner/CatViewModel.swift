@@ -1,5 +1,5 @@
 //
-//  PlaceViewModel.swift
+//  CatViewModel.swift
 //  coffee-cat-seller-center
 //
 //  Created by Tin on 03/03/2024.
@@ -8,14 +8,14 @@
 import Foundation
 import Combine
 
-protocol PlaceViewModelProtocol {
+protocol CatViewModelProtocol {
     var date: String? {get set}
     var areaList: [Area]? {get set}
     var dataUpdatedPublisher: PassthroughSubject<Void, Never> {get set}
     func setAreasParam(shopId: Int, date: String)
 }
 
-class PlaceViewModel: PlaceViewModelProtocol {
+class CatViewModel: CatViewModelProtocol {
     var date: String?
     
     var areaList: [Area]?

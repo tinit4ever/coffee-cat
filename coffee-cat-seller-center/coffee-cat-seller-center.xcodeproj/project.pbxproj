@@ -10,6 +10,8 @@
 		A03CFCDC2B93223E00FBD1EE /* CreateAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03CFCDB2B93223E00FBD1EE /* CreateAccountModel.swift */; };
 		A060C8682B94282E005FAE2B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060C8672B94282E005FAE2B /* MenuViewController.swift */; };
 		A060C86A2B942944005FAE2B /* MenuFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060C8692B942944005FAE2B /* MenuFactory.swift */; };
+		A060C8712B943AAD005FAE2B /* CatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060C8702B943AAD005FAE2B /* CatViewController.swift */; };
+		A060C8742B943D27005FAE2B /* CatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060C8732B943D27005FAE2B /* CatViewModel.swift */; };
 		A06452672B92BDBD00148032 /* UserSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06452662B92BDBD00148032 /* UserSignIn.swift */; };
 		A064526A2B92BDF300148032 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06452692B92BDF300148032 /* SignInViewModel.swift */; };
 		A064526C2B92C05E00148032 /* UserSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A064526B2B92C05E00148032 /* UserSessionManager.swift */; };
@@ -71,6 +73,8 @@
 		A03CFCDB2B93223E00FBD1EE /* CreateAccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountModel.swift; sourceTree = "<group>"; };
 		A060C8672B94282E005FAE2B /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		A060C8692B942944005FAE2B /* MenuFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFactory.swift; sourceTree = "<group>"; };
+		A060C8702B943AAD005FAE2B /* CatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatViewController.swift; sourceTree = "<group>"; };
+		A060C8732B943D27005FAE2B /* CatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatViewModel.swift; sourceTree = "<group>"; };
 		A06452662B92BDBD00148032 /* UserSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSignIn.swift; sourceTree = "<group>"; };
 		A06452692B92BDF300148032 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		A064526B2B92C05E00148032 /* UserSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSessionManager.swift; sourceTree = "<group>"; };
@@ -150,12 +154,25 @@
 			path = SubViews;
 			sourceTree = "<group>";
 		};
+		A060C8722B943AB2005FAE2B /* TabBarManager */ = {
+			isa = PBXGroup;
+			children = (
+				A06834232B8D87180086CE59 /* StaffAccountViewController.swift */,
+				A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */,
+				A0EFC4DB2B9413F900F94ECF /* PlaceViewController.swift */,
+				A060C8672B94282E005FAE2B /* MenuViewController.swift */,
+				A060C8702B943AAD005FAE2B /* CatViewController.swift */,
+			);
+			path = TabBarManager;
+			sourceTree = "<group>";
+		};
 		A06452682B92BDDF00148032 /* ShopOwner */ = {
 			isa = PBXGroup;
 			children = (
 				A0CA420F2B91F59600BED8FF /* AccountInputViewModel.swift */,
 				A06D64512B92302E008F8550 /* StaffAccountViewModel.swift */,
 				A0EFC4D72B940EC700F94ECF /* PlaceViewModel.swift */,
+				A060C8732B943D27005FAE2B /* CatViewModel.swift */,
 			);
 			path = ShopOwner;
 			sourceTree = "<group>";
@@ -343,11 +360,8 @@
 			isa = PBXGroup;
 			children = (
 				A06834212B8D86220086CE59 /* ShopTabBarViewController.swift */,
-				A06834232B8D87180086CE59 /* StaffAccountViewController.swift */,
-				A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */,
+				A060C8722B943AB2005FAE2B /* TabBarManager */,
 				A0CA420A2B91EC6900BED8FF /* AccountInputViewController.swift */,
-				A0EFC4DB2B9413F900F94ECF /* PlaceViewController.swift */,
-				A060C8672B94282E005FAE2B /* MenuViewController.swift */,
 			);
 			path = ShopOwner;
 			sourceTree = "<group>";
@@ -491,6 +505,8 @@
 				A0CBF50B2B8CE9A5008CFAD3 /* AccountTableViewCell.swift in Sources */,
 				A0EFC4DA2B940FE500F94ECF /* Shop.swift in Sources */,
 				A0EFC4D62B940E4600F94ECF /* Area.swift in Sources */,
+				A060C8712B943AAD005FAE2B /* CatViewController.swift in Sources */,
+				A060C8742B943D27005FAE2B /* CatViewModel.swift in Sources */,
 				A06834222B8D86220086CE59 /* ShopTabBarViewController.swift in Sources */,
 				A064527C2B92D4D900148032 /* AccountListResponse.swift in Sources */,
 				A0CBF4E12B8CDA04008CFAD3 /* SignInFactory.swift in Sources */,

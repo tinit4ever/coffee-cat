@@ -132,7 +132,11 @@ class PlaceViewController: UIViewController, PlaceFactory {
     }
     
     private func loadData(date: String) {
-        self.viewModel.setAreasParam(shopId: self.viewModel.shopId, date: date)
+        if let shopId = UserSessionManager.shared.authenticationResponse?.accountResponse?.shopId {
+            //_______________________________________________________________________________________________________________________________________
+            self.viewModel.setAreasParam(shopId: shopId, date: date)
+        }
+        self.viewModel.setAreasParam(shopId: 1, date: date)
         self.viewModel.dataUpdatedPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -180,7 +184,7 @@ extension PlaceViewController: UITableViewDataSource {
         
         cell.didSelectSeat = { [weak self] selectedSeat, availableToSubmit in
 //            self?.submitSeat = selectedSeat
-            self?.viewModel.submitSeat = selectedSeat
+//            self?.viewModel.submitSeat = selectedSeat
             if availableToSubmit {
                 self?.availableToSubmit += 1
                 print(self?.availableToSubmit as Any)
