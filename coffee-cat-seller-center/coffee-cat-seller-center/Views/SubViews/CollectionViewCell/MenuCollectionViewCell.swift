@@ -16,7 +16,6 @@ class MenuCollectionViewCell: UICollectionViewCell {
     
     private var cancellables: Set<AnyCancellable> = []
     private var isSelectedSubject = PassthroughSubject<Bool, Never>()
-    private var quantitySubject = PassthroughSubject<Int, Never>()
     
     override var isSelected: Bool {
         didSet {
@@ -25,11 +24,6 @@ class MenuCollectionViewCell: UICollectionViewCell {
     }
     
     var id: Int?
-    var quantity: Int = 0 {
-        didSet {
-            quantitySubject.send(quantity)
-        }
-    }
     
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -67,19 +61,10 @@ class MenuCollectionViewCell: UICollectionViewCell {
         
         return label
     }()
-    
-    private lazy var quantityLabel: UILabel = {
-        let label = UILabel()
-        
-        label.textColor = .customBlack
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.contentView.backgroundColor = .systemGray3
+        self.contentView.backgroundColor = .systemYellow
         self.contentView.layer.cornerRadius = 10
         self.contentView.layer.masksToBounds = true
         setupUI()
@@ -125,22 +110,12 @@ class MenuCollectionViewCell: UICollectionViewCell {
         contentStack.addArrangedSubview(priceLabel)
         priceLabel.setupTitle(text: "Price: 100.000$", fontName: FontNames.avenir, size: sizeScaler(22), textColor: .customBlack)
         priceLabel.setBoldText()
-        
-        contentStack.addArrangedSubview(quantityLabel)
-        quantityLabel.setupTitle(text: "Quantity: 0", fontName: FontNames.avenir, size: sizeScaler(22), textColor: .customBlack)
-        quantityLabel.setBoldText()
     }
     
     private func setupAsync() {
         isSelectedSubject
             .sink { [weak self] isSelected in
                 self?.updateBorder(isSelected)
-            }
-            .store(in: &cancellables)
-        
-        quantitySubject
-            .sink { [weak self] quantity in
-                self?.updateQuantity(quantity)
             }
             .store(in: &cancellables)
     }
@@ -153,14 +128,9 @@ class MenuCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    private func updateQuantity(_ quantity: Int) {
-        self.quantityLabel.text = "Quantity: \(quantity)"
-    }
-    
     func configure(_ menuItem: MenuItem) {
         self.id = menuItem.id
         self.titleLabel.text = menuItem.name
         self.priceLabel.text = "Price: \(String(describing: menuItem.price ?? 0))$"
-        self.quantityLabel.text = "Quantity: \(0)"
     }
 }
