@@ -21,9 +21,14 @@ struct APIConstants {
         static let areas = baseURL + "auth/areas"
     }
     
-    static let getListStaff = baseURL + "owner/staff/list"
-    static let createStaff = baseURL + "owner/staff/create"
-    static let updateStaff = baseURL + "owner/staff/update"
+    struct Owner {
+        static let listStaff = baseURL + "owner/staff/list"
+        static let createStaff = baseURL + "owner/staff/create"
+        static let updateStaff = baseURL + "owner/staff/update"
+        static let banStaff = baseURL + "owner/staff/inactive"
+        static let unbanStaff = baseURL + "owner/staff/active"
+    }
+    
     
     static let logout = baseURL + "account/logout"
 }
@@ -127,8 +132,8 @@ class APIManager {
         }
     }
     
-    func getListStaff(shopId: Int, accessToken: String, getParameter: GetParameter) -> AnyPublisher<AccountListResponse, Error> {
-        guard let url = URL(string: APIConstants.getListStaff) else {
+    func getListStaff(accessToken: String, getParameter: GetParameter) -> AnyPublisher<AccountListResponse, Error> {
+        guard let url = URL(string: APIConstants.Owner.listStaff) else {
             return Fail(error: APIError.badUrl).eraseToAnyPublisher()
         }
         
@@ -152,7 +157,7 @@ class APIManager {
     }
     
     func createStaff(with model: CreateAccountModel, accessToken: String) -> AnyPublisher<Void, Error> {
-        guard let url = URL(string: APIConstants.createStaff) else {
+        guard let url = URL(string: APIConstants.Owner.createStaff) else {
             return Fail(error: APIError.badUrl).eraseToAnyPublisher()
         }
         
@@ -174,7 +179,7 @@ class APIManager {
     }
     
     func updateStaff(with model: CreateAccountModel, accessToken: String) -> AnyPublisher<Void, Error> {
-        guard let url = URL(string: APIConstants.updateStaff) else {
+        guard let url = URL(string: APIConstants.Owner.updateStaff) else {
             return Fail(error: APIError.badUrl).eraseToAnyPublisher()
         }
         
@@ -184,6 +189,58 @@ class APIManager {
         ]
         
         return AF.request(url, method: .post, parameters: model, encoder: JSONParameterEncoder.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { $0 as Error }
+            .map{ _ in }
+            .eraseToAnyPublisher()
+    }
+    
+    func banStaff(with staffId: Int, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Owner.banStaff) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "staffId": staffId
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { $0 as Error }
+            .map{ _ in }
+            .eraseToAnyPublisher()
+    }
+    
+    func unbanStaff(with staffId: Int, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Owner.unbanStaff) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "staffId": staffId
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
             .publishData()
             .tryMap { response in
                 guard response.response?.statusCode == 200 else {

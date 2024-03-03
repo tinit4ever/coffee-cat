@@ -131,9 +131,9 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     private func setupData() {
         self.bindViewModel()
         
-        let getParameter = GetParameter(sortByColumn: "id", asc: false)
+        let getParameter = GetParameter(sortByColumn: "status", asc: true)
         if let accessToken = UserSessionManager.shared.getAccessToken() {
-            self.viewModel.getListOfStaff(shopId: 1, accessToken: accessToken, getParameter: getParameter)
+            self.viewModel.getListOfStaff(accessToken: accessToken, getParameter: getParameter)
         }
     }
     
@@ -155,6 +155,17 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         let accountImageButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountImageButtonTapped))
         self.accountImageButton.addGestureRecognizer(accountImageButtonGesture)
         self.accountImageButton.isUserInteractionEnabled = true
+        
+        self.viewModel.isChangeStatusSubject
+            .sink { result in
+                switch result {
+                case .success:
+                    self.setupData()
+                case .failure(let error):
+                    self.displayErrorAlert(message: "Error: \(error.localizedDescription)")
+                }
+            }
+            .store(in: &cancellables)
     }
     
     // -MARK: Catch Action
@@ -178,14 +189,24 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         self.present(navigationController, animated: true)
     }
     
+    private func unbanAccount(indexPath: IndexPath) {
+        let staffId = self.viewModel.staffList[indexPath.row].id
+        if let accessToken = UserSessionManager.shared.getAccessToken() {
+            self.viewModel.unbanStaff(staffId: staffId, accessToken: accessToken)
+        }
+    }
+    
     private func banAccount(indexPath: IndexPath) {
-        
+        let staffId = self.viewModel.staffList[indexPath.row].id
+        if let accessToken = UserSessionManager.shared.getAccessToken() {
+            self.viewModel.banStaff(staffId: staffId, accessToken: accessToken)
+        }
     }
     
     private func updateAccount(indexPath: IndexPath) {
         let account = self.viewModel.staffList[indexPath.row]
         let accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
-
+        
         guard let name = account.username else {
             return
         }
@@ -205,6 +226,14 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         }
         let navigationController = UINavigationController(rootViewController: viewController)
         self.present(navigationController, animated: true)
+    }
+    
+    // -MARK: Utilities
+    private func displayErrorAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 
@@ -236,12 +265,22 @@ extension StaffAccountViewController: UITableViewDataSource {
 
 extension StaffAccountViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let banAction = UIContextualAction(style: .destructive, title: "Ban") { _, _, completionHandler in
-            self.banAccount(indexPath: indexPath)
-            completionHandler(true)
+        let accountStatus = self.viewModel.staffList[indexPath.row].status
+        if accountStatus == .active {
+            let banAction = UIContextualAction(style: .destructive, title: "Ban") { _, _, completionHandler in
+                self.banAccount(indexPath: indexPath)
+                completionHandler(true)
+            }
+            let configuration = UISwipeActionsConfiguration(actions: [banAction])
+            return configuration
+        } else {
+            let unBanAction = UIContextualAction(style: .normal, title: "Unban") { _, _, completionHandler in
+                self.unbanAccount(indexPath: indexPath)
+                completionHandler(true)
+            }
+            let configuration = UISwipeActionsConfiguration(actions: [unBanAction])
+            return configuration
         }
-        let configuration = UISwipeActionsConfiguration(actions: [banAction])
-        return configuration
     }
     
     
@@ -255,5 +294,4 @@ extension StaffAccountViewController: UITableViewDelegate {
         let configuration = UISwipeActionsConfiguration(actions: [updateAction])
         return configuration
     }
-    
 }
