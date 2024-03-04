@@ -163,8 +163,8 @@ class BookingViewController: UIViewController, UIFactory {
     }
     
     private func cancelBooking(indexPath: IndexPath) {
-        if let bookingID = self.viewModel.currentList?[indexPath.row].bookingID {
-            self.viewModel.cancelBooking(bookingID: bookingID, accessToken: UserSessionManager.shared.getAccessToken() ?? "")
+        if let bookingId = self.viewModel.currentList?[indexPath.row].bookingId {
+            self.viewModel.cancelBooking(bookingId: bookingId, accessToken: UserSessionManager.shared.getAccessToken() ?? "")
                 .sink { [weak self] completion in
                     switch completion {
                     case .finished:

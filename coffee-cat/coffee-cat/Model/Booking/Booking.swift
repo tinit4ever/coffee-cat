@@ -8,17 +8,17 @@
 import Foundation
 
 struct Booking: Codable {
-    var seatID: Int?
+    var seatId: Int?
     var bookingDate: String?
     var extraContant: String?
     var bookingShopMenuRequestList: [MenuBooking]?
 }
 
 struct MenuBooking: Codable {
-    var itemID: Int
+    var itemId: Int
     var quantity: Int
 }
 
 struct CancelBookingBody: Codable {
-    var bookingID: Int
+    var bookingId: Int
 }
