@@ -176,7 +176,7 @@ extension PlaceViewController: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-//        self.areaList.count
+        //        self.areaList.count
         return self.viewModel.areaList?.count ?? 0
     }
     
@@ -197,23 +197,10 @@ extension PlaceViewController: UITableViewDataSource {
             print("Invalid section index: \(indexPath.section)")
         }
         
-<<<<<<< Updated upstream:coffee-cat-seller-center/coffee-cat-seller-center/Views/ShopOwner/PlaceViewController.swift
-        cell.didSelectSeat = { [weak self] selectedSeat, availableToSubmit in
-//            self?.submitSeat = selectedSeat
-//            self?.viewModel.submitSeat = selectedSeat
-            if availableToSubmit {
-                self?.availableToSubmit += 1
-                print(self?.availableToSubmit as Any)
-            } else {
-                self?.availableToSubmit -= 1
-                print(self?.availableToSubmit as Any)
-            }
-=======
         cell.didSelectedSeatList = { seatList in
             self.selectedSeatList = seatList
->>>>>>> Stashed changes:coffee-cat-seller-center/coffee-cat-seller-center/Views/ShopOwner/TabBarManager/PlaceViewController.swift
         }
-
+        
         cell.selectionStyle = .none
         return cell
     }
