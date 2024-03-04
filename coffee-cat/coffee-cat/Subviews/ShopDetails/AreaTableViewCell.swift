@@ -15,16 +15,10 @@ class AreaTableViewCell: UITableViewCell {
     let sizeScaler = UIScreen.scalableSize
     
     var seatList: [Seat] = []
-    var didSelectSeat: ((Seat, Bool) -> Void)?
-    var isIncrease: Bool = false {
-        didSet {
-            isAvailableToSubmit.send(isIncrease)
-        }
-    }
-    var selectedSeat: Seat?
+    var sendSelectedTableIndex: ((IndexPath, IndexPath) -> Void)?
+    var areaIndexPath: IndexPath = IndexPath(row: 0, section: 0)
     
     private var cancellables: Set<AnyCancellable> = []
-    private var isAvailableToSubmit = PassthroughSubject<Bool, Never>()
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -57,18 +51,6 @@ class AreaTableViewCell: UITableViewCell {
         collectionView.register(SeatCollectionViewCell.self, forCellWithReuseIdentifier: SeatCollectionViewCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        isAvailableToSubmit
-            .sink { [weak self] isIncrease in
-                if isIncrease {
-                    self?.didSelectSeat?((self?.selectedSeat)!, isIncrease)
-                    print(isIncrease)
-                } else {
-                    print(isIncrease)
-                    self?.didSelectSeat?((self?.selectedSeat)!, isIncrease)
-                }
-            }
-            .store(in: &cancellables)
     }
     
     required init?(coder: NSCoder) {
@@ -83,8 +65,9 @@ class AreaTableViewCell: UITableViewCell {
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: widthScaler(30), left: widthScaler(30), bottom: 0, right: widthScaler(30)))
     }
     
-    func configure(seatList: [Seat]) {
+    func configure(seatList: [Seat], indexPath: IndexPath) {
         self.seatList = seatList
+        self.areaIndexPath = indexPath
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
@@ -100,7 +83,7 @@ extension AreaTableViewCell: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SeatCollectionViewCell.identifier, for: indexPath) as? SeatCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
+
         let seat = seatList[indexPath.row]
         cell.configure(seat)
         
@@ -110,18 +93,9 @@ extension AreaTableViewCell: UICollectionViewDataSource {
 
 extension AreaTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let cell = collectionView.cellForItem(at: indexPath) as? SeatCollectionViewCell
-        guard let isSelected = cell?.beforeSelectedState else {
-            return
-        }
-        let selectedSeat = self.seatList[indexPath.row]
-        if selectedSeat.status ?? false {
-            if !isSelected {
-                self.selectedSeat = selectedSeat
-                self.isIncrease = true
-            } else {
-                self.isIncrease = false
+        if let seatStatus = self.seatList[indexPath.row].status {
+            if seatStatus {
+                self.sendSelectedTableIndex?(self.areaIndexPath, indexPath)
             }
         }
     }

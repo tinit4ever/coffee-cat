@@ -245,6 +245,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         bookingButton.cornerRadius(cornerRadius: heightScaler(30))
         bookingButton.setTitle(title: "Book", fontName: FontNames.avenir, size: sizeScaler(40), color: .systemGray5)
         bookingButton.backgroundColor = .customPink
+        bookingButton.setTitleColor(.systemBackground, for: .normal)
         
         NSLayoutConstraint.activate([
             bookingButton.topAnchor.constraint(equalTo: shopInforStackView.bottomAnchor, constant: heightScaler(40)),
