@@ -84,7 +84,7 @@ class OrderFoodViewController: UIViewController, UIFactory {
     // -MARK: setupData
     private func setupData() {
         for menu in menuList {
-            let menuBooking = MenuBooking(itemID: menu.id ?? 0, quantity: 0)
+            let menuBooking = MenuBooking(itemId: menu.id ?? 0, quantity: 0)
             self.menuBookingList.append(menuBooking)
         }
     }
@@ -124,7 +124,7 @@ class OrderFoodViewController: UIViewController, UIFactory {
     // -MARK: Utilities
     private func updateQuantity(forItemID itemID: Int, newQuantity: Int) {
         for index in 0..<self.menuBookingList.count {
-            if menuBookingList[index].itemID == itemID {
+            if menuBookingList[index].itemId == itemID {
                 menuBookingList[index].quantity = newQuantity
                 break
             }

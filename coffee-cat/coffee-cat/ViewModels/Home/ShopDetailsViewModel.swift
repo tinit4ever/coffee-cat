@@ -31,7 +31,7 @@ class ShopDetailsViewModel: ShopDetailsViewModelProtocol {
     
     init() {
         self.index = 0
-        self.booking = Booking(seatID: nil, bookingDate: nil, extraContant: nil, bookingShopMenuRequestList: nil)
+        self.booking = Booking(seatId: nil, bookingDate: nil, extraContant: nil, bookingShopMenuRequestList: nil)
         setupAreasPublisher()
     }
     

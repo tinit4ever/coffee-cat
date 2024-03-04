@@ -229,7 +229,7 @@ class APIManager {
         }
     }
     
-    func cancelBooking(bookingID: Int, accessToken: String) -> AnyPublisher<Bool, Error> {
+    func cancelBooking(bookingId: Int, accessToken: String) -> AnyPublisher<Bool, Error> {
         let url = APIConstants.Booking.cancel
         
         let headers: HTTPHeaders = [
@@ -237,7 +237,7 @@ class APIManager {
             "Content-Type": "application/json"
         ]
         
-        let parameters = CancelBookingBody(bookingID: bookingID)
+        let parameters = CancelBookingBody(bookingId: bookingId)
         
         return AF.request(url, method: .post, parameters: parameters, encoder: JSONParameterEncoder.default, headers: headers)
             .publishData()
