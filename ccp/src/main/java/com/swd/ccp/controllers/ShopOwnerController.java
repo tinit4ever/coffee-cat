@@ -56,4 +56,10 @@ public class ShopOwnerController {
     public ResponseEntity<CreateAreaResponse> createAreaAndTable(@RequestBody CreateAreaRequest request){
         return ResponseEntity.ok().body(shopOwnerService.createAreaAndTable(request));
     }
+
+    @PostMapping("/area/delete")
+    @PreAuthorize("hasAuthority('owner:delete')")
+    public ResponseEntity<DeleteAreaResponse> deleteAreaAndTable(@RequestBody DeleteAreaRequest request){
+        return ResponseEntity.ok().body(shopOwnerService.deleteArea(request));
+    }
 }

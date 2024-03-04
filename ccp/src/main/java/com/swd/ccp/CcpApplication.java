@@ -326,7 +326,7 @@ public class CcpApplication {
 
                 //init seat status
                 seatStatusRepo.save(SeatStatus.builder().status("available").build());
-                seatStatusRepo.save(SeatStatus.builder().status("busy").build());
+                seatStatusRepo.save(SeatStatus.builder().status("unavailable").build());
 
                 //init cat status
                 catStatusRepo.save(CatStatus.builder().status("available").build());

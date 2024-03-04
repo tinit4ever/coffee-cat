@@ -23,13 +23,18 @@ public class AreaServiceImpl implements AreaService {
     private final AreaStatusRepo areaStatusRepo;
 
     public AreaListResponse getAreasWithSeatsAndActiveCats(GetAreaListRequest request) {
-        List<AreaStatus> activeAreaStatusList = areaStatusRepo.findAllByStatus("active");
-        if (activeAreaStatusList.isEmpty()) {
-            return new AreaListResponse(Collections.emptyList(), false, "No active areas found");
-        }
-
-        List<Area> areaList = areaRepo.findByShopId(request.getShopId());
+        AreaStatus areaStatus = areaStatusRepo.findByStatus("active").orElse(null);
+        assert areaStatus != null;
+        List<Area> areaList = areaRepo.findAllByShopIdAndAndAreaStatus(request.getShopId(), areaStatus);
         List<AreaResponse> areaResponseList = new ArrayList<>();
+
+        if(areaList.isEmpty()){
+            return AreaListResponse.builder()
+                    .status(false)
+                    .message("No area available")
+                    .areaResponseList(Collections.emptyList())
+                    .build();
+        }
 
         for (Area area : areaList) {
             List<Seat> seatList = area.getSeatList();
@@ -41,11 +46,13 @@ public class AreaServiceImpl implements AreaService {
             for (Seat seat : seatList) {
                 Booking booking = bookingRepo.findBySeatAndBookingDate(seat, request.getDate()).orElse(null);
 
-                boolean isBooked = booking != null && !booking.getBookingStatus().getStatus().equals("Cancelled");
+                boolean notAvailable = (booking != null
+                        && !booking.getBookingStatus().getStatus().equals("Cancelled"))
+                        || seat.getSeatStatus().getStatus().equals("unavailable");
                 SeatResponse seatResponseDTO = SeatResponse.builder()
                         .id(seat.getId())
                         .name(seat.getName())
-                        .status(!isBooked)
+                        .status(!notAvailable)
                         .build();
                 seatResponseList.add(seatResponseDTO);
             }
@@ -54,6 +61,7 @@ public class AreaServiceImpl implements AreaService {
 
 
             AreaResponse areaResponseDTO = AreaResponse.builder()
+                    .id(area.getId())
                     .name(area.getName())
                     .seatList(seatResponseList)
                     .catList(activeCatList)
@@ -61,8 +69,11 @@ public class AreaServiceImpl implements AreaService {
 
             areaResponseList.add(areaResponseDTO);
         }
-
-        return new AreaListResponse(areaResponseList, true, "Successfully retrieved area list");
+        return AreaListResponse.builder()
+                .status(true)
+                .message("Successfully retrieved area list")
+                .areaResponseList(areaResponseList)
+                .build();
     }
 
 }

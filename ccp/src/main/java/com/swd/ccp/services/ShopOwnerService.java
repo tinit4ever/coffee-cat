@@ -13,4 +13,6 @@ public interface ShopOwnerService {
     UpdateShopResponse updateShop(UpdateShopRequest request);
 
     CreateAreaResponse createAreaAndTable(CreateAreaRequest request);
+
+    DeleteAreaResponse deleteArea(DeleteAreaRequest request);
 }

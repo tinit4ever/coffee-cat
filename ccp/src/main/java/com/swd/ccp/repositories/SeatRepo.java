@@ -20,4 +20,6 @@ public interface SeatRepo extends JpaRepository<Seat, Integer> {
     List<Seat> findAllByAreaAndSeatStatusIn(Area area, Collection<SeatStatus>seatStatuses);
 
     List<Seat> findAllByAreaIdAndSeatStatusIn(Integer areaId, Collection<SeatStatus> activeSeatStatusList);
+
+    Optional<Seat> findByNameAndArea(String name, Area area);
 }

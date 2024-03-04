@@ -11,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,12 +25,16 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
     private final AreaRepo areaRepo;
     private final SeatRepo seatRepo;
     private final PasswordEncoder passwordEncoder;
+
+
+    private Manager checkIfOwner(){
+        Account account = accountService.getCurrentLoggedUser();
+        return managerRepo.findByAccount(account).orElse(null);
+    }
     @Override
     public StaffListResponse getStaffList(SortStaffListRequest request) {
-        Account account = accountService.getCurrentLoggedUser();
-        if(account.getRole().equals(Role.OWNER)){
-            Manager owner = managerRepo.findByAccount(account).orElse(null);
-            assert owner != null;
+        Manager owner;
+        if((owner = checkIfOwner()) != null){
             // get manager list
             List<Manager> managerList = owner.getShop().getManagerList();
             List<StaffListResponse.StaffResponse> staffList = new ArrayList<>();
@@ -117,11 +118,9 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
 
     @Override
     public CreateStaffResponse createStaff(CreateStaffRequest request) {
-        Account account = accountService.getCurrentLoggedUser();
-        if(account.getRole().equals(Role.OWNER)){
-            Manager owner = managerRepo.findByAccount(account).orElse(null);
+        Manager owner;
+        if((owner = checkIfOwner()) != null){
             Account acc = accountRepo.findByEmail(request.getEmail()).orElse(null);
-            assert owner != null;
             if(acc == null){
                 acc = Account.builder()
                         .email(request.getEmail())
@@ -162,16 +161,11 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
                 .build();
     }
 
-    private boolean isStringValid(String string) {
-        return string != null && !string.isEmpty();
-    }
     @Override
     public UpdateStaffResponse updateStaff(UpdateStaffRequest request) {
-        Account account = accountService.getCurrentLoggedUser();
-        if(account.getRole().equals(Role.OWNER)){
-            Manager owner = managerRepo.findByAccount(account).orElse(null);
+        Manager owner;
+        if((owner = checkIfOwner()) != null){
             Manager staff = managerRepo.findById(request.getStaffId()).orElse(null);
-            assert owner != null;
             if(staff != null){
                 List<Manager> managerList = owner.getShop().getManagerList();
                 if(managerList.contains(staff)){
@@ -215,11 +209,9 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
 
     @Override
     public ChangeStatusStaffResponse changeStatusStaff(ChangeStatusStaffRequest request, String type) {
-        Account account = accountService.getCurrentLoggedUser();
-        if(account.getRole().equals(Role.OWNER)){
-            Manager owner = managerRepo.findByAccount(account).orElse(null);
+        Manager owner;
+        if((owner = checkIfOwner()) != null){
             Manager staff = managerRepo.findById(request.getStaffId()).orElse(null);
-            assert owner != null;
 
             if(staff != null && owner.getShop().getManagerList().contains(staff)){
                 String newStatus = "active";
@@ -258,10 +250,8 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
 
     @Override
     public UpdateShopResponse updateShop(UpdateShopRequest request) {
-        Account account = accountService.getCurrentLoggedUser();
-        if(account.getRole().equals(Role.OWNER)) {
-            Manager owner = managerRepo.findByAccount(account).orElse(null);
-            assert owner != null;
+        Manager owner;
+        if((owner = checkIfOwner()) != null){
 
             Shop shop = owner.getShop();
             shop.setName(request.getName());
@@ -298,57 +288,63 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
 
     @Override
     public CreateAreaResponse createAreaAndTable(CreateAreaRequest request) {
-        Account account = accountService.getCurrentLoggedUser();
-        if(account.getRole().equals(Role.OWNER)) {
-            Manager owner = managerRepo.findByAccount(account).orElse(null);
+        Manager owner;
+        if((owner = checkIfOwner()) != null){
             AreaStatus areaStatus = areaStatusRepo.findByStatus("active").orElse(null);
             SeatStatus seatStatus = seatStatusRepo.findByStatus("available").orElse(null);
-            assert owner != null;
             assert areaStatus != null;
             assert seatStatus != null;
 
             // Create new area
             if(request.getId() < 1){
-                // Create area
-                Area area = areaRepo.save(
-                        Area.builder()
-                                .name(request.getName())
-                                .shop(owner.getShop())
-                                .areaStatus(areaStatus)
-                                .build()
-                );
-
-                // Create table
-                List<CreateAreaResponse.SeatResponse> seatResponses = new ArrayList<>();
-                for(CreateAreaRequest.SeatResponse seatResponse: request.getSeatList()){
-                    Seat newSeat = seatRepo.save(Seat.builder()
-                            .area(area)
-                            .seatStatus(seatStatus)
-                            .name(seatResponse.getName())
-                            .capacity(seatResponse.getCapacity())
-                            .build());
-
-                    seatResponses.add(
-                            CreateAreaResponse.SeatResponse.builder()
-                                    .id(newSeat.getId())
-                                    .name(newSeat.getName())
-                                    .capacity(newSeat.getCapacity())
-                                    .status(seatStatus.getStatus())
+                if(areaRepo.findByNameAndShop(request.getName(), owner.getShop()).orElse(null) == null){
+                    // Create area
+                    Area area = areaRepo.save(
+                            Area.builder()
+                                    .name(request.getName())
+                                    .shop(owner.getShop())
+                                    .areaStatus(areaStatus)
                                     .build()
                     );
+
+                    // Create table
+                    List<CreateAreaResponse.SeatResponse> seatResponses = new ArrayList<>();
+                    for(CreateAreaRequest.SeatResponse seatResponse: request.getSeatList()){
+                        Seat newSeat = seatRepo.save(Seat.builder()
+                                .area(area)
+                                .seatStatus(seatStatus)
+                                .name(seatResponse.getName())
+                                .capacity(seatResponse.getCapacity())
+                                .build());
+
+                        seatResponses.add(
+                                CreateAreaResponse.SeatResponse.builder()
+                                        .id(newSeat.getId())
+                                        .name(newSeat.getName())
+                                        .capacity(newSeat.getCapacity())
+                                        .status(seatStatus.getStatus())
+                                        .build()
+                        );
+
+                        return CreateAreaResponse.builder()
+                                .status(true)
+                                .message("Successfully create area")
+                                .area(
+                                        CreateAreaResponse.AreaResponse.builder()
+                                                .id(area.getId())
+                                                .name(area.getName())
+                                                .status(areaStatus.getStatus())
+                                                .seatList(seatResponses)
+                                                .build()
+                                )
+                                .build();
+                    }
                 }
 
                 return CreateAreaResponse.builder()
-                        .status(true)
-                        .message("Successfully create area")
-                        .area(
-                                CreateAreaResponse.AreaResponse.builder()
-                                        .id(area.getId())
-                                        .name(area.getName())
-                                        .status(areaStatus.getStatus())
-                                        .seatList(seatResponses)
-                                        .build()
-                        )
+                        .status(false)
+                        .message("Area is already existed")
+                        .area(null)
                         .build();
             }
             // Create tables in area
@@ -356,35 +352,43 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
             List<CreateAreaResponse.SeatResponse> seatResponseList = new ArrayList<>();
             if(existedArea != null){
                 for(CreateAreaRequest.SeatResponse seatResponse: request.getSeatList()){
-                    Seat newSeat = seatRepo.save(Seat.builder()
-                            .area(existedArea)
-                            .seatStatus(seatStatus)
-                            .name(seatResponse.getName())
-                            .capacity(seatResponse.getCapacity())
-                            .build());
+                    if(seatRepo.findByNameAndArea(seatResponse.getName(), existedArea).orElse(null) == null){
+                        Seat newSeat = seatRepo.save(Seat.builder()
+                                .area(existedArea)
+                                .seatStatus(seatStatus)
+                                .name(seatResponse.getName())
+                                .capacity(seatResponse.getCapacity())
+                                .build());
 
-                    seatResponseList.add(
-                            CreateAreaResponse.SeatResponse.builder()
-                                    .id(newSeat.getId())
-                                    .name(newSeat.getName())
-                                    .capacity(newSeat.getCapacity())
-                                    .status(seatStatus.getStatus())
-                                    .build()
-                    );
-                }
-
-                return CreateAreaResponse.builder()
-                        .status(true)
-                        .message("Successfully create " + request.getSeatList().size() + " tables")
-                        .area(
-                                CreateAreaResponse.AreaResponse.builder()
-                                        .id(existedArea.getId())
-                                        .name(existedArea.getName())
-                                        .status(areaStatus.getStatus())
-                                        .seatList(seatResponseList)
+                        seatResponseList.add(
+                                CreateAreaResponse.SeatResponse.builder()
+                                        .id(newSeat.getId())
+                                        .name(newSeat.getName())
+                                        .capacity(newSeat.getCapacity())
+                                        .status(seatStatus.getStatus())
                                         .build()
-                        )
-                        .build();
+                        );
+
+                        return CreateAreaResponse.builder()
+                                .status(true)
+                                .message("Successfully create " + request.getSeatList().size() + " tables")
+                                .area(
+                                        CreateAreaResponse.AreaResponse.builder()
+                                                .id(existedArea.getId())
+                                                .name(existedArea.getName())
+                                                .status(areaStatus.getStatus())
+                                                .seatList(seatResponseList)
+                                                .build()
+                                )
+                                .build();
+                    }
+
+                    return CreateAreaResponse.builder()
+                            .status(false)
+                            .message("Table is already existed")
+                            .area(null)
+                            .build();
+                }
             }
             return CreateAreaResponse.builder()
                     .status(false)
@@ -394,6 +398,75 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
         }
 
         return CreateAreaResponse.builder()
+                .status(false)
+                .message("This account doesn't have enough permission to use this feature")
+                .area(null)
+                .build();
+    }
+
+    @Override
+    public DeleteAreaResponse deleteArea(DeleteAreaRequest request) {
+        Manager owner;
+        if((owner = checkIfOwner()) != null){
+            List<Area> areaList = owner.getShop().getAreaList();
+            Area area = areaRepo.findById(request.getId()).orElse(null);
+            if(area != null){
+                if(areaList.contains(area)){
+                    List<Seat> seatList = area.getSeatList();
+                    // If no table then delete the area
+                    int deletedCount = 0;
+                    // If at least 1 table then delete it
+                    SeatStatus deleteSeatStatus = seatStatusRepo.findByStatus("unavailable").orElse(null);
+                    assert deleteSeatStatus != null;
+                    for(Seat seat: area.getSeatList()){
+                        if(request.getSeatList().contains(new DeleteAreaRequest.SeatRequest(seat.getId()))){
+                            seat.setSeatStatus(deleteSeatStatus);
+                            deletedCount++;
+                        }
+                    }
+                    areaRepo.save(area);
+
+                    if(deletedCount == 0){
+                        return DeleteAreaResponse.builder()
+                                .status(false)
+                                .message("Table(s) not found")
+                                .build();
+                    }
+
+                    int numOfNonAvailableSeat = 0;
+                    for(Seat seat: seatList){
+                        if(seat.getSeatStatus().getStatus().equals("unavailable")){
+                            numOfNonAvailableSeat++;
+                        }
+                    }
+                    if(numOfNonAvailableSeat == seatList.size()){
+                        AreaStatus deleteAreaStatus = areaStatusRepo.findByStatus("inactive").orElse(null);
+                        assert deleteAreaStatus != null;
+                        area.setAreaStatus(deleteAreaStatus);
+                        areaRepo.save(area);
+
+                        return DeleteAreaResponse.builder()
+                                .status(true)
+                                .message("Delete " + area.getName() + " successfully")
+                                .build();
+                    }
+
+                    return DeleteAreaResponse.builder()
+                            .status(true)
+                            .message("Delete " + deletedCount + " table(s) successfully")
+                            .build();
+                }
+                return DeleteAreaResponse.builder()
+                        .status(false)
+                        .message("Area with id " + request.getId() + " is not found")
+                        .build();
+            }
+            return DeleteAreaResponse.builder()
+                    .status(false)
+                    .message("Area with id " + request.getId() + " is not existed")
+                    .build();
+        }
+        return DeleteAreaResponse.builder()
                 .status(false)
                 .message("This account doesn't have enough permission to use this feature")
                 .build();
