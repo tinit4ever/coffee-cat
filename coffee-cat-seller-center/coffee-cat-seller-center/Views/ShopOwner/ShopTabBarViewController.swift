@@ -43,7 +43,15 @@ class ShopTabBarViewController: UITabBarController {
         let menu = self.createNav(with: "Menu", and: UIImage(systemName: "menucard"), viewController: MenuViewController())
         let cat = self.createNav(with: "Cat", and: UIImage(systemName: "cat"), viewController: CatViewController())
         let shopManager = self.createNav(with: "Manager", and: UIImage(systemName: "storefront"), viewController: ShopManagerViewController())
+<<<<<<< Updated upstream
         self.setViewControllers([staffAccount, cat, place, menu, shopManager], animated: true)
+=======
+<<<<<<< Updated upstream
+        self.setViewControllers([place, staffAccount, menu, cat, shopManager], animated: true)
+=======
+        self.setViewControllers([place, cat, place, menu, shopManager], animated: true)
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     }
     
     private func createNav(with title: String, and image: UIImage?, viewController: UIViewController) -> UINavigationController {

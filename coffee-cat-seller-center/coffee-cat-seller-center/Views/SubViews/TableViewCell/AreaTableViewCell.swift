@@ -15,16 +15,10 @@ class AreaTableViewCell: UITableViewCell {
     let sizeScaler = UIScreen.scalableSize
     
     var seatList: [Seat] = []
-    var didSelectSeat: ((Seat, Bool) -> Void)?
-    var isIncrease: Bool = false {
-        didSet {
-            isAvailableToSubmit.send(isIncrease)
-        }
-    }
-    var selectedSeat: Seat?
+    var selectedSeatList: [Seat] = []
+    var didSelectedSeatList: (([Seat]) -> Void)?
     
     private var cancellables: Set<AnyCancellable> = []
-    private var isAvailableToSubmit = PassthroughSubject<Bool, Never>()
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -57,18 +51,6 @@ class AreaTableViewCell: UITableViewCell {
         collectionView.register(SeatCollectionViewCell.self, forCellWithReuseIdentifier: SeatCollectionViewCell.identifier)
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        isAvailableToSubmit
-            .sink { [weak self] isIncrease in
-                if isIncrease {
-                    self?.didSelectSeat?((self?.selectedSeat)!, isIncrease)
-                    print(isIncrease)
-                } else {
-                    print(isIncrease)
-                    self?.didSelectSeat?((self?.selectedSeat)!, isIncrease)
-                }
-            }
-            .store(in: &cancellables)
     }
     
     required init?(coder: NSCoder) {
@@ -112,17 +94,19 @@ extension AreaTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let cell = collectionView.cellForItem(at: indexPath) as? SeatCollectionViewCell
-        guard let isSelected = cell?.beforeSelectedState else {
+        guard let beforeSelect = cell?.beforeSelectedState else {
             return
         }
-        let selectedSeat = self.seatList[indexPath.row]
-        if selectedSeat.status ?? false {
-            if !isSelected {
-                self.selectedSeat = selectedSeat
-                self.isIncrease = true
-            } else {
-                self.isIncrease = false
+        
+        let seat = self.seatList[indexPath.row]
+        
+        if beforeSelect {
+            if let indexToRemove = selectedSeatList.firstIndex(where: { $0.id == seat.id }) {
+                selectedSeatList.remove(at: indexToRemove)
             }
+        } else {
+            selectedSeatList.append(seat)
         }
+        self.didSelectedSeatList?(self.selectedSeatList)
     }
 }
