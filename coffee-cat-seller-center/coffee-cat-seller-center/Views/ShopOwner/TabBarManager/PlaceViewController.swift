@@ -13,11 +13,19 @@ class PlaceViewController: UIViewController, PlaceFactory {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
-    var availableToSubmit: Int = 0
-    
     var viewModel: PlaceViewModelProtocol = PlaceViewModel()
     
     private var cancellables: Set<AnyCancellable> = []
+    
+    private var selectedSeatList: [Seat] = [] {
+        didSet {
+            if selectedSeatList.isEmpty {
+                self.setDeleteButtonEnabled(false)
+            } else {
+                self.setDeleteButtonEnabled(true)
+            }
+        }
+    }
     
     // MARK: - Create UIComponents
     lazy var managerStack = makeHorizontalStackView()
@@ -72,7 +80,8 @@ class PlaceViewController: UIViewController, PlaceFactory {
             managerStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: widthScaler(-30))
         ])
         managerStack.addArrangedSubview(deleteTableButton)
-        deleteTableButton.setImage(UIImage(systemName: "trash")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal).resized(to: CGSize(width: heightScaler(30), height: heightScaler(35))), for: .normal)
+        deleteTableButton.isEnabled = false
+        deleteTableButton.setImage(UIImage(systemName: "trash")?.withTintColor(.systemBackground, renderingMode: .alwaysOriginal).resized(to: CGSize(width: heightScaler(30), height: heightScaler(35))), for: .normal)
         
         managerStack.addArrangedSubview(datePicker)
         datePicker.datePickerMode = .date
@@ -144,6 +153,17 @@ class PlaceViewController: UIViewController, PlaceFactory {
             }
             .store(in: &cancellables)
     }
+    
+    private func setDeleteButtonEnabled(_ isEnabled: Bool) {
+        self.deleteTableButton.isEnabled = isEnabled
+        var color: UIColor = .systemBackground
+        if isEnabled {
+            color = .systemRed
+        } else {
+            color = .systemBackground
+        }
+        deleteTableButton.setImage(UIImage(systemName: "trash")?.withTintColor(color, renderingMode: .alwaysOriginal).resized(to: CGSize(width: heightScaler(30), height: heightScaler(35))), for: .normal)
+    }
 }
 
 extension PlaceViewController: UITableViewDataSource {
@@ -161,7 +181,6 @@ extension PlaceViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        self.areaList[section].name
         self.viewModel.areaList?[section].name
     }
     
@@ -169,10 +188,6 @@ extension PlaceViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AreaTableViewCell.identifier, for: indexPath) as? AreaTableViewCell else {
             return UITableViewCell()
         }
-        
-//        if let seatList = self.viewModel.areaList?[indexPath.section].seatList {
-//            cell.configure(seatList: seatList)
-//        }
         
         if let areaList = self.viewModel.areaList, indexPath.section < areaList.count {
             if let seatList = areaList[indexPath.section].seatList {
@@ -182,6 +197,7 @@ extension PlaceViewController: UITableViewDataSource {
             print("Invalid section index: \(indexPath.section)")
         }
         
+<<<<<<< Updated upstream:coffee-cat-seller-center/coffee-cat-seller-center/Views/ShopOwner/PlaceViewController.swift
         cell.didSelectSeat = { [weak self] selectedSeat, availableToSubmit in
 //            self?.submitSeat = selectedSeat
 //            self?.viewModel.submitSeat = selectedSeat
@@ -192,15 +208,16 @@ extension PlaceViewController: UITableViewDataSource {
                 self?.availableToSubmit -= 1
                 print(self?.availableToSubmit as Any)
             }
+=======
+        cell.didSelectedSeatList = { seatList in
+            self.selectedSeatList = seatList
+>>>>>>> Stashed changes:coffee-cat-seller-center/coffee-cat-seller-center/Views/ShopOwner/TabBarManager/PlaceViewController.swift
         }
-        
+
+        cell.selectionStyle = .none
         return cell
     }
 }
 
 extension PlaceViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Select")
-    }
-    
 }

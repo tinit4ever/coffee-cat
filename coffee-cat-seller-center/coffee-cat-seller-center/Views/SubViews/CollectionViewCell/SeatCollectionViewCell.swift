@@ -122,7 +122,7 @@ class SeatCollectionViewCell: UICollectionViewCell {
         }
         self.status = status
         if status {
-            self.contentView.backgroundColor = .systemMint
+            self.contentView.backgroundColor = .systemCyan.withAlphaComponent(0.8)
         } else {
             self.contentView.backgroundColor = .systemGray3
         }
