@@ -14,6 +14,7 @@ struct AreaList: Codable {
 }
 
 struct Area: Codable {
+    var id: Int?
     var name: String?
     var catList: [Cat]?
     var seatList: [Seat]?

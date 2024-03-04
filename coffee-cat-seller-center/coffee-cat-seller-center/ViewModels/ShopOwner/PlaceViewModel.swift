@@ -11,12 +11,15 @@ import Combine
 protocol PlaceViewModelProtocol {
     var date: String? {get set}
     var areaList: [Area]? {get set}
+    var seatCreation: CreateAreaModel? {get set}
     var dataUpdatedPublisher: PassthroughSubject<Void, Never> {get set}
     func setAreasParam(shopId: Int, date: String)
 }
 
 class PlaceViewModel: PlaceViewModelProtocol {
     var date: String?
+    
+    var seatCreation: CreateAreaModel?
     
     var areaList: [Area]?
     
