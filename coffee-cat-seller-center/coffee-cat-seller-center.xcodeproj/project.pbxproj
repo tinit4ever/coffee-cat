@@ -26,6 +26,8 @@
 		A06834262B8D872A0086CE59 /* ShopManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */; };
 		A06834282B8D90280086CE59 /* StaffAccountFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834272B8D90280086CE59 /* StaffAccountFactory.swift */; };
 		A06D64522B92302E008F8550 /* StaffAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06D64512B92302E008F8550 /* StaffAccountViewModel.swift */; };
+		A09EB5172B95714600F532D6 /* InputAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09EB5162B95714600F532D6 /* InputAreaViewController.swift */; };
+		A09EB5192B95723300F532D6 /* CreateAreaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09EB5182B95723300F532D6 /* CreateAreaModel.swift */; };
 		A0CA420B2B91EC6900BED8FF /* AccountInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA420A2B91EC6900BED8FF /* AccountInputViewController.swift */; };
 		A0CA420D2B91ED2700BED8FF /* AccountInputFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA420C2B91ED2700BED8FF /* AccountInputFactory.swift */; };
 		A0CA42102B91F59600BED8FF /* AccountInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA420F2B91F59600BED8FF /* AccountInputViewModel.swift */; };
@@ -57,6 +59,7 @@
 		A0CBF5062B8CE6DD008CFAD3 /* AdminFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */; };
 		A0CBF5082B8CE802008CFAD3 /* coffee.json in Resources */ = {isa = PBXBuildFile; fileRef = A0CBF5072B8CE802008CFAD3 /* coffee.json */; };
 		A0CBF50B2B8CE9A5008CFAD3 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF50A2B8CE9A5008CFAD3 /* AccountTableViewCell.swift */; };
+		A0DBC8CF2B959F0B0059D816 /* InputAreaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */; };
 		A0EFC4CB2B940DDA00F94ECF /* CatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CA2B940DDA00F94ECF /* CatCollectionViewCell.swift */; };
 		A0EFC4CE2B940DF600F94ECF /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CC2B940DF600F94ECF /* SeatCollectionViewCell.swift */; };
 		A0EFC4CF2B940DF600F94ECF /* MenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CD2B940DF600F94ECF /* MenuCollectionViewCell.swift */; };
@@ -89,6 +92,8 @@
 		A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopManagerViewController.swift; sourceTree = "<group>"; };
 		A06834272B8D90280086CE59 /* StaffAccountFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAccountFactory.swift; sourceTree = "<group>"; };
 		A06D64512B92302E008F8550 /* StaffAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAccountViewModel.swift; sourceTree = "<group>"; };
+		A09EB5162B95714600F532D6 /* InputAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAreaViewController.swift; sourceTree = "<group>"; };
+		A09EB5182B95723300F532D6 /* CreateAreaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAreaModel.swift; sourceTree = "<group>"; };
 		A0CA420A2B91EC6900BED8FF /* AccountInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInputViewController.swift; sourceTree = "<group>"; };
 		A0CA420C2B91ED2700BED8FF /* AccountInputFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInputFactory.swift; sourceTree = "<group>"; };
 		A0CA420F2B91F59600BED8FF /* AccountInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInputViewModel.swift; sourceTree = "<group>"; };
@@ -119,6 +124,7 @@
 		A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminFactory.swift; sourceTree = "<group>"; };
 		A0CBF5072B8CE802008CFAD3 /* coffee.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = coffee.json; path = "../../../coffee-cat/coffee-cat/Animations/coffee.json"; sourceTree = "<group>"; };
 		A0CBF50A2B8CE9A5008CFAD3 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
+		A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAreaViewModel.swift; sourceTree = "<group>"; };
 		A0EFC4CA2B940DDA00F94ECF /* CatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0EFC4CC2B940DF600F94ECF /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0EFC4CD2B940DF600F94ECF /* MenuCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -157,6 +163,7 @@
 		A060C8722B943AB2005FAE2B /* TabBarManager */ = {
 			isa = PBXGroup;
 			children = (
+				A09EB5152B9570C800F532D6 /* Place */,
 				A06834232B8D87180086CE59 /* StaffAccountViewController.swift */,
 				A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */,
 				A0EFC4DB2B9413F900F94ECF /* PlaceViewController.swift */,
@@ -173,6 +180,7 @@
 				A06D64512B92302E008F8550 /* StaffAccountViewModel.swift */,
 				A0EFC4D72B940EC700F94ECF /* PlaceViewModel.swift */,
 				A060C8732B943D27005FAE2B /* CatViewModel.swift */,
+				A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */,
 			);
 			path = ShopOwner;
 			sourceTree = "<group>";
@@ -203,6 +211,14 @@
 				A0CA42172B91F7D900BED8FF /* AuthenticationResponse.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		A09EB5152B9570C800F532D6 /* Place */ = {
+			isa = PBXGroup;
+			children = (
+				A09EB5162B95714600F532D6 /* InputAreaViewController.swift */,
+			);
+			path = Place;
 			sourceTree = "<group>";
 		};
 		A0CA420E2B91F57900BED8FF /* ViewModels */ = {
@@ -398,6 +414,7 @@
 			children = (
 				A0EFC4D52B940E4600F94ECF /* Area.swift */,
 				A0EFC4D92B940FE500F94ECF /* Shop.swift */,
+				A09EB5182B95723300F532D6 /* CreateAreaModel.swift */,
 			);
 			path = Shop;
 			sourceTree = "<group>";
@@ -495,6 +512,8 @@
 				A0EFC4CF2B940DF600F94ECF /* MenuCollectionViewCell.swift in Sources */,
 				A0CA42102B91F59600BED8FF /* AccountInputViewModel.swift in Sources */,
 				A064526A2B92BDF300148032 /* SignInViewModel.swift in Sources */,
+				A0DBC8CF2B959F0B0059D816 /* InputAreaViewModel.swift in Sources */,
+				A09EB5172B95714600F532D6 /* InputAreaViewController.swift in Sources */,
 				A03CFCDC2B93223E00FBD1EE /* CreateAccountModel.swift in Sources */,
 				A060C86A2B942944005FAE2B /* MenuFactory.swift in Sources */,
 				A0CBF4EF2B8CDBD9008CFAD3 /* UILabel+Extension.swift in Sources */,
@@ -508,6 +527,7 @@
 				A060C8712B943AAD005FAE2B /* CatViewController.swift in Sources */,
 				A060C8742B943D27005FAE2B /* CatViewModel.swift in Sources */,
 				A06834222B8D86220086CE59 /* ShopTabBarViewController.swift in Sources */,
+				A09EB5192B95723300F532D6 /* CreateAreaModel.swift in Sources */,
 				A064527C2B92D4D900148032 /* AccountListResponse.swift in Sources */,
 				A0CBF4E12B8CDA04008CFAD3 /* SignInFactory.swift in Sources */,
 				A0CBF4EE2B8CDBD9008CFAD3 /* UIView+Extension.swift in Sources */,

@@ -113,6 +113,7 @@ class PlaceViewController: UIViewController, PlaceFactory {
     // MARK: - Setup Action
     private func setupAction() {
         self.datePicker.addTarget(self, action: #selector(dateChange(_:)), for: .valueChanged)
+        self.addTableButton.addTarget(self, action: #selector(addSeatTapped), for: .touchUpInside)
     }
     
     // MARK: - Catch Action
@@ -124,6 +125,16 @@ class PlaceViewController: UIViewController, PlaceFactory {
     @objc
     private func datePickerTapped() {
         datePicker.becomeFirstResponder()
+    }
+    
+    @objc private func addSeatTapped() {
+        let viewModel = InputAreaViewModel()
+        if let areaList = self.viewModel.areaList {
+            viewModel.areaList = areaList
+        }
+        let inputAreaViewController = InputAreaViewController(viewModel: viewModel)
+        let navigationController = UINavigationController(rootViewController: inputAreaViewController)
+        present(navigationController, animated: true)
     }
     
     // MARK: - Utitlities
@@ -176,7 +187,6 @@ extension PlaceViewController: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        //        self.areaList.count
         return self.viewModel.areaList?.count ?? 0
     }
     
@@ -202,9 +212,13 @@ extension PlaceViewController: UITableViewDataSource {
         }
         
         cell.selectionStyle = .none
+        
         return cell
     }
 }
 
 extension PlaceViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("selected")
+    }
 }
