@@ -50,4 +50,10 @@ public class ShopOwnerController {
     public ResponseEntity<UpdateShopResponse> updateShop(@RequestBody UpdateShopRequest request){
         return ResponseEntity.ok().body(shopOwnerService.updateShop(request));
     }
+
+    @PostMapping("/area/create")
+    @PreAuthorize("hasAuthority('owner:create')")
+    public ResponseEntity<CreateAreaResponse> createAreaAndTable(@RequestBody CreateAreaRequest request){
+        return ResponseEntity.ok().body(shopOwnerService.createAreaAndTable(request));
+    }
 }

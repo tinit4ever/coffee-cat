@@ -12,9 +12,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AdminController {
 
-//    @GetMapping("/view-account")
-//    @PreAuthorize("hasAuthority('admin:read')")
-//    public ResponseEntity<> getAccountList(){
-//
-//    }
 }

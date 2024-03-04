@@ -33,7 +33,7 @@ public class Seat {
     private String name;
 
     private int capacity;
-
-    @Transient
-    private boolean isAvailable;
+//
+//    @Transient
+//    private boolean isAvailable;
 }

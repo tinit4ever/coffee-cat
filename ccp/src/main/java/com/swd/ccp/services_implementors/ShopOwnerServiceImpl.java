@@ -6,13 +6,15 @@ import com.swd.ccp.models.request_models.*;
 import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.AccountService;
-import com.swd.ccp.services.JWTService;
 import com.swd.ccp.services.ShopOwnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,7 +23,10 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
     private final AccountStatusRepo accountStatusRepo;
     private final ManagerRepo managerRepo;
     private final AccountService accountService;
-    private final ShopRepo shopRepo;
+    private final SeatStatusRepo seatStatusRepo;
+    private final AreaStatusRepo areaStatusRepo;
+    private final AreaRepo areaRepo;
+    private final SeatRepo seatRepo;
     private final PasswordEncoder passwordEncoder;
     @Override
     public StaffListResponse getStaffList(SortStaffListRequest request) {
@@ -288,6 +293,109 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
                 .status(false)
                 .message("This account doesn't have enough permission to use this feature")
                 .response(null)
+                .build();
+    }
+
+    @Override
+    public CreateAreaResponse createAreaAndTable(CreateAreaRequest request) {
+        Account account = accountService.getCurrentLoggedUser();
+        if(account.getRole().equals(Role.OWNER)) {
+            Manager owner = managerRepo.findByAccount(account).orElse(null);
+            AreaStatus areaStatus = areaStatusRepo.findByStatus("active").orElse(null);
+            SeatStatus seatStatus = seatStatusRepo.findByStatus("available").orElse(null);
+            assert owner != null;
+            assert areaStatus != null;
+            assert seatStatus != null;
+
+            // Create new area
+            if(request.getId() < 1){
+                // Create area
+                Area area = areaRepo.save(
+                        Area.builder()
+                                .name(request.getName())
+                                .shop(owner.getShop())
+                                .areaStatus(areaStatus)
+                                .build()
+                );
+
+                // Create table
+                List<CreateAreaResponse.SeatResponse> seatResponses = new ArrayList<>();
+                for(CreateAreaRequest.SeatResponse seatResponse: request.getSeatList()){
+                    Seat newSeat = seatRepo.save(Seat.builder()
+                            .area(area)
+                            .seatStatus(seatStatus)
+                            .name(seatResponse.getName())
+                            .capacity(seatResponse.getCapacity())
+                            .build());
+
+                    seatResponses.add(
+                            CreateAreaResponse.SeatResponse.builder()
+                                    .id(newSeat.getId())
+                                    .name(newSeat.getName())
+                                    .capacity(newSeat.getCapacity())
+                                    .status(seatStatus.getStatus())
+                                    .build()
+                    );
+                }
+
+                return CreateAreaResponse.builder()
+                        .status(true)
+                        .message("Successfully create area")
+                        .area(
+                                CreateAreaResponse.AreaResponse.builder()
+                                        .id(area.getId())
+                                        .name(area.getName())
+                                        .status(areaStatus.getStatus())
+                                        .seatList(seatResponses)
+                                        .build()
+                        )
+                        .build();
+            }
+            // Create tables in area
+            Area existedArea = areaRepo.findById(request.getId()).orElse(null);
+            List<CreateAreaResponse.SeatResponse> seatResponseList = new ArrayList<>();
+            if(existedArea != null){
+                for(CreateAreaRequest.SeatResponse seatResponse: request.getSeatList()){
+                    Seat newSeat = seatRepo.save(Seat.builder()
+                            .area(existedArea)
+                            .seatStatus(seatStatus)
+                            .name(seatResponse.getName())
+                            .capacity(seatResponse.getCapacity())
+                            .build());
+
+                    seatResponseList.add(
+                            CreateAreaResponse.SeatResponse.builder()
+                                    .id(newSeat.getId())
+                                    .name(newSeat.getName())
+                                    .capacity(newSeat.getCapacity())
+                                    .status(seatStatus.getStatus())
+                                    .build()
+                    );
+                }
+
+                return CreateAreaResponse.builder()
+                        .status(true)
+                        .message("Successfully create " + request.getSeatList().size() + " tables")
+                        .area(
+                                CreateAreaResponse.AreaResponse.builder()
+                                        .id(existedArea.getId())
+                                        .name(existedArea.getName())
+                                        .status(areaStatus.getStatus())
+                                        .seatList(seatResponseList)
+                                        .build()
+                        )
+                        .build();
+            }
+            return CreateAreaResponse.builder()
+                    .status(false)
+                    .message("Area is not existed")
+                    .area(null)
+                    .build();
+        }
+
+        return CreateAreaResponse.builder()
+                .status(false)
+                .message("This account doesn't have enough permission to use this feature")
                 .build();
     }
 

@@ -11,4 +11,6 @@ public interface ShopOwnerService {
     ChangeStatusStaffResponse changeStatusStaff(ChangeStatusStaffRequest request, String type);
 
     UpdateShopResponse updateShop(UpdateShopRequest request);
+
+    CreateAreaResponse createAreaAndTable(CreateAreaRequest request);
 }

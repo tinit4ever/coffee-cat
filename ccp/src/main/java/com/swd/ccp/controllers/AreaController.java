@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-
 @RequiredArgsConstructor
 public class AreaController {
     private final AreaService areaService;
