@@ -12,20 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CreateAreaRequest {
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class SeatResponse{
-        private String name;
-
-        private int capacity;
-    }
-
     private Integer id;
 
     private String name;
 
-    private List<SeatResponse> seatList;
+    private String seatName;
+
+    private int seatCapacity;
 }

@@ -288,183 +288,180 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
 
     @Override
     public CreateAreaResponse createAreaAndTable(CreateAreaRequest request) {
+        //---------------------------------------------------------------------------------
+        //
+        // concept: add 1 area or 1 seat per time, if create new area then followed add 1
+        //          new table
+        // requirement: send a request
+        // problems:
+        //      -- if id = -1 then create new area, else create new table in existed table
+        //      -- area's name or table's name duplicated to the current active area or table
+        //      -- when id != 1 then the id must belong to shop's active area list
+        //
+        //---------------------------------------------------------------------------------
         Manager owner;
         if((owner = checkIfOwner()) != null){
-            AreaStatus areaStatus = areaStatusRepo.findByStatus("active").orElse(null);
-            SeatStatus seatStatus = seatStatusRepo.findByStatus("available").orElse(null);
-            assert areaStatus != null;
-            assert seatStatus != null;
-
-            // Create new area
-            if(request.getId() < 1){
-                if(areaRepo.findByNameAndShop(request.getName(), owner.getShop()).orElse(null) == null){
-                    // Create area
-                    Area area = areaRepo.save(
-                            Area.builder()
-                                    .name(request.getName())
-                                    .shop(owner.getShop())
-                                    .areaStatus(areaStatus)
-                                    .build()
-                    );
-
-                    // Create table
-                    List<CreateAreaResponse.SeatResponse> seatResponses = new ArrayList<>();
-                    for(CreateAreaRequest.SeatResponse seatResponse: request.getSeatList()){
-                        Seat newSeat = seatRepo.save(Seat.builder()
-                                .area(area)
-                                .seatStatus(seatStatus)
-                                .name(seatResponse.getName())
-                                .capacity(seatResponse.getCapacity())
-                                .build());
-
-                        seatResponses.add(
-                                CreateAreaResponse.SeatResponse.builder()
-                                        .id(newSeat.getId())
-                                        .name(newSeat.getName())
-                                        .capacity(newSeat.getCapacity())
-                                        .status(seatStatus.getStatus())
-                                        .build()
-                        );
-
-                        return CreateAreaResponse.builder()
-                                .status(true)
-                                .message("Successfully create area")
-                                .area(
-                                        CreateAreaResponse.AreaResponse.builder()
-                                                .id(area.getId())
-                                                .name(area.getName())
-                                                .status(areaStatus.getStatus())
-                                                .seatList(seatResponses)
-                                                .build()
-                                )
-                                .build();
-                    }
-                }
-
-                return CreateAreaResponse.builder()
-                        .status(false)
-                        .message("Area is already existed")
-                        .area(null)
-                        .build();
+            // if id = -1 => create new area and a table inside
+            if(request.getId() == -1){
+                return createNewAreaAndTable(request, owner.getShop());
             }
-            // Create tables in area
-            Area existedArea = areaRepo.findById(request.getId()).orElse(null);
-            List<CreateAreaResponse.SeatResponse> seatResponseList = new ArrayList<>();
-            if(existedArea != null){
-                for(CreateAreaRequest.SeatResponse seatResponse: request.getSeatList()){
-                    if(seatRepo.findByNameAndArea(seatResponse.getName(), existedArea).orElse(null) == null){
-                        Seat newSeat = seatRepo.save(Seat.builder()
-                                .area(existedArea)
-                                .seatStatus(seatStatus)
-                                .name(seatResponse.getName())
-                                .capacity(seatResponse.getCapacity())
-                                .build());
 
-                        seatResponseList.add(
-                                CreateAreaResponse.SeatResponse.builder()
-                                        .id(newSeat.getId())
-                                        .name(newSeat.getName())
-                                        .capacity(newSeat.getCapacity())
-                                        .status(seatStatus.getStatus())
-                                        .build()
-                        );
-
-                        return CreateAreaResponse.builder()
-                                .status(true)
-                                .message("Successfully create " + request.getSeatList().size() + " tables")
-                                .area(
-                                        CreateAreaResponse.AreaResponse.builder()
-                                                .id(existedArea.getId())
-                                                .name(existedArea.getName())
-                                                .status(areaStatus.getStatus())
-                                                .seatList(seatResponseList)
-                                                .build()
-                                )
-                                .build();
-                    }
-
-                    return CreateAreaResponse.builder()
-                            .status(false)
-                            .message("Table is already existed")
-                            .area(null)
-                            .build();
-                }
-            }
-            return CreateAreaResponse.builder()
-                    .status(false)
-                    .message("Area is not existed")
-                    .area(null)
-                    .build();
+            // if id > 0 => create table inside existed area
+            return createNewTableInExistedArea(request, owner.getShop());
         }
-
         return CreateAreaResponse.builder()
                 .status(false)
                 .message("This account doesn't have enough permission to use this feature")
+                .build();
+    }
+
+    private CreateAreaResponse createNewAreaAndTable(CreateAreaRequest request, Shop shop){
+        // check if area name is existed in shop or not
+        List<Area> areas = getActiveAreaListInShop(shop);
+        for(Area area: areas){
+            // if already existed then return false
+            if(request.getName().equals(area.getName())) {
+                return CreateAreaResponse.builder()
+                        .status(false)
+                        .message("Area " + request.getName() + " is already existed in shop")
+                        .area(null)
+                        .build();
+            }
+        }
+        // not yet existed name
+        // check if table name is existed in shop or not
+        // if not then create new table
+        if(checkIfSeatNameNotExistedInShop(request.getSeatName(), shop)){
+            return getCreateAreaResponse(request, createNewArea(request, shop));
+        }
+        return CreateAreaResponse.builder()
+                .status(false)
+                .message("Table " + request.getSeatName() + " is already existed in shop")
                 .area(null)
                 .build();
     }
 
-    @Override
-    public DeleteAreaResponse deleteArea(DeleteAreaRequest request) {
-        Manager owner;
-        if((owner = checkIfOwner()) != null){
-            List<Area> areaList = owner.getShop().getAreaList();
-            Area area = areaRepo.findById(request.getId()).orElse(null);
-            if(area != null){
-                if(areaList.contains(area)){
-                    List<Seat> seatList = area.getSeatList();
-                    // If no table then delete the area
-                    int deletedCount = 0;
-                    // If at least 1 table then delete it
-                    SeatStatus deleteSeatStatus = seatStatusRepo.findByStatus("unavailable").orElse(null);
-                    assert deleteSeatStatus != null;
-                    for(Seat seat: area.getSeatList()){
-                        if(request.getSeatList().contains(new DeleteAreaRequest.SeatRequest(seat.getId()))){
-                            seat.setSeatStatus(deleteSeatStatus);
-                            deletedCount++;
-                        }
-                    }
-                    areaRepo.save(area);
+    private Area createNewArea(CreateAreaRequest request, Shop shop){
+        AreaStatus active = areaStatusRepo.findByStatus("active").orElse(null);
+        assert active != null;
+        return Area.builder()
+                        .name(request.getName())
+                        .shop(shop)
+                        .areaStatus(active)
+                        .build();
+    }
 
-                    if(deletedCount == 0){
-                        return DeleteAreaResponse.builder()
-                                .status(false)
-                                .message("Table(s) not found")
-                                .build();
-                    }
+    private Seat createNewTable(CreateAreaRequest request, Area area){
+        SeatStatus available = seatStatusRepo.findByStatus("available").orElse(null);
+        assert available != null;
+        area = areaRepo.save(area);
+        return seatRepo.save(
+                Seat.builder()
+                        .area(area)
+                        .seatStatus(available)
+                        .name(request.getSeatName())
+                        .capacity(request.getSeatCapacity())
+                        .build()
+        );
+    }
 
-                    int numOfNonAvailableSeat = 0;
-                    for(Seat seat: seatList){
-                        if(seat.getSeatStatus().getStatus().equals("unavailable")){
-                            numOfNonAvailableSeat++;
-                        }
-                    }
-                    if(numOfNonAvailableSeat == seatList.size()){
-                        AreaStatus deleteAreaStatus = areaStatusRepo.findByStatus("inactive").orElse(null);
-                        assert deleteAreaStatus != null;
-                        area.setAreaStatus(deleteAreaStatus);
-                        areaRepo.save(area);
-
-                        return DeleteAreaResponse.builder()
-                                .status(true)
-                                .message("Delete " + area.getName() + " successfully")
-                                .build();
-                    }
-
-                    return DeleteAreaResponse.builder()
-                            .status(true)
-                            .message("Delete " + deletedCount + " table(s) successfully")
-                            .build();
+    private CreateAreaResponse createNewTableInExistedArea(CreateAreaRequest request, Shop shop){
+        // find if area belongs to shop
+        for(Area area: getActiveAreaListInShop(shop)){
+            //if existed and be active then allow to move to the next step
+            if(area.getId().equals(request.getId())){
+                // check if table name is existed in shop or not
+                // if not yet existed then allow to create new
+                if(checkIfSeatNameNotExistedInShop(request.getSeatName(), shop)){
+                    return getCreateAreaResponse(request, area);
                 }
-                return DeleteAreaResponse.builder()
+                // if existed then return fail
+                return CreateAreaResponse.builder()
                         .status(false)
-                        .message("Area with id " + request.getId() + " is not found")
+                        .message("Table with name " + request.getSeatName() + " is already existed in shop")
+                        .area(null)
                         .build();
             }
-            return DeleteAreaResponse.builder()
-                    .status(false)
-                    .message("Area with id " + request.getId() + " is not existed")
-                    .build();
+        }
+        // if not existed then return fail
+        return CreateAreaResponse.builder()
+                .status(false)
+                .message("Area with id " + request.getId() + " is not existed in shop")
+                .area(null)
+                .build();
+    }
+
+    private CreateAreaResponse getCreateAreaResponse(CreateAreaRequest request, Area area) {
+        Seat newTable = createNewTable(request, area);
+        return CreateAreaResponse.builder()
+                .status(true)
+                .message("Table " + request.getSeatName() + " has been successfully created")
+                .area(
+                        CreateAreaResponse.AreaResponse.builder()
+                                .id(area.getId())
+                                .name(area.getName())
+                                .status(area.getAreaStatus().getStatus())
+                                .seat(
+                                        CreateAreaResponse.SeatResponse.builder()
+                                                .id(newTable.getId())
+                                                .name(newTable.getName())
+                                                .capacity(newTable.getCapacity())
+                                                .status(newTable.getSeatStatus().getStatus())
+                                                .build()
+                                )
+                                .build()
+                )
+                .build();
+    }
+
+    private List<Area> getActiveAreaListInShop(Shop shop){
+        List<Area> areas = new ArrayList<>();
+        for(Area area: shop.getAreaList()){
+            if(area.getAreaStatus().getStatus().equals("active")){
+                areas.add(area);
+            }
+        }
+        return areas;
+    }
+
+    private List<Seat> getActiveSeatListInShop(List<Area> areas){
+        List<Seat> seats = new ArrayList<>();
+        for(Area area: areas){
+            for(Seat seat: area.getSeatList()){
+                if(seat.getSeatStatus().getStatus().equals("available")){
+                    seats.add(seat);
+                }
+            }
+
+        }
+        return seats;
+    }
+
+    private boolean checkIfSeatNameNotExistedInShop(String seatName, Shop shop){
+        for(Seat s: getActiveSeatListInShop(getActiveAreaListInShop(shop))){
+            if(s.getName().equals(seatName)) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public DeleteAreaResponse deleteArea(DeleteAreaRequest request) {
+        //---------------------------------------------------------------------------------
+        //
+        // concept: delete multi-tables per time, if delete all then auto delete area
+        // requirement: send list of seat id
+        // problems:
+        //      -- seat id is not existed in list of active seats in area
+        //
+        //---------------------------------------------------------------------------------
+
+        Manager owner;
+        if((owner = checkIfOwner()) != null){
+            // Get active area list and available seat list
+            List<Area> areas = getActiveAreaListInShop(owner.getShop());
+            List<Seat> seats = getActiveSeatListInShop(areas);
+            return deleteTables(request, areas, seats);
+
         }
         return DeleteAreaResponse.builder()
                 .status(false)
@@ -472,4 +469,53 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
                 .build();
     }
 
+    private DeleteAreaResponse deleteTables(DeleteAreaRequest request, List<Area> activeAreas, List<Seat> activeSeats){
+        List<Integer> sampleIdList = new ArrayList<>();
+        SeatStatus seatStatus = seatStatusRepo.findByStatus("unavailable").orElse(null);
+        assert seatStatus != null;
+        for(Seat seat: activeSeats){
+            sampleIdList.add(seat.getId());
+        }
+
+        // Check if all id input is valid
+        for(DeleteAreaRequest.SeatRequest seatRequest: request.getSeatList()){
+            if(!sampleIdList.contains(seatRequest.getId())){
+                return DeleteAreaResponse.builder()
+                        .status(false)
+                        .message("Seat with id " + seatRequest.getId() + " is not existed in shop")
+                        .build();
+            }
+        }
+
+        // Take all seat has id included in delete id list
+        for(Seat seat: activeSeats){
+            if(request.getSeatList().contains(new DeleteAreaRequest.SeatRequest(seat.getId()))){
+                seat.setSeatStatus(seatStatus);
+                seatRepo.save(seat);
+            }
+        }
+
+        deleteAreaWhenNoMoreAvailableSeat(activeAreas);
+        return DeleteAreaResponse.builder()
+                .status(true)
+                .message("Delete " + request.getSeatList().size() + " table(s) successfully")
+                .build();
+    }
+
+    private void deleteAreaWhenNoMoreAvailableSeat(List<Area> activeAreas){
+        int activeSeat = 0;
+        AreaStatus areaStatus = areaStatusRepo.findByStatus("inactive").orElse(null);
+        assert areaStatus != null;
+        for(Area area: activeAreas){
+            for(Seat seat: area.getSeatList()){
+                if(seat.getSeatStatus().getStatus().equals("available")){
+                    activeSeat++;
+                }
+            }
+            if(activeSeat == 0){
+                area.setAreaStatus(areaStatus);
+                areaRepo.save(area);
+            }
+        }
+    }
 }

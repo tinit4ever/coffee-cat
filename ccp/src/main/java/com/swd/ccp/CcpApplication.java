@@ -218,9 +218,20 @@ public class CcpApplication {
                         .role(Role.OWNER)
                         .build();
 
+                Account customStaffAccount = Account
+                        .builder()
+                        .email("tina@gmail.com")
+                        .name("Ms Tina")
+                        .password(passwordEncoder.encode("an123456"))
+                        .phone("090909090909")
+                        .status(accountStatusRepo.findByStatus("active"))
+                        .role(Role.STAFF)
+                        .build();
+
                 accountList.add(admin);
                 accountList.add(customCustomerAccount);
                 accountList.add(customOwnerAccount);
+                accountList.add(customStaffAccount);
 
                 List<String> nameList = new ArrayList<>();
 

@@ -10,7 +10,6 @@ com\swd\ccp\models\entity_models\AreaStatus.class
 com\swd\ccp\models\request_models\RegisterRequest$RegisterRequestBuilder.class
 com\swd\ccp\services\AuthenticationService.class
 com\swd\ccp\controllers\BookingCartController.class
-com\swd\ccp\models\request_models\CreateAreaRequest$SeatResponse.class
 com\swd\ccp\repositories\SeatRepo.class
 com\swd\ccp\models\entity_models\Booking.class
 com\swd\ccp\repositories\ShopStatusRepo.class
@@ -24,7 +23,6 @@ com\swd\ccp\controllers\AdminController.class
 com\swd\ccp\models\entity_models\AccountStatus$AccountStatusBuilder.class
 com\swd\ccp\repositories\ShopRepo.class
 com\swd\ccp\configurations\ApplicationConfig.class
-com\swd\ccp\models\request_models\CreateAreaRequest$SeatResponse$SeatResponseBuilder.class
 com\swd\ccp\models\entity_models\Customer.class
 com\swd\ccp\models\entity_models\ShopImage.class
 com\swd\ccp\models\response_models\DeleteAreaResponse$DeleteAreaResponseBuilder.class

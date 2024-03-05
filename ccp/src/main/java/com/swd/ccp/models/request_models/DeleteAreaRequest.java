@@ -20,8 +20,6 @@ public class DeleteAreaRequest {
         private Integer id;
     }
 
-    private Integer id;
-
     private List<SeatRequest> seatList;
 
 }

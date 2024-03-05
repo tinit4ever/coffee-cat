@@ -37,7 +37,7 @@ public class CreateAreaResponse {
 
         private String status;
 
-        private List<SeatResponse> seatList;
+        private SeatResponse seat;
     }
 
     private boolean status;

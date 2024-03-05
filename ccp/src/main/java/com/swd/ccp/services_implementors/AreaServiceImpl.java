@@ -6,9 +6,7 @@ import com.swd.ccp.models.response_models.AreaListResponse;
 import com.swd.ccp.models.response_models.AreaResponse;
 import com.swd.ccp.models.response_models.CatResponse;
 import com.swd.ccp.models.response_models.SeatResponse;
-import com.swd.ccp.repositories.AreaRepo;
-import com.swd.ccp.repositories.AreaStatusRepo;
-import com.swd.ccp.repositories.BookingRepo;
+import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.AreaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,12 +17,16 @@ import java.util.*;
 @RequiredArgsConstructor
 public class AreaServiceImpl implements AreaService {
     private final AreaRepo areaRepo;
+    private final SeatRepo seatRepo;
     private final BookingRepo bookingRepo;
     private final AreaStatusRepo areaStatusRepo;
+    private final SeatStatusRepo seatStatusRepo;
 
     public AreaListResponse getAreasWithSeatsAndActiveCats(GetAreaListRequest request) {
         AreaStatus areaStatus = areaStatusRepo.findByStatus("active").orElse(null);
+        SeatStatus seatStatus = seatStatusRepo.findByStatus("available").orElse(null);
         assert areaStatus != null;
+        assert seatStatus != null;
         List<Area> areaList = areaRepo.findAllByShopIdAndAndAreaStatus(request.getShopId(), areaStatus);
         List<AreaResponse> areaResponseList = new ArrayList<>();
 
@@ -37,7 +39,7 @@ public class AreaServiceImpl implements AreaService {
         }
 
         for (Area area : areaList) {
-            List<Seat> seatList = area.getSeatList();
+            List<Seat> seatList = seatRepo.findAllByAreaAndSeatStatus(area, seatStatus);
 
             seatList.sort(Comparator.comparing(Seat::getId));
 
@@ -52,6 +54,7 @@ public class AreaServiceImpl implements AreaService {
                 SeatResponse seatResponseDTO = SeatResponse.builder()
                         .id(seat.getId())
                         .name(seat.getName())
+                        .capacity(seat.getCapacity())
                         .status(!notAvailable)
                         .build();
                 seatResponseList.add(seatResponseDTO);

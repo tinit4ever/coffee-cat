@@ -15,11 +15,5 @@ import java.util.Optional;
 public interface SeatRepo extends JpaRepository<Seat, Integer> {
     Optional<Seat> findById(long seatId);
 
-    List<Seat> findAllByAreaInAndSeatStatus(Collection<Area> area, SeatStatus seatStatus);
-
-    List<Seat> findAllByAreaAndSeatStatusIn(Area area, Collection<SeatStatus>seatStatuses);
-
-    List<Seat> findAllByAreaIdAndSeatStatusIn(Integer areaId, Collection<SeatStatus> activeSeatStatusList);
-
-    Optional<Seat> findByNameAndArea(String name, Area area);
+    List<Seat> findAllByAreaAndSeatStatus(Area area, SeatStatus seatStatus);
 }

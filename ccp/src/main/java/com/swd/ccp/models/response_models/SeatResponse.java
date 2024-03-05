@@ -14,5 +14,7 @@ public class SeatResponse {
 
     private String name;
 
+    private int capacity;
+
     private Boolean status;
 }
