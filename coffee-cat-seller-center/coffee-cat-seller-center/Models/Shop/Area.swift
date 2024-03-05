@@ -31,4 +31,5 @@ struct Seat: Codable {
     var id : Int?
     var name: String?
     var status: Bool?
+    var capacity: Int?
 }
