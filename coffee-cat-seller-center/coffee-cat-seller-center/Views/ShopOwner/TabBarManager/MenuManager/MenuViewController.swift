@@ -72,7 +72,7 @@ class MenuViewController: UIViewController, MenuFactory {
             menuCollectionView.topAnchor.constraint(equalTo: managerStack.bottomAnchor, constant: heightScaler(20)),
             menuCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(30)),
             menuCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: widthScaler(-30)),
-            menuCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: heightScaler(-80))
+            menuCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: heightScaler(-60))
         ])
         
     }

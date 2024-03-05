@@ -54,7 +54,7 @@ class APIManager {
     
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
 //        let userSignIn = UserSignIn(email: email, password: password)
-        let userSignIn = UserSignIn(email: "null@gmail.com", password: "null")
+        let userSignIn = UserSignIn(email: "tin@gmail.com", password: "an123456")
         let apiUrl = APIConstants.Auth.login
         
         AF.request(apiUrl, method: .post, parameters: userSignIn, encoder: JSONParameterEncoder.default).responseData { response in
