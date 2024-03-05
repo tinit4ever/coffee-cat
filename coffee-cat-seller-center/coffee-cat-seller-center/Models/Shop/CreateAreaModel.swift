@@ -9,7 +9,7 @@ import Foundation
 
 struct CreateAreaModel: Codable {
     var id: Int = -1
-    var area: String
+    var name: String
     var seatName: String
     var seatCapacity: Int
 }

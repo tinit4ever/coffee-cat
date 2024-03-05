@@ -133,6 +133,14 @@ class PlaceViewController: UIViewController, PlaceFactory {
             viewModel.areaList = areaList
         }
         let inputAreaViewController = InputAreaViewController(viewModel: viewModel)
+        inputAreaViewController.dismissCompletion = { [weak self] in
+            DispatchQueue.main.async {
+                guard let date = self?.getStringDateFormatter(date: Date()) else {
+                    return
+                }
+                self?.loadData(date: date)
+            }
+        }
         let navigationController = UINavigationController(rootViewController: inputAreaViewController)
         present(navigationController, animated: true)
     }
