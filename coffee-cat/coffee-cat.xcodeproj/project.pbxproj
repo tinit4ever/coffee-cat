@@ -450,7 +450,6 @@
 			isa = PBXGroup;
 			children = (
 				A060C86C2B942A30005FAE2B /* Factories */,
-				A0F3EAAA2B653BDD0057860A /* Info.plist */,
 				A073C5F32B7ED511002263DB /* Model */,
 				A0D1D58E2B6B7EBC00CB1ED3 /* Manager */,
 				A05BE70B2B6A09790030000D /* Animations */,
@@ -461,6 +460,7 @@
 				A07ED8572B6544D300EA4E19 /* Views */,
 				A07ED8532B65434C00EA4E19 /* Support */,
 				A05BE7042B69E8CD0030000D /* Preview */,
+				A0F3EAAA2B653BDD0057860A /* Info.plist */,
 			);
 			path = "coffee-cat";
 			sourceTree = "<group>";
