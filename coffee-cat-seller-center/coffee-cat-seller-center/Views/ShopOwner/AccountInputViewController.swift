@@ -147,6 +147,7 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     private func setupData() {
         self.nameTextField.text = self.viewModel.accountCreation?.name
         self.emailTextField.text = self.viewModel.accountCreation?.email
+        self.phoneTextField.text = self.viewModel.accountCreation?.phone
         self.passwordTextField.text = self.viewModel.accountCreation?.password
         self.confirmPasswordTextField.text = self.viewModel.accountCreation?.password
     }
@@ -216,6 +217,7 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
         validatePassword(password: password, confirmPassword: confirmPassword)
         
         self.viewModel.setName(name: name)
+        self.viewModel.setPhone(phone: phone)
         self.viewModel.setPassword(password: password)
         
         if self.viewModel.accountCreation?.staffId != nil {
