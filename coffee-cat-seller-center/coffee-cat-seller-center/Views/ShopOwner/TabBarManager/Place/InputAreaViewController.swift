@@ -18,6 +18,8 @@ class InputAreaViewController: UIViewController, PlaceFactory {
     var cancellables: Set<AnyCancellable> = []
     var viewModel: InputAreaViewModelProtocol
     
+    var dismissCompletion: (() -> Void)?
+    
     init(viewModel: InputAreaViewModelProtocol) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -109,7 +111,7 @@ class InputAreaViewController: UIViewController, PlaceFactory {
             self?.isCreateNew = false
             self?.hiddenAreaNameTextField()
             let title = action.title
-            self?.viewModel.seatSubmition?.area = title
+            self?.viewModel.seatSubmition?.name = title
             if let selectedAreaID = self?.viewModel.areaList.first(where: { $0.name == title })?.id {
                 self?.viewModel.seatSubmition?.id = selectedAreaID
             }
@@ -217,7 +219,7 @@ class InputAreaViewController: UIViewController, PlaceFactory {
             if areaName.isEmpty {
                 self.displayErrorAlert("Area name should not be empty")
             } else {
-                self.viewModel.seatSubmition?.area = areaName
+                self.viewModel.seatSubmition?.name = areaName
             }
         }
         
@@ -238,7 +240,7 @@ class InputAreaViewController: UIViewController, PlaceFactory {
             self.displayErrorAlert("Seat name should not be empty")
         }
         
-        self.viewModel.seatSubmition?.area = areaName
+        self.viewModel.seatSubmition?.name = areaName
         self.viewModel.seatSubmition?.seatName = seatName
         self.viewModel.seatSubmition?.seatCapacity = capacity
         
@@ -281,15 +283,16 @@ class InputAreaViewController: UIViewController, PlaceFactory {
     
     private func displaySuccess(_ message: String) {
         let alertController = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            self.dismissViewController()
+        }))
         
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func isNumber(input: String) -> Bool {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        return formatter.number(from: input) != nil
+    private func dismissViewController() {
+        self.dismissCompletion?()
+        self.dismiss(animated: true)
     }
 }
 

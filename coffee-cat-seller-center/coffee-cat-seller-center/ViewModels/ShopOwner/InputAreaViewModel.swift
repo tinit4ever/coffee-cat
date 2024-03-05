@@ -30,7 +30,7 @@ class InputAreaViewModel: InputAreaViewModelProtocol {
     var seatSubmition: CreateAreaModel?
     
     init() {
-        self.seatSubmition = CreateAreaModel(id: 1, area: "", seatName: "", seatCapacity: 1)
+        self.seatSubmition = CreateAreaModel(id: 1, name: "", seatName: "", seatCapacity: 1)
         self.accessToken = UserSessionManager.shared.getAccessToken() ?? ""
     }
     
