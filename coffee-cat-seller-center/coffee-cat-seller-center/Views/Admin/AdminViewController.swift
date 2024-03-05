@@ -26,6 +26,7 @@ class AdminViewController: UIViewController, AdminFactory  {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAction()
     }
     
     // -MARK: SetupUI
@@ -69,7 +70,11 @@ class AdminViewController: UIViewController, AdminFactory  {
     }
     
     private func configTopViewLabel() {
-        topViewLabel.setupTitle(text: "Hello!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
+        if let username = UserSessionManager.shared.authenticationResponse?.accountResponse?.username {
+            topViewLabel.setupTitle(text: "Hello \(String(describing: username))!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
+        } else {
+            topViewLabel.setupTitle(text: "Hello!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
+        }
         NSLayoutConstraint.activate([
             topViewLabel.leadingAnchor.constraint(equalTo: coffeeAnimationView.trailingAnchor, constant: sizeScaler(20)),
             topViewLabel.bottomAnchor.constraint(equalTo: topView.bottomAnchor)
@@ -116,6 +121,20 @@ class AdminViewController: UIViewController, AdminFactory  {
             addAccountButton.bottomAnchor.constraint(equalTo: accountTableContainer.bottomAnchor)
         ])
     }
+    
+    // -MARK: Setup Action
+    private func setupAction() {
+        let accountImageButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountImageButtonTapped))
+        self.accountImageButton.addGestureRecognizer(accountImageButtonGesture)
+        self.accountImageButton.isUserInteractionEnabled = true
+    }
+    
+    // -MARK: Catch Action
+    @objc
+    private func accountImageButtonTapped() {
+        let navigationController = UINavigationController(rootViewController: ProfileViewController())
+        self.present(navigationController, animated: true)
+    }
 }
 
 extension AdminViewController: UITableViewDataSource {
@@ -133,7 +152,7 @@ extension AdminViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightScaler(60)
+        return heightScaler(120)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
