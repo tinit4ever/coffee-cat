@@ -11,6 +11,7 @@
 		A02EAFBC2B971F4300C466EF /* BookingManagerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02EAFBB2B971F4300C466EF /* BookingManagerFactory.swift */; };
 		A02EAFBE2B9723F100C466EF /* BookingHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02EAFBD2B9723F100C466EF /* BookingHistoryTableViewCell.swift */; };
 		A02EAFC12B9724AB00C466EF /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02EAFC02B9724AB00C466EF /* Booking.swift */; };
+		A02EAFC52B973B7000C466EF /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = A02EAFC42B973B7000C466EF /* loading.json */; };
 		A03CFCDC2B93223E00FBD1EE /* CreateAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03CFCDB2B93223E00FBD1EE /* CreateAccountModel.swift */; };
 		A060C8682B94282E005FAE2B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060C8672B94282E005FAE2B /* MenuViewController.swift */; };
 		A060C86A2B942944005FAE2B /* MenuFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060C8692B942944005FAE2B /* MenuFactory.swift */; };
@@ -82,6 +83,7 @@
 		A02EAFBB2B971F4300C466EF /* BookingManagerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingManagerFactory.swift; sourceTree = "<group>"; };
 		A02EAFBD2B9723F100C466EF /* BookingHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		A02EAFC02B9724AB00C466EF /* Booking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
+		A02EAFC42B973B7000C466EF /* loading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		A03CFCDB2B93223E00FBD1EE /* CreateAccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountModel.swift; sourceTree = "<group>"; };
 		A060C8672B94282E005FAE2B /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		A060C8692B942944005FAE2B /* MenuFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFactory.swift; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 				A06452772B92CCE000148032 /* profile.json */,
 				A0CBF5072B8CE802008CFAD3 /* coffee.json */,
 				A0CBF4FE2B8CE0AC008CFAD3 /* administrator.json */,
+				A02EAFC42B973B7000C466EF /* loading.json */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 			files = (
 				A06452782B92CCE100148032 /* profile.json in Resources */,
 				A0CBF4C72B8CD31F008CFAD3 /* LaunchScreen.storyboard in Resources */,
+				A02EAFC52B973B7000C466EF /* loading.json in Resources */,
 				A0CBF4FF2B8CE0AC008CFAD3 /* administrator.json in Resources */,
 				A0CBF4C42B8CD31F008CFAD3 /* Assets.xcassets in Resources */,
 				A0CBF5082B8CE802008CFAD3 /* coffee.json in Resources */,
