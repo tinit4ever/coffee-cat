@@ -23,7 +23,7 @@ class AreaTableViewCell: UITableViewCell {
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: UIScreen.scalableWidth(180), height: UIScreen.scalableHeight(80))
+        layout.itemSize = CGSize(width: UIScreen.scalableWidth(230), height: UIScreen.scalableHeight(140))
         layout.minimumLineSpacing = UIScreen.scalableHeight(20)
         layout.minimumInteritemSpacing = UIScreen.scalableHeight(20)
         layout.sectionInset = UIEdgeInsets(top: layout.minimumLineSpacing, left: layout.minimumLineSpacing, bottom: layout.minimumLineSpacing * 2, right: layout.minimumLineSpacing * 2.5)

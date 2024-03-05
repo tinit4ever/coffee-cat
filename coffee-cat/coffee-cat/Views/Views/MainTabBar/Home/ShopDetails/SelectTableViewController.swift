@@ -188,7 +188,7 @@ class SelectTableViewController: UIViewController, UIFactory {
 
 extension SelectTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightScaler(240)
+        return heightScaler(370)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
