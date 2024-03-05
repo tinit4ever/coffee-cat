@@ -1,10 +1,14 @@
 package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.models.entity_models.*;
+import com.swd.ccp.models.request_models.CreateShopRequest;
 import com.swd.ccp.models.request_models.SortStaffListRequest;
+import com.swd.ccp.models.response_models.CreateShopResponse;
 import com.swd.ccp.models.response_models.ShopListResponse;
-import com.swd.ccp.repositories.MenuRepo;
-import com.swd.ccp.repositories.ShopRepo;
+import com.swd.ccp.repositories.*;
+import com.swd.ccp.services.AccountService;
+import com.swd.ccp.services.EmailService;
+import com.swd.ccp.services.ShopOwnerService;
 import com.swd.ccp.services.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,10 @@ import java.util.List;
 public class ShopServiceImpl implements ShopService {
     private final ShopRepo shopRepo;
     private final MenuRepo menuRepo;
+    private final ShopStatusRepo shopStatusRepo;
+    private final AccountService accountService;
+    private final ShopOwnerService shopOwnerService;
+    private final EmailService emailService;
 
     @Override
     public ShopListResponse getActiveShops(SortStaffListRequest request) {
@@ -49,6 +57,75 @@ public class ShopServiceImpl implements ShopService {
         }
 
         return sortShops(searchShopList, request);
+    }
+
+    @Override
+    public CreateShopResponse createShop(CreateShopRequest request) throws Exception {
+        //---------------------------------------------------------------------------------
+        //
+        // concept: create a shop, start with inactive and active when all data filled
+        // requirement: name, email, shopEmail, phone
+        // problems:
+        //      -- shop is already existed (check even in banned shop)
+        //
+        // steps:
+        //      -- create a shop
+        //      -- create an account for shop (generate password)
+        //      -- create a menu
+        //      -- send email
+        //---------------------------------------------------------------------------------
+
+        // check if no existed shop then continue
+        if(checkIfShopNameIsExisted(request.getName()) == null){
+            ShopStatus status = shopStatusRepo.findByStatus("inactive");
+            // create new shop
+            Shop shop = shopRepo.save(
+                    Shop.builder()
+                            .name(request.getName())
+                            .address("")
+                            .openTime("")
+                            .closeTime("")
+                            .rating(0.0)
+                            .phone(request.getPhone())
+                            .avatar("")
+                            .status(status)
+                            .packages(null)
+                            .build()
+            );
+
+            // create shop owner account
+            String randomPass = accountService.generateRandomPassword(8);
+            Account account = accountService.createOwnerAccount(request, randomPass);
+            if(account != null){
+                shopOwnerService.createShopOwnerAccount(account, shop);
+
+                // create a menu
+                menuRepo.save(
+                        Menu.builder()
+                                .shop(shop)
+                                .build()
+                );
+
+                // send mail
+                emailService.sendOwnerAccountEmail(request.getEmail(), account.getEmail(), randomPass);
+                return CreateShopResponse.builder()
+                        .status(true)
+                        .message("Create shop successfully")
+                        .build();
+            }
+            return CreateShopResponse.builder()
+                    .status(false)
+                    .message("Shop account with email " + request.getShopEmail() + " is already existed")
+                    .build();
+        }
+        return CreateShopResponse.builder()
+                .status(false)
+                .message("Shop with name " + request.getName() + " is already existed")
+                .build();
+    }
+
+    private Shop checkIfShopNameIsExisted(String shopName){
+        return shopRepo.findByName(shopName).orElse(null);
     }
 
     private ShopListResponse sortShops(List<Shop> shopList, SortStaffListRequest request) {

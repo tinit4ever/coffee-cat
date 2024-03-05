@@ -31,6 +31,7 @@ public class Shop {
     private Double rating;
 
     private String phone;
+
     private String avatar;
 
     @ManyToOne

@@ -20,5 +20,5 @@ public interface ShopRepo extends JpaRepository<Shop, Integer> {
             "(LOWER(s.address) LIKE LOWER(CONCAT('%', :keyword, '%')) ) " )
     List<Shop> findAllByStatusInAndAddressContainingIgnoreCase(List<ShopStatus> status, String keyword, Sort sort);
 
-
+    Optional<Shop> findByName(String name);
 }

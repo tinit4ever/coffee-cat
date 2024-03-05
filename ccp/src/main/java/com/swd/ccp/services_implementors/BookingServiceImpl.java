@@ -164,8 +164,8 @@ public class BookingServiceImpl implements BookingService {
     public CancelBookingResponse cancelBooking(CancelBookingRequest request) {
 
         Booking booking = bookingRepo.findById(request.getBookingId()).orElse(null);
-        if(booking != null && booking.getBookingStatus().getStatus().equals("Pending")){
-            booking.setBookingStatus(bookingStatusRepo.findByStatus("Cancelled").orElse(null));
+        if(booking != null && booking.getBookingStatus().getStatus().equals("pending")){
+            booking.setBookingStatus(bookingStatusRepo.findByStatus("cancelled"));
             bookingRepo.save(booking);
             return CancelBookingResponse.builder()
                     .status(true)
@@ -187,7 +187,7 @@ public class BookingServiceImpl implements BookingService {
                 Booking booking = Booking.builder()
                         .seat(seat)
                         .customer(customer)
-                        .bookingStatus(bookingStatusRepo.findByStatus("Pending").orElse(null))
+                        .bookingStatus(bookingStatusRepo.findByStatus("pending"))
                         .shopName(seat.getArea().getShop().getName())
                         .seatName(seat.getName())
                         .extraContent(request.getExtraContent())

@@ -22,8 +22,6 @@ public class Menu {
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    private String description;
-
     @OneToMany(mappedBy = "menu")
     @ToString.Exclude
     private List<MenuItem> menuItemList;

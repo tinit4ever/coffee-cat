@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface MenuItemStatusRepo extends JpaRepository<MenuItemStatus, Integer> {
     List<MenuItemStatus> findAllByStatus(String menuItemStatus);
 
-    Optional<MenuItemStatus> findByStatus(String status);
+    MenuItemStatus findByStatus(String status);
 }

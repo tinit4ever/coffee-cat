@@ -13,6 +13,6 @@ public interface SeatStatusRepo extends JpaRepository<SeatStatus, Integer> {
 
     Collection< SeatStatus> findAllByStatus(String status);
 
-    Optional<SeatStatus> findByStatus(String status);
+    SeatStatus findByStatus(String status);
 
 }

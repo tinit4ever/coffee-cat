@@ -1,5 +1,8 @@
 package com.swd.ccp.services;
 
+import com.swd.ccp.models.entity_models.Account;
+import com.swd.ccp.models.entity_models.Manager;
+import com.swd.ccp.models.entity_models.Shop;
 import com.swd.ccp.models.request_models.*;
 import com.swd.ccp.models.response_models.*;
 
@@ -15,4 +18,6 @@ public interface ShopOwnerService {
     CreateAreaResponse createAreaAndTable(CreateAreaRequest request);
 
     DeleteAreaResponse deleteArea(DeleteAreaRequest request);
+
+    Manager createShopOwnerAccount(Account account, Shop shop);
 }

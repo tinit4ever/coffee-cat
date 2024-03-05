@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface BookingStatusRepo extends JpaRepository<BookingStatus, Integer> {
 
-    Optional<BookingStatus> findByStatus(String status);
+    BookingStatus findByStatus(String status);
 }

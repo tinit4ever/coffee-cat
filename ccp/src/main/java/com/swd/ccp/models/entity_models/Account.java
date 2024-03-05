@@ -1,7 +1,6 @@
 package com.swd.ccp.models.entity_models;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.swd.ccp.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;

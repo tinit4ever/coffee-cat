@@ -352,7 +352,7 @@ public class CcpApplication {
                         Area area = Area.builder()
                                 .name("Floor " + (areaPos + 1))
                                 .shop(shop)
-                                .areaStatus(areaStatusRepo.findByStatus("active").orElse(null))
+                                .areaStatus(areaStatusRepo.findByStatus("active"))
                                 .build();
 
                         area = areaRepo.save(area);
@@ -373,7 +373,7 @@ public class CcpApplication {
                         for(int seatPos = 0; seatPos < 10; seatPos++){
                             Seat seat = Seat.builder()
                                     .area(area)
-                                    .seatStatus(seatStatusRepo.findByStatus("available").orElse(null))
+                                    .seatStatus(seatStatusRepo.findByStatus("available"))
                                     .name("Table " + (seatPos + 1))
                                     .capacity(generateRandomNumber(2, 6))
                                     .build();
@@ -389,7 +389,6 @@ public class CcpApplication {
                 for(Shop shop: shops){
                     Menu menu = Menu.builder()
                             .shop(shop)
-                            .description("")
                             .build();
 
                     menu = menuRepo.save(menu);
@@ -406,7 +405,7 @@ public class CcpApplication {
                     for(int item = 0; item < 6; item++){
                         MenuItem menuItem = MenuItem.builder()
                                 .menu(menu)
-                                .menuItemStatus(menuItemStatusRepo.findByStatus("available").orElse(null))
+                                .menuItemStatus(menuItemStatusRepo.findByStatus("available"))
                                 .name(generateFoodName(usedFoodName))
                                 .price(generateRandomNumber(2, 10))
                                 .imgLink("Mr Null")
@@ -420,17 +419,9 @@ public class CcpApplication {
                 }
 
                 //init booking status
-                BookingStatus pending = BookingStatus.builder()
-                        .status("Pending")
-                        .build();
-
-                BookingStatus confirmed = BookingStatus.builder()
-                        .status("Confirmed")
-                        .build();
-
-                BookingStatus cancelled = BookingStatus.builder()
-                        .status("Cancelled")
-                        .build();
+                BookingStatus pending = BookingStatus.builder().status("pending").build();
+                BookingStatus confirmed = BookingStatus.builder().status("confirmed").build();
+                BookingStatus cancelled = BookingStatus.builder().status("cancelled").build();
 
                 bookingStatusRepo.save(pending);
                 bookingStatusRepo.save(confirmed);

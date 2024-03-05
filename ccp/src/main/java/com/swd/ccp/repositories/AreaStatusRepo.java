@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface AreaStatusRepo extends JpaRepository<AreaStatus, Integer> {
 
-    Optional<AreaStatus> findByStatus(String status);
+    AreaStatus findByStatus(String status);
 }

@@ -23,9 +23,8 @@ public class AreaServiceImpl implements AreaService {
     private final SeatStatusRepo seatStatusRepo;
 
     public AreaListResponse getAreasWithSeatsAndActiveCats(GetAreaListRequest request) {
-        AreaStatus areaStatus = areaStatusRepo.findByStatus("active").orElse(null);
-        SeatStatus seatStatus = seatStatusRepo.findByStatus("available").orElse(null);
-        assert areaStatus != null;
+        AreaStatus areaStatus = areaStatusRepo.findByStatus("active");
+        SeatStatus seatStatus = seatStatusRepo.findByStatus("available");
         assert seatStatus != null;
         List<Area> areaList = areaRepo.findAllByShopIdAndAndAreaStatus(request.getShopId(), areaStatus);
         List<AreaResponse> areaResponseList = new ArrayList<>();
@@ -49,7 +48,7 @@ public class AreaServiceImpl implements AreaService {
                 Booking booking = bookingRepo.findBySeatAndBookingDate(seat, request.getDate()).orElse(null);
 
                 boolean notAvailable = (booking != null
-                        && !booking.getBookingStatus().getStatus().equals("Cancelled"))
+                        && !booking.getBookingStatus().getStatus().equals("cancelled"))
                         || seat.getSeatStatus().getStatus().equals("unavailable");
                 SeatResponse seatResponseDTO = SeatResponse.builder()
                         .id(seat.getId())

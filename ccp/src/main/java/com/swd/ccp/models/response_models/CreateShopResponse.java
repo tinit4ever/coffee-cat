@@ -7,8 +7,7 @@ import lombok.*;
 @Builder
 @Data
 public class CreateShopResponse {
-    private String message;
-
     private boolean status;
 
+    private String message;
 }

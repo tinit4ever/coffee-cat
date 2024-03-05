@@ -342,8 +342,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
     }
 
     private Area createNewArea(CreateAreaRequest request, Shop shop){
-        AreaStatus active = areaStatusRepo.findByStatus("active").orElse(null);
-        assert active != null;
+        AreaStatus active = areaStatusRepo.findByStatus("active");
         return Area.builder()
                         .name(request.getName())
                         .shop(shop)
@@ -352,8 +351,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
     }
 
     private Seat createNewTable(CreateAreaRequest request, Area area){
-        SeatStatus available = seatStatusRepo.findByStatus("available").orElse(null);
-        assert available != null;
+        SeatStatus available = seatStatusRepo.findByStatus("available");
         area = areaRepo.save(area);
         return seatRepo.save(
                 Seat.builder()
@@ -469,10 +467,19 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
                 .build();
     }
 
+    @Override
+    public Manager createShopOwnerAccount(Account account, Shop shop) {
+        return managerRepo.save(
+                Manager.builder()
+                        .account(account)
+                        .shop(shop)
+                        .build()
+        );
+    }
+
     private DeleteAreaResponse deleteTables(DeleteAreaRequest request, List<Area> activeAreas, List<Seat> activeSeats){
         List<Integer> sampleIdList = new ArrayList<>();
-        SeatStatus seatStatus = seatStatusRepo.findByStatus("unavailable").orElse(null);
-        assert seatStatus != null;
+        SeatStatus seatStatus = seatStatusRepo.findByStatus("unavailable");
         for(Seat seat: activeSeats){
             sampleIdList.add(seat.getId());
         }
@@ -504,8 +511,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
 
     private void deleteAreaWhenNoMoreAvailableSeat(List<Area> activeAreas){
         int activeSeat = 0;
-        AreaStatus areaStatus = areaStatusRepo.findByStatus("inactive").orElse(null);
-        assert areaStatus != null;
+        AreaStatus areaStatus = areaStatusRepo.findByStatus("inactive");
         for(Area area: activeAreas){
             for(Seat seat: area.getSeatList()){
                 if(seat.getSeatStatus().getStatus().equals("available")){
