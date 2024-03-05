@@ -19,4 +19,10 @@ extension String {
         let phonePredicate = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
         return phonePredicate.evaluate(with: self)
     }
+    
+    func isNumber() -> Bool {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.number(from: self) != nil
+    }
 }

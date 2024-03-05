@@ -27,6 +27,7 @@ struct APIConstants {
         static let updateStaff = baseURL + "owner/staff/update"
         static let banStaff = baseURL + "owner/staff/inactive"
         static let unbanStaff = baseURL + "owner/staff/active"
+        static let createSeat = baseURL + "owner/area/create"
     }
     
     
@@ -42,6 +43,7 @@ struct APIParameter {
 
 enum APIError: Error {
     case failedToGetData
+    case nilResponse
     case badUrl
 }
 
@@ -249,6 +251,30 @@ class APIManager {
             }
             .mapError { $0 as Error }
             .map{ _ in }
+            .eraseToAnyPublisher()
+    }
+    
+    func createSeat(with creaAreaModel: CreateAreaModel, accessToken: String) -> AnyPublisher<CreateAreaResponse, Error> {
+        guard let url = URL(string: APIConstants.Owner.createSeat) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .post, parameters: creaAreaModel, encoder: JSONParameterEncoder.default, headers: headers)
+            .publishDecodable(type: CreateAreaResponse.self)
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    if let statusCode = response.response?.statusCode {
+                        print("Unexpected status code: \(statusCode)")
+                    }
+                    throw APIError.failedToGetData
+                }
+                return try response.result.get()
+            }
             .eraseToAnyPublisher()
     }
 }

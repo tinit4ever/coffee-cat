@@ -59,6 +59,7 @@
 		A0CBF5062B8CE6DD008CFAD3 /* AdminFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */; };
 		A0CBF5082B8CE802008CFAD3 /* coffee.json in Resources */ = {isa = PBXBuildFile; fileRef = A0CBF5072B8CE802008CFAD3 /* coffee.json */; };
 		A0CBF50B2B8CE9A5008CFAD3 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF50A2B8CE9A5008CFAD3 /* AccountTableViewCell.swift */; };
+		A0D9A4062B962258000E5C80 /* DeleteSeaListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D9A4052B962258000E5C80 /* DeleteSeaListModel.swift */; };
 		A0DBC8CF2B959F0B0059D816 /* InputAreaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */; };
 		A0EFC4CB2B940DDA00F94ECF /* CatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CA2B940DDA00F94ECF /* CatCollectionViewCell.swift */; };
 		A0EFC4CE2B940DF600F94ECF /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CC2B940DF600F94ECF /* SeatCollectionViewCell.swift */; };
@@ -124,6 +125,7 @@
 		A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminFactory.swift; sourceTree = "<group>"; };
 		A0CBF5072B8CE802008CFAD3 /* coffee.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = coffee.json; path = "../../../coffee-cat/coffee-cat/Animations/coffee.json"; sourceTree = "<group>"; };
 		A0CBF50A2B8CE9A5008CFAD3 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
+		A0D9A4052B962258000E5C80 /* DeleteSeaListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSeaListModel.swift; sourceTree = "<group>"; };
 		A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAreaViewModel.swift; sourceTree = "<group>"; };
 		A0EFC4CA2B940DDA00F94ECF /* CatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0EFC4CC2B940DF600F94ECF /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 				A0EFC4D52B940E4600F94ECF /* Area.swift */,
 				A0EFC4D92B940FE500F94ECF /* Shop.swift */,
 				A09EB5182B95723300F532D6 /* CreateAreaModel.swift */,
+				A0D9A4052B962258000E5C80 /* DeleteSeaListModel.swift */,
 			);
 			path = Shop;
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 				A0EFC4DE2B94150D00F94ECF /* PlaceFactory.swift in Sources */,
 				A0CBF4F32B8CDBD9008CFAD3 /* UIButton+Extension.swift in Sources */,
 				A0CA420B2B91EC6900BED8FF /* AccountInputViewController.swift in Sources */,
+				A0D9A4062B962258000E5C80 /* DeleteSeaListModel.swift in Sources */,
 				A0EFC4CB2B940DDA00F94ECF /* CatCollectionViewCell.swift in Sources */,
 				A0CBF4D12B8CD3C6008CFAD3 /* SignInViewController.swift in Sources */,
 				A0CBF4DD2B8CD962008CFAD3 /* VCPreview.swift in Sources */,
