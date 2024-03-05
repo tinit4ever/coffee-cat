@@ -17,9 +17,11 @@ protocol AccountInputViewModelProtocol: AnyObject {
     
     func checkEmailExisted(email: String) -> AnyPublisher<Bool, Error>
     func validateEmail(_ email: String) -> Bool
+    func validatePhoneNumber(_ phoneNumber: String) -> Bool
     func validatePassword(_ password: String, _ confirmPassword: String) -> Bool
     func validateName(_ name: String) -> Bool
     func setId(id: Int)
+    func setPhone(phone: String)
     func setName(name: String)
     func setEmail(email: String)
     func setPassword(password: String)
@@ -69,6 +71,15 @@ extension AccountInputViewModel {
             return true
         }
     }
+    
+    func validatePhoneNumber(_ phoneNumber: String) -> Bool {
+        if phoneNumber.isValidPhoneNumber {
+            return true
+        } else {
+            self.alertMessage = "Phone number format is wrong"
+            return false
+        }
+    }
 
     func validateName(_ name: String) -> Bool {
         if name.count > 23 {
@@ -88,6 +99,10 @@ extension AccountInputViewModel {
     
     func setName(name: String) {
         self.accountCreation?.name = name
+    }
+    
+    func setPhone(phone: String) {
+        self.accountCreation?.phone = phone
     }
     
     func setEmail(email: String) {

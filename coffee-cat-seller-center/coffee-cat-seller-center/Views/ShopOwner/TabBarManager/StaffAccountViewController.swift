@@ -207,9 +207,11 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         let account = self.viewModel.staffList[indexPath.row]
         let accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
         
-        guard let name = account.username else {
+        guard let name = account.username,
+              let phone = account.phone else {
             return
         }
+        
         let email = account.email
         
         let accountModel = CreateAccountModel(email: "", password: "", name: "", phone: "")
@@ -217,6 +219,7 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         accountInputViewModel.setId(id: account.id)
         accountInputViewModel.setName(name: name)
         accountInputViewModel.setEmail(email: email)
+        accountInputViewModel.setPhone(phone: phone)
         accountInputViewModel.initEmailWhenUpdate = email
         let viewController = AccountInputViewController(viewModel: accountInputViewModel)
         viewController.dismissCompletion = { [weak self] in

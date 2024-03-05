@@ -39,6 +39,11 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     lazy var nameTextFieldContainer: UIView = makeRoundedContainer()
     lazy var nameTextField: UITextField = makeTextField(placeholder: "Enter name")
     
+    lazy var phoneStackView = makeVerticalStackView()
+    lazy var phoneLabel: UILabel = makeLabel()
+    lazy var phoneTextFieldContainer: UIView = makeRoundedContainer()
+    lazy var phoneTextField: UITextField = makeTextField(placeholder: "Enter phone number")
+    
     lazy var emailStackView = makeVerticalStackView()
     lazy var emailLabel: UILabel = makeLabel()
     lazy var emailTextFieldContainer: UIView = makeRoundedContainer()
@@ -99,6 +104,17 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
         nameTextFieldContainer.addRoundedTextField(nameTextField)
         nameTextFieldContainer.heightAnchor.constraint(equalToConstant: heightScaler(60)).isActive = true
         
+        inputStackView.addArrangedSubview(phoneStackView)
+        phoneStackView.addArrangedSubview(phoneLabel)
+        phoneStackView.spacing = heightScaler(10)
+        phoneLabel.setupTitle(text: "Phone", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+        phoneLabel.textAlignment = .left
+        phoneStackView.addArrangedSubview(phoneTextFieldContainer)
+        phoneTextFieldContainer.addRoundedTextField(phoneTextField)
+        phoneTextFieldContainer.heightAnchor.constraint(equalToConstant: heightScaler(60)).isActive = true
+        
+        phoneTextField.keyboardType = .numberPad
+        
         inputStackView.addArrangedSubview(emailStackView)
         emailStackView.addArrangedSubview(emailLabel)
         emailStackView.spacing = heightScaler(10)
@@ -131,6 +147,7 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     private func setupData() {
         self.nameTextField.text = self.viewModel.accountCreation?.name
         self.emailTextField.text = self.viewModel.accountCreation?.email
+        self.phoneTextField.text = self.viewModel.accountCreation?.phone
         self.passwordTextField.text = self.viewModel.accountCreation?.password
         self.confirmPasswordTextField.text = self.viewModel.accountCreation?.password
     }
@@ -187,17 +204,20 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     private func doneButtonTapped() {
         guard let name = nameTextField.text,
               let email = emailTextField.text,
+              let phone = phoneTextField.text,
               let password = passwordTextField.text,
               let confirmPassword = confirmPasswordTextField.text else {
             return
         }
         guard validateName(name: name),
+              validatePhone(phone: phone),
               validateEmail(email: email) else {
             return
         }
         validatePassword(password: password, confirmPassword: confirmPassword)
         
         self.viewModel.setName(name: name)
+        self.viewModel.setPhone(phone: phone)
         self.viewModel.setPassword(password: password)
         
         if self.viewModel.accountCreation?.staffId != nil {
@@ -240,6 +260,16 @@ class AccountInputViewController: UIViewController, AccountInputFactory {
     
     private func validateName(name: String) -> Bool {
         if !self.viewModel.validateName(name) {
+            self.displayErrorAlert(message: self.viewModel.alertMessage)
+            self.viewModel.alertMessage = ""
+            return false
+        }
+        
+        return true
+    }
+    
+    private func validatePhone(phone: String) -> Bool {
+        if !self.viewModel.validatePhoneNumber(phone) {
             self.displayErrorAlert(message: self.viewModel.alertMessage)
             self.viewModel.alertMessage = ""
             return false
