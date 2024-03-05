@@ -8,7 +8,13 @@
 import Foundation
 
 struct CreateAreaModel: Codable {
-    var areaId: Int = -1
-    var areaName: String
+    var id: Int = -1
+    var area: String
     var seatName: String
+    var seatCapacity: Int
+}
+
+struct CreateAreaResponse: Codable {
+    var status: Bool
+    var message: String
 }
