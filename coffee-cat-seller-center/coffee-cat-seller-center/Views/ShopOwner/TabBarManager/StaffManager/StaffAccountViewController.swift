@@ -79,7 +79,11 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     }
     
     private func configTopViewLabel() {
-        topViewLabel.setupTitle(text: "Hello!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
+        if let username = UserSessionManager.shared.authenticationResponse?.accountResponse?.username {
+            topViewLabel.setupTitle(text: "Hello \(String(describing: username))!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
+        } else {
+            topViewLabel.setupTitle(text: "Hello!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
+        }
         NSLayoutConstraint.activate([
             topViewLabel.leadingAnchor.constraint(equalTo: coffeeAnimationView.trailingAnchor, constant: sizeScaler(20)),
             topViewLabel.bottomAnchor.constraint(equalTo: topView.bottomAnchor)
