@@ -252,7 +252,8 @@ class SignInViewController: UIViewController, SignInFactory {
         case .shopOwner:
             self.pushToHome(homeViewController: ShopTabBarViewController())
         case .staff:
-            self.pushToHome(homeViewController: StaffAccountViewController())
+            let viewController = BookingManagerViewController()
+            self.pushToHome(homeViewController: viewController)
         case .customer:
             break
         }
