@@ -143,6 +143,7 @@ class MenuViewController: UIViewController, MenuFactory {
     private func setupAction() {
         addMenuItem.addTarget(self, action: #selector(addMenuItemTapped), for: .touchUpInside)
         updateMenuItem.addTarget(self, action: #selector(updateMenuItemTapped), for: .touchUpInside)
+        deleteMenuItem.addTarget(self, action: #selector(deleteMenuItemTapped), for: .touchUpInside)
         
         submitInputButton.addTarget(self, action: #selector(submitInputButtonTapped), for: .touchUpInside)
         
@@ -178,7 +179,12 @@ class MenuViewController: UIViewController, MenuFactory {
         }
     }
     
-    @objc func submitInputButtonTapped() {
+    @objc func deleteMenuItemTapped() {
+        viewModel.deleteMenuItem()
+    }
+    
+    @objc 
+    func submitInputButtonTapped() {
         if viewModel.isUpdating {
             viewModel.updateMenuItem()
         } else {
@@ -186,7 +192,8 @@ class MenuViewController: UIViewController, MenuFactory {
         }
     }
     
-    @objc func dismissPopup() {
+    @objc 
+    func dismissPopup() {
         UIView.animate(withDuration: 0.3) {
             self.popupView.alpha = 0
             self.blurView.alpha = 0

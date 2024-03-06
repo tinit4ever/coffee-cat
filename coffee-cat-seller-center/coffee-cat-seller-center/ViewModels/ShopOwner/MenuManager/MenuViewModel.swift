@@ -17,6 +17,8 @@ protocol MenuViewModelProtocol {
     func createMenuItem()
     
     func updateMenuItem()
+    
+    func deleteMenuItem()
 }
 
 class MenuViewModel: MenuViewModelProtocol {
@@ -38,5 +40,8 @@ class MenuViewModel: MenuViewModelProtocol {
     
     func updateMenuItem() {
         
+    }
+    
+    func deleteMenuItem() {
     }
 }
