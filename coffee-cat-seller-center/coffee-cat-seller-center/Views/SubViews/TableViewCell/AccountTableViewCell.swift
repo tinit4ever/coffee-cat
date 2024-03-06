@@ -110,7 +110,8 @@ class AccountTableViewCell: UITableViewCell {
         case .active:
             activeLabel.textColor = .systemGreen
             activeLabel.text = "active"
-            activeImageView.image?.withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
+            let image = UIImage(systemName: "circle.fill")?.withTintColor(.systemGreen, renderingMode: .alwaysOriginal)
+            activeImageView.image = image
         case .inactive:
             activeLabel.textColor = .systemRed
             activeLabel.text = "inactive"
