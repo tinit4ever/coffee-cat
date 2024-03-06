@@ -15,8 +15,7 @@ class AreaTableViewCell: UITableViewCell {
     let sizeScaler = UIScreen.scalableSize
     
     var seatList: [Seat] = []
-    var selectedSeatList: [Seat] = []
-    var didSelectedSeatList: (([Seat]) -> Void)?
+    var didSelectedSeat: ((SeatId, Bool) -> Void)?
     
     private var cancellables: Set<AnyCancellable> = []
     
@@ -92,21 +91,23 @@ extension AreaTableViewCell: UICollectionViewDataSource {
 
 extension AreaTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? SeatCollectionViewCell else {
+            return
+        }
+        let beforeSelect = cell.customSelect
         
-        let cell = collectionView.cellForItem(at: indexPath) as? SeatCollectionViewCell
-        guard let beforeSelect = cell?.beforeSelectedState else {
+        guard let seatId = self.seatList[indexPath.row].id else {
             return
         }
         
-        let seat = self.seatList[indexPath.row]
-        
         if beforeSelect {
-            if let indexToRemove = selectedSeatList.firstIndex(where: { $0.id == seat.id }) {
-                selectedSeatList.remove(at: indexToRemove)
-            }
+            cell.customSelect = false
+            cell.updateBorder(false)
+            self.didSelectedSeat?(SeatId(id: seatId), false)
         } else {
-            selectedSeatList.append(seat)
+            cell.customSelect = true
+            cell.updateBorder(true)
+            self.didSelectedSeat?(SeatId(id: seatId), true)
         }
-        self.didSelectedSeatList?(self.selectedSeatList)
     }
 }

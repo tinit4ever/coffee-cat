@@ -14,26 +14,9 @@ class SeatCollectionViewCell: UICollectionViewCell {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
-    private var cancellables: Set<AnyCancellable> = []
-    private var isSelectedSubject = PassthroughSubject<Bool, Never>()
-    
-    override var isSelected: Bool {
-        didSet {
-            isSelectedSubject.send(isSelected)
-        }
-        
-        willSet {
-            if self.contentView.layer.borderWidth == 0 {
-                self.beforeSelectedState = false
-            } else {
-                self.beforeSelectedState = true
-            }
-        }
-    }
+    var customSelect: Bool = false
     
     lazy var status: Bool = false
-    
-    lazy var beforeSelectedState: Bool = false
     
     // MARK: - Create UIComponents
     private lazy var imageView: UIImageView = {
@@ -134,27 +117,20 @@ class SeatCollectionViewCell: UICollectionViewCell {
         ])
         capacityStack.addArrangedSubview(personImage)
         capacityStack.addArrangedSubview(capacityLabel)
-        
-        isSelectedSubject
-            .sink { [weak self] isSelected in
-                self?.updateBorder(isSelected)
-            }
-            .store(in: &cancellables)
     }
     
-    private func updateBorder(_ isSelected: Bool) {
+    func updateBorder(_ isSelected: Bool) {
         if status {
             if isSelected {
-                if self.contentView.layer.borderWidth == widthScaler(0) {
-                    self.contentView.layer.borderWidth = widthScaler(7)
-                } else {
-                    self.contentView.layer.borderWidth = widthScaler(0)
-                }
+                self.contentView.layer.borderWidth = widthScaler(7)
+            } else {
+                self.contentView.layer.borderWidth = widthScaler(0)
             }
         }
     }
     
     func configure(_ seat: Seat) {
+        self.updateBorder(false)
         self.titleLabel.text = seat.name
         guard let status = seat.status else {
             return
