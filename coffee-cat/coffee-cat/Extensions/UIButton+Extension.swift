@@ -40,6 +40,39 @@ extension UIButton {
         self.tintColor = color
     }
     
+    func setBackgroundColor(backgroundColor: UIColor) {
+        var configuration = self.configuration ?? UIButton.Configuration.gray()
+        configuration.baseBackgroundColor = backgroundColor
+        self.configuration = configuration
+    }
+    
+    func setFont(fontName: String, size: CGFloat) {
+        var configuration = self.configuration ?? UIButton.Configuration.gray()
+        configuration.titleTextAttributesTransformer =
+        UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont(name: fontName, size: size)
+            return outgoing
+        }
+        self.configuration = configuration
+    }
+    
+    func setBoldFont(fontName: String, size: CGFloat) {
+        var configuration = self.configuration ?? UIButton.Configuration.gray()
+        configuration.titleTextAttributesTransformer =
+        UIConfigurationTextAttributesTransformer { incoming in
+            var outgoing = incoming
+            outgoing.font = UIFont(name: fontName, size: size)
+            
+            if let descriptor = outgoing.font?.fontDescriptor {
+                outgoing.font = UIFont(descriptor: descriptor.withSymbolicTraits(.traitBold)!, size: size)
+            }
+            
+            return outgoing
+        }
+        self.configuration = configuration
+    }
+    
     func removeBackground() {
         let configuration = UIButton.Configuration.plain()
         self.configuration = configuration
