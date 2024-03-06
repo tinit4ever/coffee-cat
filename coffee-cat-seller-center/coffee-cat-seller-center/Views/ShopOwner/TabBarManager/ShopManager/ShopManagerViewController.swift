@@ -27,8 +27,8 @@ class ShopManagerViewController: UIViewController, ShopManagerFactory {
     lazy var shopAddressLabel = makeLabel()
     lazy var phoneLabel = makeLabel()
     lazy var openTimeLabel = makeLabel()
-        lazy var closeTimeLabel = makeLabel()
-
+    lazy var closeTimeLabel = makeLabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupData()
@@ -73,51 +73,56 @@ class ShopManagerViewController: UIViewController, ShopManagerFactory {
     }
     
     private func configShopInforStackView() {
-            shopInforStackView.alignment = .leading
-            shopInforStackView.spacing = heightScaler(40)
-            
-            NSLayoutConstraint.activate([
-                shopInforStackView.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: heightScaler(70)),
-                shopInforStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
-                shopInforStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
-            ])
-            
-            shopInforStackView.addArrangedSubview(shopNameLabel)
-            shopNameLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(42))
-            shopNameLabel.setBoldText()
-            NSLayoutConstraint.activate([
-                shopNameLabel.heightAnchor.constraint(equalToConstant: heightScaler(34))
-            ])
-            
-            shopInforStackView.addArrangedSubview(starRatingView)
-            NSLayoutConstraint.activate([
-                starRatingView.heightAnchor.constraint(equalToConstant: heightScaler(36))
-            ])
-            
-            shopInforStackView.addArrangedSubview(phoneLabel)
-            phoneLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
-            NSLayoutConstraint.activate([
-                phoneLabel.heightAnchor.constraint(equalToConstant: heightScaler(30))
-            ])
-            
-            shopInforStackView.addArrangedSubview(shopAddressLabel)
-            shopAddressLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
-            NSLayoutConstraint.activate([
-                shopAddressLabel.heightAnchor.constraint(equalToConstant: heightScaler(30))
-            ])
-            
-            shopInforStackView.addArrangedSubview(openTimeLabel)
-            openTimeLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
-            NSLayoutConstraint.activate([
-                openTimeLabel.heightAnchor.constraint(equalToConstant: heightScaler(30))
-            ])
-            
-            shopInforStackView.addArrangedSubview(closeTimeLabel)
-            closeTimeLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
-            NSLayoutConstraint.activate([
-                closeTimeLabel.heightAnchor.constraint(equalToConstant: heightScaler(30))
-            ])
-        }
+        shopInforStackView.alignment = .leading
+        shopInforStackView.spacing = heightScaler(40)
+        
+        NSLayoutConstraint.activate([
+            shopInforStackView.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: heightScaler(70)),
+            shopInforStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
+            shopInforStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
+        ])
+        
+        shopInforStackView.addArrangedSubview(shopNameLabel)
+        shopNameLabel.textColor = .black
+        shopNameLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(42))
+        shopNameLabel.setBoldText()
+        NSLayoutConstraint.activate([
+            shopNameLabel.heightAnchor.constraint(equalToConstant: heightScaler(34))
+        ])
+        
+        shopInforStackView.addArrangedSubview(starRatingView)
+        NSLayoutConstraint.activate([
+            starRatingView.heightAnchor.constraint(equalToConstant: heightScaler(36))
+        ])
+        
+        shopInforStackView.addArrangedSubview(phoneLabel)
+        phoneLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
+        phoneLabel.textColor = .black
+        NSLayoutConstraint.activate([
+            phoneLabel.heightAnchor.constraint(equalToConstant: heightScaler(30))
+        ])
+        
+        shopInforStackView.addArrangedSubview(shopAddressLabel)
+        shopAddressLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
+        shopAddressLabel.textColor = .black
+        NSLayoutConstraint.activate([
+            shopAddressLabel.heightAnchor.constraint(equalToConstant: heightScaler(30))
+        ])
+        
+        shopInforStackView.addArrangedSubview(openTimeLabel)
+        openTimeLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
+        openTimeLabel.textColor = .black
+        NSLayoutConstraint.activate([
+            openTimeLabel.heightAnchor.constraint(equalToConstant: heightScaler(30))
+        ])
+        
+        shopInforStackView.addArrangedSubview(closeTimeLabel)
+        closeTimeLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
+        closeTimeLabel.textColor = .black
+        NSLayoutConstraint.activate([
+            closeTimeLabel.heightAnchor.constraint(equalToConstant: heightScaler(30))
+        ])
+    }
     
     // -MARK: Setup Data
     private func setupData() {
