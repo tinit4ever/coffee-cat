@@ -68,6 +68,12 @@
 		A0DBC8CF2B959F0B0059D816 /* InputAreaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */; };
 		A0EEFA5B2B97CA130088CA0F /* MenuItemInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EEFA5A2B97CA130088CA0F /* MenuItemInputViewController.swift */; };
 		A0EEFA5D2B97EA550088CA0F /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EEFA5C2B97EA550088CA0F /* MenuViewModel.swift */; };
+		A0EEFA5F2B9814720088CA0F /* ShopManagerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EEFA5E2B9814720088CA0F /* ShopManagerFactory.swift */; };
+		A0EEFA632B98156D0088CA0F /* shop-manager.json in Resources */ = {isa = PBXBuildFile; fileRef = A0EEFA612B98156C0088CA0F /* shop-manager.json */; };
+		A0EEFA642B98156D0088CA0F /* staff.json in Resources */ = {isa = PBXBuildFile; fileRef = A0EEFA622B98156D0088CA0F /* staff.json */; };
+		A0EEFA662B98175E0088CA0F /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EEFA652B98175E0088CA0F /* StarRatingView.swift */; };
+		A0EEFA682B981D5C0088CA0F /* EditShopDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EEFA672B981D5C0088CA0F /* EditShopDetailsViewController.swift */; };
+		A0EEFA6A2B9820760088CA0F /* custom.json in Resources */ = {isa = PBXBuildFile; fileRef = A0EEFA692B9820760088CA0F /* custom.json */; };
 		A0EFC4CB2B940DDA00F94ECF /* CatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CA2B940DDA00F94ECF /* CatCollectionViewCell.swift */; };
 		A0EFC4CE2B940DF600F94ECF /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CC2B940DF600F94ECF /* SeatCollectionViewCell.swift */; };
 		A0EFC4CF2B940DF600F94ECF /* MenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CD2B940DF600F94ECF /* MenuCollectionViewCell.swift */; };
@@ -141,6 +147,12 @@
 		A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAreaViewModel.swift; sourceTree = "<group>"; };
 		A0EEFA5A2B97CA130088CA0F /* MenuItemInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemInputViewController.swift; sourceTree = "<group>"; };
 		A0EEFA5C2B97EA550088CA0F /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
+		A0EEFA5E2B9814720088CA0F /* ShopManagerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopManagerFactory.swift; sourceTree = "<group>"; };
+		A0EEFA612B98156C0088CA0F /* shop-manager.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "shop-manager.json"; sourceTree = "<group>"; };
+		A0EEFA622B98156D0088CA0F /* staff.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = staff.json; sourceTree = "<group>"; };
+		A0EEFA652B98175E0088CA0F /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
+		A0EEFA672B981D5C0088CA0F /* EditShopDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditShopDetailsViewController.swift; sourceTree = "<group>"; };
+		A0EEFA692B9820760088CA0F /* custom.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = custom.json; sourceTree = "<group>"; };
 		A0EFC4CA2B940DDA00F94ECF /* CatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0EFC4CC2B940DF600F94ECF /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0EFC4CD2B940DF600F94ECF /* MenuCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -179,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */,
+				A0EEFA672B981D5C0088CA0F /* EditShopDetailsViewController.swift */,
 			);
 			path = ShopManager;
 			sourceTree = "<group>";
@@ -222,6 +235,7 @@
 			children = (
 				A0EFC4C92B940D5A00F94ECF /* CollectionViewCell */,
 				A0CBF5092B8CE96B008CFAD3 /* TableViewCell */,
+				A0EEFA652B98175E0088CA0F /* StarRatingView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -385,6 +399,9 @@
 		A0CBF4DE2B8CD99E008CFAD3 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				A0EEFA692B9820760088CA0F /* custom.json */,
+				A0EEFA612B98156C0088CA0F /* shop-manager.json */,
+				A0EEFA622B98156D0088CA0F /* staff.json */,
 				A06452772B92CCE000148032 /* profile.json */,
 				A0CBF5072B8CE802008CFAD3 /* coffee.json */,
 				A0CBF4FE2B8CE0AC008CFAD3 /* administrator.json */,
@@ -396,6 +413,7 @@
 		A0CBF4DF2B8CD9D2008CFAD3 /* Factories */ = {
 			isa = PBXGroup;
 			children = (
+				A0EEFA602B9814880088CA0F /* Shop */,
 				A0CBF4E02B8CDA04008CFAD3 /* SignInFactory.swift */,
 				A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */,
 				A06834272B8D90280086CE59 /* StaffAccountFactory.swift */,
@@ -404,6 +422,7 @@
 				A0EFC4DD2B94150D00F94ECF /* PlaceFactory.swift */,
 				A060C8692B942944005FAE2B /* MenuFactory.swift */,
 				A02EAFBB2B971F4300C466EF /* BookingManagerFactory.swift */,
+				A0EEFA5E2B9814720088CA0F /* ShopManagerFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -510,6 +529,13 @@
 			path = MenuManager;
 			sourceTree = "<group>";
 		};
+		A0EEFA602B9814880088CA0F /* Shop */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Shop;
+			sourceTree = "<group>";
+		};
 		A0EFC4C92B940D5A00F94ECF /* CollectionViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -604,7 +630,10 @@
 				A02EAFC52B973B7000C466EF /* loading.json in Resources */,
 				A0CBF4FF2B8CE0AC008CFAD3 /* administrator.json in Resources */,
 				A0CBF4C42B8CD31F008CFAD3 /* Assets.xcassets in Resources */,
+				A0EEFA6A2B9820760088CA0F /* custom.json in Resources */,
 				A0CBF5082B8CE802008CFAD3 /* coffee.json in Resources */,
+				A0EEFA642B98156D0088CA0F /* staff.json in Resources */,
+				A0EEFA632B98156D0088CA0F /* shop-manager.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,6 +653,7 @@
 				A0EFC4D82B940EC700F94ECF /* PlaceViewModel.swift in Sources */,
 				A0EFC4CF2B940DF600F94ECF /* MenuCollectionViewCell.swift in Sources */,
 				A0CA42102B91F59600BED8FF /* AccountInputViewModel.swift in Sources */,
+				A0EEFA662B98175E0088CA0F /* StarRatingView.swift in Sources */,
 				A064526A2B92BDF300148032 /* SignInViewModel.swift in Sources */,
 				A02EAFBC2B971F4300C466EF /* BookingManagerFactory.swift in Sources */,
 				A0DBC8CF2B959F0B0059D816 /* InputAreaViewModel.swift in Sources */,
@@ -644,6 +674,7 @@
 				A06834222B8D86220086CE59 /* ShopTabBarViewController.swift in Sources */,
 				A09EB5192B95723300F532D6 /* CreateAreaModel.swift in Sources */,
 				A064527C2B92D4D900148032 /* AccountListResponse.swift in Sources */,
+				A0EEFA682B981D5C0088CA0F /* EditShopDetailsViewController.swift in Sources */,
 				A0CBF4E12B8CDA04008CFAD3 /* SignInFactory.swift in Sources */,
 				A0CBF4EE2B8CDBD9008CFAD3 /* UIView+Extension.swift in Sources */,
 				A0CBF4ED2B8CDBD9008CFAD3 /* UITabBar+Extension.swift in Sources */,
@@ -666,6 +697,7 @@
 				A064526E2B92C79A00148032 /* ProfileViewController.swift in Sources */,
 				A0CBF4F12B8CDBD9008CFAD3 /* UIFont+Extension.swift in Sources */,
 				A0CBF4F22B8CDBD9008CFAD3 /* UIImage+Extension.swift in Sources */,
+				A0EEFA5F2B9814720088CA0F /* ShopManagerFactory.swift in Sources */,
 				A02EAFC12B9724AB00C466EF /* Booking.swift in Sources */,
 				A0CA420D2B91ED2700BED8FF /* AccountInputFactory.swift in Sources */,
 				A06452732B92C85F00148032 /* ProfileFactory.swift in Sources */,
