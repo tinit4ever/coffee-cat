@@ -33,11 +33,12 @@ class ShopManagerViewController: UIViewController, ShopManagerFactory {
         super.viewDidLoad()
         setupData()
         configUI()
+        setupAction()
     }
     
     // -MARK: Config UI
     private func configUI() {
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .animationBackground
         
         view.addSubview(editShopProfileButton)
         configEditShopProfileButton()
@@ -126,5 +127,21 @@ class ShopManagerViewController: UIViewController, ShopManagerFactory {
         self.shopAddressLabel.text = "Address: 20 Pham Van Dong"
         self.openTimeLabel.text = "Open Time: 7:00 AM"
         self.closeTimeLabel.text = "Close Time: 7:00 PM"
+    }
+    
+    // -MARK: Setup Action
+    private func setupAction() {
+        self.editShopProfileButton.addTarget(self, action: #selector(editShopProfileButtonTapped), for: .touchUpInside)
+    }
+    
+    
+    // -MARK: Catch Action
+    @objc
+    private func editShopProfileButtonTapped() {
+        let viewController = EditShopDetailsViewController()
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalTransitionStyle = .crossDissolve
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true)
     }
 }

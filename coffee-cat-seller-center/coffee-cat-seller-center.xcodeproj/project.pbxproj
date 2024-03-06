@@ -72,6 +72,8 @@
 		A0EEFA632B98156D0088CA0F /* shop-manager.json in Resources */ = {isa = PBXBuildFile; fileRef = A0EEFA612B98156C0088CA0F /* shop-manager.json */; };
 		A0EEFA642B98156D0088CA0F /* staff.json in Resources */ = {isa = PBXBuildFile; fileRef = A0EEFA622B98156D0088CA0F /* staff.json */; };
 		A0EEFA662B98175E0088CA0F /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EEFA652B98175E0088CA0F /* StarRatingView.swift */; };
+		A0EEFA682B981D5C0088CA0F /* EditShopDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EEFA672B981D5C0088CA0F /* EditShopDetailsViewController.swift */; };
+		A0EEFA6A2B9820760088CA0F /* custom.json in Resources */ = {isa = PBXBuildFile; fileRef = A0EEFA692B9820760088CA0F /* custom.json */; };
 		A0EFC4CB2B940DDA00F94ECF /* CatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CA2B940DDA00F94ECF /* CatCollectionViewCell.swift */; };
 		A0EFC4CE2B940DF600F94ECF /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CC2B940DF600F94ECF /* SeatCollectionViewCell.swift */; };
 		A0EFC4CF2B940DF600F94ECF /* MenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CD2B940DF600F94ECF /* MenuCollectionViewCell.swift */; };
@@ -149,6 +151,8 @@
 		A0EEFA612B98156C0088CA0F /* shop-manager.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "shop-manager.json"; sourceTree = "<group>"; };
 		A0EEFA622B98156D0088CA0F /* staff.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = staff.json; sourceTree = "<group>"; };
 		A0EEFA652B98175E0088CA0F /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
+		A0EEFA672B981D5C0088CA0F /* EditShopDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditShopDetailsViewController.swift; sourceTree = "<group>"; };
+		A0EEFA692B9820760088CA0F /* custom.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = custom.json; sourceTree = "<group>"; };
 		A0EFC4CA2B940DDA00F94ECF /* CatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0EFC4CC2B940DF600F94ECF /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0EFC4CD2B940DF600F94ECF /* MenuCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -187,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */,
+				A0EEFA672B981D5C0088CA0F /* EditShopDetailsViewController.swift */,
 			);
 			path = ShopManager;
 			sourceTree = "<group>";
@@ -394,6 +399,7 @@
 		A0CBF4DE2B8CD99E008CFAD3 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				A0EEFA692B9820760088CA0F /* custom.json */,
 				A0EEFA612B98156C0088CA0F /* shop-manager.json */,
 				A0EEFA622B98156D0088CA0F /* staff.json */,
 				A06452772B92CCE000148032 /* profile.json */,
@@ -624,6 +630,7 @@
 				A02EAFC52B973B7000C466EF /* loading.json in Resources */,
 				A0CBF4FF2B8CE0AC008CFAD3 /* administrator.json in Resources */,
 				A0CBF4C42B8CD31F008CFAD3 /* Assets.xcassets in Resources */,
+				A0EEFA6A2B9820760088CA0F /* custom.json in Resources */,
 				A0CBF5082B8CE802008CFAD3 /* coffee.json in Resources */,
 				A0EEFA642B98156D0088CA0F /* staff.json in Resources */,
 				A0EEFA632B98156D0088CA0F /* shop-manager.json in Resources */,
@@ -667,6 +674,7 @@
 				A06834222B8D86220086CE59 /* ShopTabBarViewController.swift in Sources */,
 				A09EB5192B95723300F532D6 /* CreateAreaModel.swift in Sources */,
 				A064527C2B92D4D900148032 /* AccountListResponse.swift in Sources */,
+				A0EEFA682B981D5C0088CA0F /* EditShopDetailsViewController.swift in Sources */,
 				A0CBF4E12B8CDA04008CFAD3 /* SignInFactory.swift in Sources */,
 				A0CBF4EE2B8CDBD9008CFAD3 /* UIView+Extension.swift in Sources */,
 				A0CBF4ED2B8CDBD9008CFAD3 /* UITabBar+Extension.swift in Sources */,
