@@ -77,7 +77,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         self.contentView.addSubview(imageView)
-        self.contentView.layer.borderColor = UIColor(resource: .customBlack).cgColor
+        self.contentView.layer.borderColor = UIColor.black.cgColor
         
         imageView.contentMode = .scaleToFill
         
@@ -94,7 +94,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
         contentStack.distribution = .fillProportionally
         NSLayoutConstraint.activate([
             contentStack.topAnchor.constraint(equalTo: imageView.bottomAnchor),
-            contentStack.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: widthScaler(10)),
+            contentStack.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: widthScaler(20)),
             contentStack.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: widthScaler(-10)),
             contentStack.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: heightScaler(-10))
         ])
@@ -102,14 +102,14 @@ class MenuCollectionViewCell: UICollectionViewCell {
         contentStack.addArrangedSubview(titleLabel)
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
-        titleLabel.setupTitle(text: "Com chien duong chau", fontName: FontNames.avenir, size: sizeScaler(22), textColor: .customBlack)
+        titleLabel.setupTitle(text: "Com chien duong chau", fontName: FontNames.avenir, size: sizeScaler(22), textColor: .black)
         titleLabel.adjustsFontSizeToFitWidth = true
         titleLabel.textAlignment = .left
         titleLabel.widthAnchor.constraint(equalTo: contentStack.widthAnchor).isActive = true
         titleLabel.heightAnchor.constraint(equalToConstant: heightScaler(50)).isActive = true
         
         contentStack.addArrangedSubview(priceLabel)
-        priceLabel.setupTitle(text: "Price: 100.000$", fontName: FontNames.avenir, size: sizeScaler(20), textColor: .customBlack)
+        priceLabel.setupTitle(text: "Price: 100.000$", fontName: FontNames.avenir, size: sizeScaler(20), textColor: .black)
         priceLabel.setBoldText()
     }
     

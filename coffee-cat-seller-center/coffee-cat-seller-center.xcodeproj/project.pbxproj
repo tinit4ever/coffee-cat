@@ -66,6 +66,8 @@
 		A0CBF50B2B8CE9A5008CFAD3 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF50A2B8CE9A5008CFAD3 /* AccountTableViewCell.swift */; };
 		A0D9A4062B962258000E5C80 /* DeleteSeaListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D9A4052B962258000E5C80 /* DeleteSeaListModel.swift */; };
 		A0DBC8CF2B959F0B0059D816 /* InputAreaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */; };
+		A0EEFA5B2B97CA130088CA0F /* MenuItemInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EEFA5A2B97CA130088CA0F /* MenuItemInputViewController.swift */; };
+		A0EEFA5D2B97EA550088CA0F /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EEFA5C2B97EA550088CA0F /* MenuViewModel.swift */; };
 		A0EFC4CB2B940DDA00F94ECF /* CatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CA2B940DDA00F94ECF /* CatCollectionViewCell.swift */; };
 		A0EFC4CE2B940DF600F94ECF /* SeatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CC2B940DF600F94ECF /* SeatCollectionViewCell.swift */; };
 		A0EFC4CF2B940DF600F94ECF /* MenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EFC4CD2B940DF600F94ECF /* MenuCollectionViewCell.swift */; };
@@ -137,6 +139,8 @@
 		A0CBF50A2B8CE9A5008CFAD3 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
 		A0D9A4052B962258000E5C80 /* DeleteSeaListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSeaListModel.swift; sourceTree = "<group>"; };
 		A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAreaViewModel.swift; sourceTree = "<group>"; };
+		A0EEFA5A2B97CA130088CA0F /* MenuItemInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemInputViewController.swift; sourceTree = "<group>"; };
+		A0EEFA5C2B97EA550088CA0F /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		A0EFC4CA2B940DDA00F94ECF /* CatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0EFC4CC2B940DF600F94ECF /* SeatCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatCollectionViewCell.swift; sourceTree = "<group>"; };
 		A0EFC4CD2B940DF600F94ECF /* MenuCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -183,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				A060C8672B94282E005FAE2B /* MenuViewController.swift */,
+				A0EEFA5A2B97CA130088CA0F /* MenuItemInputViewController.swift */,
 			);
 			path = MenuManager;
 			sourceTree = "<group>";
@@ -236,11 +241,10 @@
 		A06452682B92BDDF00148032 /* ShopOwner */ = {
 			isa = PBXGroup;
 			children = (
-				A0CA420F2B91F59600BED8FF /* AccountInputViewModel.swift */,
-				A06D64512B92302E008F8550 /* StaffAccountViewModel.swift */,
-				A0EFC4D72B940EC700F94ECF /* PlaceViewModel.swift */,
-				A060C8732B943D27005FAE2B /* CatViewModel.swift */,
-				A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */,
+				A0EEFA592B97C9C10088CA0F /* MenuManager */,
+				A0EEFA582B97C9B80088CA0F /* CatManager */,
+				A0EEFA572B97C99F0088CA0F /* StaffManager */,
+				A0EEFA562B97C9960088CA0F /* PlaceManager */,
 			);
 			path = ShopOwner;
 			sourceTree = "<group>";
@@ -284,6 +288,7 @@
 		A0CA420E2B91F57900BED8FF /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				A0EEFA552B97C9720088CA0F /* General */,
 				A064526F2B92C7D100148032 /* Auth */,
 				A06452682B92BDDF00148032 /* ShopOwner */,
 			);
@@ -464,6 +469,47 @@
 			path = TableViewCell;
 			sourceTree = "<group>";
 		};
+		A0EEFA552B97C9720088CA0F /* General */ = {
+			isa = PBXGroup;
+			children = (
+				A0CA420F2B91F59600BED8FF /* AccountInputViewModel.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		A0EEFA562B97C9960088CA0F /* PlaceManager */ = {
+			isa = PBXGroup;
+			children = (
+				A0EFC4D72B940EC700F94ECF /* PlaceViewModel.swift */,
+				A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */,
+			);
+			path = PlaceManager;
+			sourceTree = "<group>";
+		};
+		A0EEFA572B97C99F0088CA0F /* StaffManager */ = {
+			isa = PBXGroup;
+			children = (
+				A06D64512B92302E008F8550 /* StaffAccountViewModel.swift */,
+			);
+			path = StaffManager;
+			sourceTree = "<group>";
+		};
+		A0EEFA582B97C9B80088CA0F /* CatManager */ = {
+			isa = PBXGroup;
+			children = (
+				A060C8732B943D27005FAE2B /* CatViewModel.swift */,
+			);
+			path = CatManager;
+			sourceTree = "<group>";
+		};
+		A0EEFA592B97C9C10088CA0F /* MenuManager */ = {
+			isa = PBXGroup;
+			children = (
+				A0EEFA5C2B97EA550088CA0F /* MenuViewModel.swift */,
+			);
+			path = MenuManager;
+			sourceTree = "<group>";
+		};
 		A0EFC4C92B940D5A00F94ECF /* CollectionViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -591,6 +637,7 @@
 				A0CBF4F02B8CDBD9008CFAD3 /* String+Extension.swift in Sources */,
 				A0CBF50B2B8CE9A5008CFAD3 /* AccountTableViewCell.swift in Sources */,
 				A0EFC4DA2B940FE500F94ECF /* Shop.swift in Sources */,
+				A0EEFA5B2B97CA130088CA0F /* MenuItemInputViewController.swift in Sources */,
 				A0EFC4D62B940E4600F94ECF /* Area.swift in Sources */,
 				A060C8712B943AAD005FAE2B /* CatViewController.swift in Sources */,
 				A060C8742B943D27005FAE2B /* CatViewModel.swift in Sources */,
@@ -603,6 +650,7 @@
 				A0CBF4F42B8CDBD9008CFAD3 /* UINavigationController+Extension.swift in Sources */,
 				A06D64522B92302E008F8550 /* StaffAccountViewModel.swift in Sources */,
 				A06834202B8D853F0086CE59 /* NameConstants.swift in Sources */,
+				A0EEFA5D2B97EA550088CA0F /* MenuViewModel.swift in Sources */,
 				A0EFC4DE2B94150D00F94ECF /* PlaceFactory.swift in Sources */,
 				A0CBF4F32B8CDBD9008CFAD3 /* UIButton+Extension.swift in Sources */,
 				A0CA420B2B91EC6900BED8FF /* AccountInputViewController.swift in Sources */,
