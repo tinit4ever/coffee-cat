@@ -77,7 +77,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
     
     private func setupUI() {
         self.contentView.addSubview(imageView)
-        self.contentView.layer.borderColor = UIColor(resource: .customBlack).cgColor
+        self.contentView.layer.borderColor = UIColor.black.cgColor
         
         imageView.contentMode = .scaleToFill
         
@@ -85,7 +85,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
             imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: self.contentView.bounds.width - heightScaler(40)),
+            imageView.heightAnchor.constraint(equalToConstant: heightScaler(120)),
             imageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
         ])
         
@@ -93,22 +93,23 @@ class MenuCollectionViewCell: UICollectionViewCell {
         contentStack.alignment = .leading
         contentStack.distribution = .fillProportionally
         NSLayoutConstraint.activate([
-            contentStack.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: heightScaler(10)),
-            contentStack.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: widthScaler(30)),
-            contentStack.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: widthScaler(-30)),
-            contentStack.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: heightScaler(-20))
+            contentStack.topAnchor.constraint(equalTo: imageView.bottomAnchor),
+            contentStack.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: widthScaler(20)),
+            contentStack.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: widthScaler(-10)),
+            contentStack.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: heightScaler(-10))
         ])
         
         contentStack.addArrangedSubview(titleLabel)
-        titleLabel.numberOfLines = 2
+        titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
+        titleLabel.setupTitle(text: "Com chien duong chau", fontName: FontNames.avenir, size: sizeScaler(22), textColor: .black)
         titleLabel.adjustsFontSizeToFitWidth = true
-        titleLabel.setupTitle(text: "Com chien duong chau", fontName: FontNames.avenir, size: sizeScaler(22), textColor: .customBlack)
         titleLabel.textAlignment = .left
         titleLabel.widthAnchor.constraint(equalTo: contentStack.widthAnchor).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: heightScaler(50)).isActive = true
         
         contentStack.addArrangedSubview(priceLabel)
-        priceLabel.setupTitle(text: "Price: 100.000$", fontName: FontNames.avenir, size: sizeScaler(22), textColor: .customBlack)
+        priceLabel.setupTitle(text: "Price: 100.000$", fontName: FontNames.avenir, size: sizeScaler(20), textColor: .black)
         priceLabel.setBoldText()
     }
     
