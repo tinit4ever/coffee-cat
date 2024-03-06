@@ -4,12 +4,17 @@ import com.swd.ccp.enums.Role;
 import com.swd.ccp.models.entity_models.Account;
 import com.swd.ccp.models.entity_models.AccountStatus;
 import com.swd.ccp.models.entity_models.Token;
+import com.swd.ccp.models.request_models.ChangeAccountStatusRequest;
 import com.swd.ccp.models.request_models.CreateShopRequest;
+import com.swd.ccp.models.response_models.ChangeAccountStatusResponse;
+import com.swd.ccp.models.response_models.GetAllAccountAdminResponse;
 import com.swd.ccp.models.response_models.LogoutResponse;
+import com.swd.ccp.models.response_models.RefreshResponse;
 import com.swd.ccp.repositories.AccountRepo;
 import com.swd.ccp.repositories.AccountStatusRepo;
 import com.swd.ccp.repositories.TokenRepo;
 import com.swd.ccp.services.AccountService;
+import com.swd.ccp.services.JWTService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,6 +22,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +33,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountStatusRepo accountStatusRepo;
     private final TokenRepo tokenRepo;
     private final PasswordEncoder passwordEncoder;
+    private final JWTService jwtService;
     @Override
     public String getAccessToken(Integer accountID) {
         Account account = accountRepo.findById(accountID).orElse(null);
@@ -100,5 +108,102 @@ public class AccountServiceImpl implements AccountService {
             password.append(CHARACTERS.charAt(randomIndex));
         }
         return password.toString();
+    }
+
+    @Override
+    public RefreshResponse refresh() {
+        Account account = getCurrentLoggedUser();
+        assert account != null;
+        Token current = tokenRepo.findByToken(getAccessToken(account.getId())).orElse(null);
+        assert current != null;
+        current.setStatus(0);
+        tokenRepo.save(current);
+        Token newToken = tokenRepo.save(
+                Token.builder()
+                        .account(account)
+                        .status(1)
+                        .token(jwtService.generateToken(account))
+                        .type("access")
+                        .build()
+        );
+
+        return RefreshResponse.builder().accessToken(newToken.getToken()).build();
+    }
+
+    @Override
+    public GetAllAccountAdminResponse getAllAccount() {
+        List<Account> accounts = accountRepo.findAll();
+        List<GetAllAccountAdminResponse.AccountResponse> accountList = new ArrayList<>();
+        for(Account account: accounts){
+            if(!account.getRole().equals(Role.ADMIN)){
+                accountList.add(
+                        GetAllAccountAdminResponse.AccountResponse.builder()
+                                .id(account.getId())
+                                .email(account.getEmail())
+                                .name(account.getName())
+                                .phone(account.getPhone())
+                                .status(account.getStatus().getStatus())
+                                .role(account.getRole().name())
+                                .build()
+                );
+            }
+        }
+        return GetAllAccountAdminResponse.builder()
+                .accountResponseList(accountList)
+                .build();
+    }
+
+    @Override
+    public ChangeAccountStatusResponse changeAccountStatus(ChangeAccountStatusRequest request, String type) {
+        if (type.equals("ban")) {
+            return banAccount(request);
+        }
+        return unbanAccount(request);
+    }
+
+    private ChangeAccountStatusResponse banAccount(ChangeAccountStatusRequest request){
+        Account account = accountRepo.findById(request.getAccountId()).orElse(null);
+        AccountStatus inactive = accountStatusRepo.findByStatus("inactive");
+        if(account != null){
+            if(!account.getStatus().equals(inactive)){
+                account.setStatus(inactive);
+                accountRepo.save(account);
+                return ChangeAccountStatusResponse.builder()
+                        .status(true)
+                        .message("Account with id " + request.getAccountId() + " is banned")
+                        .build();
+            }
+            return ChangeAccountStatusResponse.builder()
+                    .status(false)
+                    .message("Account with id " + request.getAccountId() + " is already been banned")
+                    .build();
+        }
+        return ChangeAccountStatusResponse.builder()
+                .status(false)
+                .message("Account with id " + request.getAccountId() + " is not existed")
+                .build();
+    }
+
+    private ChangeAccountStatusResponse unbanAccount(ChangeAccountStatusRequest request){
+        Account account = accountRepo.findById(request.getAccountId()).orElse(null);
+        AccountStatus active = accountStatusRepo.findByStatus("active");
+        if(account != null){
+            if(!account.getStatus().equals(active)){
+                account.setStatus(active);
+                accountRepo.save(account);
+                return ChangeAccountStatusResponse.builder()
+                        .status(true)
+                        .message("Account with id " + request.getAccountId() + " is active")
+                        .build();
+            }
+            return ChangeAccountStatusResponse.builder()
+                    .status(false)
+                    .message("Account with id " + request.getAccountId() + " is already active")
+                    .build();
+        }
+        return ChangeAccountStatusResponse.builder()
+                .status(false)
+                .message("Account with id " + request.getAccountId() + " is not existed")
+                .build();
     }
 }

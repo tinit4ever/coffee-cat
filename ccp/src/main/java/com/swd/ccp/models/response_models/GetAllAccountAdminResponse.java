@@ -24,6 +24,10 @@ public class GetAllAccountAdminResponse {
         private String name;
 
         private String phone;
+
+        private String status;
+
+        private String role;
     }
 
     private List<AccountResponse> accountResponseList;

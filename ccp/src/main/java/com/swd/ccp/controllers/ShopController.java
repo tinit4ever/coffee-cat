@@ -1,13 +1,11 @@
 package com.swd.ccp.controllers;
 
-import com.swd.ccp.Exception.NotFoundException;
 import com.swd.ccp.models.request_models.CreateShopRequest;
-import com.swd.ccp.models.request_models.ShopRequest;
 import com.swd.ccp.models.request_models.SortStaffListRequest;
-import com.swd.ccp.models.response_models.*;
+import com.swd.ccp.models.response_models.CreateShopResponse;
+import com.swd.ccp.models.response_models.ShopListResponse;
 import com.swd.ccp.services.ShopService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +33,7 @@ public class ShopController {
         return ResponseEntity.ok().body(shopService.searchShops(keyword, searchType, sortStaffListRequest));
     }
 
-    @PostMapping("/create")
+    @PostMapping("/shop/create")
     @PreAuthorize("hasAuthority('admin:create')")
     public ResponseEntity<CreateShopResponse> createShop(@RequestBody CreateShopRequest request) throws Exception{
         return ResponseEntity.ok().body(shopService.createShop(request));

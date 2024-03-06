@@ -9,12 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreateMenuItemRequest {
-    private Integer id;
-
-    private String name;
-
-    private float price;
-
-    private String description;
+public class ChangeAccountStatusRequest {
+    private Integer accountId;
 }

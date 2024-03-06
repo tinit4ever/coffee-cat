@@ -7,11 +7,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MenuItemRepo extends JpaRepository<MenuItem, Integer> {
-    List<MenuItem> findAllByMenuItemStatusIn(List<MenuItemStatus> menuItemStatus, Sort sort);
-
-    List<MenuItem> findAllByMenuInAndMenuItemStatusIn(List<Menu> menu, List<MenuItemStatus> menuItemStatuses);
-
     List<MenuItem> findByMenu(Menu menu);
+
+    boolean existsByNameAndMenu(String name, Menu menu);
+
+    Optional<MenuItem> findByIdAndMenu(Integer id, Menu menu);
 }

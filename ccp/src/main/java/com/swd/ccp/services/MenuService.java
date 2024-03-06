@@ -11,9 +11,5 @@ public interface MenuService {
 
     CreateMenuItemResponse createMenuItem(CreateMenuItemRequest request);
 
-    UpdateMenuItemResponse updateMenuItem(UpdateMenuItemRequest request);
-
     DeleteMenuItemResponse deleteMenuItem(DeleteMenuItemRequest request);
-
-    CreateMenuResponse createMenu(CreateMenuRequest request);
 }

@@ -100,7 +100,7 @@ public class CustomerServiceIml implements CustomerService {
                     itemResponseList.add(
                             BookingHistoryResponse.MenuItemResponse.builder()
                                     .itemName(item.getName())
-                                    .itemPrice(bookingDetail.getPrice() * bookingDetail.getQuantity())
+                                    .itemPrice(bookingDetail.getPrice())
                                     .quantity(bookingDetail.getQuantity())
                                     .build()
                     );
@@ -142,10 +142,10 @@ public class CustomerServiceIml implements CustomerService {
 
     private float calculateTotalPrice(Booking booking){
         float result = 0;
-        List<BookingDetail> bookingDetailList = bookingDetailRepo.findAllByBooking(booking);
+        List<BookingDetail> bookingDetailList = booking.getBookingDetailList();
         if(bookingDetailList != null && !bookingDetailList.isEmpty()){
             for(BookingDetail item: bookingDetailList){
-                result += item.getPrice();
+                result += item.getPrice() * item.getQuantity();
             }
         }
         return result;

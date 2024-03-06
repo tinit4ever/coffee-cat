@@ -1,31 +1,71 @@
 package com.swd.ccp.services_implementors;
 
+import com.swd.ccp.models.entity_models.*;
 import com.swd.ccp.models.request_models.CreateMenuItemRequest;
-import com.swd.ccp.models.request_models.CreateMenuRequest;
 import com.swd.ccp.models.request_models.DeleteMenuItemRequest;
 import com.swd.ccp.models.request_models.UpdateMenuItemRequest;
-import com.swd.ccp.models.response_models.*;
+import com.swd.ccp.models.response_models.CreateMenuItemResponse;
+import com.swd.ccp.models.response_models.DeleteMenuItemResponse;
+import com.swd.ccp.models.response_models.MenuItemListResponse;
+import com.swd.ccp.models.response_models.UpdateMenuItemResponse;
+import com.swd.ccp.repositories.ManagerRepo;
+import com.swd.ccp.repositories.MenuItemRepo;
+import com.swd.ccp.repositories.MenuItemStatusRepo;
+import com.swd.ccp.repositories.MenuRepo;
+import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
+
+    private final AccountService accountService;
+    private final ManagerRepo managerRepo;
+    private final MenuRepo menuRepo;
+    private final MenuItemRepo menuItemRepo;
+    private final MenuItemStatusRepo menuItemStatusRepo;
+
+    private Manager convertToOwner(){
+        Account account = accountService.getCurrentLoggedUser();
+        return managerRepo.findByAccount(account).orElse(null);
+    }
     @Override
     public MenuItemListResponse getMenuItemList() {
-        //---------------------------------------------------------------------------------
-        //
-        // concept: get all the menu items which have status available
-        // requirement: none
-        // problems:
-        //      --
-        //
-        // steps:
-        //      --
-        //---------------------------------------------------------------------------------
-
-        return null;
+        Manager owner = convertToOwner();
+        if(owner != null){
+            Menu menu = menuRepo.findByShop(owner.getShop()).orElse(null);
+            assert menu != null;
+            List<MenuItem> items = menuItemRepo.findByMenu(menu);
+            List<MenuItemListResponse.MenuItemResponse> itemList = new ArrayList<>();
+            for(MenuItem item: items){
+                itemList.add(
+                        MenuItemListResponse.MenuItemResponse.builder()
+                                .id(item.getId())
+                                .name(item.getName())
+                                .price(item.getPrice())
+                                .status(item.getMenuItemStatus().getStatus())
+                                .description(item.getDescription())
+                                .soldQuantity(item.getSoldQuantity())
+                                .build()
+                );
+            }
+            return MenuItemListResponse.builder()
+                    .status(true)
+                    .message("")
+                    .itemList(itemList)
+                    .build();
+        }
+        return MenuItemListResponse.builder()
+                .status(false)
+                .message("Account has no permission")
+                .itemList(Collections.emptyList())
+                .build();
     }
 
     @Override
@@ -44,23 +84,70 @@ public class MenuServiceImpl implements MenuService {
         //      --
         //---------------------------------------------------------------------------------
 
-        return null;
+        Manager owner = convertToOwner();
+        if(owner != null){
+            if(request.getId() == -1) return createNewMenuItem(request, owner.getShop());
+            return updateMenuItem(request, owner.getShop());
+        }
+        return CreateMenuItemResponse.builder()
+                .status(false)
+                .message("Account has no permission")
+                .build();
     }
 
-    @Override
-    public UpdateMenuItemResponse updateMenuItem(UpdateMenuItemRequest request) {
-        //---------------------------------------------------------------------------------
-        //
-        // concept: update 1 item per time
-        // requirement:
-        // problems:
-        //      --
-        //
-        // steps:
-        //      --
-        //---------------------------------------------------------------------------------
+    private CreateMenuItemResponse createNewMenuItem(CreateMenuItemRequest request, Shop shop){
+        Menu menu = menuRepo.findByShop(shop).orElse(null);
+        MenuItemStatus status = menuItemStatusRepo.findByStatus("available");
+        assert menu != null;
+        if(menuItemRepo.existsByNameAndMenu(request.getName(), menu)){
+            return CreateMenuItemResponse.builder()
+                    .status(false)
+                    .message("This food is already existed")
+                    .build();
+        }
 
-        return null;
+        MenuItem item = menuItemRepo.save(
+                MenuItem.builder()
+                        .menu(menu)
+                        .menuItemStatus(status)
+                        .name(request.getName())
+                        .price(request.getPrice())
+                        .imgLink("")
+                        .description(request.getDescription())
+                        .discount(0)
+                        .soldQuantity(0)
+                        .build()
+        );
+        return CreateMenuItemResponse.builder()
+                .status(true)
+                .message("Create " + item.getName() + " successfully")
+                .build();
+    }
+
+    private CreateMenuItemResponse updateMenuItem(CreateMenuItemRequest request, Shop shop){
+        Menu menu = menuRepo.findByShop(shop).orElse(null);
+        assert menu != null;
+        MenuItem item = menuItemRepo.findByIdAndMenu(request.getId(), menu).orElse(null);
+        if(item != null){
+            if(!menuItemRepo.existsByNameAndMenu(request.getName(), menu)){
+                item.setName(request.getName());
+                item.setPrice(request.getPrice());
+                item.setDescription(request.getDescription());
+                menuItemRepo.save(item);
+                return CreateMenuItemResponse.builder()
+                        .status(true)
+                        .message("Item with id " + request.getId() + " has been updated successfully")
+                        .build();
+            }
+            return CreateMenuItemResponse.builder()
+                    .status(false)
+                    .message("Item with name " + request.getName() + " is already existed in menu")
+                    .build();
+        }
+        return CreateMenuItemResponse.builder()
+                .status(false)
+                .message("Item with id " + request.getId() + " is not existed in menu")
+                .build();
     }
 
     @Override
@@ -76,22 +163,24 @@ public class MenuServiceImpl implements MenuService {
         //      --
         //---------------------------------------------------------------------------------
 
-        return null;
+        Manager owner = convertToOwner();
+        MenuItemStatus status = menuItemStatusRepo.findByStatus("unavailable");
+        assert owner != null;
+        Menu menu = menuRepo.findByShop(owner.getShop()).orElse(null);
+        assert menu != null;
+        MenuItem item = menuItemRepo.findByIdAndMenu(request.getItemId(), menu).orElse(null);
+        if(item != null && !item.getMenuItemStatus().equals(status)){
+            item.setMenuItemStatus(status);
+            menuItemRepo.save(item);
+            return DeleteMenuItemResponse.builder()
+                    .status(true)
+                    .message("Item with id " + request.getItemId() + " is deleted successfully")
+                    .build();
+        }
+        return DeleteMenuItemResponse.builder()
+                .status(false)
+                .message("Item with id " + request.getItemId() + " is not existed in menu")
+                .build();
     }
 
-    @Override
-    public CreateMenuResponse createMenu(CreateMenuRequest request) {
-        //---------------------------------------------------------------------------------
-        //
-        // concept: create a menu after shop created
-        // requirement:
-        // problems:
-        //      --
-        //
-        // steps:
-        //      --
-        //---------------------------------------------------------------------------------
-
-        return null;
-    }
 }

@@ -1,4 +1,4 @@
-package com.swd.ccp.models.request_models;
+package com.swd.ccp.models.response_models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DeleteMenuItemRequest {
-    private Integer itemId;
+public class ChangeAccountStatusResponse {
+    private boolean status;
+
+    private String message;
 }

@@ -166,6 +166,12 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = bookingRepo.findById(request.getBookingId()).orElse(null);
         if(booking != null && booking.getBookingStatus().getStatus().equals("pending")){
             booking.setBookingStatus(bookingStatusRepo.findByStatus("cancelled"));
+            for(BookingDetail detail: booking.getBookingDetailList()){
+                MenuItem item = menuItemRepo.findById(detail.getMenuItem().getId()).orElse(null);
+                assert item != null;
+                item.setSoldQuantity(item.getSoldQuantity() - detail.getQuantity());
+                menuItemRepo.save(item);
+            }
             bookingRepo.save(booking);
             return CancelBookingResponse.builder()
                     .status(true)
@@ -196,21 +202,23 @@ public class BookingServiceImpl implements BookingService {
                         .build();
                 bookingRepo.save(booking);
 
-                request.getBookingShopMenuRequestList().forEach(
-                        item -> {
-                            MenuItem i = menuItemRepo.findById(item.getItemId()).orElse(null);
-                            if(i != null && item.getQuantity() <= Constant.MAX_BOOKING_MENU_ITEM_QUANTITY){
-                                bookingDetailRepo.save(
-                                        BookingDetail.builder()
-                                                .booking(booking)
-                                                .menuItem(i)
-                                                .price(i.getPrice())
-                                                .quantity(item.getQuantity())
-                                                .build()
-                                );
-                            }
-                        }
-                );
+                for(CreateBookingRequest.BookingShopMenuRequest item: request.getBookingShopMenuRequestList()){
+                    MenuItem i = menuItemRepo.findById(item.getItemId()).orElse(null);
+                    if(i != null && item.getQuantity() <= Constant.MAX_BOOKING_MENU_ITEM_QUANTITY){
+                        bookingDetailRepo.save(
+                                BookingDetail.builder()
+                                        .booking(booking)
+                                        .menuItem(i)
+                                        .price(i.getPrice())
+                                        .quantity(item.getQuantity())
+                                        .build()
+                        );
+
+                        i.setSoldQuantity(i.getSoldQuantity() + item.getQuantity());
+                        menuItemRepo.save(i);
+                    }
+                    return "The quantity booked must be " + Constant.MAX_BOOKING_MENU_ITEM_QUANTITY + " as maximum";
+                }
                 return "";
             }
             return "This account is not a customer";
