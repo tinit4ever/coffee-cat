@@ -13,7 +13,10 @@ protocol PlaceViewModelProtocol {
     var areaList: [Area]? {get set}
     var seatCreation: CreateAreaModel? {get set}
     var dataUpdatedPublisher: PassthroughSubject<Void, Never> {get set}
+    var deleteResponsePublisher: PassthroughSubject<Result<Void, Error>, Never> {get set}
+    var selectedSeat: [SeatId]? {get set}
     func setAreasParam(shopId: Int, date: String)
+    func deleteSeats()
 }
 
 class PlaceViewModel: PlaceViewModelProtocol {
@@ -23,7 +26,10 @@ class PlaceViewModel: PlaceViewModelProtocol {
     
     var areaList: [Area]?
     
+    var selectedSeat: [SeatId]?
+    
     var dataUpdatedPublisher = PassthroughSubject<Void, Never>()
+    var deleteResponsePublisher = PassthroughSubject<Result<Void, Error>, Never>()
     
     private var cancellables: Set<AnyCancellable> = []
     private var getAreasSubject = CurrentValueSubject<(Int, String), Never>((0, ""))
@@ -60,5 +66,28 @@ class PlaceViewModel: PlaceViewModelProtocol {
                 print(areaList)
             }
             .store(in: &cancellables)
+    }
+    
+    func deleteSeats() {
+        if let seatIds = self.selectedSeat,
+           let accessToken = UserSessionManager.shared.getAccessToken() {
+            APIManager.shared.deleteSeats(with: seatIds, accessToken: accessToken)
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                        self.deleteResponsePublisher.send(.failure(error))
+                    }
+                } receiveValue: { _ in
+                    self.deleteResponsePublisher.send(.success(()))
+                }
+                .store(in: &cancellables)
+        }
+    }
+    
+    deinit {
+        cancellables.forEach { $0.cancel() }
     }
 }

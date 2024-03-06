@@ -28,6 +28,7 @@ struct APIConstants {
         static let banStaff = baseURL + "owner/staff/inactive"
         static let unbanStaff = baseURL + "owner/staff/active"
         static let createSeat = baseURL + "owner/area/create"
+        static let deleteSeats = baseURL + "owner/area/delete"
     }
     
     
@@ -275,6 +276,30 @@ class APIManager {
                 }
                 return try response.result.get()
             }
+            .eraseToAnyPublisher()
+    }
+    
+    func deleteSeats(with seatIds: [SeatId], accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Owner.deleteSeats) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let seatListRequest = SeatListRequest(seatList: seatIds)
+        
+        return AF.request(url, method: .post, parameters: seatListRequest, encoder: JSONParameterEncoder.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { $0 as Error }
+            .map { _ in }
             .eraseToAnyPublisher()
     }
 }
