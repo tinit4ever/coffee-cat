@@ -52,8 +52,8 @@ class InputAreaViewModel: InputAreaViewModelProtocol {
                 if createAreaResponse.status {
                     self.createCompletionRequest.send(.success("Create sucess"))
                 } else {
-                    let errorMessage = createAreaResponse.message
-                    self.createCompletionRequest.send(.failure(errorMessage as! Error))
+//                    let errorMessage = createAreaResponse.message
+//                    self.createCompletionRequest.send(.failure(errorMessage as! Error))
                 }
             }
             .store(in: &cancellables)

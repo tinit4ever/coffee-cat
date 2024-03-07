@@ -101,7 +101,7 @@ class InputAreaViewController: UIViewController, PlaceFactory {
     }
     
     private func configSelectAreaButton() {
-        selectAreaButton.setTitle(title: "Select Table", fontName: FontNames.avenir, size: sizeScaler(30), color: .customBlack)
+        selectAreaButton.setTitle(title: "Select Table", fontName: FontNames.avenir, size: sizeScaler(26), color: .customBlack)
         selectAreaButton.backgroundColor = .systemPurple
         selectAreaButton.cornerRadius(cornerRadius: sizeScaler(10))
         
@@ -128,7 +128,9 @@ class InputAreaViewController: UIViewController, PlaceFactory {
             actionList.append(action)
         }
         
-        let moreAction = UIAction(title: "Add more", handler: addMoreClosure)
+        let moreAction = UIAction(title: "Add more area", handler: addMoreClosure)
+        moreAction.state = .on
+        addMoreClosure(moreAction)
         actionList.append(moreAction)
         let menu = UIMenu(title: "Select Area", children: actionList)
         
@@ -159,7 +161,6 @@ class InputAreaViewController: UIViewController, PlaceFactory {
         areaNameTextField.rightView = paddingView
         areaNameTextField.leftViewMode = .always
         areaNameTextField.rightViewMode = .always
-        areaNameTextField.isHidden = true
     }
     
     private func configAddTableNameTextField() {
