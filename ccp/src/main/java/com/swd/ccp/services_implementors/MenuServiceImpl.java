@@ -44,16 +44,18 @@ public class MenuServiceImpl implements MenuService {
             List<MenuItem> items = menuItemRepo.findByMenu(menu);
             List<MenuItemListResponse.MenuItemResponse> itemList = new ArrayList<>();
             for(MenuItem item: items){
-                itemList.add(
-                        MenuItemListResponse.MenuItemResponse.builder()
-                                .id(item.getId())
-                                .name(item.getName())
-                                .price(item.getPrice())
-                                .status(item.getMenuItemStatus().getStatus())
-                                .description(item.getDescription())
-                                .soldQuantity(item.getSoldQuantity())
-                                .build()
-                );
+                if(item.getMenuItemStatus().getStatus().equals("available")){
+                    itemList.add(
+                            MenuItemListResponse.MenuItemResponse.builder()
+                                    .id(item.getId())
+                                    .name(item.getName())
+                                    .price(item.getPrice())
+                                    .status(item.getMenuItemStatus().getStatus())
+                                    .description(item.getDescription())
+                                    .soldQuantity(item.getSoldQuantity())
+                                    .build()
+                    );
+                }
             }
             return MenuItemListResponse.builder()
                     .status(true)
@@ -86,10 +88,21 @@ public class MenuServiceImpl implements MenuService {
 
         Manager owner = convertToOwner();
         if(owner != null){
-            if(request.getId() == -1) return createNewMenuItem(request, owner.getShop());
-            return updateMenuItem(request, owner.getShop());
+            return createNewMenuItem(request, owner.getShop());
         }
         return CreateMenuItemResponse.builder()
+                .status(false)
+                .message("Account has no permission")
+                .build();
+    }
+
+    @Override
+    public UpdateMenuItemResponse upadateMenuItem(UpdateMenuItemRequest request) {
+        Manager owner = convertToOwner();
+        if(owner != null){
+            return updateMenuItem(request, owner.getShop());
+        }
+        return UpdateMenuItemResponse.builder()
                 .status(false)
                 .message("Account has no permission")
                 .build();
@@ -124,27 +137,27 @@ public class MenuServiceImpl implements MenuService {
                 .build();
     }
 
-    private CreateMenuItemResponse updateMenuItem(CreateMenuItemRequest request, Shop shop){
+    private UpdateMenuItemResponse updateMenuItem(UpdateMenuItemRequest request, Shop shop){
         Menu menu = menuRepo.findByShop(shop).orElse(null);
         assert menu != null;
         MenuItem item = menuItemRepo.findByIdAndMenu(request.getId(), menu).orElse(null);
         if(item != null){
-            if(!menuItemRepo.existsByNameAndMenu(request.getName(), menu)){
+            if(!(menuItemRepo.existsByNameAndMenu(request.getName(), menu) && !item.getName().equals(request.getName()))){
                 item.setName(request.getName());
                 item.setPrice(request.getPrice());
                 item.setDescription(request.getDescription());
                 menuItemRepo.save(item);
-                return CreateMenuItemResponse.builder()
+                return UpdateMenuItemResponse.builder()
                         .status(true)
                         .message("Item with id " + request.getId() + " has been updated successfully")
                         .build();
             }
-            return CreateMenuItemResponse.builder()
+            return UpdateMenuItemResponse.builder()
                     .status(false)
                     .message("Item with name " + request.getName() + " is already existed in menu")
                     .build();
         }
-        return CreateMenuItemResponse.builder()
+        return UpdateMenuItemResponse.builder()
                 .status(false)
                 .message("Item with id " + request.getId() + " is not existed in menu")
                 .build();
@@ -182,5 +195,7 @@ public class MenuServiceImpl implements MenuService {
                 .message("Item with id " + request.getItemId() + " is not existed in menu")
                 .build();
     }
+
+
 
 }

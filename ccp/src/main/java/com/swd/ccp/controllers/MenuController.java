@@ -25,10 +25,16 @@ public class MenuController {
         return ResponseEntity.ok().body(menuService.getMenuItemList());
     }
 
-    @PostMapping("/create-update")
+    @PostMapping("/create")
     @PreAuthorize("hasAuthority('owner:create')")
     public ResponseEntity<CreateMenuItemResponse> createMenuItem(@RequestBody CreateMenuItemRequest request){
         return ResponseEntity.ok().body(menuService.createMenuItem(request));
+    }
+
+    @PostMapping("/update")
+    @PreAuthorize("hasAuthority('owner:update')")
+    public ResponseEntity<UpdateMenuItemResponse> createMenuItem(@RequestBody UpdateMenuItemRequest request){
+        return ResponseEntity.ok().body(menuService.upadateMenuItem(request));
     }
 
     @PostMapping("/delete")

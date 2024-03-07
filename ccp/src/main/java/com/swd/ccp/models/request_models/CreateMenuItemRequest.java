@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CreateMenuItemRequest {
-    private Integer id;
-
     private String name;
 
     private float price;
