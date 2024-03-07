@@ -35,10 +35,17 @@ struct MenuItem: Codable {
     var description: String?
     var discount: Double?
     var soldQuantity: Int?
+    var status: String
 }
 
 struct SearchParam {
     var searchType: String
     var sortBy: String
     var asc: Bool
+}
+
+struct GetMenuResponse: Decodable {
+    var status: Bool
+    var message: String
+    var itemList: [MenuItem]
 }
