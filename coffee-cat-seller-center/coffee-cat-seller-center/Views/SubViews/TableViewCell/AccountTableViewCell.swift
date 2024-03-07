@@ -52,6 +52,12 @@ class AccountTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    lazy var roleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configUI()
@@ -68,19 +74,19 @@ class AccountTableViewCell: UITableViewCell {
     private func configUI() {
         contentView.addSubview(stackContent)
         contentView.addSubview(phoneLabel)
+        contentView.addSubview(roleLabel)
         configStackContent()
         
     }
     
     private func configStackContent() {
-        nameLabel.setupTitle(text: "Customer account", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
+        nameLabel.setupTitle(text: "Customer account", fontName: FontNames.avenir, size: sizeScaler(36), textColor: .customBlack)
         phoneLabel.setupTitle(text: "Phone", fontName: FontNames.avenir, size: sizeScaler(26), textColor: .systemGray)
+      
         activeLabel.setupTitle(text: "active", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .systemGreen)
-<<<<<<< Updated upstream
-=======
         roleLabel.setupTitle(text: "STAFF", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .systemMint)
         roleLabel.setBoldText()
->>>>>>> Stashed changes
+      
         stackContent.spacing = heightScaler(20)
         stackContent.alignment = .leading
         stackContent.distribution = .equalCentering
@@ -102,12 +108,15 @@ class AccountTableViewCell: UITableViewCell {
             activeStack.heightAnchor.constraint(equalToConstant: heightScaler(20)),
             phoneLabel.heightAnchor.constraint(equalToConstant: heightScaler(26)),
             phoneLabel.topAnchor.constraint(equalTo: stackContent.topAnchor),
-            phoneLabel.trailingAnchor.constraint(equalTo: stackContent.trailingAnchor)
+            phoneLabel.trailingAnchor.constraint(equalTo: stackContent.trailingAnchor),
+            roleLabel.heightAnchor.constraint(equalToConstant: heightScaler(26)),
+            roleLabel.bottomAnchor.constraint(equalTo: stackContent.bottomAnchor),
+            roleLabel.trailingAnchor.constraint(equalTo: stackContent.trailingAnchor)
         ])
     }
     
     func config(account: Account) {
-        self.nameLabel.text = account.username
+        self.nameLabel.text = account.name
         if let phone = account.phone {
             self.phoneLabel.text = phone
         }
@@ -123,5 +132,24 @@ class AccountTableViewCell: UITableViewCell {
             let image = UIImage(systemName: "circle.fill")?.withTintColor(.systemRed, renderingMode: .alwaysOriginal)
             activeImageView.image = image
         }
+        
+        guard let role = account.role else {
+            return
+        }
+        
+        switch role {
+        case .customer:
+            self.roleLabel.text = "CUSTOMER"
+            self.roleLabel.textColor = .customPink
+        case .shopOwner:
+            self.roleLabel.text = "SHOP OWNER"
+            self.roleLabel.textColor = .systemPurple
+        case .staff:
+            self.roleLabel.text = "STAFF"
+            self.roleLabel.textColor = .systemMint
+        case .admin:
+            break
+        }
+        
     }
 }

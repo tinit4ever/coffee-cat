@@ -27,17 +27,33 @@ struct APIConstants {
         static let updateStaff = baseURL + "owner/staff/update"
         static let banStaff = baseURL + "owner/staff/inactive"
         static let unbanStaff = baseURL + "owner/staff/active"
+        
         static let createSeat = baseURL + "owner/area/create"
         static let deleteSeats = baseURL + "owner/area/delete"
+        
+        static let getMenuList = baseURL + "menu/list"
+        static let createMenuItem = baseURL + "menu/create"
+        static let updateMenuItem = baseURL + "menu/update"
+        static let deleteMenuItem = baseURL + "menu/delete"
     }
     
+    struct Admin {
+        static let getAccount = baseURL + "account/get-all"
+        static let banAccount = baseURL + "account/ban"
+        static let unbanAccount = baseURL + "account/unban"
+        static let createShop = baseURL + "shop/create"
+    }
+    
+    struct Staff {
+        static let listBooking = baseURL + "booking/get"
+    }
     
     static let logout = baseURL + "account/logout"
 }
 
 struct APIParameter {
-//    static let keyword = "keyword"
-//    static let searchType = "searchType"
+    //    static let keyword = "keyword"
+    //    static let searchType = "searchType"
     static let sortByColumn = "column"
     static let asc = "ascOrder"
 }
@@ -46,6 +62,7 @@ enum APIError: Error {
     case failedToGetData
     case nilResponse
     case badUrl
+    case statusUnexpected
 }
 
 class APIManager {
@@ -53,13 +70,12 @@ class APIManager {
     
     private init() {}
     
+    
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
-<<<<<<< Updated upstream
 //        let userSignIn = UserSignIn(email: email, password: password)
-=======
-//                let userSignIn = UserSignIn(email: email, password: password)
->>>>>>> Stashed changes
+
         let userSignIn = UserSignIn(email: "tin@gmail.com", password: "an123456")
+
         let apiUrl = APIConstants.Auth.login
         
         AF.request(apiUrl, method: .post, parameters: userSignIn, encoder: JSONParameterEncoder.default).responseData { response in
@@ -78,6 +94,7 @@ class APIManager {
         }
     }
     
+    // MARK: - Shop Owner
     func getAreaListByShopId(shopId: Int, date: String) -> AnyPublisher<AreaList, Error> {
         guard let url = URL(string: APIConstants.Auth.areas) else {
             return Fail(error: APIError.badUrl).eraseToAnyPublisher()
@@ -304,6 +321,269 @@ class APIManager {
             }
             .mapError { $0 as Error }
             .map { _ in }
+            .eraseToAnyPublisher()
+    }
+    
+    func getMenuList(_ accessToken: String) -> AnyPublisher<GetMenuResponse, Error> {
+        guard let url = URL(string: APIConstants.Owner.getMenuList) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .get, headers: headers)
+            .publishDecodable(type: GetMenuResponse.self)
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    if let statusCode = response.response?.statusCode {
+                        print("Unexpected status code: \(statusCode)")
+                    }
+                    throw APIError.failedToGetData
+                }
+                return try response.result.get()
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func createMenuItem(with item: MenuItem, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Owner.createMenuItem) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "id": item.id ?? 0,
+            "name": item.name ?? "",
+            "price": item.price ?? 0.0,
+            "description": ""
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError({ error in
+                return error as Error
+            })
+            .map { _ in}
+            .eraseToAnyPublisher()
+    }
+    
+    func updateMenuItem(with item: MenuItem, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Owner.updateMenuItem) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "id": item.id ?? 0,
+            "name": item.name ?? "",
+            "price": item.price ?? 0.0,
+            "description": ""
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError({ error in
+                return error as Error
+            })
+            .map { _ in}
+            .eraseToAnyPublisher()
+    }
+    
+    func deleteMenuItem(with id: Int, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Owner.deleteMenuItem) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "itemId": id
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError({ error in
+                return error as Error
+            })
+            .map { _ in}
+            .eraseToAnyPublisher()
+    }
+    
+    // MARK: - Admin
+    func getAllAccount(accessToken: String) -> AnyPublisher<GetAllAccountModel, Error> {
+        guard let url = URL(string: APIConstants.Admin.getAccount) else {
+            return Fail(error: APIError.badUrl)
+                .eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .get, headers: headers)
+            .publishDecodable(type: GetAllAccountModel.self)
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else  {
+                    throw URLError(.badServerResponse)
+                }
+                return try response.result.get()
+            }
+            .mapError { error in
+                return error as Error
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func banAccount(with accountId: Int, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Admin.banAccount) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "accountId": accountId
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { $0 as Error }
+            .map{ _ in }
+            .eraseToAnyPublisher()
+    }
+    
+    func unbanAccount(with accountId: Int, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Admin.unbanAccount) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "accountId": accountId
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { $0 as Error }
+            .map{ _ in }
+            .eraseToAnyPublisher()
+    }
+    
+    func createShopOwner(with shopCreationModel: ShopCreationModel, accessToken: String) -> AnyPublisher<ShopCreationResponse, Error> {
+        guard let url = URL(string: APIConstants.Admin.createShop) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .post, parameters: shopCreationModel, encoder: JSONParameterEncoder.default, headers: headers)
+            .publishDecodable(type: ShopCreationResponse.self)
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                return try response.result.get()
+            }
+            .mapError({ error in
+                return error as Error
+            })
+            .eraseToAnyPublisher()
+    }
+    
+    // MARK: - Staff
+    func getBookingList(accessToken: String) -> AnyPublisher<BookingResponse, Error> {
+        guard let url = URL(string: APIConstants.Staff.listBooking) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .get, headers: headers)
+            .publishDecodable(type: BookingResponse.self)
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                
+                return try response.result.get()
+            }
             .eraseToAnyPublisher()
     }
 }

@@ -8,9 +8,9 @@
 import Foundation
 
 enum BookingStatus: String, Codable {
-    case pending = "Pending"
-    case confirmed = "Confirmed"
-    case cancelled = "Cancelled"
+    case pending = "pending"
+    case confirmed = "confirmed"
+    case cancelled = "cancelled"
 }
 
 struct BookingResponse: Codable {

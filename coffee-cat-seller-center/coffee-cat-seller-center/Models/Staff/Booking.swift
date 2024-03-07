@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct ManagerBookingBody: Codable {
-    var bookingId: Int
-}
+//struct ManagerBookingBody: Codable {
+//    var bookingId: Int
+//}
 
 enum BookingStatus: String, Codable {
-    case pending = "Pending"
-    case confirmed = "Confirmed"
-    case cancelled = "Cancelled"
+    case pending = "pending"
+    case confirmed = "confirmed"
+    case cancelled = "cancelled"
 }
 
 struct BookingResponse: Codable {

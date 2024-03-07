@@ -17,7 +17,7 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
     let segmenItems = ["PENDING", "CONFIRMED", "CANCELLED"]
     
     var cancellables: Set<AnyCancellable> = []
-    var viewModel: StaffAccountViewModelProtocol = StaffAccountViewModel()
+    var viewModel: BookingManagerViewModelProtocol = BookingManagerViewModel()
     
     // -MARK: Create UI Components
     lazy var header = makeView()
@@ -38,8 +38,9 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupData()
         setupAction()
+        setupAsync()
+        setupData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -146,8 +147,25 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
         ])
     }
     
+    
+    // -MARK: Setup Async
+    private func setupAsync() {
+        self.viewModel.isGetDataCompletedSubject
+            .receive(on: DispatchQueue.main)
+            .sink { result in
+                switch result {
+                case .success():
+                    self.bookingTableView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
     // -MARK: Setup Data
     private func setupData() {
+        self.viewModel.getBookingList()
     }
     
     // -MARK: Setup Action
@@ -173,18 +191,20 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
         switch selectedSegment {
         case 0:
             print("PENDING")
-            //            self.viewModel.updateCurrentList(currentStatus: .pending)
+            self.viewModel.updateCurrentList(currentStatus: .pending)
         case 1:
             print("CONFIRMED")
-            //            self.viewModel.updateCurrentList(currentStatus: .confirmed)
+            self.viewModel.updateCurrentList(currentStatus: .confirmed)
         case 2:
             print("CANCELLED")
-            //            self.viewModel.updateCurrentList(currentStatus: .cancelled)
+            self.viewModel.updateCurrentList(currentStatus: .cancelled)
         default:
             print("No segment is selected")
         }
         
-        //        reloadData()
+        DispatchQueue.main.async {
+            self.bookingTableView.reloadData()
+        }
     }
     
     // -MARK: Utilities
@@ -236,8 +256,7 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
 
 extension BookingManagerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        self.viewModel.currentList?.count ?? 0
-        20
+        self.viewModel.currentList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -245,9 +264,9 @@ extension BookingManagerViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        //        if let bookingDetail = self.viewModel.currentList?[indexPath.row] {
-        //            cell.configure(bookingDetail: bookingDetail)
-        //        }
+        let bookingDetail = self.viewModel.currentList[indexPath.row]
+        cell.configure(bookingDetail: bookingDetail)
+        
         
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
