@@ -133,23 +133,14 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     
     // -MARK: Setup Data
     private func setupData() {
-        self.bindViewModel()
-        
         let getParameter = GetParameter(sortByColumn: "status", asc: true)
         if let accessToken = UserSessionManager.shared.getAccessToken() {
-            self.viewModel.getListOfStaff(accessToken: accessToken, getParameter: getParameter)
-        }
-    }
-    
-    private func bindViewModel() {
-        (self.viewModel as! StaffAccountViewModel).$staffList
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] staffList in
+            self.viewModel.getListOfStaff(accessToken: accessToken, getParameter: getParameter) { [weak self] in
                 DispatchQueue.main.async {
                     self?.accountTableView.reloadData()
                 }
             }
-            .store(in: &cancellables)
+        }
     }
     
     // -MARK: Setup Action
@@ -262,7 +253,7 @@ extension StaffAccountViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightScaler(110)
+        return heightScaler(120)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -274,17 +265,18 @@ extension StaffAccountViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let accountStatus = self.viewModel.staffList[indexPath.row].status
         if accountStatus == .active {
-            let banAction = UIContextualAction(style: .destructive, title: "Ban") { _, _, completionHandler in
+            let banAction = UIContextualAction(style: .destructive, title: "Deactive") { _, _, completionHandler in
                 self.banAccount(indexPath: indexPath)
                 completionHandler(true)
             }
             let configuration = UISwipeActionsConfiguration(actions: [banAction])
             return configuration
         } else {
-            let unBanAction = UIContextualAction(style: .normal, title: "Unban") { _, _, completionHandler in
+            let unBanAction = UIContextualAction(style: .normal, title: "Active") { _, _, completionHandler in
                 self.unbanAccount(indexPath: indexPath)
                 completionHandler(true)
             }
+            unBanAction.backgroundColor = .systemGreen
             let configuration = UISwipeActionsConfiguration(actions: [unBanAction])
             return configuration
         }

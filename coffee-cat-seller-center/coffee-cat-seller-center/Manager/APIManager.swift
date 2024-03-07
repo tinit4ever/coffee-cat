@@ -29,15 +29,12 @@ struct APIConstants {
         static let unbanStaff = baseURL + "owner/staff/active"
         
         static let createSeat = baseURL + "owner/area/create"
-<<<<<<< Updated upstream
-=======
         static let deleteSeats = baseURL + "owner/area/delete"
         
         static let getMenuList = baseURL + "menu/list"
         static let createMenuItem = baseURL + "menu/create-update"
         static let updateMenuItem = baseURL + "menu/create-update"
         static let deleteMenuItem = baseURL + "menu/delete"
->>>>>>> Stashed changes
     }
     
     
@@ -45,8 +42,8 @@ struct APIConstants {
 }
 
 struct APIParameter {
-//    static let keyword = "keyword"
-//    static let searchType = "searchType"
+    //    static let keyword = "keyword"
+    //    static let searchType = "searchType"
     static let sortByColumn = "column"
     static let asc = "ascOrder"
 }
@@ -64,7 +61,7 @@ class APIManager {
     private init() {}
     
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
-//        let userSignIn = UserSignIn(email: email, password: password)
+        //        let userSignIn = UserSignIn(email: email, password: password)
         let userSignIn = UserSignIn(email: "tin@gmail.com", password: "an123456")
         let apiUrl = APIConstants.Auth.login
         
@@ -288,8 +285,6 @@ class APIManager {
             }
             .eraseToAnyPublisher()
     }
-<<<<<<< Updated upstream
-=======
     
     func deleteSeats(with seatIds: [SeatId], accessToken: String) -> AnyPublisher<Void, Error> {
         guard let url = URL(string: APIConstants.Owner.deleteSeats) else {
@@ -440,5 +435,4 @@ class APIManager {
             .map { _ in}
             .eraseToAnyPublisher()
     }
->>>>>>> Stashed changes
 }

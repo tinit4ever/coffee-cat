@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Combine
 
 class MenuViewController: UIViewController, MenuFactory {
     let heightScaler = UIScreen.scalableHeight
@@ -14,7 +15,7 @@ class MenuViewController: UIViewController, MenuFactory {
     let sizeScaler = UIScreen.scalableSize
     
     var viewModel: MenuViewModelProtocol = MenuViewModel()
-    
+    var cancellables: Set<AnyCancellable> = []
     // MARK: - Create UIComponents
     lazy var managerStack = makeHorizontalStackView()
     lazy var deleteMenuItem = makeButton()
@@ -35,6 +36,7 @@ class MenuViewController: UIViewController, MenuFactory {
         super.viewDidLoad()
         setupUI()
         setupAction()
+        setupData()
     }
     
     // -MARK: SetupUI
@@ -138,6 +140,9 @@ class MenuViewController: UIViewController, MenuFactory {
     }
     
     // -MARK: Setup Data
+    private func setupData() {
+        self.viewModel.getMenuList()
+    }
     
     // MARK: - Setup Action
     private func setupAction() {
@@ -149,8 +154,6 @@ class MenuViewController: UIViewController, MenuFactory {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissPopup))
         blurView.addGestureRecognizer(tapGesture)
-<<<<<<< Updated upstream
-=======
         
         setupAsync()
     }
@@ -167,7 +170,7 @@ class MenuViewController: UIViewController, MenuFactory {
                 }
             }
             .store(in: &cancellables)
-        
+      
         self.viewModel.isCreatedPublisher
             .receive(on: DispatchQueue.main)
             .sink { result in
@@ -205,7 +208,6 @@ class MenuViewController: UIViewController, MenuFactory {
                 }
             }
             .store(in: &cancellables)
->>>>>>> Stashed changes
     }
 
     // -MARK: Catch Action
@@ -302,7 +304,7 @@ class MenuViewController: UIViewController, MenuFactory {
 
 extension MenuViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        20
+        return viewModel.menu.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -310,8 +312,8 @@ extension MenuViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-//        let menuItem = self.menuList[indexPath.row]
-//        cell.configure(menuItem)
+        let menuItem = self.viewModel.menu[indexPath.row]
+        cell.configure(menuItem)
         
         return cell
     }

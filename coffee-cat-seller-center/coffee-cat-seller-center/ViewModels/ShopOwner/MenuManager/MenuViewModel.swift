@@ -6,17 +6,13 @@
 //
 
 import Foundation
+import Combine
 
 protocol MenuViewModelProtocol {
-    var menu: [MenuItem]? {get set}
+    var menu: [MenuItem] {get set}
     var selectedMenuItem: MenuItem? {get set}
     var submitItem: MenuItem? {get set}
     var isUpdating: Bool {get set}
-<<<<<<< Updated upstream
-    
-    func setSelected(index: Int)
-    
-=======
     var isGetDataPublisher: PassthroughSubject<Result<Void, Error>, Never> {get set}
     var isDeleteSuccessPublisher: PassthroughSubject<Result<Void, Error>, Never> {get set}
     var isCreatedPublisher: PassthroughSubject<Result<Void, Error>, Never> {get set}
@@ -27,8 +23,13 @@ protocol MenuViewModelProtocol {
     func setSumitItem(id: Int, name: String, price: Double)
     
     func getMenuList()
+  
+    var isGetDataPublisher: PassthroughSubject<Result<Void, Error>, Never> {get set}
     
->>>>>>> Stashed changes
+    func setSelected(index: Int)
+    
+    func getMenuList()
+
     func createMenuItem()
     
     func updateMenuItem()
@@ -37,12 +38,8 @@ protocol MenuViewModelProtocol {
 }
 
 class MenuViewModel: MenuViewModelProtocol {
-<<<<<<< Updated upstream
-    var menu: [MenuItem]?
-=======
-    
+
     var menu: [MenuItem] = []
->>>>>>> Stashed changes
     
     var selectedMenuItem: MenuItem?
     
@@ -50,11 +47,6 @@ class MenuViewModel: MenuViewModelProtocol {
     
     var isUpdating: Bool = false
     
-<<<<<<< Updated upstream
-    func setSelected(index: Int) {
-        if let menu = self.menu {
-            self.selectedMenuItem = menu[index]
-=======
     var isGetDataPublisher = PassthroughSubject<Result<Void, Error>, Never>()
     var isDeleteSuccessPublisher = PassthroughSubject<Result<Void, Error>, Never>()
     var isCreatedPublisher = PassthroughSubject<Result<Void, Error>, Never>()
@@ -73,8 +65,21 @@ class MenuViewModel: MenuViewModelProtocol {
     func getMenuList() {
         guard let accessToken = UserSessionManager.shared.getAccessToken() else {
             return
->>>>>>> Stashed changes
         }
+        
+        APIManager.shared.getMenuList(accessToken)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    self.isGetDataPublisher.send(.failure(error))
+                }
+            } receiveValue: { getMenuResponse in
+                self.menu = getMenuResponse.itemList
+                self.isGetDataPublisher.send(.success(()))
+            }
+            .store(in: &cancellables)
     }
     
     func createMenuItem() {
@@ -137,5 +142,9 @@ class MenuViewModel: MenuViewModelProtocol {
                 self.getMenuList()
             }
             .store(in: &cancellables)
+    }
+    
+    deinit {
+        cancellables.forEach { $0.cancel() }
     }
 }
