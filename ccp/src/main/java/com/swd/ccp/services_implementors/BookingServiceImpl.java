@@ -160,7 +160,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public CancelBookingResponse cancelBooking(CancelBookingRequest request) {
 
-        Booking booking = bookingRepo.findById(request.getId()).orElse(null);
+        Booking booking = bookingRepo.findById(request.getBookingId()).orElse(null);
         if(booking != null && booking.getBookingStatus().getStatus().equals("pending")){
             booking.setBookingStatus(bookingStatusRepo.findByStatus("cancelled"));
             for(BookingDetail detail: booking.getBookingDetailList()){

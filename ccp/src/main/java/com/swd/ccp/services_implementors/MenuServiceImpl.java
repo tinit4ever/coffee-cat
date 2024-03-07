@@ -181,18 +181,18 @@ public class MenuServiceImpl implements MenuService {
         assert owner != null;
         Menu menu = menuRepo.findByShop(owner.getShop()).orElse(null);
         assert menu != null;
-        MenuItem item = menuItemRepo.findByIdAndMenu(request.getId(), menu).orElse(null);
+        MenuItem item = menuItemRepo.findByIdAndMenu(request.getItemId(), menu).orElse(null);
         if(item != null && !item.getMenuItemStatus().equals(status)){
             item.setMenuItemStatus(status);
             menuItemRepo.save(item);
             return DeleteMenuItemResponse.builder()
                     .status(true)
-                    .message("Item with id " + request.getId() + " is deleted successfully")
+                    .message("Item with id " + request.getItemId() + " is deleted successfully")
                     .build();
         }
         return DeleteMenuItemResponse.builder()
                 .status(false)
-                .message("Item with id " + request.getId() + " is not existed in menu")
+                .message("Item with id " + request.getItemId() + " is not existed in menu")
                 .build();
     }
 

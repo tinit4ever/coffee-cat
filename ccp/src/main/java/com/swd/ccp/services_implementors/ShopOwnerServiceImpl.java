@@ -165,7 +165,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
     public UpdateStaffResponse updateStaff(UpdateStaffRequest request) {
         Manager owner;
         if((owner = checkIfOwner()) != null){
-            Manager staff = managerRepo.findById(request.getId()).orElse(null);
+            Manager staff = managerRepo.findById(request.getStaffId()).orElse(null);
             if(staff != null){
                 List<Manager> managerList = owner.getShop().getManagerList();
                 if(managerList.contains(staff)){
@@ -182,7 +182,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
 
                 return UpdateStaffResponse.builder()
                         .status(true)
-                        .message("Update staff with id " + request.getId() + " successfully")
+                        .message("Update staff with id " + request.getStaffId() + " successfully")
                         .staffResponse(
                                 UpdateStaffResponse.StaffResponse.builder()
                                         .id(staff.getId())
@@ -196,7 +196,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
             }
             return UpdateStaffResponse.builder()
                     .status(false)
-                    .message("Staff with id " + request.getId() + " is not existed")
+                    .message("Staff with id " + request.getStaffId() + " is not existed")
                     .staffResponse(null)
                     .build();
         }
@@ -302,7 +302,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
         Manager owner;
         if((owner = checkIfOwner()) != null){
             // if id = -1 => create new area and a table inside
-            if(request.getAreaId() == -1){
+            if(request.getId() == -1){
                 return createNewAreaAndTable(request, owner.getShop());
             }
 
@@ -320,10 +320,10 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
         List<Area> areas = getActiveAreaListInShop(shop);
         for(Area area: areas){
             // if already existed then return false
-            if(request.getAreaName().equals(area.getName())) {
+            if(request.getName().equals(area.getName())) {
                 return CreateAreaResponse.builder()
                         .status(false)
-                        .message("Area " + request.getAreaName() + " is already existed in shop")
+                        .message("Area " + request.getName() + " is already existed in shop")
                         .area(null)
                         .build();
             }
@@ -344,7 +344,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
     private Area createNewArea(CreateAreaRequest request, Shop shop){
         AreaStatus active = areaStatusRepo.findByStatus("active");
         return Area.builder()
-                        .name(request.getAreaName())
+                        .name(request.getName())
                         .shop(shop)
                         .areaStatus(active)
                         .build();
@@ -367,7 +367,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
         // find if area belongs to shop
         for(Area area: getActiveAreaListInShop(shop)){
             //if existed and be active then allow to move to the next step
-            if(area.getId().equals(request.getAreaId())){
+            if(area.getId().equals(request.getId())){
                 // check if table name is existed in shop or not
                 // if not yet existed then allow to create new
                 if(checkIfSeatNameNotExistedInShop(request.getSeatName(), shop)){
@@ -384,7 +384,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
         // if not existed then return fail
         return CreateAreaResponse.builder()
                 .status(false)
-                .message("Area with id " + request.getAreaId() + " is not existed in shop")
+                .message("Area with id " + request.getId() + " is not existed in shop")
                 .area(null)
                 .build();
     }
@@ -486,10 +486,10 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
 
         // Check if all id input is valid
         for(DeleteAreaRequest.SeatRequest seatRequest: request.getSeatList()){
-            if(!sampleIdList.contains(seatRequest.getSeatId())){
+            if(!sampleIdList.contains(seatRequest.getId())){
                 return DeleteAreaResponse.builder()
                         .status(false)
-                        .message("Seat with id " + seatRequest.getSeatId() + " is not existed in shop")
+                        .message("Seat with id " + seatRequest.getId() + " is not existed in shop")
                         .build();
             }
         }

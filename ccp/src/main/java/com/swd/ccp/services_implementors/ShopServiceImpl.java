@@ -76,17 +76,17 @@ public class ShopServiceImpl implements ShopService {
         //---------------------------------------------------------------------------------
 
         // check if no existed shop then continue
-        if(checkIfShopNameIsExisted(request.getShopName()) == null){
+        if(checkIfShopNameIsExisted(request.getName()) == null){
             ShopStatus status = shopStatusRepo.findByStatus("inactive");
             // create new shop
             Shop shop = shopRepo.save(
                     Shop.builder()
-                            .name(request.getShopName())
+                            .name(request.getName())
                             .address("")
                             .openTime("")
                             .closeTime("")
                             .rating(0.0)
-                            .phone(request.getShopPhone())
+                            .phone(request.getPhone())
                             .avatar("")
                             .status(status)
                             .packages(null)
@@ -107,7 +107,7 @@ public class ShopServiceImpl implements ShopService {
                 );
 
                 // send mail
-                emailService.sendOwnerAccountEmail(request.getRecipientEmail(), account.getEmail(), randomPass);
+                emailService.sendOwnerAccountEmail(request.getEmail(), account.getEmail(), randomPass);
                 return CreateShopResponse.builder()
                         .status(true)
                         .message("Create shop successfully")
@@ -120,7 +120,7 @@ public class ShopServiceImpl implements ShopService {
         }
         return CreateShopResponse.builder()
                 .status(false)
-                .message("Shop with name " + request.getShopName() + " is already existed")
+                .message("Shop with name " + request.getName() + " is already existed")
                 .build();
     }
 
