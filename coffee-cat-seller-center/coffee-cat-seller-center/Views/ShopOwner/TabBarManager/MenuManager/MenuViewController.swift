@@ -149,6 +149,63 @@ class MenuViewController: UIViewController, MenuFactory {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissPopup))
         blurView.addGestureRecognizer(tapGesture)
+<<<<<<< Updated upstream
+=======
+        
+        setupAsync()
+    }
+    
+    private func setupAsync() {
+        self.viewModel.isGetDataPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { result in
+                switch result {
+                case .success():
+                    self.menuCollectionView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            .store(in: &cancellables)
+        
+        self.viewModel.isCreatedPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { result in
+                switch result {
+                case .success():
+                    self.displaySuccess(message: "Item have been created")
+                    self.dismissPopup()
+                case .failure(let error):
+                    self.displayFaild(message: "Error \(error.localizedDescription)")
+                }
+            }
+            .store(in: &cancellables)
+        
+        self.viewModel.isUpdatedPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { result in
+                switch result {
+                case .success():
+                    self.displaySuccess(message: "Item have been updated")
+                    self.dismissPopup()
+                case .failure(let error):
+                    self.displayFaild(message: "Error \(error.localizedDescription)")
+                }
+            }
+            .store(in: &cancellables)
+        
+        self.viewModel.isDeleteSuccessPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { result in
+                switch result {
+                case .success():
+                    self.displaySuccess(message: "Item have been deleted")
+                case .failure(let error):
+                    self.displayFaild(message: "Error: \(error.localizedDescription)")
+                }
+            }
+            .store(in: &cancellables)
+>>>>>>> Stashed changes
     }
 
     // -MARK: Catch Action
@@ -185,9 +242,25 @@ class MenuViewController: UIViewController, MenuFactory {
     
     @objc 
     func submitInputButtonTapped() {
+        guard let name = menuItemNameTextField.text,
+              let priceText = menuItemPriceTextField.text else {
+            return
+        }
+        
+        guard let price: Double = Double(priceText) else {
+            self.displayFaild(message: "Price input is not available")
+            return
+        }
+        
         if viewModel.isUpdating {
+            guard let id: Int = viewModel.selectedMenuItem?.id else {
+                return
+            }
+            
+            viewModel.setSumitItem(id: id, name: name, price: price)
             viewModel.updateMenuItem()
         } else {
+            viewModel.setSumitItem(id: -1, name: name, price: price)
             viewModel.createMenuItem()
         }
     }
@@ -207,6 +280,20 @@ class MenuViewController: UIViewController, MenuFactory {
     
     private func displayErrorAlert() {
         let alertController = UIAlertController(title: "Error", message: "Please order at least one food\nYou can close without submit by click close button", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func displaySuccess(message: String) {
+        let alertController = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func displayFaild(message: String) {
+        let alertController = UIAlertController(title: "Faild", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
         self.present(alertController, animated: true, completion: nil)

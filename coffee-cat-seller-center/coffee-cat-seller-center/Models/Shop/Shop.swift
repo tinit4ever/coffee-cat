@@ -35,6 +35,10 @@ struct MenuItem: Codable {
     var description: String?
     var discount: Double?
     var soldQuantity: Int?
+<<<<<<< Updated upstream
+=======
+    var status: String?
+>>>>>>> Stashed changes
 }
 
 struct SearchParam {
