@@ -7,11 +7,15 @@
 
 import UIKit
 import SwiftUI
+import Combine
 
 class AdminViewController: UIViewController, AdminFactory  {
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
+    
+    var viewModel: AdminViewModelProtocol = AdminViewModel()
+    var cancellables: Set<AnyCancellable> = []
     
     // -MARK: Create UI Components
     lazy var topView = makeView()
@@ -27,6 +31,8 @@ class AdminViewController: UIViewController, AdminFactory  {
         super.viewDidLoad()
         setupUI()
         setupAction()
+        setupData()
+        setupAsync()
     }
     
     // -MARK: SetupUI
@@ -122,6 +128,36 @@ class AdminViewController: UIViewController, AdminFactory  {
         ])
     }
     
+    // -MARK: Setup Data
+    private func setupData() {
+        self.viewModel.getAllAccont()
+    }
+    
+    private func setupAsync() {
+        self.viewModel.isGetAccountSubject
+            .receive(on: DispatchQueue.main)
+            .sink { result in
+                switch result {
+                case .success():
+                    self.accountTableView.reloadData()
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                }
+            }
+            .store(in: &cancellables)
+        
+        self.viewModel.isChangeStatusSubject
+            .sink { result in
+                switch result {
+                case .success:
+                    self.viewModel.getAllAccont()
+                case .failure(let error):
+                    self.displayErrorAlert(message: "Error: \(error.localizedDescription)")
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
     // -MARK: Setup Action
     private func setupAction() {
         let accountImageButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountImageButtonTapped))
@@ -135,17 +171,38 @@ class AdminViewController: UIViewController, AdminFactory  {
         let navigationController = UINavigationController(rootViewController: ProfileViewController())
         self.present(navigationController, animated: true)
     }
+    
+    // -MARK: Utilities
+    private func banAccount(indexPath: IndexPath) {
+        self.viewModel.attachObjectId = self.viewModel.accountList[indexPath.row].id
+        self.viewModel.banAccount()
+    }
+    
+    private func unbanAccount(indexPath: IndexPath) {
+        self.viewModel.attachObjectId = self.viewModel.accountList[indexPath.row].id
+        self.viewModel.unbanAccount()
+    }
+    
+    private func displayErrorAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+
 }
 
 extension AdminViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        30
+        self.viewModel.accountList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AccountTableViewCell.identifier, for: indexPath) as? AccountTableViewCell else {
             return UITableViewCell()
         }
+        let account = self.viewModel.accountList[indexPath.row]
+        cell.config(account: account)
         
         cell.selectionStyle = .none
         return cell
@@ -162,26 +219,24 @@ extension AdminViewController: UITableViewDataSource {
 
 extension AdminViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
-            // Delete loddgic here
-            completionHandler(true)
+        let accountStatus = self.viewModel.accountList[indexPath.row].status
+        if accountStatus == .active {
+            let banAction = UIContextualAction(style: .destructive, title: "Deactive") { _, _, completionHandler in
+                self.banAccount(indexPath: indexPath)
+                completionHandler(true)
+            }
+            let configuration = UISwipeActionsConfiguration(actions: [banAction])
+            return configuration
+        } else {
+            let unBanAction = UIContextualAction(style: .normal, title: "Active") { _, _, completionHandler in
+                self.unbanAccount(indexPath: indexPath)
+                completionHandler(true)
+            }
+            unBanAction.backgroundColor = .systemGreen
+            let configuration = UISwipeActionsConfiguration(actions: [unBanAction])
+            return configuration
         }
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        return configuration
     }
-
-    
-    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let updateAction = UIContextualAction(style: .normal, title: "Update") { _, _, completionHandler in
-            // Update logic here
-            completionHandler(true)
-        }
-        
-        updateAction.backgroundColor = UIColor.systemBrown
-        let configuration = UISwipeActionsConfiguration(actions: [updateAction])
-        return configuration
-    }
-
 }
 
 // -MARK: Preview

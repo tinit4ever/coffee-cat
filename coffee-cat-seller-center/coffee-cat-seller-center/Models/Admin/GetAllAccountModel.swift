@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+struct GetAllAccountModel: Decodable {
+    var accountResponseList: [Account]
+}

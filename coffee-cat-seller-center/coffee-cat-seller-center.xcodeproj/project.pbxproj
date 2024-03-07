@@ -13,6 +13,7 @@
 		A02EAFC12B9724AB00C466EF /* Booking.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02EAFC02B9724AB00C466EF /* Booking.swift */; };
 		A02EAFC52B973B7000C466EF /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = A02EAFC42B973B7000C466EF /* loading.json */; };
 		A03CFCDC2B93223E00FBD1EE /* CreateAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A03CFCDB2B93223E00FBD1EE /* CreateAccountModel.swift */; };
+		A049438C2B997A8600AB96A7 /* AdminViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A049438B2B997A8600AB96A7 /* AdminViewModel.swift */; };
 		A060C8682B94282E005FAE2B /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060C8672B94282E005FAE2B /* MenuViewController.swift */; };
 		A060C86A2B942944005FAE2B /* MenuFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060C8692B942944005FAE2B /* MenuFactory.swift */; };
 		A060C8712B943AAD005FAE2B /* CatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060C8702B943AAD005FAE2B /* CatViewController.swift */; };
@@ -33,6 +34,7 @@
 		A06D64522B92302E008F8550 /* StaffAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06D64512B92302E008F8550 /* StaffAccountViewModel.swift */; };
 		A09EB5172B95714600F532D6 /* InputAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09EB5162B95714600F532D6 /* InputAreaViewController.swift */; };
 		A09EB5192B95723300F532D6 /* CreateAreaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09EB5182B95723300F532D6 /* CreateAreaModel.swift */; };
+		A0AE8DBD2B998B9000528995 /* GetAllAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AE8DBC2B998B9000528995 /* GetAllAccountModel.swift */; };
 		A0CA420B2B91EC6900BED8FF /* AccountInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA420A2B91EC6900BED8FF /* AccountInputViewController.swift */; };
 		A0CA420D2B91ED2700BED8FF /* AccountInputFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA420C2B91ED2700BED8FF /* AccountInputFactory.swift */; };
 		A0CA42102B91F59600BED8FF /* AccountInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CA420F2B91F59600BED8FF /* AccountInputViewModel.swift */; };
@@ -93,6 +95,7 @@
 		A02EAFC02B9724AB00C466EF /* Booking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Booking.swift; sourceTree = "<group>"; };
 		A02EAFC42B973B7000C466EF /* loading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		A03CFCDB2B93223E00FBD1EE /* CreateAccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountModel.swift; sourceTree = "<group>"; };
+		A049438B2B997A8600AB96A7 /* AdminViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewModel.swift; sourceTree = "<group>"; };
 		A060C8672B94282E005FAE2B /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		A060C8692B942944005FAE2B /* MenuFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFactory.swift; sourceTree = "<group>"; };
 		A060C8702B943AAD005FAE2B /* CatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +116,7 @@
 		A06D64512B92302E008F8550 /* StaffAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAccountViewModel.swift; sourceTree = "<group>"; };
 		A09EB5162B95714600F532D6 /* InputAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAreaViewController.swift; sourceTree = "<group>"; };
 		A09EB5182B95723300F532D6 /* CreateAreaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAreaModel.swift; sourceTree = "<group>"; };
+		A0AE8DBC2B998B9000528995 /* GetAllAccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAllAccountModel.swift; sourceTree = "<group>"; };
 		A0CA420A2B91EC6900BED8FF /* AccountInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInputViewController.swift; sourceTree = "<group>"; };
 		A0CA420C2B91ED2700BED8FF /* AccountInputFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInputFactory.swift; sourceTree = "<group>"; };
 		A0CA420F2B91F59600BED8FF /* AccountInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInputViewModel.swift; sourceTree = "<group>"; };
@@ -230,6 +234,14 @@
 			path = Staff;
 			sourceTree = "<group>";
 		};
+		A049438A2B997A7200AB96A7 /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				A049438B2B997A8600AB96A7 /* AdminViewModel.swift */,
+			);
+			path = Admin;
+			sourceTree = "<group>";
+		};
 		A060C86F2B942B52005FAE2B /* SubViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,9 +311,18 @@
 			path = PlaceManager;
 			sourceTree = "<group>";
 		};
+		A0AE8DBB2B998B8300528995 /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				A0AE8DBC2B998B9000528995 /* GetAllAccountModel.swift */,
+			);
+			path = Admin;
+			sourceTree = "<group>";
+		};
 		A0CA420E2B91F57900BED8FF /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				A049438A2B997A7200AB96A7 /* Admin */,
 				A0EEFA552B97C9720088CA0F /* General */,
 				A064526F2B92C7D100148032 /* Auth */,
 				A06452682B92BDDF00148032 /* ShopOwner */,
@@ -312,6 +333,7 @@
 		A0CA42112B91F5EB00BED8FF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A0AE8DBB2B998B8300528995 /* Admin */,
 				A02EAFBF2B97249E00C466EF /* Staff */,
 				A0EFC4D42B940E3D00F94ECF /* Shop */,
 				A064527D2B92D65D00148032 /* Auth */,
@@ -646,6 +668,7 @@
 			files = (
 				A06834262B8D872A0086CE59 /* ShopManagerViewController.swift in Sources */,
 				A0EFC4D32B940E0700F94ECF /* AreaTableViewCell.swift in Sources */,
+				A0AE8DBD2B998B9000528995 /* GetAllAccountModel.swift in Sources */,
 				A0CBF5062B8CE6DD008CFAD3 /* AdminFactory.swift in Sources */,
 				A060C8682B94282E005FAE2B /* MenuViewController.swift in Sources */,
 				A0CBF4F62B8CDBD9008CFAD3 /* UITextField+Extension.swift in Sources */,
@@ -662,6 +685,7 @@
 				A060C86A2B942944005FAE2B /* MenuFactory.swift in Sources */,
 				A0CBF4EF2B8CDBD9008CFAD3 /* UILabel+Extension.swift in Sources */,
 				A0CBF5042B8CE5FD008CFAD3 /* AdminViewController.swift in Sources */,
+				A049438C2B997A8600AB96A7 /* AdminViewModel.swift in Sources */,
 				A0EFC4D22B940E0700F94ECF /* AreaCatTableViewCell.swift in Sources */,
 				A064526C2B92C05E00148032 /* UserSessionManager.swift in Sources */,
 				A0CBF4F02B8CDBD9008CFAD3 /* String+Extension.swift in Sources */,
