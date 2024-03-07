@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct ManagerBookingBody: Codable {
-    var bookingId: Int
-}
+//struct ManagerBookingBody: Codable {
+//    var bookingId: Int
+//}
 
 enum BookingStatus: String, Codable {
     case pending = "Pending"
