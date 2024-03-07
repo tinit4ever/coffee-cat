@@ -17,7 +17,7 @@ public class DeleteAreaRequest {
     @NoArgsConstructor
     @Builder
     public static class SeatRequest{
-        private Integer seatId;
+        private Integer id;
     }
 
     private List<SeatRequest> seatList;

@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class DeleteMenuItemRequest {
-    private Integer id;
+    private Integer itemId;
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UpdateStaffRequest {
-    private Integer id;
+    private Integer staffId;
 
     private String email;
 
