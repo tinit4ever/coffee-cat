@@ -17,9 +17,9 @@ class PlaceViewController: UIViewController, PlaceFactory {
     
     private var cancellables: Set<AnyCancellable> = []
     
-    private var selectedSeatList: [Seat] = [] {
+    private var selectedSeatIds: [SeatId] = [] {
         didSet {
-            if selectedSeatList.isEmpty {
+            if selectedSeatIds.isEmpty {
                 self.setDeleteButtonEnabled(false)
             } else {
                 self.setDeleteButtonEnabled(true)
@@ -46,6 +46,7 @@ class PlaceViewController: UIViewController, PlaceFactory {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        selectedSeatIds = []
         self.loadData(date: self.viewModel.date ?? "")
     }
     
@@ -114,6 +115,27 @@ class PlaceViewController: UIViewController, PlaceFactory {
     private func setupAction() {
         self.datePicker.addTarget(self, action: #selector(dateChange(_:)), for: .valueChanged)
         self.addTableButton.addTarget(self, action: #selector(addSeatTapped), for: .touchUpInside)
+        self.deleteTableButton.addTarget(self, action: #selector(deleteTableButtonTapped), for: .touchUpInside)
+        
+        setupCombineSubject()
+    }
+    
+    private func setupCombineSubject() {
+        self.viewModel.deleteResponsePublisher
+            .sink { result in
+                switch result {
+                case .success():
+                    self.selectedSeatIds = []
+                    self.viewModel.areaList = nil
+                    self.viewModel.selectedSeat = nil
+                    self.displaySuccess()
+                    let date = self.getStringDateFormatter(date: Date())
+                    self.loadData(date: date)
+                case .failure(let error):
+                    self.displayErrorAlert(message: error.localizedDescription)
+                }
+            }
+            .store(in: &cancellables)
     }
     
     // MARK: - Catch Action
@@ -145,9 +167,20 @@ class PlaceViewController: UIViewController, PlaceFactory {
         present(navigationController, animated: true)
     }
     
+    @objc private func deleteTableButtonTapped() {
+        self.viewModel.deleteSeats()
+    }
+    
     // MARK: - Utitlities
-    private func displayErrorAlert() {
-        let alertController = UIAlertController(title: "Error", message: "Please choose table to submit\nYou can close without submit by click close button", preferredStyle: .alert)
+    private func displayErrorAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func displaySuccess() {
+        let alertController = UIAlertController(title: "Success", message: "Tables is deleted", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
         self.present(alertController, animated: true, completion: nil)
@@ -161,10 +194,9 @@ class PlaceViewController: UIViewController, PlaceFactory {
     
     private func loadData(date: String) {
         if let shopId = UserSessionManager.shared.authenticationResponse?.accountResponse?.shopId {
-            //_______________________________________________________________________________________________________________________________________
             self.viewModel.setAreasParam(shopId: shopId, date: date)
         }
-        self.viewModel.setAreasParam(shopId: 1, date: date)
+        
         self.viewModel.dataUpdatedPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
@@ -215,8 +247,17 @@ extension PlaceViewController: UITableViewDataSource {
             print("Invalid section index: \(indexPath.section)")
         }
         
-        cell.didSelectedSeatList = { seatList in
-            self.selectedSeatList = seatList
+        cell.didSelectedSeat = { [weak self] seatId, isAdd in
+            if isAdd {
+                self?.selectedSeatIds.append(seatId)
+            } else {
+                if let indexToRemove = self?.selectedSeatIds.firstIndex(where: { $0.id == seatId.id }) {
+                    self?.selectedSeatIds.remove(at: indexToRemove)
+                }
+            }
+            
+            print(self?.selectedSeatIds as Any)
+            self?.viewModel.selectedSeat = self?.selectedSeatIds
         }
         
         cell.selectionStyle = .none

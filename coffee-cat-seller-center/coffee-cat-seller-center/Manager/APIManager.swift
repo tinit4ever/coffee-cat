@@ -28,11 +28,8 @@ struct APIConstants {
         static let banStaff = baseURL + "owner/staff/inactive"
         static let unbanStaff = baseURL + "owner/staff/active"
         static let createSeat = baseURL + "owner/area/create"
-<<<<<<< Updated upstream
-=======
         static let deleteSeats = baseURL + "owner/area/delete"
         static let getMenuList = baseURL + "menu/list"
->>>>>>> Stashed changes
     }
     
     
@@ -282,8 +279,6 @@ class APIManager {
             }
             .eraseToAnyPublisher()
     }
-<<<<<<< Updated upstream
-=======
     
     func deleteSeats(with seatIds: [SeatId], accessToken: String) -> AnyPublisher<Void, Error> {
         guard let url = URL(string: APIConstants.Owner.deleteSeats) else {
@@ -332,5 +327,4 @@ class APIManager {
             }
             .eraseToAnyPublisher()
     }
->>>>>>> Stashed changes
 }

@@ -33,3 +33,11 @@ struct Seat: Codable {
     var status: Bool?
     var capacity: Int?
 }
+
+struct SeatListRequest: Codable {
+    let seatList: [SeatId]
+}
+
+struct SeatId: Codable {
+    var id: Int
+}
