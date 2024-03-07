@@ -27,9 +27,14 @@ struct APIConstants {
         static let updateStaff = baseURL + "owner/staff/update"
         static let banStaff = baseURL + "owner/staff/inactive"
         static let unbanStaff = baseURL + "owner/staff/active"
+        
         static let createSeat = baseURL + "owner/area/create"
         static let deleteSeats = baseURL + "owner/area/delete"
+        
         static let getMenuList = baseURL + "menu/list"
+        static let createMenuItem = baseURL + "menu/create-update"
+        static let updateMenuItem = baseURL + "menu/create-update"
+        static let deleteMenuItem = baseURL + "menu/delete"
     }
     
     
@@ -47,6 +52,7 @@ enum APIError: Error {
     case failedToGetData
     case nilResponse
     case badUrl
+    case statusUnexpected
 }
 
 class APIManager {
@@ -325,6 +331,108 @@ class APIManager {
                 }
                 return try response.result.get()
             }
+            .eraseToAnyPublisher()
+    }
+    
+    func createMenuItem(with item: MenuItem, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Owner.createMenuItem) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "id": item.id ?? 0,
+            "name": item.name ?? "",
+            "price": item.price ?? 0.0,
+            "description": ""
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError({ error in
+                return error as Error
+            })
+            .map { _ in}
+            .eraseToAnyPublisher()
+    }
+    
+    func updateMenuItem(with item: MenuItem, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Owner.updateMenuItem) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "id": item.id ?? 0,
+            "name": item.name ?? "",
+            "price": item.price ?? 0.0,
+            "description": ""
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError({ error in
+                return error as Error
+            })
+            .map { _ in}
+            .eraseToAnyPublisher()
+    }
+    
+    func deleteMenuItem(with id: Int, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Owner.deleteMenuItem) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "itemId": id
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError({ error in
+                return error as Error
+            })
+            .map { _ in}
             .eraseToAnyPublisher()
     }
 }
