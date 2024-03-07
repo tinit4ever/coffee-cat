@@ -32,8 +32,8 @@ struct APIConstants {
         static let deleteSeats = baseURL + "owner/area/delete"
         
         static let getMenuList = baseURL + "menu/list"
-        static let createMenuItem = baseURL + "menu/create-update"
-        static let updateMenuItem = baseURL + "menu/create-update"
+        static let createMenuItem = baseURL + "menu/create"
+        static let updateMenuItem = baseURL + "menu/update"
         static let deleteMenuItem = baseURL + "menu/delete"
     }
     
