@@ -160,6 +160,8 @@ class AdminViewController: UIViewController, AdminFactory  {
     
     // -MARK: Setup Action
     private func setupAction() {
+        self.addAccountButton.addTarget(self, action: #selector(addAccountButtonTapped), for: .touchUpInside)
+        
         let accountImageButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountImageButtonTapped))
         self.accountImageButton.addGestureRecognizer(accountImageButtonGesture)
         self.accountImageButton.isUserInteractionEnabled = true
@@ -169,6 +171,19 @@ class AdminViewController: UIViewController, AdminFactory  {
     @objc
     private func accountImageButtonTapped() {
         let navigationController = UINavigationController(rootViewController: ProfileViewController())
+        self.present(navigationController, animated: true)
+    }
+    
+    @objc
+    private func addAccountButtonTapped() {
+        let viewController = ShopCreationInputViewController()
+        
+        viewController.dismissCompletion = { [weak self] in
+            DispatchQueue.main.async {
+                self?.setupData()
+            }
+        }
+        let navigationController = UINavigationController(rootViewController: viewController)
         self.present(navigationController, animated: true)
     }
     

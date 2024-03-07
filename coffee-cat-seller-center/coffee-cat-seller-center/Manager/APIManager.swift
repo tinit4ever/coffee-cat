@@ -41,6 +41,7 @@ struct APIConstants {
         static let getAccount = baseURL + "account/get-all"
         static let banAccount = baseURL + "account/ban"
         static let unbanAccount = baseURL + "account/unban"
+        static let createShop = baseURL + "shop/create"
     }
     
     static let logout = baseURL + "account/logout"
@@ -68,7 +69,7 @@ class APIManager {
     
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
         //        let userSignIn = UserSignIn(email: email, password: password)
-        let userSignIn = UserSignIn(email: "null@gmail.com", password: "null")
+        let userSignIn = UserSignIn(email: "null@null.null", password: "null")
         let apiUrl = APIConstants.Auth.login
         
         AF.request(apiUrl, method: .post, parameters: userSignIn, encoder: JSONParameterEncoder.default).responseData { response in
@@ -522,6 +523,34 @@ class APIManager {
             }
             .mapError { $0 as Error }
             .map{ _ in }
+            .eraseToAnyPublisher()
+    }
+    
+    func createShopOwner(with shopCreationModel: ShopCreationModel, accessToken: String) -> AnyPublisher<ShopCreationResponse, Error> {
+        guard let url = URL(string: APIConstants.Admin.createShop) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .post, parameters: shopCreationModel, encoder: JSONParameterEncoder.default, headers: headers)
+            .publishDecodable(type: ShopCreationResponse.self)
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                return try response.result.get()
+            }
+            .mapError({ error in
+                return error as Error
+            })
             .eraseToAnyPublisher()
     }
 }
