@@ -23,12 +23,6 @@ protocol MenuViewModelProtocol {
     func setSumitItem(id: Int, name: String, price: Double)
     
     func getMenuList()
-  
-    var isGetDataPublisher: PassthroughSubject<Result<Void, Error>, Never> {get set}
-    
-    func setSelected(index: Int)
-    
-    func getMenuList()
 
     func createMenuItem()
     
