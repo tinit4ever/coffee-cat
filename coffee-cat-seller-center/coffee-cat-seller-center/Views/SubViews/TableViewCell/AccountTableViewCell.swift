@@ -76,6 +76,11 @@ class AccountTableViewCell: UITableViewCell {
         nameLabel.setupTitle(text: "Customer account", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)
         phoneLabel.setupTitle(text: "Phone", fontName: FontNames.avenir, size: sizeScaler(26), textColor: .systemGray)
         activeLabel.setupTitle(text: "active", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .systemGreen)
+<<<<<<< Updated upstream
+=======
+        roleLabel.setupTitle(text: "STAFF", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .systemMint)
+        roleLabel.setBoldText()
+>>>>>>> Stashed changes
         stackContent.spacing = heightScaler(20)
         stackContent.alignment = .leading
         stackContent.distribution = .equalCentering
