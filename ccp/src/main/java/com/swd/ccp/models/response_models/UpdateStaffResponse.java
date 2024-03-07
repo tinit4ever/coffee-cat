@@ -16,7 +16,7 @@ public class UpdateStaffResponse {
 
         private String email;
 
-        private String username;
+        private String name;
 
         private String phone;
 

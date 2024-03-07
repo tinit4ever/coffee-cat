@@ -9,7 +9,7 @@ import lombok.Setter;
 public class CustomerProfile {
     private String email;
 
-    private String username;
+    private String name;
 
     private String phone;
 
