@@ -44,6 +44,10 @@ struct APIConstants {
         static let createShop = baseURL + "shop/create"
     }
     
+    struct Staff {
+        static let listBooking = baseURL + "booking/get"
+    }
+    
     static let logout = baseURL + "account/logout"
 }
 
@@ -69,7 +73,7 @@ class APIManager {
     
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
         //        let userSignIn = UserSignIn(email: email, password: password)
-        let userSignIn = UserSignIn(email: "null@null.null", password: "null")
+        let userSignIn = UserSignIn(email: "tina@gmail.com", password: "an123456")
         let apiUrl = APIConstants.Auth.login
         
         AF.request(apiUrl, method: .post, parameters: userSignIn, encoder: JSONParameterEncoder.default).responseData { response in
@@ -551,6 +555,33 @@ class APIManager {
             .mapError({ error in
                 return error as Error
             })
+            .eraseToAnyPublisher()
+    }
+    
+    // MARK: - Staff
+    func getBookingList(accessToken: String) -> AnyPublisher<BookingResponse, Error> {
+        guard let url = URL(string: APIConstants.Staff.listBooking) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .get, headers: headers)
+            .publishDecodable(type: BookingResponse.self)
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                
+                return try response.result.get()
+            }
             .eraseToAnyPublisher()
     }
 }
