@@ -9,14 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UpdateStaffRequest {
+public class ApproveBookingRequest {
     private Integer id;
-
-    private String email;
-
-    private String password;
-
-    private String name;
-
-    private String phone;
 }

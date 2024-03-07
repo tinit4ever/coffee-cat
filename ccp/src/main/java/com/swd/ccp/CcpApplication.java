@@ -190,10 +190,10 @@ public class CcpApplication {
                 //init account
                 Account admin = Account
                         .builder()
-                        .email("null@gmail.com")
-                        .name("Mr Null")
+                        .email("null@null.null")
+                        .name("null")
                         .password(passwordEncoder.encode("null"))
-                        .phone("090909090909")
+                        .phone("null")
                         .status(accountStatusRepo.findByStatus("active"))
                         .role(Role.ADMIN)
                         .build();

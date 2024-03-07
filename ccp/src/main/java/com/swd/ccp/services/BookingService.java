@@ -1,12 +1,7 @@
 package com.swd.ccp.services;
 
-import com.swd.ccp.models.request_models.CancelBookingRequest;
-import com.swd.ccp.models.request_models.CreateBookingCartRequest;
-import com.swd.ccp.models.request_models.CreateBookingRequest;
-import com.swd.ccp.models.request_models.UpdateBookingCartRequest;
-import com.swd.ccp.models.response_models.BookingCartResponse;
-import com.swd.ccp.models.response_models.CancelBookingResponse;
-import com.swd.ccp.models.response_models.CreateBookingResponse;
+import com.swd.ccp.models.request_models.*;
+import com.swd.ccp.models.response_models.*;
 
 public interface BookingService {
 
@@ -17,4 +12,10 @@ public interface BookingService {
     CreateBookingResponse createBooking(CreateBookingRequest request);
 
     CancelBookingResponse cancelBooking(CancelBookingRequest request);
+
+    BookingListResponse getBookingList();
+
+    RejectBookingResponse rejectBooking(RejectBookingRequest request);
+
+    ApproveBookingResponse approveBooking(ApproveBookingRequest request);
 }

@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CancelBookingRequest {
-    private Integer bookingId;
+    private Integer id;
 }

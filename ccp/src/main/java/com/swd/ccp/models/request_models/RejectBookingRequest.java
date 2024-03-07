@@ -9,10 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PopularActiveShopsRequest {
-    private Integer page;
-
-    private Integer size;
-
-    // Constructors, getters, and setters omitted for brevity
+public class RejectBookingRequest {
+    private Integer id;
 }

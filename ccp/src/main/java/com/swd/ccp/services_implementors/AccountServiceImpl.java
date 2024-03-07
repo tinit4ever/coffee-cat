@@ -87,9 +87,9 @@ public class AccountServiceImpl implements AccountService {
             return accountRepo.save(
                     Account.builder()
                             .email(request.getShopEmail() + "@ccp.so.com")
-                            .name(request.getName())
+                            .name(request.getShopName())
                             .password(passwordEncoder.encode(randomPass))
-                            .phone(request.getPhone())
+                            .phone(request.getShopPhone())
                             .status(accountStatus)
                             .role(Role.OWNER)
                             .build()

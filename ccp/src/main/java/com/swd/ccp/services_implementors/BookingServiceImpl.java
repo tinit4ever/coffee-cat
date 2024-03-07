@@ -2,13 +2,8 @@ package com.swd.ccp.services_implementors;
 
 import com.swd.ccp.enums.Constant;
 import com.swd.ccp.models.entity_models.*;
-import com.swd.ccp.models.request_models.CancelBookingRequest;
-import com.swd.ccp.models.request_models.CreateBookingCartRequest;
-import com.swd.ccp.models.request_models.CreateBookingRequest;
-import com.swd.ccp.models.request_models.UpdateBookingCartRequest;
-import com.swd.ccp.models.response_models.BookingCartResponse;
-import com.swd.ccp.models.response_models.CancelBookingResponse;
-import com.swd.ccp.models.response_models.CreateBookingResponse;
+import com.swd.ccp.models.request_models.*;
+import com.swd.ccp.models.response_models.*;
 import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.BookingService;
@@ -38,6 +33,8 @@ public class BookingServiceImpl implements BookingService {
     private final BookingDetailRepo bookingDetailRepo;
 
     private final BookingRepo bookingRepo;
+
+    private final ManagerRepo managerRepo;
 
 
     @Override
@@ -163,7 +160,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public CancelBookingResponse cancelBooking(CancelBookingRequest request) {
 
-        Booking booking = bookingRepo.findById(request.getBookingId()).orElse(null);
+        Booking booking = bookingRepo.findById(request.getId()).orElse(null);
         if(booking != null && booking.getBookingStatus().getStatus().equals("pending")){
             booking.setBookingStatus(bookingStatusRepo.findByStatus("cancelled"));
             for(BookingDetail detail: booking.getBookingDetailList()){
@@ -182,6 +179,109 @@ public class BookingServiceImpl implements BookingService {
                 .status(false)
                 .message("This booking is not existed or something happened")
                 .build();
+    }
+
+    @Override
+    public BookingListResponse getBookingList() {
+        Manager staff = managerRepo.findByAccount(accountService.getCurrentLoggedUser()).orElse(null);
+        assert staff != null;
+
+        return BookingListResponse.builder()
+                .status(true)
+                .message("")
+                .bookingList(getMenuItemResponseFromBookingList(getBookingListFromShop(staff.getShop())))
+                .build();
+    }
+
+    @Override
+    public RejectBookingResponse rejectBooking(RejectBookingRequest request) {
+        Booking booking = bookingRepo.findById(request.getId()).orElse(null);
+        if(booking != null && !booking.getBookingStatus().getStatus().equals("cancelled")){
+            booking.setBookingStatus(bookingStatusRepo.findByStatus("cancelled"));
+            bookingRepo.save(booking);
+            return RejectBookingResponse.builder()
+                    .status(true)
+                    .message("Reject booking successfully")
+                    .build();
+        }
+        return RejectBookingResponse.builder()
+                .status(false)
+                .message("Booking not existed")
+                .build();
+    }
+
+    @Override
+    public ApproveBookingResponse approveBooking(ApproveBookingRequest request) {
+        Booking booking = bookingRepo.findById(request.getId()).orElse(null);
+        if(booking != null && booking.getBookingStatus().getStatus().equals("pending")){
+            booking.setBookingStatus(bookingStatusRepo.findByStatus("confirmed"));
+            bookingRepo.save(booking);
+            return ApproveBookingResponse.builder()
+                    .status(true)
+                    .message("Approve booking successfully")
+                    .build();
+        }
+        return ApproveBookingResponse.builder()
+                .status(false)
+                .message("Booking not existed")
+                .build();
+    }
+
+    private List<BookingListResponse.BookingResponse> getMenuItemResponseFromBookingList(List<Booking> bookings){
+        List<BookingListResponse.BookingResponse> bookingResponses = new ArrayList<>();
+        List<BookingListResponse.MenuItemResponse> menuItemResponses = new ArrayList<>();
+
+        for(Booking booking: bookings){
+            for(BookingDetail detail: booking.getBookingDetailList()){
+                menuItemResponses.add(
+                        BookingListResponse.MenuItemResponse.builder()
+                                .itemName(detail.getMenuItem().getName())
+                                .itemPrice(detail.getPrice())
+                                .quantity(detail.getQuantity())
+                                .build()
+                );
+            }
+
+            bookingResponses.add(
+                    BookingListResponse.BookingResponse.builder()
+                            .bookingId(booking.getId())
+                            .shopName(booking.getShopName())
+                            .seatName(booking.getSeatName())
+                            .areaName(booking.getSeat().getArea().getName())
+                            .totalPrice(calculateTotalPrice(booking))
+                            .bookingDate(booking.getBookingDate())
+                            .status(booking.getBookingStatus().getStatus())
+                            .itemResponseList(menuItemResponses)
+                            .build()
+            );
+        }
+        return bookingResponses;
+    }
+
+    private float calculateTotalPrice(Booking booking){
+        float result = 0;
+        List<BookingDetail> bookingDetailList = booking.getBookingDetailList();
+        if(bookingDetailList != null && !bookingDetailList.isEmpty()){
+            for(BookingDetail item: bookingDetailList){
+                result += item.getPrice() * item.getQuantity();
+            }
+        }
+        return result;
+    }
+
+    private List<Booking> getBookingListFromShop(Shop shop){
+        List<Area> areas = shop.getAreaList();
+        List<Seat> seats = new ArrayList<>();
+        List<Booking> bookings = new ArrayList<>();
+        for(Area area: areas){
+            seats.addAll(area.getSeatList());
+        }
+
+        for(Seat seat: seats){
+            bookings.addAll(seat.getBookingList());
+        }
+
+        return bookings;
     }
 
     private String createBookingDetail(CreateBookingRequest request){
@@ -216,10 +316,10 @@ public class BookingServiceImpl implements BookingService {
 
                         i.setSoldQuantity(i.getSoldQuantity() + item.getQuantity());
                         menuItemRepo.save(i);
+                        return "";
                     }
                     return "The quantity booked must be " + Constant.MAX_BOOKING_MENU_ITEM_QUANTITY + " as maximum";
                 }
-                return "";
             }
             return "This account is not a customer";
         }

@@ -1,5 +1,9 @@
 package com.swd.ccp.models.response_models;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.swd.ccp.models.entity_models.Menu;
 import com.swd.ccp.models.entity_models.MenuItem;
 import lombok.AllArgsConstructor;
@@ -7,6 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.util.List;
 
 @Data
@@ -39,6 +44,7 @@ public class ShopListResponse {
 
         private String name;
 
+        @JsonSerialize(using = MenuItemListResponse.CustomFloatSerializer.class)
         private float price;
 
         private String imgLink;
@@ -83,5 +89,16 @@ public class ShopListResponse {
     private boolean status;
 
     private String message;
+
+    public static class CustomFloatSerializer extends JsonSerializer<Float> {
+        @Override
+        public void serialize(Float value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+            if (value == Math.round(value)) {
+                gen.writeNumber(value.intValue());
+            } else {
+                gen.writeNumber(value);
+            }
+        }
+    }
 
 }

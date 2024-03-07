@@ -33,8 +33,4 @@ public class RegisterRequest {
     @JsonSerialize
     @JsonInclude
     private String gender;
-
-    public void setDob(java.util.Date dob) {
-        this.dob = new Date(dob.getTime());
-    }
 }

@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CreateShopRequest {
-    private String name;
+    private String shopName;
 
-    private String email;
+    private String recipientEmail;
 
     private String shopEmail;
 
-    private String phone;
+    private String shopPhone;
 }

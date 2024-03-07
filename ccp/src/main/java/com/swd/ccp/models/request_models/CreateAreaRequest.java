@@ -12,9 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CreateAreaRequest {
-    private Integer id;
+    private Integer areaId;
 
-    private String name;
+    private String areaName;
 
     private String seatName;
 

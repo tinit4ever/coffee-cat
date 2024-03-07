@@ -1,7 +1,6 @@
 package com.swd.ccp.services;
 
 import com.swd.ccp.models.request_models.CreateShopRequest;
-import com.swd.ccp.models.request_models.ShopRequest;
 import com.swd.ccp.models.request_models.SortStaffListRequest;
 import com.swd.ccp.models.response_models.*;
 

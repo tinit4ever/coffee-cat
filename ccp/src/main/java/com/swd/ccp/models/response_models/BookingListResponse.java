@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookingHistoryResponse {
+public class BookingListResponse {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
@@ -25,7 +25,7 @@ public class BookingHistoryResponse {
     public static class MenuItemResponse{
         private String itemName;
 
-        @JsonSerialize(using = CustomFloatSerializer.class)
+        @JsonSerialize(using = MenuItemListResponse.CustomFloatSerializer.class)
         private float itemPrice;
 
         private int quantity;
@@ -44,6 +44,7 @@ public class BookingHistoryResponse {
 
         private String areaName;
 
+        @JsonSerialize(using = MenuItemListResponse.CustomFloatSerializer.class)
         private float totalPrice;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -61,7 +62,7 @@ public class BookingHistoryResponse {
 
     public static class CustomFloatSerializer extends JsonSerializer<Float> {
         @Override
-        public void serialize(Float value, JsonGenerator gen, SerializerProvider serializers) throws IOException{
+        public void serialize(Float value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
             if (value == Math.round(value)) {
                 gen.writeNumber(value.intValue());
             } else {
