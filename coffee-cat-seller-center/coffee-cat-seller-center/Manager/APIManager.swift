@@ -37,6 +37,12 @@ struct APIConstants {
         static let deleteMenuItem = baseURL + "menu/delete"
     }
     
+    struct Admin {
+        static let getAccount = baseURL + "account/get-all"
+        static let banAccount = baseURL + "account/ban"
+        static let unbanAccount = baseURL + "account/unban"
+        static let createShop = baseURL + "shop/create"
+    }
     
     static let logout = baseURL + "account/logout"
 }
@@ -60,9 +66,10 @@ class APIManager {
     
     private init() {}
     
+    
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
         //        let userSignIn = UserSignIn(email: email, password: password)
-        let userSignIn = UserSignIn(email: "tin@gmail.com", password: "an123456")
+        let userSignIn = UserSignIn(email: "null@null.null", password: "null")
         let apiUrl = APIConstants.Auth.login
         
         AF.request(apiUrl, method: .post, parameters: userSignIn, encoder: JSONParameterEncoder.default).responseData { response in
@@ -81,6 +88,7 @@ class APIManager {
         }
     }
     
+    // MARK: - Shop Owner
     func getAreaListByShopId(shopId: Int, date: String) -> AnyPublisher<AreaList, Error> {
         guard let url = URL(string: APIConstants.Auth.areas) else {
             return Fail(error: APIError.badUrl).eraseToAnyPublisher()
@@ -433,6 +441,116 @@ class APIManager {
                 return error as Error
             })
             .map { _ in}
+            .eraseToAnyPublisher()
+    }
+    
+    // MARK: - Admin
+    func getAllAccount(accessToken: String) -> AnyPublisher<GetAllAccountModel, Error> {
+        guard let url = URL(string: APIConstants.Admin.getAccount) else {
+            return Fail(error: APIError.badUrl)
+                .eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .get, headers: headers)
+            .publishDecodable(type: GetAllAccountModel.self)
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else  {
+                    throw URLError(.badServerResponse)
+                }
+                return try response.result.get()
+            }
+            .mapError { error in
+                return error as Error
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func banAccount(with accountId: Int, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Admin.banAccount) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "accountId": accountId
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { $0 as Error }
+            .map{ _ in }
+            .eraseToAnyPublisher()
+    }
+    
+    func unbanAccount(with accountId: Int, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Admin.unbanAccount) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [
+            "accountId": accountId
+        ]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { $0 as Error }
+            .map{ _ in }
+            .eraseToAnyPublisher()
+    }
+    
+    func createShopOwner(with shopCreationModel: ShopCreationModel, accessToken: String) -> AnyPublisher<ShopCreationResponse, Error> {
+        guard let url = URL(string: APIConstants.Admin.createShop) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .post, parameters: shopCreationModel, encoder: JSONParameterEncoder.default, headers: headers)
+            .publishDecodable(type: ShopCreationResponse.self)
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                return try response.result.get()
+            }
+            .mapError({ error in
+                return error as Error
+            })
             .eraseToAnyPublisher()
     }
 }
