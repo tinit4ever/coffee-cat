@@ -28,6 +28,11 @@ struct APIConstants {
         static let banStaff = baseURL + "owner/staff/inactive"
         static let unbanStaff = baseURL + "owner/staff/active"
         static let createSeat = baseURL + "owner/area/create"
+<<<<<<< Updated upstream
+=======
+        static let deleteSeats = baseURL + "owner/area/delete"
+        static let getMenuList = baseURL + "menu/list"
+>>>>>>> Stashed changes
     }
     
     
@@ -35,8 +40,8 @@ struct APIConstants {
 }
 
 struct APIParameter {
-//    static let keyword = "keyword"
-//    static let searchType = "searchType"
+    //    static let keyword = "keyword"
+    //    static let searchType = "searchType"
     static let sortByColumn = "column"
     static let asc = "ascOrder"
 }
@@ -53,7 +58,7 @@ class APIManager {
     private init() {}
     
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
-//        let userSignIn = UserSignIn(email: email, password: password)
+        //        let userSignIn = UserSignIn(email: email, password: password)
         let userSignIn = UserSignIn(email: "tin@gmail.com", password: "an123456")
         let apiUrl = APIConstants.Auth.login
         
@@ -277,4 +282,55 @@ class APIManager {
             }
             .eraseToAnyPublisher()
     }
+<<<<<<< Updated upstream
+=======
+    
+    func deleteSeats(with seatIds: [SeatId], accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Owner.deleteSeats) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let seatListRequest = SeatListRequest(seatList: seatIds)
+        
+        return AF.request(url, method: .post, parameters: seatListRequest, encoder: JSONParameterEncoder.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { $0 as Error }
+            .map { _ in }
+            .eraseToAnyPublisher()
+    }
+    
+    func getMenuList(_ accessToken: String) -> AnyPublisher<GetMenuResponse, Error> {
+        guard let url = URL(string: APIConstants.Owner.getMenuList) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .get, headers: headers)
+            .publishDecodable(type: GetMenuResponse.self)
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    if let statusCode = response.response?.statusCode {
+                        print("Unexpected status code: \(statusCode)")
+                    }
+                    throw APIError.failedToGetData
+                }
+                return try response.result.get()
+            }
+            .eraseToAnyPublisher()
+    }
+>>>>>>> Stashed changes
 }
