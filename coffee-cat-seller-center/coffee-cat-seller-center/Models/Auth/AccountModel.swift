@@ -23,6 +23,7 @@ struct Account: Codable {
     var status: Status
     var role: Role?
     var shopId: Int?
+    var shopName: String?
 }
 
 enum Role: String, Codable {

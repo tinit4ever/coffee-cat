@@ -32,6 +32,18 @@ class BookingViewController: UIViewController, UIFactory {
     
     private let refreshControl = UIRefreshControl()
     
+    
+    lazy var popupView = makePopupView(frame: CGRect(x: 200, y: 400, width: widthScaler(500), height: heightScaler(175)))
+    lazy var blurView = makeBlurView(frame: view.bounds, effect: UIBlurEffect(style: .systemUltraThinMaterial))
+    
+    lazy var menuItemListLabel = makeLabel()
+    
+    lazy var menuItems: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = true
+        return textView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
@@ -64,6 +76,10 @@ class BookingViewController: UIViewController, UIFactory {
         
         view.addSubview(bookingTableViewContainer)
         configBookingTableViewContainer()
+        
+        view.addSubview(blurView)
+        view.addSubview(popupView)
+        configPopupView()
     }
     
     private func configAppearance() {
@@ -131,9 +147,27 @@ class BookingViewController: UIViewController, UIFactory {
         self.refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
     }
     
+    private func configPopupView() {
+        let viewWidth: CGFloat = view.frame.size.width - widthScaler (100)
+        let viewHeight: CGFloat = heightScaler(400)
+
+        let centerX = view.frame.size.width / 2.0
+        let centerY = view.frame.size.height / 2.0
+        
+        popupView.frame = CGRect(x: centerX - (viewWidth / 2.0), y: centerY / 2, width: viewWidth, height: viewHeight)
+
+        popupView.addSubview(menuItems)
+        menuItems.frame = CGRect(x: widthScaler(40), y: heightScaler(10), width: popupView.frame.width - widthScaler(80) , height: popupView.frame.height - heightScaler(20))
+        menuItems.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
+    }
+    
+    
     // MARK: Setup Action
     private func setupAction() {
         self.segmentedControl.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissPopup))
+        blurView.addGestureRecognizer(tapGesture)
     }
     
     // MARK: Catch Action
@@ -166,10 +200,47 @@ class BookingViewController: UIViewController, UIFactory {
         }
     }
     
+    @objc
+    func dismissPopup() {
+        UIView.animate(withDuration: 0.3) {
+            self.popupView.alpha = 0
+            self.blurView.alpha = 0
+        }
+    }
+    
     // MARK: Utilities
     private func reloadData() {
         DispatchQueue.main.async {
             self.bookingTableView.reloadData()
+        }
+    }
+    
+    private func generateMenuList(bookingDetails: BookingDetail) {
+        let itemList = bookingDetails.itemResponseList
+        var menuDetails: String = ""
+        
+        if let seatName = bookingDetails.seatName,
+           let areaName = bookingDetails.areaName {
+            menuDetails += "Your table is booked:\n" + seatName + " in " + areaName + "\n\n" + "Your food has been ordered:\n"
+        }
+        for (index, item) in itemList.enumerated() {
+            if index != itemList.count - 1 {
+                menuDetails += item.itemName + ": " + String(describing: item.quantity) + "\n\n"
+            } else {
+                menuDetails += item.itemName + ": " + String(describing: item.quantity) + "\n"
+            }
+        }
+        
+        let totalPrice = bookingDetails.totalPrice
+        menuDetails = menuDetails + "_______________________________\nTotal Price: \(totalPrice)$"
+        
+        self.menuItems.text = menuDetails
+    }
+    
+    private func showPopupView() {
+        UIView.animate(withDuration: 0.3) {
+            self.popupView.alpha = 1 - self.popupView.alpha
+            self.blurView.alpha = 1 - self.blurView.alpha
         }
     }
     
@@ -265,6 +336,14 @@ extension BookingViewController: UITableViewDataSource {
 }
 
 extension BookingViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let bookingList = self.viewModel.currentList {
+            let bookingDetails = bookingList[indexPath.row]
+            self.generateMenuList(bookingDetails: bookingDetails)
+            showPopupView()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return heightScaler(160)
     }
