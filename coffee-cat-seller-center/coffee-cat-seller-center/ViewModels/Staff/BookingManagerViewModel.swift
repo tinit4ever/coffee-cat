@@ -9,6 +9,7 @@ import Foundation
 import Combine
 
 protocol BookingManagerViewModelProtocol {
+    var attachedBookingId: Int {get set}
     
     var pendingList: [BookingDetail] {get set}
     
@@ -20,12 +21,25 @@ protocol BookingManagerViewModelProtocol {
     
     var isGetDataCompletedSubject: PassthroughSubject<Result<Void, Error>, Never> {get set}
     
+    var isApprovedSubject: PassthroughSubject<Result<Void, Error>, Never> {get set}
+    var isRejectedSubject: PassthroughSubject<Result<Void, Error>, Never> {get set}
+    
     func getBookingList()
     
     func updateCurrentList(currentStatus: BookingStatus)
+    
+    func approveBooking()
+    
+    func rejectBooking()
 }
 
 class BookingManagerViewModel: BookingManagerViewModelProtocol {
+    var attachedBookingId: Int = 0
+    
+    var isApprovedSubject = PassthroughSubject<Result<Void, Error>, Never>()
+    
+    var isRejectedSubject = PassthroughSubject<Result<Void, Error>, Never>()
+    
     var pendingList: [BookingDetail] = []
     
     var confirmedList: [BookingDetail] = []
@@ -91,4 +105,41 @@ class BookingManagerViewModel: BookingManagerViewModelProtocol {
         self.currentList = pendingList
     }
     
+    func approveBooking() {
+        guard let accessToken = UserSessionManager.shared.getAccessToken() else {
+            return
+        }
+        
+        APIManager.shared.approveBooking(bookingId: self.attachedBookingId, accessToken: accessToken)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    self.isApprovedSubject.send(.failure(error))
+                }
+            } receiveValue: { _ in
+                self.isApprovedSubject.send(.success(()))
+            }
+            .store(in: &cancellables)
+    }
+    
+    func rejectBooking() {
+        guard let accessToken = UserSessionManager.shared.getAccessToken() else {
+            return
+        }
+        
+        APIManager.shared.rejectBooking(bookingId: self.attachedBookingId, accessToken: accessToken)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    break
+                case .failure(let error):
+                    self.isRejectedSubject.send(.failure(error))
+                }
+            } receiveValue: { _ in
+                self.isRejectedSubject.send(.success(()))
+            }
+            .store(in: &cancellables)
+    }
 }

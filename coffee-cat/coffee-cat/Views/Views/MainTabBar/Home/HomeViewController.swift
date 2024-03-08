@@ -470,7 +470,7 @@ class HomeViewController: UIViewController, UIFactory {
     @objc
     private func pullToRefresh() {
         self.refreshControl.beginRefreshing()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.main.async {
             self.shopList.reloadData()
         }
         self.refreshControl.endRefreshing()

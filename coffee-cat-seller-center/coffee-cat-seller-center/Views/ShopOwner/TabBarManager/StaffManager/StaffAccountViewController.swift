@@ -79,7 +79,7 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
     }
     
     private func configTopViewLabel() {
-        if let username = UserSessionManager.shared.authenticationResponse?.accountResponse?.username {
+        if let username = UserSessionManager.shared.authenticationResponse?.accountResponse?.name {
             topViewLabel.setupTitle(text: "Hello \(String(describing: username))!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
         } else {
             topViewLabel.setupTitle(text: "Hello!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
@@ -202,7 +202,7 @@ class StaffAccountViewController: UIViewController, StaffAccountFactory {
         let account = self.viewModel.staffList[indexPath.row]
         let accountInputViewModel: AccountInputViewModelProtocol = AccountInputViewModel()
         
-        guard let name = account.username,
+        guard let name = account.name,
               let phone = account.phone else {
             return
         }

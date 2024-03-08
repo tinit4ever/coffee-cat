@@ -18,7 +18,7 @@ struct AuthenticationResponse: Codable {
 struct Account: Codable {
     var id: Int
     var email: String
-    var username: String?
+    var name: String?
     var phone: String?
     var gender: String?
     var dob: String?

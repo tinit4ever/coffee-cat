@@ -148,7 +148,7 @@ class ProfileViewController: UIViewController, UIFactory {
 
         let email = userInfor.email
         
-        let username = userInfor.username
+        let username = userInfor.name
         let phone = userInfor.phone
         let gender = userInfor.gender
         let dob = userInfor.dob
