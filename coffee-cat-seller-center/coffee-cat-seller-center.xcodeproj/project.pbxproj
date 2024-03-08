@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A000674B2B9B5345002CA195 /* CatListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A000674A2B9B5345002CA195 /* CatListResponse.swift */; };
+		A000674D2B9B55D3002CA195 /* ShopInfor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A000674C2B9B55D3002CA195 /* ShopInfor.swift */; };
+		A00067502B9B57FC002CA195 /* ShopManagerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A000674F2B9B57FC002CA195 /* ShopManagerViewModel.swift */; };
+		A00067522B9B68B7002CA195 /* EditShopDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00067512B9B68B7002CA195 /* EditShopDetailsViewModel.swift */; };
 		A02EAFB52B971CEF00C466EF /* BookingManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02EAFB42B971CEF00C466EF /* BookingManagerViewController.swift */; };
 		A02EAFBC2B971F4300C466EF /* BookingManagerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02EAFBB2B971F4300C466EF /* BookingManagerFactory.swift */; };
 		A02EAFBE2B9723F100C466EF /* BookingHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02EAFBD2B9723F100C466EF /* BookingHistoryTableViewCell.swift */; };
@@ -97,6 +100,9 @@
 
 /* Begin PBXFileReference section */
 		A000674A2B9B5345002CA195 /* CatListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatListResponse.swift; sourceTree = "<group>"; };
+		A000674C2B9B55D3002CA195 /* ShopInfor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopInfor.swift; sourceTree = "<group>"; };
+		A000674F2B9B57FC002CA195 /* ShopManagerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopManagerViewModel.swift; sourceTree = "<group>"; };
+		A00067512B9B68B7002CA195 /* EditShopDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditShopDetailsViewModel.swift; sourceTree = "<group>"; };
 		A02EAFB42B971CEF00C466EF /* BookingManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingManagerViewController.swift; sourceTree = "<group>"; };
 		A02EAFBB2B971F4300C466EF /* BookingManagerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingManagerFactory.swift; sourceTree = "<group>"; };
 		A02EAFBD2B9723F100C466EF /* BookingHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingHistoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -197,6 +203,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A000674E2B9B57DC002CA195 /* ShopManager */ = {
+			isa = PBXGroup;
+			children = (
+				A000674F2B9B57FC002CA195 /* ShopManagerViewModel.swift */,
+				A00067512B9B68B7002CA195 /* EditShopDetailsViewModel.swift */,
+			);
+			path = ShopManager;
+			sourceTree = "<group>";
+		};
 		A02EAFB62B971D6700C466EF /* StaffManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,6 +297,7 @@
 		A06452682B92BDDF00148032 /* ShopOwner */ = {
 			isa = PBXGroup;
 			children = (
+				A000674E2B9B57DC002CA195 /* ShopManager */,
 				A0EEFA592B97C9C10088CA0F /* MenuManager */,
 				A0EEFA582B97C9B80088CA0F /* CatManager */,
 				A0EEFA572B97C99F0088CA0F /* StaffManager */,
@@ -612,6 +628,7 @@
 				A09EB5182B95723300F532D6 /* CreateAreaModel.swift */,
 				A0D9A4052B962258000E5C80 /* DeleteSeaListModel.swift */,
 				A000674A2B9B5345002CA195 /* CatListResponse.swift */,
+				A000674C2B9B55D3002CA195 /* ShopInfor.swift */,
 			);
 			path = Shop;
 			sourceTree = "<group>";
@@ -766,6 +783,8 @@
 				A0EEFA5F2B9814720088CA0F /* ShopManagerFactory.swift in Sources */,
 				A0AE8DC42B99A04900528995 /* ShopCreationInputViewModel.swift in Sources */,
 				A02EAFC12B9724AB00C466EF /* Booking.swift in Sources */,
+				A000674D2B9B55D3002CA195 /* ShopInfor.swift in Sources */,
+				A00067522B9B68B7002CA195 /* EditShopDetailsViewModel.swift in Sources */,
 				A0CA420D2B91ED2700BED8FF /* AccountInputFactory.swift in Sources */,
 				A06452732B92C85F00148032 /* ProfileFactory.swift in Sources */,
 				A06452672B92BDBD00148032 /* UserSignIn.swift in Sources */,
@@ -777,6 +796,7 @@
 				A0CBF4F52B8CDBD9008CFAD3 /* UIScreen+Extension.swift in Sources */,
 				A06834242B8D87180086CE59 /* StaffAccountViewController.swift in Sources */,
 				A06452712B92C7EA00148032 /* ProfileViewModel.swift in Sources */,
+				A00067502B9B57FC002CA195 /* ShopManagerViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
