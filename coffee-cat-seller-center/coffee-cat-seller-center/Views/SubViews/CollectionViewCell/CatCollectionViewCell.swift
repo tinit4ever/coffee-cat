@@ -14,12 +14,7 @@ class CatCollectionViewCell: UICollectionViewCell {
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
-    private var cancellables: Set<AnyCancellable> = []
-    private var isSelectedSubject = PassthroughSubject<Bool, Never>()
-    
-    lazy var status: Bool = false
-    
-    lazy var beforeSelectedState: Bool = false
+    var customSelect: Bool = false
     
     // MARK: - Create UIComponents
     private lazy var imageView: UIImageView = {
@@ -33,16 +28,27 @@ class CatCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-//    private lazy var titleLabel: UILabel = {
-//        let label = UILabel()
-//        
-//        label.textColor = .customBlack
-//        label.lineBreakMode = .byWordWrapping
-//        label.numberOfLines = 0
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        return label
-//    }()
+    private lazy var nameLabel: UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .customBlack
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    private lazy var typeLabel: UILabel = {
+        let label = UILabel()
+        
+        label.textColor = .customBlack
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -64,32 +70,19 @@ class CatCollectionViewCell: UICollectionViewCell {
             imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            imageView.heightAnchor.constraint(equalToConstant: self.contentView.bounds.height / 3 * 2)
+            
         ])
-        
-//        NSLayoutConstraint.activate([
-//            imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: heightScaler(10)),
-//            imageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: heightScaler(10)),
-//            imageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -heightScaler(10)),
-//            imageView.heightAnchor.constraint(equalToConstant: self.contentView.bounds.height - heightScaler(40)),
-//            imageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
-//        ])
-        
-//        self.contentView.addSubview(titleLabel)
-//        titleLabel.setupTitle(text: "Unknown", fontName: FontNames.avenir, size: sizeScaler(26), textColor: .customBlack)
-//        titleLabel.setBoldText()
-//        titleLabel.adjustsFontSizeToFitWidth = true
-//        titleLabel.numberOfLines = 1
-//        NSLayoutConstraint.activate([
-//            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor),
-//            titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-//            titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: heightScaler(10)),
-//            titleLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -heightScaler(10)),
-//            titleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -heightScaler(10))
-//        ])
     }
     
+    func updateBorder(_ isSelected: Bool) {
+        if isSelected {
+            self.contentView.layer.borderWidth = widthScaler(7)
+        } else {
+            self.contentView.layer.borderWidth = widthScaler(0)
+        }
+    }
+
     func configure(_ cat: Cat) {
-//        self.titleLabel.text = cat.description
     }
 }

@@ -15,6 +15,7 @@ class AreaCatTableViewCell: UITableViewCell {
     let sizeScaler = UIScreen.scalableSize
     
     var catList: [Cat] = []
+    var didSelectedCat: ((Cat, Bool) -> Void)?
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -81,5 +82,26 @@ extension AreaCatTableViewCell: UICollectionViewDataSource {
         cell.configure(cat)
         
         return cell
+    }
+}
+
+extension AreaCatTableViewCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        guard let cell = collectionView.cellForItem(at: indexPath) as? SeatCollectionViewCell else {
+//            return
+//        }
+//        let beforeSelect = cell.customSelect
+//        
+//        let catId = self.catList[indexPath.row].id
+//
+//        if beforeSelect {
+//            cell.customSelect = false
+//            cell.updateBorder(false)
+//            self.didSelectedSeat?(SeatId(id: seatId), false)
+//        } else {
+//            cell.customSelect = true
+//            cell.updateBorder(true)
+//            self.didSelectedSeat?(SeatId(id: seatId), true)
+//        }
     }
 }

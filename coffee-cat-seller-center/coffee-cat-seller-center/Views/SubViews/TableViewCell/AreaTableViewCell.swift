@@ -17,8 +17,6 @@ class AreaTableViewCell: UITableViewCell {
     var seatList: [Seat] = []
     var didSelectedSeat: ((SeatId, Bool) -> Void)?
     
-    private var cancellables: Set<AnyCancellable> = []
-    
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal

@@ -16,16 +16,16 @@ struct AreaList: Codable {
 struct Area: Codable {
     var id: Int?
     var name: String?
-    var catList: [Cat]?
+//    var catList: [Cat]?
     var seatList: [Seat]?
 }
 
-struct Cat: Codable {
-    var id: Int?
-    var type: String?
-    var description: String
-    var imgLink: String?
-}
+//struct Cat: Codable {
+//    var id: Int?
+//    var type: String?
+//    var description: String
+//    var imgLink: String?
+//}
 
 struct Seat: Codable {
     var id : Int?
