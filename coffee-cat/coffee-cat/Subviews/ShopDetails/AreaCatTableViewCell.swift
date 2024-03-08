@@ -18,11 +18,11 @@ class AreaCatTableViewCell: UITableViewCell {
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: UIScreen.scalableWidth(360), height: UIScreen.scalableHeight(180))
-        layout.minimumLineSpacing = UIScreen.scalableHeight(30)
-        layout.minimumInteritemSpacing = UIScreen.scalableHeight(30)
-        layout.sectionInset = UIEdgeInsets(top: layout.minimumLineSpacing, left: layout.minimumLineSpacing, bottom: layout.minimumLineSpacing * 2, right: layout.minimumLineSpacing * 2.5)
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: UIScreen.scalableWidth(780), height: UIScreen.scalableHeight(160))
+        layout.minimumLineSpacing = widthScaler(80)
+        let space = widthScaler(80)
+        layout.sectionInset = UIEdgeInsets(top: space, left: 0, bottom: space * 1.5, right: space)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false

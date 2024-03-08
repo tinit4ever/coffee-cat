@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import Combine
 
 class CatViewController: UIViewController, CatFactory {
@@ -171,29 +172,41 @@ extension CatViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.viewModel.areaList[section].areaName
+//        return self.viewModel.areaList[section].areaName
+        "A"
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        self.viewModel.areaList.count
+//        self.viewModel.areaList.count
+        3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AreaCatTableViewCell.identifier, for: indexPath) as? AreaCatTableViewCell else {
             return UITableViewCell()
         }
-        
-        let catList = self.viewModel.areaList[indexPath.section].cat
-        cell.configure(catList: catList)
+//        
+//        let catList = self.viewModel.areaList[indexPath.section].cat
+//        cell.configure(catList: catList)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightScaler(700)
+        return heightScaler(440)
     }
 }
 
 extension CatViewController: UITableViewDelegate {
     
+}
+
+// -MARK: Preview
+struct CatViewControllerPreview: PreviewProvider {
+    static var previews: some View {
+        VCPreview {
+            let catViewController = CatViewController()
+            return catViewController
+        }
+    }
 }
