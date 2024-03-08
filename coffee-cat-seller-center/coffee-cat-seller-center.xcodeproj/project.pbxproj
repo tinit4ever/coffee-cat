@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A000674B2B9B5345002CA195 /* CatListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A000674A2B9B5345002CA195 /* CatListResponse.swift */; };
 		A02EAFB52B971CEF00C466EF /* BookingManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02EAFB42B971CEF00C466EF /* BookingManagerViewController.swift */; };
 		A02EAFBC2B971F4300C466EF /* BookingManagerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02EAFBB2B971F4300C466EF /* BookingManagerFactory.swift */; };
 		A02EAFBE2B9723F100C466EF /* BookingHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A02EAFBD2B9723F100C466EF /* BookingHistoryTableViewCell.swift */; };
@@ -95,6 +96,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A000674A2B9B5345002CA195 /* CatListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatListResponse.swift; sourceTree = "<group>"; };
 		A02EAFB42B971CEF00C466EF /* BookingManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingManagerViewController.swift; sourceTree = "<group>"; };
 		A02EAFBB2B971F4300C466EF /* BookingManagerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingManagerFactory.swift; sourceTree = "<group>"; };
 		A02EAFBD2B9723F100C466EF /* BookingHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingHistoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -609,6 +611,7 @@
 				A0EFC4D92B940FE500F94ECF /* Shop.swift */,
 				A09EB5182B95723300F532D6 /* CreateAreaModel.swift */,
 				A0D9A4052B962258000E5C80 /* DeleteSeaListModel.swift */,
+				A000674A2B9B5345002CA195 /* CatListResponse.swift */,
 			);
 			path = Shop;
 			sourceTree = "<group>";
@@ -723,6 +726,7 @@
 				A0CBF5042B8CE5FD008CFAD3 /* AdminViewController.swift in Sources */,
 				A049438C2B997A8600AB96A7 /* AdminViewModel.swift in Sources */,
 				A0EFC4D22B940E0700F94ECF /* AreaCatTableViewCell.swift in Sources */,
+				A000674B2B9B5345002CA195 /* CatListResponse.swift in Sources */,
 				A064526C2B92C05E00148032 /* UserSessionManager.swift in Sources */,
 				A0CBF4F02B8CDBD9008CFAD3 /* String+Extension.swift in Sources */,
 				A0CBF50B2B8CE9A5008CFAD3 /* AccountTableViewCell.swift in Sources */,
