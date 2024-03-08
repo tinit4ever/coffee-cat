@@ -97,7 +97,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public UpdateMenuItemResponse upadateMenuItem(UpdateMenuItemRequest request) {
+    public UpdateMenuItemResponse updateMenuItem(UpdateMenuItemRequest request) {
         Manager owner = convertToOwner();
         if(owner != null){
             return updateMenuItem(request, owner.getShop());

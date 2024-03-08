@@ -45,7 +45,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
                         StaffListResponse.StaffResponse.builder()
                                 .id(manager.getId())
                                 .email(manager.getAccount().getEmail())
-                                .username(manager.getAccount().getName())
+                                .name(manager.getAccount().getName())
                                 .phone(manager.getAccount().getPhone())
                                 .status(manager.getAccount().getStatus().getStatus())
                                 .build()
@@ -89,7 +89,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
                 staffList.sort(Comparator.comparing(StaffListResponse.StaffResponse::getEmail));
                 break;
             case "username":
-                staffList.sort(Comparator.comparing(StaffListResponse.StaffResponse::getUsername));
+                staffList.sort(Comparator.comparing(StaffListResponse.StaffResponse::getName));
                 break;
             case "status":
                 staffList.sort(Comparator.comparing(StaffListResponse.StaffResponse::getStatus));
@@ -107,7 +107,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
                 staffList.sort(Comparator.comparing(StaffListResponse.StaffResponse::getEmail).reversed());
                 break;
             case "username":
-                staffList.sort(Comparator.comparing(StaffListResponse.StaffResponse::getUsername).reversed());
+                staffList.sort(Comparator.comparing(StaffListResponse.StaffResponse::getName).reversed());
                 break;
             case "status":
                 staffList.sort(Comparator.comparing(StaffListResponse.StaffResponse::getStatus).reversed());
@@ -186,7 +186,7 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
                         .staffResponse(
                                 UpdateStaffResponse.StaffResponse.builder()
                                         .id(staff.getId())
-                                        .username(staff.getAccount().getUsername())
+                                        .name(staff.getAccount().getUsername())
                                         .email(staff.getAccount().getEmail())
                                         .phone(staff.getAccount().getPhone())
                                         .status(staff.getAccount().getStatus().getStatus())
@@ -468,8 +468,8 @@ public class ShopOwnerServiceImpl implements ShopOwnerService {
     }
 
     @Override
-    public Manager createShopOwnerAccount(Account account, Shop shop) {
-        return managerRepo.save(
+    public void createShopOwnerAccount(Account account, Shop shop) {
+        managerRepo.save(
                 Manager.builder()
                         .account(account)
                         .shop(shop)

@@ -93,7 +93,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                                     AccountResponse.builder()
                                             .id(customer.getAccount().getId())
                                             .email(customer.getAccount().getEmail())
-                                            .username(customer.getAccount().getUsername())
+                                            .name(customer.getAccount().getUsername())
                                             .phone(customer.getAccount().getPhone())
                                             .dob(customer.getDob())
                                             .gender(customer.getGender())
@@ -172,16 +172,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .refreshToken(tokenList.get(1).getToken())
                 .status(true)
                 .accountResponse(
-                        AccountResponse
+                        LoginResponse.AccountResponse
                                 .builder()
                                 .id(1)
                                 .email(account.getEmail())
-                                .username(account.getName())
+                                .name(account.getName())
                                 .phone(account.getPhone())
                                 .gender(checkIfAccountIsCustomer(account) != null ? checkIfAccountIsCustomer(account).getGender() : null)
                                 .dob(checkIfAccountIsCustomer(account) != null ? checkIfAccountIsCustomer(account).getDob() : null)
                                 .status(account.getStatus().getStatus())
-                                .shopId(null)
+                                .shopName(null)
                                 .role(account.getRole().name())
                                 .build()
                 )
@@ -199,16 +199,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .refreshToken(tokenList.get(1).getToken())
                 .status(true)
                 .accountResponse(
-                        AccountResponse
+                        LoginResponse.AccountResponse
                                 .builder()
                                 .id(1)
                                 .email(account.getEmail())
-                                .username(account.getName())
+                                .name(account.getName())
                                 .phone(account.getPhone())
                                 .gender(checkIfAccountIsCustomer(account) != null ? checkIfAccountIsCustomer(account).getGender() : null)
                                 .dob(checkIfAccountIsCustomer(account) != null ? checkIfAccountIsCustomer(account).getDob() : null)
                                 .status(account.getStatus().getStatus())
-                                .shopId(manager.getShop().getId())
+                                .shopName(manager.getShop().getName())
                                 .role(account.getRole().name())
                                 .build()
                 )

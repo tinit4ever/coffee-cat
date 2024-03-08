@@ -134,9 +134,39 @@ public class AccountServiceImpl implements AccountService {
     public GetAllAccountAdminResponse getAllAccount() {
         List<Account> accounts = accountRepo.findAll();
         List<GetAllAccountAdminResponse.AccountResponse> accountList = new ArrayList<>();
+
+        List<GetAllAccountAdminResponse.AccountResponse> ownerList = new ArrayList<>();
+        List<GetAllAccountAdminResponse.AccountResponse> staffList = new ArrayList<>();
+        List<GetAllAccountAdminResponse.AccountResponse> customerList = new ArrayList<>();
         for(Account account: accounts){
-            if(!account.getRole().equals(Role.ADMIN)){
-                accountList.add(
+            if(account.getRole().equals(Role.OWNER)){
+                ownerList.add(
+                        GetAllAccountAdminResponse.AccountResponse.builder()
+                                .id(account.getId())
+                                .email(account.getEmail())
+                                .name(account.getName())
+                                .phone(account.getPhone())
+                                .status(account.getStatus().getStatus())
+                                .role(account.getRole().name())
+                                .build()
+                );
+            }
+
+            if(account.getRole().equals(Role.STAFF)){
+                staffList.add(
+                        GetAllAccountAdminResponse.AccountResponse.builder()
+                                .id(account.getId())
+                                .email(account.getEmail())
+                                .name(account.getName())
+                                .phone(account.getPhone())
+                                .status(account.getStatus().getStatus())
+                                .role(account.getRole().name())
+                                .build()
+                );
+            }
+
+            if(account.getRole().equals(Role.CUSTOMER)){
+                customerList.add(
                         GetAllAccountAdminResponse.AccountResponse.builder()
                                 .id(account.getId())
                                 .email(account.getEmail())
@@ -148,6 +178,10 @@ public class AccountServiceImpl implements AccountService {
                 );
             }
         }
+
+        accountList.addAll(ownerList);
+        accountList.addAll(staffList);
+        accountList.addAll(customerList);
         return GetAllAccountAdminResponse.builder()
                 .accountResponseList(accountList)
                 .build();

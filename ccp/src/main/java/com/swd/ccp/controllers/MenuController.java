@@ -33,7 +33,7 @@ public class MenuController {
     @PostMapping("/update")
     @PreAuthorize("hasAuthority('owner:update')")
     public ResponseEntity<UpdateMenuItemResponse> createMenuItem(@RequestBody UpdateMenuItemRequest request){
-        return ResponseEntity.ok().body(menuService.upadateMenuItem(request));
+        return ResponseEntity.ok().body(menuService.updateMenuItem(request));
     }
 
     @PostMapping("/delete")

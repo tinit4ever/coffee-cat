@@ -8,4 +8,6 @@ public interface ShopService {
     ShopListResponse getActiveShops(SortStaffListRequest request);
     ShopListResponse searchShops(String keyword, String searchType, SortStaffListRequest request);
     CreateShopResponse createShop(CreateShopRequest request) throws Exception;
+
+    ShopProfileResponse getShopProfile();
 }

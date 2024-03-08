@@ -40,7 +40,7 @@ public class CustomerServiceIml implements CustomerService {
             if (optionalCustomer.isPresent()) {
                 Customer customer = optionalCustomer.get();
                 CustomerProfile profile = new CustomerProfile();
-                profile.setUsername(customer.getAccount().getUsername());
+                profile.setName(customer.getAccount().getUsername());
                 profile.setEmail(customer.getAccount().getEmail());
                 profile.setPhone(customer.getAccount().getPhone());
                 profile.setGender(customer.getGender());

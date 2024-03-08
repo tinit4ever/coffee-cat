@@ -12,5 +12,5 @@ public interface MenuService {
 
     DeleteMenuItemResponse deleteMenuItem(DeleteMenuItemRequest request);
 
-    UpdateMenuItemResponse upadateMenuItem(UpdateMenuItemRequest request);
+    UpdateMenuItemResponse updateMenuItem(UpdateMenuItemRequest request);
 }

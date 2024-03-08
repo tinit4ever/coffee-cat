@@ -5,6 +5,7 @@ import com.swd.ccp.models.request_models.CreateShopRequest;
 import com.swd.ccp.models.request_models.SortStaffListRequest;
 import com.swd.ccp.models.response_models.CreateShopResponse;
 import com.swd.ccp.models.response_models.ShopListResponse;
+import com.swd.ccp.models.response_models.ShopProfileResponse;
 import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.AccountService;
 import com.swd.ccp.services.EmailService;
@@ -26,6 +27,7 @@ public class ShopServiceImpl implements ShopService {
     private final AccountService accountService;
     private final ShopOwnerService shopOwnerService;
     private final EmailService emailService;
+    private final ManagerRepo managerRepo;
 
     @Override
     public ShopListResponse getActiveShops(SortStaffListRequest request) {
@@ -41,7 +43,7 @@ public class ShopServiceImpl implements ShopService {
         switch (searchType){
             case "name":
                 for(Shop shop: shopList){
-                    if(shop.getName().contains(keyword)){
+                    if(shop.getName().toLowerCase().contains(keyword.toLowerCase())){
                         searchShopList.add(shop);
                     }
                 }
@@ -49,7 +51,7 @@ public class ShopServiceImpl implements ShopService {
 
             case "address":
                 for(Shop shop: shopList){
-                    if(shop.getAddress().contains(keyword)){
+                    if(shop.getAddress().toLowerCase().contains(keyword.toLowerCase())){
                         searchShopList.add(shop);
                     }
                 }
@@ -121,6 +123,28 @@ public class ShopServiceImpl implements ShopService {
         return CreateShopResponse.builder()
                 .status(false)
                 .message("Shop with name " + request.getName() + " is already existed")
+                .build();
+    }
+
+    @Override
+    public ShopProfileResponse getShopProfile() {
+        Manager owner = managerRepo.findByAccount(accountService.getCurrentLoggedUser()).orElse(null);
+        assert owner != null;
+        Shop shop = owner.getShop();
+        return ShopProfileResponse.builder()
+                .status(true)
+                .message("")
+                .shop(
+                        ShopProfileResponse.ShopResponse.builder()
+                                .id(shop.getId())
+                                .name(shop.getName())
+                                .address(shop.getAddress())
+                                .openTime(shop.getOpenTime())
+                                .closeTime(shop.getCloseTime())
+                                .phone(shop.getPhone())
+                                .avatar(shop.getAvatar())
+                                .build()
+                )
                 .build();
     }
 

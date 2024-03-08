@@ -5,6 +5,7 @@ D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\UpdateMe
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\services\FileService.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\controllers\ShopController.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\controllers\AuthenticationController.java
+D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\CreateCatResponse.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\services_implementors\EmailServiceImpl.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\Package.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\controllers\BookingCartController.java
@@ -17,7 +18,6 @@ D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\ChangeA
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\Exception\NotFoundException.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\CreateAreaRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\GetAreaListRequest.java
-D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\PaginationRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\ShopResponse.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\MenuItemResponse.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\services\MenuService.java
@@ -30,15 +30,16 @@ D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\ChangeS
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\AccountStatusRepo.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\services_implementors\StaffServiceImpl.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\MenuItemListResponse.java
-D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\CreateMenuRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\CreateAreaResponse.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\services_implementors\FileServiceImpl.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\CancelBookingRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\RegisterRequest.java
+D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\DeleteCatRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\FollowerCustomerRepo.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\configurations\SecurityConfig.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\controllers\ShopOwnerController.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\BookingDetailRepo.java
+D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\DeleteCatResponse.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\PackageRepo.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\CustomerRepo.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\MenuItemRepo.java
@@ -54,9 +55,9 @@ D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\CreateBo
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\CreateStaffRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\Manager.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\BookingDetail.java
-D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\ShopRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\Booking.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\CheckMailExistedResponse.java
+D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\CreateCatRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\CatRepo.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\configurations\JWTAuthenticationFilter.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\CreateStaffResponse.java
@@ -95,9 +96,7 @@ D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\LoginReq
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\AreaStatus.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\StaffListResponse.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\controllers\AccountController.java
-D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\PopularActiveShopsRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\PackageStatus.java
-D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\ListRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\BookingCartResponse.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\MenuItemStatusRepo.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\RegisterResponse.java
@@ -112,6 +111,8 @@ D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\SeatRes
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\CatStatus.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\AccountRepo.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\services\ShopOwnerService.java
+D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\CatShopListResponse.java
+D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\controllers\CatController.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\Seat.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\RejectBookingResponse.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\enums\Role.java
@@ -142,6 +143,7 @@ D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\configurations\ApplicationConf
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\services_implementors\AccountServiceImpl.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\ChangeAccountStatusRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\ShopListResponse.java
+D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\services_implementors\CatServiceImpl.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\Shop.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\enums\Constant.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\Customer.java
@@ -151,10 +153,12 @@ D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\DeleteA
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\UpdateBookingCartRequest.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\ManagerRepo.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\services\FollowerService.java
+D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\ShopProfileResponse.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\repositories\AreaRepo.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\controllers\AreaController.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\services_implementors\AreaServiceImpl.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\request_models\SortStaffListRequest.java
+D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\services\CatService.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\services_implementors\AuthenticationServiceImpl.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\entity_models\Account.java
 D:\Maven\coffee-cat\ccp\src\main\java\com\swd\ccp\models\response_models\CreateBookingResponse.java

@@ -4,6 +4,7 @@ import com.swd.ccp.models.request_models.CreateShopRequest;
 import com.swd.ccp.models.request_models.SortStaffListRequest;
 import com.swd.ccp.models.response_models.CreateShopResponse;
 import com.swd.ccp.models.response_models.ShopListResponse;
+import com.swd.ccp.models.response_models.ShopProfileResponse;
 import com.swd.ccp.services.ShopService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +38,11 @@ public class ShopController {
     @PreAuthorize("hasAuthority('admin:create')")
     public ResponseEntity<CreateShopResponse> createShop(@RequestBody CreateShopRequest request) throws Exception{
         return ResponseEntity.ok().body(shopService.createShop(request));
+    }
+
+    @GetMapping("/shop/profile")
+    @PreAuthorize("hasAuthority('owner:read')")
+    public ResponseEntity<ShopProfileResponse> getShopProfile(){
+        return ResponseEntity.ok().body(shopService.getShopProfile());
     }
 }

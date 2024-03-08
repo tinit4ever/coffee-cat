@@ -229,9 +229,9 @@ public class BookingServiceImpl implements BookingService {
 
     private List<BookingListResponse.BookingResponse> getMenuItemResponseFromBookingList(List<Booking> bookings){
         List<BookingListResponse.BookingResponse> bookingResponses = new ArrayList<>();
-        List<BookingListResponse.MenuItemResponse> menuItemResponses = new ArrayList<>();
 
         for(Booking booking: bookings){
+            List<BookingListResponse.MenuItemResponse> menuItemResponses = new ArrayList<>();
             for(BookingDetail detail: booking.getBookingDetailList()){
                 menuItemResponses.add(
                         BookingListResponse.MenuItemResponse.builder()
@@ -290,7 +290,7 @@ public class BookingServiceImpl implements BookingService {
         if(seat != null){
             Customer customer = customerRepo.findByAccount_Email(accountService.getCurrentLoggedUser().getEmail()).orElse(null);
             if(customer != null){
-                Booking booking = Booking.builder()
+                Booking booking = bookingRepo.save(Booking.builder()
                         .seat(seat)
                         .customer(customer)
                         .bookingStatus(bookingStatusRepo.findByStatus("pending"))
@@ -299,8 +299,7 @@ public class BookingServiceImpl implements BookingService {
                         .extraContent(request.getExtraContent())
                         .createDate(new Date(System.currentTimeMillis()))
                         .bookingDate(request.getBookingDate())
-                        .build();
-                bookingRepo.save(booking);
+                        .build());
 
                 for(CreateBookingRequest.BookingShopMenuRequest item: request.getBookingShopMenuRequestList()){
                     MenuItem i = menuItemRepo.findById(item.getItemId()).orElse(null);
@@ -316,10 +315,11 @@ public class BookingServiceImpl implements BookingService {
 
                         i.setSoldQuantity(i.getSoldQuantity() + item.getQuantity());
                         menuItemRepo.save(i);
-                        return "";
+                    }else{
+                        return "The quantity booked must be " + Constant.MAX_BOOKING_MENU_ITEM_QUANTITY + " as maximum";
                     }
-                    return "The quantity booked must be " + Constant.MAX_BOOKING_MENU_ITEM_QUANTITY + " as maximum";
                 }
+                return "";
             }
             return "This account is not a customer";
         }

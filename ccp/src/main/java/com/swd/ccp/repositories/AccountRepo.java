@@ -16,8 +16,5 @@ import java.util.Optional;
 
 public interface AccountRepo extends JpaRepository<Account, Integer> {
 
-    @Query("SELECT m.account FROM Manager m WHERE m.shop.id = :shopId AND m.account.role = :role")
-    List<Account> findAccountByShopIdAndRole(@Param("shopId") Integer shopId, @Param("role") Role role, Sort sort);
-
     Optional<Account> findByEmail(String email);
 }

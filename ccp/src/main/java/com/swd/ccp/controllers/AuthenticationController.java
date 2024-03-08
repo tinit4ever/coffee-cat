@@ -19,9 +19,8 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request){
+    public ResponseEntity<Object> login(@RequestBody LoginRequest request){
         return ResponseEntity.ok().body(authenticationService.login(request));
-
     }
 
     @PostMapping("/check-email")

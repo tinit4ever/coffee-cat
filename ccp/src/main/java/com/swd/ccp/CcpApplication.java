@@ -174,6 +174,7 @@ public class CcpApplication {
                             .rating(Double.parseDouble(df.format(random.nextDouble() * 4 + 1)))
                             .phone(String.valueOf(100000000 + random.nextInt(900000000)))
                             .status(shopStatusRepo.findByStatus("active"))
+                            .avatar("")
                             .packages(null)
                             .build();
 
@@ -234,15 +235,14 @@ public class CcpApplication {
                 accountList.add(customStaffAccount);
 
                 List<String> nameList = new ArrayList<>();
+                for (int i = 0; i < 67; i++) {
 
-                for (int i = 0; i < 20; i++) {
-
-                    String randomName = getRandomName(nameList);
-                    nameList.add(randomName);
+                    String accountName = getNextName(nameList);
+                    nameList.add(accountName);
 
                     Account account = Account.builder()
-                            .email(getRandomMail(randomName))
-                            .name(randomName)
+                            .email(getNextMail(accountName))
+                            .name(accountName)
                             .password(passwordEncoder.encode(generateRandomPassword()))
                             .phone(generateRandomPhoneNumber())
                             .status(accountStatusRepo.findByStatus("active"))
@@ -267,8 +267,6 @@ public class CcpApplication {
                     tokenList.add(refresh);
                 });
                 tokenRepo.saveAll(tokenList);
-
-                List<Shop> usedShops = new ArrayList<>();
                 accountList.forEach(acc -> {
                     if(acc.getRole().name().equals(Role.CUSTOMER.name())){
                         customerRepo.save(
@@ -284,7 +282,7 @@ public class CcpApplication {
                         managerRepo.save(
                                 Manager.builder()
                                         .account(acc)
-                                        .shop(getRandomShop(shops, acc, usedShops))
+                                        .shop(getNextShop(shops, acc))
                                         .build()
                         );
                     }
@@ -360,11 +358,11 @@ public class CcpApplication {
                         for(int catPos = 0; catPos < 5; catPos++){
                             Cat cat = Cat.builder()
                                     .area(area)
-                                    .name(getCatRandomName(catNameList))
+                                    .name(getCatNextName(catNameList))
                                     .catStatus(catStatusRepo.findByStatus("available"))
                                     .type("Cat")
-                                    .description("Uncle Null")
-                                    .imgLink("Aunt Null")
+                                    .description("")
+                                    .imgLink("")
                                     .build();
 
                             catRepo.save(cat);
@@ -408,8 +406,8 @@ public class CcpApplication {
                                 .menuItemStatus(menuItemStatusRepo.findByStatus("available"))
                                 .name(generateFoodName(usedFoodName))
                                 .price(generateRandomNumber(2, 10))
-                                .imgLink("Mr Null")
-                                .description("Mr Null")
+                                .imgLink("")
+                                .description("")
                                 .discount(0)
                                 .soldQuantity(0)
                                 .build();
@@ -437,7 +435,7 @@ public class CcpApplication {
                                 .seatName(seatRepo.findAll().get(1).getName())
                                 .createDate(new Date(System.currentTimeMillis()))
                                 .bookingDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 5))
-                                .extraContent("Sir Null")
+                                .extraContent("")
                                 .build()
                 );
 
@@ -450,7 +448,7 @@ public class CcpApplication {
                                 .seatName(seatRepo.findAll().get(21).getName())
                                 .createDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                                 .bookingDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 10))
-                                .extraContent("Uncle Null")
+                                .extraContent("")
                                 .build()
                 );
 
@@ -463,14 +461,14 @@ public class CcpApplication {
                                 .seatName(seatRepo.findAll().get(41).getName())
                                 .createDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 2))
                                 .bookingDate(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 15))
-                                .extraContent("Mama Null")
+                                .extraContent("")
                                 .build()
                 );
 
                 //init booking detail
                 bookingDetailRepo.save(
                         BookingDetail.builder()
-                                .booking(bookingRepo.findAll().get(0))
+                                .booking(bookingRepo.findById(1).orElse(null))
                                 .menuItem(menuItemRepo.findAll().get(0))
                                 .price(menuItemRepo.findAll().get(0).getPrice())
                                 .quantity(generateRandomNumber(1, 20))
@@ -479,7 +477,7 @@ public class CcpApplication {
 
                 bookingDetailRepo.save(
                         BookingDetail.builder()
-                                .booking(bookingRepo.findAll().get(1))
+                                .booking(bookingRepo.findById(2).orElse(null))
                                 .menuItem(menuItemRepo.findAll().get(6))
                                 .price(menuItemRepo.findAll().get(6).getPrice())
                                 .quantity(generateRandomNumber(1, 20))
@@ -488,15 +486,23 @@ public class CcpApplication {
 
                 bookingDetailRepo.save(
                         BookingDetail.builder()
-                                .booking(bookingRepo.findAll().get(2))
+                                .booking(bookingRepo.findById(3).orElse(null))
                                 .menuItem(menuItemRepo.findAll().get(12))
                                 .price(menuItemRepo.findAll().get(12).getPrice())
                                 .quantity(generateRandomNumber(1, 20))
                                 .build()
                 );
-
-
             }
+
+            private int currentNameIndex = 0;
+            private int currentMailIndex = 0;
+            private int currentCatNameIndex = 0;
+            private int currentFoodIndex = 0;
+            private int currentOwnerShopIndex = 0;
+            private int currentStaffShopIndex = 0;
+
+            private int ownerCount = 0;
+            private int staffCount = 0;
 
             // Method to generate a random password
             private String generateRandomPassword() {
@@ -522,9 +528,15 @@ public class CcpApplication {
 
             // Method to get a random Role
             private Role getRandomRole() {
-                Random random = new Random();
-                Role[] roles = {Role.CUSTOMER, Role.STAFF, Role.OWNER};
-                return roles[random.nextInt(3)];
+                if (ownerCount < 19) {
+                    ownerCount++;
+                    return Role.OWNER;
+                } else if (staffCount < 39) {
+                    staffCount++;
+                    return Role.STAFF;
+                } else {
+                    return Role.CUSTOMER;
+                }
             }
 
             public static int generateRandomNumber(int start, int end) {
@@ -533,8 +545,8 @@ public class CcpApplication {
             }
 
             // Method to get a random name from a list of names
-            private String getRandomName(List<String> nameList) {
-                Random random = new Random();
+
+            private String getNextName(List<String> nameList) {
                 String[] names = {
                         "Sam", "John", "Lisa", "Mike", "Emma",
                         "Alex", "Sara", "Chris", "Natalie", "Peter",
@@ -553,12 +565,18 @@ public class CcpApplication {
                     return "No unique names available.";
                 }
 
-                return availableNames.get(random.nextInt(availableNames.size()));
+                if (currentNameIndex >= availableNames.size()) {
+                    currentNameIndex = 0; // Reset to the beginning of the list
+                }
+
+                String nextName = availableNames.get(currentNameIndex);
+                currentNameIndex++;
+
+                return nextName;
             }
 
             // Method to get a random cat name from a list of names
-            private String getCatRandomName(List<String> nameList) {
-                Random random = new Random();
+            private String getCatNextName(List<String> nameList) {
                 String[] catNames = {
                         "Whiskers", "Mittens", "Shadow", "Felix", "Luna", "Simba", "Cleo", "Oliver", "Chloe", "Leo",
                         "Milo", "Lily", "Tiger", "Sophie", "Max", "Zoe", "Charlie", "Lucy", "Bella", "Oreo",
@@ -582,25 +600,31 @@ public class CcpApplication {
                         "Pepper III", "Muffin III", "Oreo III", "Cupcake III", "Whiskers IV"
                 };
 
-                List<String> availableNames = new ArrayList<>();
-                for (String name : catNames) {
+                while (currentCatNameIndex < catNames.length) {
+                    String name = catNames[currentCatNameIndex];
                     if (!nameList.contains(name)) {
-                        availableNames.add(name);
+                        currentCatNameIndex++;
+                        return name;
                     }
+                    currentCatNameIndex++;
                 }
 
-                if (availableNames.isEmpty()) {
-                    return "No unique names available.";
-                }
-
-                return availableNames.get(random.nextInt(availableNames.size()));
+                return "No unique names available.";
             }
 
-            // Method to get a random mail from a list of mail
-            private String getRandomMail(String name) {
-                Random random = new Random();
+            // Method to get a mail from a list of mail
+            private String getNextMail(String name) {
                 String[] domains = {"gmail.com", "yahoo.com", "outlook.com", "hotmail.com"};
-                return name + random.nextInt(100) + random.nextInt(100) + "@" + domains[random.nextInt(domains.length)];
+
+                if (currentMailIndex >= domains.length) {
+                    currentMailIndex = 0; // Reset to the beginning of the domains list
+                }
+
+                String domain = domains[currentMailIndex];
+                currentMailIndex++;
+
+                // Generate an email with a sequential index
+                return name + currentMailIndex + currentMailIndex + "@" + domain;
             }
 
             // Method to get a random gender
@@ -623,32 +647,35 @@ public class CcpApplication {
             }
 
             // Method to generate a random shop from list
-            public Shop getRandomShop(List<Shop> shops, Account account, List<Shop> usedShops) {
+            public Shop getNextShop(List<Shop> shops, Account account) {
                 if (shops == null || shops.isEmpty()) {
                     return null;
                 }
 
-                Random random = new Random();
-                int randomIndex = random.nextInt(shops.size());
-                Shop shop = shops.get(randomIndex);
                 if(account.getRole().equals(Role.OWNER)){
-                    Manager owner = managerRepo.findByAccount(account).orElse(null);
-                    if(owner != null){
-                        while (true){
-                            if(!usedShops.contains(shop)){
-                                usedShops.add(shop);
-                                break;
-                            }
-                            shop = shops.get(randomIndex);
-                        }
+                    if (currentOwnerShopIndex < shops.size()) {
+                        Shop shop = shops.get(currentOwnerShopIndex);
+                        currentOwnerShopIndex++;
+                        return shop;
                     }
                 }
 
-                return shop;
+                if(account.getRole().equals(Role.STAFF)){
+                    if (currentStaffShopIndex < shops.size()) {
+                        Shop shop = shops.get(currentStaffShopIndex);
+                        currentStaffShopIndex++;
+                        return shop;
+                    }else {
+                        currentStaffShopIndex = 0;
+                        Shop shop = shops.get(currentStaffShopIndex);
+                        currentStaffShopIndex++;
+                        return shop;
+                    }
+                }
+                return null;
             }
 
-            public static String generateFoodName(List<String> usedFood) {
-                Random rand = new Random();
+            public String generateFoodName(List<String> usedFood) {
                 String[] foodNames = {
                         "Sizzling Tacos", "Creamy Carbonara", "Zesty Lemon Chicken",
                         "Spicy Chilli Beef", "Garlic Butter Shrimp", "Mouthwatering Ravioli",
@@ -692,14 +719,19 @@ public class CcpApplication {
                         "Crispy Pork Belly", "Crab Rangoon", "Coconut Shrimp Curry"
                 };
 
-                String randomName = foodNames[rand.nextInt(foodNames.length)];
+                String nextName = null;
 
-                while (usedFood.contains(randomName)) {
-                    randomName = foodNames[rand.nextInt(foodNames.length)];
+                while (currentFoodIndex < foodNames.length) {
+                    nextName = foodNames[currentFoodIndex];
+                    if (!usedFood.contains(nextName)) {
+                        currentFoodIndex++;
+                        usedFood.add(nextName);
+                        return nextName;
+                    }
+                    currentFoodIndex++;
                 }
 
-                usedFood.add(randomName);
-                return randomName;
+                return "No unique names available.";
             }
         };
     }
