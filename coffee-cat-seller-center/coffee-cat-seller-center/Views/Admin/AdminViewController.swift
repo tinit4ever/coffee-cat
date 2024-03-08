@@ -76,7 +76,7 @@ class AdminViewController: UIViewController, AdminFactory  {
     }
     
     private func configTopViewLabel() {
-        if let username = UserSessionManager.shared.authenticationResponse?.accountResponse?.username {
+        if let username = UserSessionManager.shared.authenticationResponse?.accountResponse?.name {
             topViewLabel.setupTitle(text: "Hello \(String(describing: username))!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
         } else {
             topViewLabel.setupTitle(text: "Hello!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)

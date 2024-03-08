@@ -10,8 +10,8 @@ import Alamofire
 import Combine
 
 struct APIConstants {
-    static let baseURL = "http://localhost:8080/"
-    //    static let baseURL = "http://192.168.1.10:8080/"
+    //    static let baseURL = "http://localhost:8080/"
+    static let baseURL = "http://192.168.1.25:8080/"
     //    static let baseURL = "http://172.20.10.2:8080/"
     
     struct Auth {
@@ -46,6 +46,8 @@ struct APIConstants {
     
     struct Staff {
         static let listBooking = baseURL + "booking/get"
+        static let approveBooking = baseURL + "booking/approve"
+        static let rejectBooking = baseURL + "booking/reject"
     }
     
     static let logout = baseURL + "account/logout"
@@ -70,11 +72,10 @@ class APIManager {
     
     private init() {}
     
-    
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
-//        let userSignIn = UserSignIn(email: email, password: password)
+        let userSignIn = UserSignIn(email: email, password: password)
 
-        let userSignIn = UserSignIn(email: "tin@gmail.com", password: "an123456")
+//        let userSignIn = UserSignIn(email: "tina@gmail.com", password: "an123456")
 
         let apiUrl = APIConstants.Auth.login
         
@@ -586,4 +587,65 @@ class APIManager {
             }
             .eraseToAnyPublisher()
     }
+    
+    func approveBooking(bookingId: Int, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Staff.approveBooking) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [ "id": bookingId]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { error in
+                return error as Error
+            }
+            .map { _ in }
+            .eraseToAnyPublisher()
+    }
+    
+    func rejectBooking(bookingId: Int, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Staff.rejectBooking) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let parameters: [String: Any] = [ "id": bookingId]
+        
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { error in
+                return error as Error
+            }
+            .map { _ in }
+            .eraseToAnyPublisher()
+    }
+    
 }

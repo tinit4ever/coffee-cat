@@ -123,7 +123,7 @@ class ProfileViewController: UIViewController, ProfileFactory {
         }
 
         let email = userInfor.email
-        let username = userInfor.username
+        let username = userInfor.name
         let phone = userInfor.phone
         
         emailTitle.setupTitle(text: "Email", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .customBlack)

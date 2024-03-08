@@ -30,6 +30,8 @@ class BookingViewController: UIViewController, UIFactory {
     lazy var bookingTableViewContainer = makeView()
     lazy var bookingTableView = makeTableView()
     
+    private let refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
@@ -47,8 +49,10 @@ class BookingViewController: UIViewController, UIFactory {
     
     private func loadData() {
         self.viewModel.getBookingHistories(accessToken: UserSessionManager.shared.getAccessToken() ?? "") {
+            self.segmentedControl.selectedSegmentIndex = 0
             self.reloadData()
         }
+        self.refreshControl.endRefreshing()
     }
     
     // MARK: Config UI
@@ -122,6 +126,9 @@ class BookingViewController: UIViewController, UIFactory {
             self.bookingTableView.trailingAnchor.constraint(equalTo: bookingTableViewContainer.trailingAnchor),
             self.bookingTableView.bottomAnchor.constraint(equalTo: bookingTableViewContainer.bottomAnchor, constant: heightScaler(-15)),
         ])
+        
+        self.bookingTableView.addSubview(refreshControl)
+        self.refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
     }
     
     // MARK: Setup Action
@@ -148,7 +155,15 @@ class BookingViewController: UIViewController, UIFactory {
             print("No segment is selected")
         }
         
-        reloadData()
+        self.reloadData()
+    }
+    
+    @objc
+    private func pullToRefresh() {
+        self.refreshControl.beginRefreshing()
+        DispatchQueue.main.async {
+            self.loadData()
+        }
     }
     
     // MARK: Utilities
@@ -259,7 +274,7 @@ extension BookingViewController: UITableViewDelegate {
             return UISwipeActionsConfiguration(actions: [])
         }
         
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Cancel") { _, _, completionHandler in
             self.cancelBookingTapped(indexPath: indexPath)
             completionHandler(true)
         }

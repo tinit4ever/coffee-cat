@@ -35,6 +35,8 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
     lazy var bookingTableViewContainer = makeView()
     lazy var bookingTableView = makeTableView()
     
+    private let refreshControl = UIRefreshControl()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -92,7 +94,7 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
     }
     
     private func configHeaderLabel() {
-        if let username = UserSessionManager.shared.authenticationResponse?.accountResponse?.username {
+        if let username = UserSessionManager.shared.authenticationResponse?.accountResponse?.name {
             headerLabel.setupTitle(text: "Hello \(String(describing: username))!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
         } else {
             headerLabel.setupTitle(text: "Hello!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
@@ -145,8 +147,9 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
             self.bookingTableView.trailingAnchor.constraint(equalTo: bookingTableViewContainer.trailingAnchor),
             self.bookingTableView.bottomAnchor.constraint(equalTo: bookingTableViewContainer.bottomAnchor, constant: heightScaler(-25)),
         ])
+        self.bookingTableView.addSubview(refreshControl)
+        self.refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
     }
-    
     
     // -MARK: Setup Async
     private func setupAsync() {
@@ -155,9 +158,35 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
             .sink { result in
                 switch result {
                 case .success():
+                    self.segmentedControl.selectedSegmentIndex = 0
                     self.bookingTableView.reloadData()
+                    self.refreshControl.endRefreshing()
                 case .failure(let error):
                     print(error.localizedDescription)
+                }
+            }
+            .store(in: &cancellables)
+        
+        self.viewModel.isApprovedSubject
+            .sink { result in
+                switch result {
+                case .success():
+                    self.showSuccess(message: "Booking have been approved")
+                    self.setupData()
+                case .failure(let error):
+                    self.showError(message: "Error \(error.localizedDescription)")
+                }
+            }
+            .store(in: &cancellables)
+        
+        self.viewModel.isRejectedSubject
+            .sink { result in
+                switch result {
+                case .success():
+                    self.showSuccess(message: "Booking have been rejected")
+                    self.setupData()
+                case .failure(let error):
+                    self.showError(message: "Error \(error.localizedDescription)")
                 }
             }
             .store(in: &cancellables)
@@ -207,41 +236,48 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
         }
     }
     
+    @objc
+    private func pullToRefresh() {
+        self.refreshControl.beginRefreshing()
+        DispatchQueue.main.async {
+            self.viewModel.getBookingList()
+        }
+    }
+    
     // -MARK: Utilities
-    private func displayErrorAlert(message: String) {
+    private func showSuccess(message: String) {
+        let alertController = UIAlertController(title: "Sucess", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func showError(message: String) {
         let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         
         self.present(alertController, animated: true, completion: nil)
     }
     
-    private func cancelBookingTapped(indexPath: IndexPath) {
-        self.displayRemind(title: "Confirm", message: "Are you sure you want to cancel this booking?", indexPath: indexPath)
+    private func rejectBookingTapped(indexPath: IndexPath) {
+        self.rejectRemind(title: "Confirm", message: "Are you sure you want to reject this booking?", indexPath: indexPath)
     }
     
-    private func cancelBooking(indexPath: IndexPath) {
-        //        if let bookingId = self.viewModel.currentList?[indexPath.row].bookingId {
-        //            self.viewModel.cancelBooking(bookingId: bookingId, accessToken: UserSessionManager.shared.getAccessToken() ?? "")
-        //                .sink { [weak self] completion in
-        //                    switch completion {
-        //                    case .finished:
-        //                        break
-        //                    case .failure(let error):
-        //                        self?.displayArlet(title: "Error", message: error.localizedDescription)
-        //                    }
-        //                } receiveValue: { success in
-        //                    self.displayArlet(title: "Success", message: "Your booking has been placed by Cancelled\nApologize for the service quality")
-        //                    self.loadData()
-        //                }
-        //                .store(in: &cancellables)
-        //        }
+    private func approveBooking(indexPath: IndexPath) {
+        self.viewModel.attachedBookingId = self.viewModel.currentList[indexPath.row].bookingId
+        self.viewModel.approveBooking()
     }
     
-    private func displayRemind(title: String, message: String, indexPath: IndexPath) {
+    private func rejectBooking(indexPath: IndexPath) {
+        self.viewModel.attachedBookingId = self.viewModel.currentList[indexPath.row].bookingId
+        self.viewModel.rejectBooking()
+    }
+    
+    private func rejectRemind(title: String, message: String, indexPath: IndexPath) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
-            self.cancelBooking(indexPath: indexPath)
+            self.rejectBooking(indexPath: indexPath)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { action in
@@ -282,6 +318,7 @@ extension BookingManagerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if segmentedControl.selectedSegmentIndex == 0 {
             let confirmAction = UIContextualAction(style: .normal, title: "Confirm") { _, _, completionHandler in
+                self.approveBooking(indexPath: indexPath)
                 completionHandler(true)
             }
             let image = UIImage(systemName: "checkmark.seal")?.withTintColor(.systemGreen, renderingMode: .alwaysOriginal).resized(to: CGSize(width: heightScaler(40), height: heightScaler(40)))
@@ -296,6 +333,7 @@ extension BookingManagerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if segmentedControl.selectedSegmentIndex == 0 {
             let refuseAction = UIContextualAction(style: .normal, title: "Refuse") { _, _, completionHandler in
+                self.rejectBookingTapped(indexPath: indexPath)
                 completionHandler(true)
             }
             let image = UIImage(systemName: "xmark.seal")?.withTintColor(.systemPurple, renderingMode: .alwaysOriginal).resized(to: CGSize(width: heightScaler(40), height: heightScaler(40)))
@@ -303,7 +341,8 @@ extension BookingManagerViewController: UITableViewDelegate {
             refuseAction.backgroundColor = .systemTeal
             return UISwipeActionsConfiguration(actions: [refuseAction])
         } else if segmentedControl.selectedSegmentIndex == 1 {
-            let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
+            let deleteAction = UIContextualAction(style: .destructive, title: "Cancel") { _, _, completionHandler in
+                self.rejectBookingTapped(indexPath: indexPath)
                 completionHandler(true)
             }
             let image = UIImage(systemName: "trash")?.withTintColor(.systemPurple, renderingMode: .alwaysOriginal).resized(to: CGSize(width: heightScaler(40), height: heightScaler(40)))
