@@ -25,6 +25,8 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
     lazy var coffeeAnimationView = makeLottieAnimationView(animationName: "coffee")
     lazy var accountImageButton = makeImageView(imageName: "person.circle", size: CGSize(width: sizeScaler(60), height: sizeScaler(60)))
     
+    lazy var shopNameLabel = makeLabel()
+    
     lazy var segmentedControl: UISegmentedControl = {
         var segment = UISegmentedControl(items: segmenItems)
         segment.selectedSegmentIndex = 0
@@ -34,7 +36,6 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
     
     lazy var bookingTableViewContainer = makeView()
     lazy var bookingTableView = makeTableView()
-    
     
     lazy var popupView = makePopupView(frame: CGRect(x: 200, y: 400, width: widthScaler(500), height: heightScaler(175)))
     lazy var blurView = makeBlurView(frame: view.bounds, effect: UIBlurEffect(style: .systemUltraThinMaterial))
@@ -68,6 +69,9 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
         
         view.addSubview(header)
         configHeader()
+        
+        view.addSubview(shopNameLabel)
+        configShopNameLabel()
         
         view.addSubview(segmentedControl)
         configSegmentedControl()
@@ -130,9 +134,20 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
         ])
     }
     
+    private func configShopNameLabel() {
+        shopNameLabel.setupTitle(text: "Shop Name", fontName: FontNames.avenir, size: sizeScaler(50), textColor: .customBlack)
+        shopNameLabel.setBoldText()
+        NSLayoutConstraint.activate([
+            self.shopNameLabel.topAnchor.constraint(equalTo: header.bottomAnchor, constant: heightScaler(30)),
+            self.shopNameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(20)),
+            self.shopNameLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: widthScaler(-20)),
+            self.shopNameLabel.heightAnchor.constraint(equalToConstant: sizeScaler(60))
+        ])
+    }
+    
     private func configSegmentedControl() {
         NSLayoutConstraint.activate([
-            self.segmentedControl.topAnchor.constraint(equalTo: header.bottomAnchor, constant: heightScaler(30)),
+            self.segmentedControl.topAnchor.constraint(equalTo: shopNameLabel.bottomAnchor, constant: heightScaler(30)),
             self.segmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
             self.segmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: widthScaler(-60)),
             self.segmentedControl.heightAnchor.constraint(equalToConstant: sizeScaler(60))
@@ -224,6 +239,9 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
     
     // -MARK: Setup Data
     private func setupData() {
+        if let shopName = UserSessionManager.shared.authenticationResponse?.accountResponse?.shopName {
+            self.shopNameLabel.text = shopName
+        }
         self.viewModel.getBookingList()
     }
     
