@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import Combine
 
 class ShopManagerViewController: UIViewController, ShopManagerFactory {
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
+    
+    var viewModel: ShopManagerViewModelProtocol = ShopManagerViewModel()
+    var cancellables: Set<AnyCancellable> = []
     
     // -MARK: Create UI Components
     lazy var editShopProfileButton = makeButton()
@@ -31,6 +35,7 @@ class ShopManagerViewController: UIViewController, ShopManagerFactory {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupAsync()
         setupData()
         configUI()
         setupAction()
@@ -90,11 +95,6 @@ class ShopManagerViewController: UIViewController, ShopManagerFactory {
             shopNameLabel.heightAnchor.constraint(equalToConstant: heightScaler(34))
         ])
         
-        shopInforStackView.addArrangedSubview(starRatingView)
-        NSLayoutConstraint.activate([
-            starRatingView.heightAnchor.constraint(equalToConstant: heightScaler(36))
-        ])
-        
         shopInforStackView.addArrangedSubview(phoneLabel)
         phoneLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
         phoneLabel.textColor = .black
@@ -124,21 +124,42 @@ class ShopManagerViewController: UIViewController, ShopManagerFactory {
         ])
     }
     
+    // -MARK: Setup Async
+    private func setupAsync() {
+        self.viewModel.isGetShopInforSuccessSubject
+            .sink { result in
+                switch result {
+                case .success():
+                    self.loadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
     // -MARK: Setup Data
     private func setupData() {
-        self.shopNameLabel.text = "Ca phe buoi sang"
-        self.starRatingView.rating = 4
-        self.phoneLabel.text = "Phone: 0358887710"
-        self.shopAddressLabel.text = "Address: 20 Pham Van Dong"
-        self.openTimeLabel.text = "Open Time: 7:00 AM"
-        self.closeTimeLabel.text = "Close Time: 7:00 PM"
+        self.viewModel.getShopInfor()
+    }
+    
+    // -MARK: Load Data
+    private func loadData() {
+        guard let shopInfor = viewModel.shopInfor else {
+            return
+        }
+        
+        self.shopNameLabel.text = shopInfor.name
+        self.phoneLabel.text = "Phone: \(shopInfor.phone)"
+        self.shopAddressLabel.text = "Address: \(shopInfor.address)"
+        self.openTimeLabel.text = "Open Time: \(shopInfor.openTime)"
+        self.closeTimeLabel.text = "Close Time: \(shopInfor.closeTime)"
     }
     
     // -MARK: Setup Action
     private func setupAction() {
         self.editShopProfileButton.addTarget(self, action: #selector(editShopProfileButtonTapped), for: .touchUpInside)
     }
-    
     
     // -MARK: Catch Action
     @objc
@@ -148,5 +169,9 @@ class ShopManagerViewController: UIViewController, ShopManagerFactory {
         navigationController.modalTransitionStyle = .crossDissolve
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)
+        
+        viewController.didUpdateSuccess = {
+            self.setupData()
+        }
     }
 }

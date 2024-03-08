@@ -14,9 +14,13 @@ protocol ShopManagerFactory {
     func makeLabel() -> UILabel
     func makeButton() -> UIButton
     func makeVerticalStackView() -> UIStackView
+    func makeHorizontalStackView() -> UIStackView
     func makeLottieAnimationView(animationName: String) -> LottieAnimationView
     func makeView() -> UIView
     func makeImageView(imageName: String, size: CGSize) -> UIImageView
+    func makeRoundedContainer() -> UIView
+    func makeTextField(placeholder: String) -> UITextField
+    func makeDatePicker() -> UIDatePicker
 }
 
 extension ShopManagerFactory {
@@ -36,6 +40,13 @@ extension ShopManagerFactory {
     func makeVerticalStackView() -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }
+    
+    func makeHorizontalStackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }
@@ -62,5 +73,30 @@ extension ShopManagerFactory {
         }
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }
+    
+    func makeRoundedContainer() -> UIView {
+        let container = UIView()
+        container.layer.borderWidth = 2
+        container.layer.borderColor = UIColor.systemGray3.cgColor
+        container.layer.cornerRadius = UIScreen.screenHeightUnit * 15
+        container.layer.masksToBounds = true
+        container.translatesAutoresizingMaskIntoConstraints = false
+        return container
+    }
+    
+    func makeTextField(placeholder: String) -> UITextField {
+        let textField = UITextField()
+        textField.borderStyle = .none
+        textField.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray])
+        textField.autocapitalizationType = .none
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
+    }
+    
+    func makeDatePicker() -> UIDatePicker {
+        let datePicker = UIDatePicker(frame: .zero)
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        return datePicker
     }
 }

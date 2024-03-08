@@ -35,6 +35,9 @@ struct APIConstants {
         static let createMenuItem = baseURL + "menu/create"
         static let updateMenuItem = baseURL + "menu/update"
         static let deleteMenuItem = baseURL + "menu/delete"
+        
+        static let shopProfile = baseURL + "shop/profile"
+        static let updateProfile = baseURL + "owner/shop/update"
     }
     
     struct Admin {
@@ -74,9 +77,9 @@ class APIManager {
     
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
         let userSignIn = UserSignIn(email: email, password: password)
-
-//        let userSignIn = UserSignIn(email: "gen@gmail.com", password: "an123456")
-
+        
+        //        let userSignIn = UserSignIn(email: "gen@gmail.com", password: "an123456")
+        
         let apiUrl = APIConstants.Auth.login
         
         AF.request(apiUrl, method: .post, parameters: userSignIn, encoder: JSONParameterEncoder.default).responseData { response in
@@ -434,6 +437,60 @@ class APIManager {
         ]
         
         return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError({ error in
+                return error as Error
+            })
+            .map { _ in}
+            .eraseToAnyPublisher()
+    }
+    
+    func getShopProfile(accessToken: String) -> AnyPublisher<GetShopProfileResponse, Error> {
+        guard let url = URL(string: APIConstants.Owner.shopProfile) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .get, headers: headers)
+            .publishDecodable(type: GetShopProfileResponse.self)
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                
+                return try response.result.get()
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func updateShopProfile(with model: ShopUpdateParameter, accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Owner.updateProfile) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .post, parameters: model, encoder: JSONParameterEncoder.default, headers: headers)
             .publishData()
             .tryMap { response in
                 guard let statusCode = response.response?.statusCode else {
