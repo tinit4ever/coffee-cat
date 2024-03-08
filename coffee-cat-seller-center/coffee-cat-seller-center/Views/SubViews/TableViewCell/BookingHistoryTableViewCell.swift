@@ -15,7 +15,7 @@ class BookingHistoryTableViewCell: UITableViewCell, ProfileFactory {
     
     lazy var stackBookingDetails = makeVerticalStackView()
     
-    lazy var shopNameLabel = makeLabel()
+    lazy var placeNameLabel = makeLabel()
     
     lazy var bookingDateLabel = makeLabel()
     
@@ -40,16 +40,15 @@ class BookingHistoryTableViewCell: UITableViewCell, ProfileFactory {
     
     private func configureUI() {
         contentView.backgroundColor = .clear
-        self.shopNameLabel.text = "Shop 1"
         self.priceLabel.text = "40$"
         self.contentView.layer.cornerRadius = sizeScaler(30)
         self.contentView.layer.borderWidth = sizeScaler(4)
         self.contentView.layer.borderColor = UIColor(ciColor: .gray).cgColor
-        self.stackBookingDetails.addArrangedSubview(shopNameLabel)
+        self.stackBookingDetails.addArrangedSubview(placeNameLabel)
         stackBookingDetails.distribution = .equalCentering
-        shopNameLabel.setupTitle(text: "Shop 1", fontName: FontNames.avenir, size: sizeScaler(40), textColor: .customBlack)
-        shopNameLabel.setBoldText()
-        shopNameLabel.textAlignment = .left
+        placeNameLabel.setupTitle(text: "Table 1", fontName: FontNames.avenir, size: sizeScaler(32), textColor: .customBlack)
+        placeNameLabel.setBoldText()
+        placeNameLabel.textAlignment = .left
         
         self.stackBookingDetails.addArrangedSubview(priceLabel)
         
@@ -67,10 +66,10 @@ class BookingHistoryTableViewCell: UITableViewCell, ProfileFactory {
     }
     
     func configure(bookingDetail: BookingDetail) {
-        if let shopName = bookingDetail.shopName {
-            self.shopNameLabel.text = shopName
+        if let seatName = bookingDetail.seatName,
+           let areaName = bookingDetail.areaName {
+            self.placeNameLabel.text = "\(seatName) in \(areaName)"
         }
-        
         self.bookingDateLabel.text = bookingDetail.bookingDate
         self.priceLabel.text = "\(Int(bookingDetail.totalPrice))$"
     }

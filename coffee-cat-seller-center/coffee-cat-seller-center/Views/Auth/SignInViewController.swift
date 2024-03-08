@@ -169,13 +169,13 @@ class SignInViewController: UIViewController, SignInFactory {
     // -MARK: Catch Action
     @objc
     private func signInButtonTapped() {
+        self.showLoadingView()
         guard let email = emailTextField.text,
               let password = passwordTextField.text else {
             return
         }
         
         self.viewModel.signIn(email, password) { [weak self] result in
-            self?.showLoadingView()
             DispatchQueue.main.async {
                 switch result {
                 case .success(let authenticationResponse):

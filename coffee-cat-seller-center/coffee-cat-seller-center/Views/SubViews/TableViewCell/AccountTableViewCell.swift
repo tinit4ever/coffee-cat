@@ -81,6 +81,7 @@ class AccountTableViewCell: UITableViewCell {
     
     private func configStackContent() {
         nameLabel.setupTitle(text: "Customer account", fontName: FontNames.avenir, size: sizeScaler(36), textColor: .customBlack)
+        nameLabel.textAlignment = .left
         phoneLabel.setupTitle(text: "Phone", fontName: FontNames.avenir, size: sizeScaler(26), textColor: .systemGray)
       
         activeLabel.setupTitle(text: "active", fontName: FontNames.avenir, size: sizeScaler(30), textColor: .systemGreen)
@@ -105,6 +106,7 @@ class AccountTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             nameLabel.heightAnchor.constraint(equalToConstant: heightScaler(30)),
+            nameLabel.widthAnchor.constraint(equalToConstant: widthScaler(580)),
             activeStack.heightAnchor.constraint(equalToConstant: heightScaler(20)),
             phoneLabel.heightAnchor.constraint(equalToConstant: heightScaler(26)),
             phoneLabel.topAnchor.constraint(equalTo: stackContent.topAnchor),

@@ -18,11 +18,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        let viewController = SignInViewController()
-        window.rootViewController = viewController
-        window.makeKeyAndVisible()
-        self.window = window
-        
+        if UserSessionManager.shared.isLoggedIn() {
+            if let role = UserSessionManager.shared.authenticationResponse?.accountResponse?.role {
+                switch role {
+                case .admin:
+                    self.pushToHome(homeViewController: AdminViewController())
+                case .shopOwner:
+                    self.pushToHome(homeViewController: ShopTabBarViewController())
+                case .staff:
+                    let viewController = BookingManagerViewController()
+                    self.pushToHome(homeViewController: viewController)
+                case .customer:
+                    break
+                }
+            }
+        } else {
+            let viewController = SignInViewController()
+            window.rootViewController = viewController
+            window.makeKeyAndVisible()
+            self.window = window
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -51,6 +66,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+    }
+    
+    private func pushToHome(homeViewController: UIViewController) {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            let window = windowScene.windows.first
+            window?.rootViewController = homeViewController
+            window?.makeKeyAndVisible()
+            self.window = window
+        }
     }
 }
 

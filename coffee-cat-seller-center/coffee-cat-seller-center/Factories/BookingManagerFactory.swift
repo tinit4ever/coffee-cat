@@ -15,6 +15,8 @@ protocol BookingManagerFactory {
     func makeView() -> UIView
     func makeImageView(imageName: String, size: CGSize) -> UIImageView
     func makeTableView() -> UITableView
+    func makePopupView(frame: CGRect) -> UIView
+    func makeBlurView(frame: CGRect, effect: UIBlurEffect) -> UIVisualEffectView
 }
 
 extension BookingManagerFactory {
@@ -59,5 +61,21 @@ extension BookingManagerFactory {
         let table = UITableView(frame: .zero)
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
+    }
+    
+    func makePopupView(frame: CGRect) -> UIView {
+        let view = UIView(frame: frame)
+        view.backgroundColor = UIColor.systemBackground
+        view.layer.cornerRadius = 10
+        view.alpha = 0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }
+    
+    func makeBlurView(frame: CGRect, effect: UIBlurEffect) -> UIVisualEffectView {
+        let blurView = UIVisualEffectView(effect: effect)
+        blurView.frame = frame
+        blurView.alpha = 0
+        return blurView
     }
 }
