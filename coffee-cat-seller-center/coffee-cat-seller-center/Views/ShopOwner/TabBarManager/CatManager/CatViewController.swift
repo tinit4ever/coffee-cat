@@ -29,7 +29,7 @@ class CatViewController: UIViewController, CatFactory {
     // MARK: - Create UIComponents
     lazy var managerStack = makeHorizontalStackView()
     lazy var deleteCatButton = makeButton()
-    lazy var datePicker = makeDatePicker()
+    lazy var catAnimation = makeLottieAnimationView(animationName: "cat")
     lazy var addCatButton = makeButton()
     
     lazy var areaTableView: UITableView = {
@@ -79,15 +79,12 @@ class CatViewController: UIViewController, CatFactory {
         managerStack.addArrangedSubview(deleteCatButton)
         deleteCatButton.isEnabled = false
         deleteCatButton.setImage(UIImage(systemName: "trash")?.withTintColor(.systemBackground, renderingMode: .alwaysOriginal).resized(to: CGSize(width: heightScaler(30), height: heightScaler(35))), for: .normal)
-        
-        managerStack.addArrangedSubview(datePicker)
-        datePicker.datePickerMode = .date
-        datePicker.preferredDatePickerStyle = .compact
-        datePicker.minimumDate = Date()
-        datePicker.tintColor = .customBlack
-        datePicker.backgroundColor = .systemCyan
-        datePicker.layer.cornerRadius = sizeScaler(10)
-        datePicker.layer.masksToBounds = true
+
+        managerStack.addArrangedSubview(catAnimation)
+        catAnimation.contentMode = .scaleAspectFit
+        catAnimation.play()
+        catAnimation.heightAnchor.constraint(equalToConstant: heightScaler(35)).isActive = true
+        catAnimation.widthAnchor.constraint(equalToConstant: heightScaler(55)).isActive = true
         
         managerStack.addArrangedSubview(addCatButton)
         addCatButton.setImage(UIImage(systemName: "plus")?.withTintColor(.systemGreen, renderingMode: .alwaysOriginal).resized(to: CGSize(width: heightScaler(40), height: heightScaler(35))), for: .normal)

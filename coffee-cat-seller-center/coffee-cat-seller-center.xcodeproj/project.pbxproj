@@ -36,6 +36,7 @@
 		A06834262B8D872A0086CE59 /* ShopManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */; };
 		A06834282B8D90280086CE59 /* StaffAccountFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834272B8D90280086CE59 /* StaffAccountFactory.swift */; };
 		A06A5A792B9C9F39005F673C /* person.json in Resources */ = {isa = PBXBuildFile; fileRef = A06A5A782B9C9F39005F673C /* person.json */; };
+		A06A5A7B2B9CA3BE005F673C /* cat.json in Resources */ = {isa = PBXBuildFile; fileRef = A06A5A7A2B9CA3BE005F673C /* cat.json */; };
 		A06D64522B92302E008F8550 /* StaffAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06D64512B92302E008F8550 /* StaffAccountViewModel.swift */; };
 		A06DF2762B9A82BB004E62BE /* CatFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DF2752B9A82BB004E62BE /* CatFactory.swift */; };
 		A06DF2782B9A8A3A004E62BE /* InputCatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DF2772B9A8A3A004E62BE /* InputCatViewController.swift */; };
@@ -134,6 +135,7 @@
 		A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopManagerViewController.swift; sourceTree = "<group>"; };
 		A06834272B8D90280086CE59 /* StaffAccountFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAccountFactory.swift; sourceTree = "<group>"; };
 		A06A5A782B9C9F39005F673C /* person.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = person.json; sourceTree = "<group>"; };
+		A06A5A7A2B9CA3BE005F673C /* cat.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cat.json; sourceTree = "<group>"; };
 		A06D64512B92302E008F8550 /* StaffAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAccountViewModel.swift; sourceTree = "<group>"; };
 		A06DF2752B9A82BB004E62BE /* CatFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatFactory.swift; sourceTree = "<group>"; };
 		A06DF2772B9A8A3A004E62BE /* InputCatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCatViewController.swift; sourceTree = "<group>"; };
@@ -483,6 +485,7 @@
 		A0CBF4DE2B8CD99E008CFAD3 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				A06A5A7A2B9CA3BE005F673C /* cat.json */,
 				A06A5A782B9C9F39005F673C /* person.json */,
 				A0B1A2742B99B922000458EF /* contract.json */,
 				A0EEFA692B9820760088CA0F /* custom.json */,
@@ -727,6 +730,7 @@
 				A06A5A792B9C9F39005F673C /* person.json in Resources */,
 				A0CBF4C42B8CD31F008CFAD3 /* Assets.xcassets in Resources */,
 				A0EEFA6A2B9820760088CA0F /* custom.json in Resources */,
+				A06A5A7B2B9CA3BE005F673C /* cat.json in Resources */,
 				A0CBF5082B8CE802008CFAD3 /* coffee.json in Resources */,
 				A0EEFA642B98156D0088CA0F /* staff.json in Resources */,
 				A0EEFA632B98156D0088CA0F /* shop-manager.json in Resources */,

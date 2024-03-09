@@ -14,6 +14,7 @@ protocol CatFactory {
     func makeButton() -> UIButton
     func makeDatePicker() -> UIDatePicker
     func makeHorizontalStackView() -> UIStackView
+    func makeLottieAnimationView(animationName: String) -> LottieAnimationView
 }
 
 extension CatFactory {
@@ -41,5 +42,14 @@ extension CatFactory {
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
+    }
+    
+    func makeLottieAnimationView(animationName: String) -> LottieAnimationView {
+        let animationView: LottieAnimationView
+        animationView = .init(name: animationName)
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1.5
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        return animationView
     }
 }
