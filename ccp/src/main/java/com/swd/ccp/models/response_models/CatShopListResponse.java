@@ -23,10 +23,6 @@ public class CatShopListResponse {
 
         private String name;
 
-        private Integer areaId;
-
-        private String areaName;
-
         private String type;
 
         private String description;
@@ -34,9 +30,21 @@ public class CatShopListResponse {
         private String imgLink;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class AreaResponse{
+        private Integer areaId;
+
+        private String areaName;
+
+        private List<CatResponse> cat;
+    }
+
     private boolean status;
 
     private String message;
 
-    private List<CatResponse> cat;
+    private List<AreaResponse> area;
 }

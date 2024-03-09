@@ -26,6 +26,8 @@ public class LoginResponse {
 
         private String gender;
 
+        private Integer shopId;
+
         private String shopName;
 
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

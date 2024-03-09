@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 public class CatResponse {
     private Integer id;
 
+    private String name;
+
     private String type;
 
     private String description;

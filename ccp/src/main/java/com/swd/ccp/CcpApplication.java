@@ -1,14 +1,15 @@
 package com.swd.ccp;
 
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.swd.ccp.enums.Role;
 import com.swd.ccp.models.entity_models.*;
 import com.swd.ccp.repositories.*;
 import com.swd.ccp.services.CustomerService;
 import com.swd.ccp.services.JWTService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -398,13 +399,12 @@ public class CcpApplication {
                 menuItemStatusRepo.save(MenuItemStatus.builder().status("unavailable").build());
 
                 //init menu item
-                List<String> usedFoodName = new ArrayList<>();
                 for(Menu menu: menuList){
-                    for(int item = 0; item < 6; item++){
+                    for(int item = 0; item < 12; item++){
                         MenuItem menuItem = MenuItem.builder()
                                 .menu(menu)
                                 .menuItemStatus(menuItemStatusRepo.findByStatus("available"))
-                                .name(generateFoodName(usedFoodName))
+                                .name(generateFoodName())
                                 .price(generateRandomNumber(2, 10))
                                 .imgLink("")
                                 .description("")
@@ -548,10 +548,20 @@ public class CcpApplication {
 
             private String getNextName(List<String> nameList) {
                 String[] names = {
-                        "Sam", "John", "Lisa", "Mike", "Emma",
-                        "Alex", "Sara", "Chris", "Natalie", "Peter",
-                        "Sophia", "Daniel", "Olivia", "Matthew", "Emily",
-                        "Ryan", "Grace", "Lucas", "Avery", "Connor"
+                        "Aatrox", "Ahri", "Akali", "Akshan", "Alistar",
+                        "Amumu", "Anivia", "Annie", "Aphelios", "Ashe",
+                        "Sol", "Azir", "Bard", "Belveth", "Blitzcrank",
+                        "Brand", "Braum", "Briar", "Caitlyn", "Camille",
+                        "Cassiopeia", "Chogath", "Corki", "Darius", "Diana",
+                        "Mundo", "Draven", "Ekko", "Elise", "Evelynn",
+                        "Ezreal", "Fiora", "Fizz", "Galio", "Garen",
+                        "Gragas", "Gwen", "Hwei", "Irelia", "Janna",
+                        "Jax", "Jayce", "Jhin", "Jinx", "Ksante",
+                        "Kaisa", "Kalista", "Karma", "Kassadin", "Katarina",
+                        "Kayle", "Kayn", "Kenne", "Kindred", "Kled",
+                        "Leblanc", "Lee", "Leona", "Lillia", "Lissandra",
+                        "Lucian", "Lulu", "Lux", "Malphite", "Maokai",
+                        "Yi", "Yasuo", "Morgana", "Naafiri"
                 };
 
                 List<String> availableNames = new ArrayList<>();
@@ -578,26 +588,26 @@ public class CcpApplication {
             // Method to get a random cat name from a list of names
             private String getCatNextName(List<String> nameList) {
                 String[] catNames = {
-                        "Whiskers", "Mittens", "Shadow", "Felix", "Luna", "Simba", "Cleo", "Oliver", "Chloe", "Leo",
-                        "Milo", "Lily", "Tiger", "Sophie", "Max", "Zoe", "Charlie", "Lucy", "Bella", "Oreo",
-                        "Tigger", "Nala", "Smokey", "Ginger", "Mittens", "Boots", "Angel", "Coco", "Rocky", "Misty",
-                        "Sylvester", "Missy", "Whiskey", "Garfield", "Snowball", "Pumpkin", "Princess", "Buddy", "Sasha", "Midnight",
-                        "Patch", "Sunny", "Peanut", "Cinnamon", "Biscuit", "Pepper", "Muffin", "Oreo", "Cupcake",
-                        "Whiskers Jr.", "Misty", "Snowflake", "Mittens Jr.", "Smokey Jr.", "Rusty", "Fluffy", "Whiskers II", "Shadow Jr.", "Midnight II",
-                        "Lucky", "Pebbles", "Princess II", "Whiskers III", "Marshmallow", "Socks", "Angel II", "Cocoa", "Sunny II", "Muffin II",
-                        "Tigger II", "Whiskers IV", "Ginger Jr.", "Pumpkin II", "Simba Jr.", "Felix Jr.", "Whiskers V", "Boots Jr.", "Patch Jr.", "Oreo Jr.",
-                        "Max Jr.", "Missy Jr.", "Buddy Jr.", "Mocha", "Whiskers VI", "Luna II", "Copper", "Olive", "Periwinkle", "Gizmo",
-                        "Bluebell", "Sparkle", "Whiskers VII", "Shadow II", "Tiger Jr.", "Whiskers VIII", "Whiskers IX", "Bella II", "Whiskers X",
-                        "Whiskers Jr.", "Mittens Jr.", "Shadow Jr.", "Felix Jr.", "Luna Jr.", "Simba Jr.", "Cleo Jr.", "Oliver Jr.", "Chloe Jr.", "Leo Jr.",
-                        "Milo Jr.", "Lily Jr.", "Tiger Jr.", "Sophie Jr.", "Max Jr.", "Zoe Jr.", "Charlie Jr.", "Lucy Jr.", "Bella Jr.", "Oreo Jr.",
-                        "Tigger Jr.", "Nala Jr.", "Smokey Jr.", "Ginger Jr.", "Mittens Jr. II", "Boots Jr.", "Angel Jr.", "Coco Jr.", "Rocky Jr.", "Misty Jr.",
-                        "Sylvester Jr.", "Missy Jr.", "Whiskey Jr.", "Garfield Jr.", "Snowball Jr.", "Pumpkin Jr.", "Princess Jr.", "Buddy Jr.", "Sasha Jr.", "Midnight Jr.",
-                        "Patch Jr.", "Sunny Jr.", "Peanut Jr.", "Cinnamon Jr.", "Biscuit Jr.", "Pepper Jr.", "Muffin Jr.", "Oreo Jr.", "Cupcake Jr.", "Whiskers Jr. II",
-                        "Whiskers III", "Mittens III", "Shadow III", "Felix III", "Luna III", "Simba III", "Cleo III", "Oliver III", "Chloe III", "Leo III",
-                        "Milo III", "Lily III", "Tiger III", "Sophie III", "Max III", "Zoe III", "Charlie III", "Lucy III", "Bella III", "Oreo III", "Tigger III", "Nala III", "Smokey III", "Ginger III", "Mittens III",
-                        "Boots III", "Angel III", "Coco III", "Rocky III", "Misty III", "Sylvester III", "Missy III", "Whiskey III", "Garfield III", "Snowball III",
-                        "Pumpkin III", "Princess III", "Buddy III", "Sasha III", "Midnight III", "Patch III", "Sunny III", "Peanut III", "Cinnamon III", "Biscuit III",
-                        "Pepper III", "Muffin III", "Oreo III", "Cupcake III", "Whiskers IV"
+                        "Son Goku", "Vegeta", "Jiren", "Kefla", "Beerus", "Whis", "Krillin", "Piccolo", "Gohan", "Bulma",
+                        "Roshi", "Tien", "Goten", "Trunks", "Vados", "Zeno", "Chi Chi", "Champa", "Frieza", "Toppo",
+                        "Videl", "Cabba", "Fuwa", "Hit", "Buu", "Dende", "Jaco", "Dyspo", "Belmod", "Kai",
+                        "Gowasu", "Arack", "Yamcha", "Iwne", "Anato", "Kampari", "Ogma", "Pan", "Magetta", "Caulifla",
+                        "Awamo", "Cucatail", "Marcarita", "Botamo", "Kale", "Sawar", "Heles", "Conic", "Quitela",
+                        "Geene", "Frost", "Zamasu", "Mosco", "Liquiir", "Cell", "Vegito", "Luffy", "zoro", "Usopp",
+                        "Nami", "Sanji", "Nico Robin", "Chopper", "Franky", "Brook", "Shanks", "Jimbe", "Buggy", "Vivi",
+                        "Big Mom", "Crocodile", "Ace", "Teach", "Smoker", "Doflamingo", "Tashigi", "Rob Lucci", "Kaido", "Garp",
+                        "Aokiji", "Kuma", "Mihawk", "Koby", "Newgate", "Sengoku", "Kizaru", "Akainu", "Eneru", "Boa Hancock",
+                        "Hina", "Sabo", "Bonney", "Gold Roger", "Dragon", "Rayleigh", "Yamato", "Yelan", "Xianyun",
+                        "Ayato", "Childe", "Furina", "Kokomi", "Mona", "Neuvillette", "Nilou", "Dehya", "Diluc", "Hutao",
+                        "Klee", "Lyney", "Yoimiya", "Cyno", "Keqing", "Raiden Ei", "Yae Miko", "Ayaka", "Eula", "Ganyu",
+                        "Qiqi", "Shenhe", "Wriothesley", "Jean", "Kazuha", "Venti", "Wanderer", "Xiao", "Albedo", "Itto",
+                        "Navia", "Zhongli", "Alhaitham", "Baizhu", "Nahida", "Tighnari", "Faruzan", "Heizou", "Lynette", "Sayu",
+                        "Sucrose", "Charlotte", "Chongyun", "Diona", "Freminet", "Kaeya", "Layla", "Mika", "Rosaria", "Beidou",
+                        "Dori", "Fischl", "Kuki", "Lisa", "Razor", "Sara", "Collei", "Kaveh", "Kirara", "Yao yao",
+                        "Gorou", "Ningguang", "Noelle", "Yun Jin", "Barbara", "Candace", "Xingqiu", "Gaming", "Amber", "Bennett", "Chevreuse", "Thoma", "Xiangling", "Xinyan", "Yanfei",
+                        "Pierro", "Dottore", "Columbina", "Arlecchino", "Pulcinella", "Sandrone", "Pantalone", "Capitano", "Signora", "Tanjiro",
+                        "Kanao", "Zenitsu", "Inosuke", "Nezuko", "Yoriichi", "Giyu", "Mitsuri", "Obanai", "Sanemi", "Gyomei",
+                        "Muichiro", "Shinobu", "Kyojuro", "Tengen", "Akaza", "Kokushibo", "Muzan"
                 };
 
                 while (currentCatNameIndex < catNames.length) {
@@ -675,7 +685,7 @@ public class CcpApplication {
                 return null;
             }
 
-            public String generateFoodName(List<String> usedFood) {
+            public String generateFoodName() {
                 String[] foodNames = {
                         "Sizzling Tacos", "Creamy Carbonara", "Zesty Lemon Chicken",
                         "Spicy Chilli Beef", "Garlic Butter Shrimp", "Mouthwatering Ravioli",
@@ -719,19 +729,16 @@ public class CcpApplication {
                         "Crispy Pork Belly", "Crab Rangoon", "Coconut Shrimp Curry"
                 };
 
-                String nextName = null;
-
-                while (currentFoodIndex < foodNames.length) {
-                    nextName = foodNames[currentFoodIndex];
-                    if (!usedFood.contains(nextName)) {
-                        currentFoodIndex++;
-                        usedFood.add(nextName);
-                        return nextName;
-                    }
+                if (currentFoodIndex < foodNames.length) {
+                    String nextName = foodNames[currentFoodIndex];
                     currentFoodIndex++;
+                    return nextName;
+                }else{
+                    currentFoodIndex = 0;
+                    String nextName = foodNames[currentFoodIndex];
+                    currentFoodIndex++;
+                    return nextName;
                 }
-
-                return "No unique names available.";
             }
         };
     }

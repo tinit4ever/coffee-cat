@@ -5,10 +5,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class DeleteCatRequest {
-    private Integer catId;
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class CatRequest{
+
+        private Integer catId;
+    }
+
+    private List<CatRequest> listCatId;
 }

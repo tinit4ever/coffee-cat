@@ -59,8 +59,9 @@ public class AreaServiceImpl implements AreaService {
                 seatResponseList.add(seatResponseDTO);
             }
 
-            List<CatResponse> activeCatList = new ArrayList<>();
-
+            List<CatResponse> activeCatList = area.getCatList().stream()
+                    .map(cat -> new CatResponse(cat.getId(), cat.getName(), cat.getType(), cat.getDescription(), cat.getImgLink()))
+                    .toList();
 
             AreaResponse areaResponseDTO = AreaResponse.builder()
                     .id(area.getId())

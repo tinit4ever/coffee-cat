@@ -50,25 +50,37 @@ public class CatServiceImpl implements CatService {
 
     @Override
     public CatShopListResponse getCatList() {
-        List<Cat> cats = getAvailableCatList();
+        List<CatShopListResponse.AreaResponse> areas = new ArrayList<>();
 
-        List<CatShopListResponse.CatResponse> catResponses = cats.stream()
-                .map(
-                        cat -> new CatShopListResponse.CatResponse(
-                                cat.getId(),
-                                cat.getName(),
-                                cat.getArea().getId(),
-                                cat.getArea().getName(),
-                                cat.getType(),
-                                cat.getDescription(),
-                                cat.getImgLink())
-                )
-                .toList();
+        for(Area area: getShop().getAreaList()){
+            List<CatShopListResponse.CatResponse> cats = new ArrayList<>();
+            for(Cat cat: area.getCatList()){
+                if(cat.getCatStatus().getStatus().equals("available")){
+                    cats.add(
+                            CatShopListResponse.CatResponse.builder()
+                                    .id(cat.getId())
+                                    .name(cat.getName())
+                                    .type(cat.getType())
+                                    .description(cat.getDescription())
+                                    .imgLink(cat.getImgLink())
+                                    .build()
+                    );
+                }
+            }
+
+            areas.add(
+                    CatShopListResponse.AreaResponse.builder()
+                            .areaId(area.getId())
+                            .areaName(area.getName())
+                            .cat(cats)
+                            .build()
+            );
+        }
 
         return CatShopListResponse.builder()
                 .status(true)
                 .message("")
-                .cat(catResponses)
+                .area(areas)
                 .build();
     }
 
@@ -109,19 +121,25 @@ public class CatServiceImpl implements CatService {
     @Override
     public DeleteCatResponse deleteCat(DeleteCatRequest request) {
         List<Cat> cats = getAvailableCatList();
-        for(Cat cat: cats){
-            if(cat.getId().equals(request.getCatId())){
-                cat.setCatStatus(catStatusRepo.findByStatus("unavailable"));
-                catRepo.save(cat);
+        List<DeleteCatRequest.CatRequest> catIdList = cats.stream().map(cat -> new DeleteCatRequest.CatRequest(cat.getId())).toList();
+        for(DeleteCatRequest.CatRequest id: request.getListCatId()){
+            if(!catIdList.contains(id)){
                 return DeleteCatResponse.builder()
-                        .status(true)
-                        .message("Delete cat successfully")
+                        .status(false)
+                        .message("Cat with id " + id.getCatId() + " does not belong to this shop")
                         .build();
             }
         }
+
+        for(Cat cat: cats){
+            if(request.getListCatId().contains(new DeleteCatRequest.CatRequest(cat.getId()))){
+                cat.setCatStatus(catStatusRepo.findByStatus("unavailable"));
+                catRepo.save(cat);
+            }
+        }
         return DeleteCatResponse.builder()
-                .status(false)
-                .message("This cat does not belong to this shop")
+                .status(true)
+                .message("Delete " + request.getListCatId().size() + " cat(s) successfully")
                 .build();
     }
 }

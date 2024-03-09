@@ -34,6 +34,7 @@ com\swd\ccp\models\response_models\BookingListResponse$MenuItemResponse$MenuItem
 com\swd\ccp\models\entity_models\AccountStatus$AccountStatusBuilder.class
 com\swd\ccp\models\response_models\BookingListResponse$CustomFloatSerializer.class
 com\swd\ccp\models\response_models\ShopProfileResponse$ShopResponse$ShopResponseBuilder.class
+com\swd\ccp\models\request_models\DeleteCatRequest$CatRequest.class
 com\swd\ccp\repositories\ShopRepo.class
 com\swd\ccp\configurations\ApplicationConfig.class
 com\swd\ccp\models\response_models\ShopProfileResponse.class
@@ -46,6 +47,7 @@ com\swd\ccp\models\entity_models\SeatStatus$SeatStatusBuilder.class
 com\swd\ccp\models\response_models\CreateAreaResponse$AreaResponse.class
 com\swd\ccp\models\response_models\LoginResponse$LoginResponseBuilder.class
 com\swd\ccp\models\entity_models\AccountStatus.class
+com\swd\ccp\models\response_models\CatShopListResponse$AreaResponse.class
 com\swd\ccp\models\request_models\CreateBookingCartRequest$MenuItemRequest.class
 com\swd\ccp\models\entity_models\Menu.class
 com\swd\ccp\models\request_models\CreateShopRequest.class
@@ -145,6 +147,7 @@ com\swd\ccp\models\response_models\GetAllAccountAdminResponse$GetAllAccountAdmin
 com\swd\ccp\models\request_models\RejectBookingRequest.class
 com\swd\ccp\repositories\CommentRepo.class
 com\swd\ccp\repositories\PackageRepo.class
+com\swd\ccp\models\request_models\DeleteCatRequest$CatRequest$CatRequestBuilder.class
 com\swd\ccp\models\request_models\DeleteAreaRequest$SeatRequest.class
 com\swd\ccp\models\response_models\CreateAreaResponse$SeatResponse.class
 com\swd\ccp\repositories\PackageStatusRepo.class
@@ -152,6 +155,7 @@ com\swd\ccp\controllers\ShopController.class
 com\swd\ccp\Exception\NotFoundException.class
 com\swd\ccp\models\response_models\MenuItemListResponse$MenuItemListResponseBuilder.class
 com\swd\ccp\models\response_models\UpdateMenuItemResponse.class
+com\swd\ccp\models\response_models\CatShopListResponse$AreaResponse$AreaResponseBuilder.class
 com\swd\ccp\models\response_models\ShopListResponse$ShopImageResponse$ShopImageResponseBuilder.class
 com\swd\ccp\models\response_models\SeatResponse$SeatResponseBuilder.class
 com\swd\ccp\models\response_models\CheckMailExistedResponse$CheckMailExistedResponseBuilder.class
