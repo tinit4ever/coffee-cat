@@ -156,5 +156,8 @@ class CatCollectionViewCell: UICollectionViewCell {
     }
 
     func configure(_ cat: Cat) {
+        updateBorder(false)
+        self.nameLabel.text = cat.name
+        self.typeLabel.text = cat.type
     }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Lottie
 
 protocol ShopCreationInputFactory {
     func makeLabel() -> UILabel
@@ -14,6 +15,7 @@ protocol ShopCreationInputFactory {
     func makeHorizontalStackView() -> UIStackView
     func makeRoundedContainer() -> UIView
     func makeTextField(placeholder: String) -> UITextField
+    func makeLottieAnimationView(animationName: String) -> LottieAnimationView
 }
 
 extension ShopCreationInputFactory {
@@ -55,5 +57,14 @@ extension ShopCreationInputFactory {
         textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
+    }
+    
+    func makeLottieAnimationView(animationName: String) -> LottieAnimationView {
+        let animationView: LottieAnimationView
+        animationView = .init(name: animationName)
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1.5
+        animationView.translatesAutoresizingMaskIntoConstraints = false
+        return animationView
     }
 }

@@ -157,11 +157,13 @@ class CatCollectionViewCell: UICollectionViewCell {
     }
 
     func configure(_ cat: Cat) {
-//        self.nameLabel = cat.
-        guard let type = cat.type
+        guard let type = cat.type,
+              let name = cat.name
         else {
             return
         }
+        
+        self.nameLabel.text = name
         self.typeLabel.text = type
     }
 }

@@ -38,6 +38,7 @@ struct APIConstants {
         
         static let catList = baseURL + "cat/list"
         static let createCat = baseURL + "cat/create"
+        static let deleteCats = baseURL + "cat/delete"
         
         static let shopProfile = baseURL + "shop/profile"
         static let updateProfile = baseURL + "owner/shop/update"
@@ -81,7 +82,8 @@ class APIManager {
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
         //        let userSignIn = UserSignIn(email: email, password: password)
         
-        let userSignIn = UserSignIn(email: "tin@gmail.com", password: "an123456")
+        let userSignIn = UserSignIn(email: "null@null.null", password: "null")
+//        let userSignIn = UserSignIn(email: "tin@gmail.com", password: "an123456")
         
         let apiUrl = APIConstants.Auth.login
         
@@ -509,6 +511,30 @@ class APIManager {
             .eraseToAnyPublisher()
     }
     
+    func deleteCats(with catIds: [CatId], accessToken: String) -> AnyPublisher<Void, Error> {
+        guard let url = URL(string: APIConstants.Owner.deleteCats) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        let catListRequest = CatListRequest(listCatId: catIds)
+        
+        return AF.request(url, method: .post, parameters: catListRequest, encoder: JSONParameterEncoder.default, headers: headers)
+            .publishData()
+            .tryMap { response in
+                guard response.response?.statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+            }
+            .mapError { $0 as Error }
+            .map { _ in }
+            .eraseToAnyPublisher()
+    }
+    
     func getShopProfile(accessToken: String) -> AnyPublisher<GetShopProfileResponse, Error> {
         guard let url = URL(string: APIConstants.Owner.shopProfile) else {
             return Fail(error: APIError.badUrl).eraseToAnyPublisher()
@@ -646,12 +672,18 @@ class APIManager {
     }
     
     func createShopOwner(with shopCreationModel: ShopCreationModel, accessToken: String) -> AnyPublisher<ShopCreationResponse, Error> {
-        guard let url = URL(string: APIConstants.Admin.createShop) else {
+//        guard let url = URL(string: APIConstants.Admin.createShop) else {
+//            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+//        }
+        
+        guard let url = URL(string: "https://189e-14-191-196-47.ngrok-free.app/shop/create") else {
             return Fail(error: APIError.badUrl).eraseToAnyPublisher()
         }
         
+        var accessToken1 = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJudWxsQG51bGwubnVsbCIsImlhdCI6MTcwOTk1ODEyMywiZXhwIjoxNzEwMzkwMTIzfQ.QDExCACH8vRQ3sSJWQ3XajpvLin7z1IdHsSwnDyubRVhRU7We4W51B2MYsAZNgIZ"
+        
         let headers: HTTPHeaders = [
-            "Authorization": "Bearer \(accessToken)",
+            "Authorization": "Bearer \(accessToken1)",
             "Content-Type": "application/json"
         ]
         

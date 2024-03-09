@@ -16,7 +16,15 @@ class CatViewController: UIViewController, CatFactory {
     
     var viewModel: CatViewModelProtocol = CatViewModel()
     var cancellables: Set<AnyCancellable> = []
-    
+    private var selectedCatIds: [CatId] = [] {
+        didSet {
+            if selectedCatIds.isEmpty {
+                self.setDeleteButtonEnabled(false)
+            } else {
+                self.setDeleteButtonEnabled(true)
+            }
+        }
+    }
     
     // MARK: - Create UIComponents
     lazy var managerStack = makeHorizontalStackView()
@@ -29,7 +37,7 @@ class CatViewController: UIViewController, CatFactory {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -56,7 +64,7 @@ class CatViewController: UIViewController, CatFactory {
     private func configAppearance() {
         view.backgroundColor = .systemGray6
     }
-
+    
     private func configManagerStack() {
         managerStack.backgroundColor = .systemPurple
         managerStack.layer.cornerRadius = sizeScaler(10)
@@ -112,6 +120,21 @@ class CatViewController: UIViewController, CatFactory {
                 }
             }
             .store(in: &cancellables)
+        
+        self.viewModel.isDeleteResponseSubject
+            .sink { result in
+                switch result {
+                case .success():
+                    self.selectedCatIds = []
+                    self.viewModel.areaList = []
+                    self.viewModel.selectedCat = []
+                    self.showSuccess()
+                    self.setupData()
+                case .failure(let error):
+                    self.showDeleteError(message: error.localizedDescription)
+                }
+            }
+            .store(in: &cancellables)
     }
     
     // MARK: - Setup Data
@@ -137,7 +160,7 @@ class CatViewController: UIViewController, CatFactory {
             return
         }
         viewModel.selectedAreaName = areaName
-
+        
         let inputCatViewController = InputCatViewController(viewModel: viewModel)
         inputCatViewController.dismissCompletion = { [weak self] in
             self?.setupData()
@@ -148,7 +171,7 @@ class CatViewController: UIViewController, CatFactory {
     
     @objc
     private func deleteCatButtonTapped() {
-        
+        self.viewModel.deleteCats()
     }
     
     // MARK: - Utitlities
@@ -159,10 +182,35 @@ class CatViewController: UIViewController, CatFactory {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    private func showSuccess() {
+        let alertController = UIAlertController(title: "Success", message: "Cat is deleted", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func showDeleteError(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     private func getStringDateFormatter(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormat.dateFormatterToStore
         return dateFormatter.string(from: date)
+    }
+    
+    private func setDeleteButtonEnabled(_ isEnabled: Bool) {
+        self.deleteCatButton.isEnabled = isEnabled
+        var color: UIColor = .systemBackground
+        if isEnabled {
+            color = .systemRed
+        } else {
+            color = .systemBackground
+        }
+        deleteCatButton.setImage(UIImage(systemName: "trash")?.withTintColor(color, renderingMode: .alwaysOriginal).resized(to: CGSize(width: heightScaler(30), height: heightScaler(35))), for: .normal)
     }
 }
 
@@ -172,22 +220,37 @@ extension CatViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return self.viewModel.areaList[section].areaName
-        "A"
+        return self.viewModel.areaList[section].areaName
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-//        self.viewModel.areaList.count
-        3
+        self.viewModel.areaList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AreaCatTableViewCell.identifier, for: indexPath) as? AreaCatTableViewCell else {
             return UITableViewCell()
         }
-//        
-//        let catList = self.viewModel.areaList[indexPath.section].cat
-//        cell.configure(catList: catList)
+        
+        let catList = self.viewModel.areaList[indexPath.section].cat
+        cell.configure(catList: catList)
+        
+        cell.didSelectedCat = { [weak self] catId, isAdd in
+            if isAdd {
+                self?.selectedCatIds.append(catId)
+            } else {
+                if let indexToRemove = self?.selectedCatIds.firstIndex(where: { $0.catId == catId.catId }) {
+                    self?.selectedCatIds.remove(at: indexToRemove)
+                }
+            }
+            
+            if let selectedCatIds = self?.selectedCatIds {
+                print(selectedCatIds)
+                self?.viewModel.selectedCat = selectedCatIds
+            }
+        }
+        
+        cell.selectionStyle = .none
         
         return cell
     }
