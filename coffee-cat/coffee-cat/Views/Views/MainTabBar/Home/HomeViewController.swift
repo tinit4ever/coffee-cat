@@ -260,7 +260,7 @@ class HomeViewController: UIViewController, UIFactory {
         shopListContainer.backgroundColor = .systemBackground
         
         NSLayoutConstraint.activate([
-            shopListContainer.topAnchor.constraint(equalTo: sortButton.bottomAnchor, constant: heightScaler(10)),
+            shopListContainer.topAnchor.constraint(equalTo: sortButton.bottomAnchor, constant: heightScaler(20)),
             shopListContainer.leadingAnchor.constraint(equalTo: searchBar.leadingAnchor),
             shopListContainer.trailingAnchor.constraint(equalTo: searchBar.trailingAnchor),
             shopListContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -heightScaler(160))

@@ -15,7 +15,7 @@ class AreaCatTableViewCell: UITableViewCell {
     let sizeScaler = UIScreen.scalableSize
     
     var catList: [Cat] = []
-    var didSelectedCat: ((Cat, Bool) -> Void)?
+    var didSelectedCat: ((CatId, Bool) -> Void)?
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -46,6 +46,7 @@ class AreaCatTableViewCell: UITableViewCell {
         contentView.layer.masksToBounds = true
         collectionView.register(CatCollectionViewCell.self, forCellWithReuseIdentifier: CatCollectionViewCell.identifier)
         collectionView.dataSource = self
+        collectionView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -70,8 +71,7 @@ class AreaCatTableViewCell: UITableViewCell {
 
 extension AreaCatTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        self.catList.count
-        20
+        self.catList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -79,8 +79,8 @@ extension AreaCatTableViewCell: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-//        let cat = catList[indexPath.row]
-//        cell.configure(cat)
+        let cat = catList[indexPath.row]
+        cell.configure(cat)
         
         return cell
     }
@@ -88,21 +88,21 @@ extension AreaCatTableViewCell: UICollectionViewDataSource {
 
 extension AreaCatTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        guard let cell = collectionView.cellForItem(at: indexPath) as? SeatCollectionViewCell else {
-//            return
-//        }
-//        let beforeSelect = cell.customSelect
-//        
-//        let catId = self.catList[indexPath.row].id
-//
-//        if beforeSelect {
-//            cell.customSelect = false
-//            cell.updateBorder(false)
-//            self.didSelectedSeat?(SeatId(id: seatId), false)
-//        } else {
-//            cell.customSelect = true
-//            cell.updateBorder(true)
-//            self.didSelectedSeat?(SeatId(id: seatId), true)
-//        }
+        guard let cell = collectionView.cellForItem(at: indexPath) as? CatCollectionViewCell else {
+            return
+        }
+        let beforeSelect = cell.customSelect
+        
+        let catId = self.catList[indexPath.row].id
+        
+        if beforeSelect {
+            cell.customSelect = false
+            cell.updateBorder(false)
+            self.didSelectedCat?(CatId(catId: catId), false)
+        } else {
+            cell.customSelect = true
+            cell.updateBorder(true)
+            self.didSelectedCat?(CatId(catId: catId), true)
+        }
     }
 }

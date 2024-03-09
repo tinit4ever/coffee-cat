@@ -42,6 +42,8 @@ class ShopCreationInputViewController: UIViewController, ShopCreationInputFactor
     lazy var shopEmailTextFieldContainer: UIView = makeRoundedContainer()
     lazy var shopEmailTextField: UITextField = makeTextField(placeholder: "Enter shopEmail")
     
+    lazy var loadingAnimationView = makeLottieAnimationView(animationName: "loading")
+    
     // -MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +60,9 @@ class ShopCreationInputViewController: UIViewController, ShopCreationInputFactor
         
         view.addSubview(inputStackView)
         configInputStackView()
+        
+        view.addSubview(loadingAnimationView)
+        configLoadingView()
     }
     
     private func configNavigation() {
@@ -115,6 +120,16 @@ class ShopCreationInputViewController: UIViewController, ShopCreationInputFactor
         shopEmailTextFieldContainer.heightAnchor.constraint(equalToConstant: heightScaler(60)).isActive = true
     }
     
+    private func configLoadingView() {
+        loadingAnimationView.isHidden = true
+        NSLayoutConstraint.activate([
+            loadingAnimationView.widthAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.heightAnchor.constraint(equalToConstant: sizeScaler(300)),
+            loadingAnimationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingAnimationView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
     // -MARK: Setup Data
     private func setupData() {
 
@@ -135,8 +150,10 @@ class ShopCreationInputViewController: UIViewController, ShopCreationInputFactor
                 switch result {
                 case .success(let message):
                     self.displaySucces(message: message)
+                    self.hiddenLoadingView()
                 case .failure(let error):
                     self.displayErrorAlert(message: error.localizedDescription)
+                    self.hiddenLoadingView()
                 }
             }
             .store(in: &cancellables)
@@ -150,6 +167,7 @@ class ShopCreationInputViewController: UIViewController, ShopCreationInputFactor
     
     @objc
     private func doneButtonTapped() {
+        self.showLoadingView()
         guard let name = nameTextField.text,
               let recipientEmail = recipientEmailTextField.text,
               let phone = phoneTextField.text,
@@ -183,6 +201,18 @@ class ShopCreationInputViewController: UIViewController, ShopCreationInputFactor
     private func dismissViewController() {
         dismissCompletion?()
         self.dismiss(animated: true)
+    }
+    
+    private func showLoadingView() {
+        self.loadingAnimationView.isHidden = false
+        self.loadingAnimationView.play()
+        self.view.isUserInteractionEnabled = false
+    }
+    
+    private func hiddenLoadingView() {
+        self.loadingAnimationView.isHidden = true
+        self.loadingAnimationView.stop()
+        self.view.isUserInteractionEnabled = true
     }
 }
 
