@@ -26,7 +26,7 @@ class OrderFoodViewController: UIViewController, UIFactory {
         return stepper
     }()
     
-    lazy var menuCollectionView = makeCollectionView(space: sizeScaler(40), size: CGSize(width: widthScaler(400), height: heightScaler(300)))
+    lazy var menuCollectionView = makeCollectionView(space: sizeScaler(40), size: CGSize(width: widthScaler(400), height: heightScaler(250)))
     
     // -MARK: ViewDidLoad
     override func viewDidLoad() {

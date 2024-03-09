@@ -15,14 +15,15 @@ class AreaCatTableViewCell: UITableViewCell {
     let sizeScaler = UIScreen.scalableSize
     
     var catList: [Cat] = []
+    var didSelectedCat: ((Cat, Bool) -> Void)?
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: UIScreen.scalableWidth(360), height: UIScreen.scalableHeight(180))
-        layout.minimumLineSpacing = UIScreen.scalableHeight(30)
-        layout.minimumInteritemSpacing = UIScreen.scalableHeight(30)
-        layout.sectionInset = UIEdgeInsets(top: layout.minimumLineSpacing, left: layout.minimumLineSpacing, bottom: layout.minimumLineSpacing * 2, right: layout.minimumLineSpacing * 2.5)
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: UIScreen.scalableWidth(780), height: UIScreen.scalableHeight(160))
+        layout.minimumLineSpacing = widthScaler(80)
+        let space = widthScaler(80)
+        layout.sectionInset = UIEdgeInsets(top: space, left: 0, bottom: space, right: space)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +70,8 @@ class AreaCatTableViewCell: UITableViewCell {
 
 extension AreaCatTableViewCell: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        self.catList.count
+//        self.catList.count
+        20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -77,9 +79,30 @@ extension AreaCatTableViewCell: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let cat = catList[indexPath.row]
-        cell.configure(cat)
+//        let cat = catList[indexPath.row]
+//        cell.configure(cat)
         
         return cell
+    }
+}
+
+extension AreaCatTableViewCell: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        guard let cell = collectionView.cellForItem(at: indexPath) as? SeatCollectionViewCell else {
+//            return
+//        }
+//        let beforeSelect = cell.customSelect
+//        
+//        let catId = self.catList[indexPath.row].id
+//
+//        if beforeSelect {
+//            cell.customSelect = false
+//            cell.updateBorder(false)
+//            self.didSelectedSeat?(SeatId(id: seatId), false)
+//        } else {
+//            cell.customSelect = true
+//            cell.updateBorder(true)
+//            self.didSelectedSeat?(SeatId(id: seatId), true)
+//        }
     }
 }

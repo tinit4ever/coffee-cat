@@ -36,6 +36,9 @@
 		A06834262B8D872A0086CE59 /* ShopManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */; };
 		A06834282B8D90280086CE59 /* StaffAccountFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06834272B8D90280086CE59 /* StaffAccountFactory.swift */; };
 		A06D64522B92302E008F8550 /* StaffAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06D64512B92302E008F8550 /* StaffAccountViewModel.swift */; };
+		A06DF2762B9A82BB004E62BE /* CatFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DF2752B9A82BB004E62BE /* CatFactory.swift */; };
+		A06DF2782B9A8A3A004E62BE /* InputCatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DF2772B9A8A3A004E62BE /* InputCatViewController.swift */; };
+		A06DF27A2B9A8C43004E62BE /* InputCatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DF2792B9A8C43004E62BE /* InputCatViewModel.swift */; };
 		A09EB5172B95714600F532D6 /* InputAreaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09EB5162B95714600F532D6 /* InputAreaViewController.swift */; };
 		A09EB5192B95723300F532D6 /* CreateAreaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09EB5182B95723300F532D6 /* CreateAreaModel.swift */; };
 		A0AE8DBD2B998B9000528995 /* GetAllAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0AE8DBC2B998B9000528995 /* GetAllAccountModel.swift */; };
@@ -78,6 +81,7 @@
 		A0CBF50B2B8CE9A5008CFAD3 /* AccountTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CBF50A2B8CE9A5008CFAD3 /* AccountTableViewCell.swift */; };
 		A0D9A4062B962258000E5C80 /* DeleteSeaListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D9A4052B962258000E5C80 /* DeleteSeaListModel.swift */; };
 		A0DBC8CF2B959F0B0059D816 /* InputAreaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */; };
+		A0E362142B9AA0B600F5F580 /* CreateCatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E362132B9AA0B600F5F580 /* CreateCatModel.swift */; };
 		A0EEFA5B2B97CA130088CA0F /* MenuItemInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EEFA5A2B97CA130088CA0F /* MenuItemInputViewController.swift */; };
 		A0EEFA5D2B97EA550088CA0F /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EEFA5C2B97EA550088CA0F /* MenuViewModel.swift */; };
 		A0EEFA5F2B9814720088CA0F /* ShopManagerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EEFA5E2B9814720088CA0F /* ShopManagerFactory.swift */; };
@@ -128,6 +132,9 @@
 		A06834252B8D872A0086CE59 /* ShopManagerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopManagerViewController.swift; sourceTree = "<group>"; };
 		A06834272B8D90280086CE59 /* StaffAccountFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAccountFactory.swift; sourceTree = "<group>"; };
 		A06D64512B92302E008F8550 /* StaffAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffAccountViewModel.swift; sourceTree = "<group>"; };
+		A06DF2752B9A82BB004E62BE /* CatFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatFactory.swift; sourceTree = "<group>"; };
+		A06DF2772B9A8A3A004E62BE /* InputCatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCatViewController.swift; sourceTree = "<group>"; };
+		A06DF2792B9A8C43004E62BE /* InputCatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCatViewModel.swift; sourceTree = "<group>"; };
 		A09EB5162B95714600F532D6 /* InputAreaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAreaViewController.swift; sourceTree = "<group>"; };
 		A09EB5182B95723300F532D6 /* CreateAreaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAreaModel.swift; sourceTree = "<group>"; };
 		A0AE8DBC2B998B9000528995 /* GetAllAccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAllAccountModel.swift; sourceTree = "<group>"; };
@@ -169,6 +176,7 @@
 		A0CBF50A2B8CE9A5008CFAD3 /* AccountTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTableViewCell.swift; sourceTree = "<group>"; };
 		A0D9A4052B962258000E5C80 /* DeleteSeaListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteSeaListModel.swift; sourceTree = "<group>"; };
 		A0DBC8CE2B959F0B0059D816 /* InputAreaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputAreaViewModel.swift; sourceTree = "<group>"; };
+		A0E362132B9AA0B600F5F580 /* CreateCatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCatModel.swift; sourceTree = "<group>"; };
 		A0EEFA5A2B97CA130088CA0F /* MenuItemInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemInputViewController.swift; sourceTree = "<group>"; };
 		A0EEFA5C2B97EA550088CA0F /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		A0EEFA5E2B9814720088CA0F /* ShopManagerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopManagerFactory.swift; sourceTree = "<group>"; };
@@ -242,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				A060C8702B943AAD005FAE2B /* CatViewController.swift */,
+				A06DF2772B9A8A3A004E62BE /* InputCatViewController.swift */,
 			);
 			path = CatManager;
 			sourceTree = "<group>";
@@ -489,13 +498,7 @@
 				A0EEFA602B9814880088CA0F /* Shop */,
 				A0CBF4E02B8CDA04008CFAD3 /* SignInFactory.swift */,
 				A0CBF5052B8CE6DD008CFAD3 /* AdminFactory.swift */,
-				A06834272B8D90280086CE59 /* StaffAccountFactory.swift */,
-				A0CA420C2B91ED2700BED8FF /* AccountInputFactory.swift */,
-				A06452722B92C85F00148032 /* ProfileFactory.swift */,
-				A0EFC4DD2B94150D00F94ECF /* PlaceFactory.swift */,
-				A060C8692B942944005FAE2B /* MenuFactory.swift */,
 				A02EAFBB2B971F4300C466EF /* BookingManagerFactory.swift */,
-				A0EEFA5E2B9814720088CA0F /* ShopManagerFactory.swift */,
 			);
 			path = Factories;
 			sourceTree = "<group>";
@@ -591,6 +594,7 @@
 			isa = PBXGroup;
 			children = (
 				A060C8732B943D27005FAE2B /* CatViewModel.swift */,
+				A06DF2792B9A8C43004E62BE /* InputCatViewModel.swift */,
 			);
 			path = CatManager;
 			sourceTree = "<group>";
@@ -606,6 +610,13 @@
 		A0EEFA602B9814880088CA0F /* Shop */ = {
 			isa = PBXGroup;
 			children = (
+				A06834272B8D90280086CE59 /* StaffAccountFactory.swift */,
+				A0CA420C2B91ED2700BED8FF /* AccountInputFactory.swift */,
+				A06452722B92C85F00148032 /* ProfileFactory.swift */,
+				A0EFC4DD2B94150D00F94ECF /* PlaceFactory.swift */,
+				A060C8692B942944005FAE2B /* MenuFactory.swift */,
+				A0EEFA5E2B9814720088CA0F /* ShopManagerFactory.swift */,
+				A06DF2752B9A82BB004E62BE /* CatFactory.swift */,
 			);
 			path = Shop;
 			sourceTree = "<group>";
@@ -629,6 +640,7 @@
 				A0D9A4052B962258000E5C80 /* DeleteSeaListModel.swift */,
 				A000674A2B9B5345002CA195 /* CatListResponse.swift */,
 				A000674C2B9B55D3002CA195 /* ShopInfor.swift */,
+				A0E362132B9AA0B600F5F580 /* CreateCatModel.swift */,
 			);
 			path = Shop;
 			sourceTree = "<group>";
@@ -737,6 +749,7 @@
 				A0DBC8CF2B959F0B0059D816 /* InputAreaViewModel.swift in Sources */,
 				A0AE8DBF2B999B3C00528995 /* ShopCreationInputViewController.swift in Sources */,
 				A09EB5172B95714600F532D6 /* InputAreaViewController.swift in Sources */,
+				A06DF2782B9A8A3A004E62BE /* InputCatViewController.swift in Sources */,
 				A03CFCDC2B93223E00FBD1EE /* CreateAccountModel.swift in Sources */,
 				A060C86A2B942944005FAE2B /* MenuFactory.swift in Sources */,
 				A0CBF4EF2B8CDBD9008CFAD3 /* UILabel+Extension.swift in Sources */,
@@ -748,6 +761,7 @@
 				A0CBF4F02B8CDBD9008CFAD3 /* String+Extension.swift in Sources */,
 				A0CBF50B2B8CE9A5008CFAD3 /* AccountTableViewCell.swift in Sources */,
 				A0EFC4DA2B940FE500F94ECF /* Shop.swift in Sources */,
+				A0E362142B9AA0B600F5F580 /* CreateCatModel.swift in Sources */,
 				A0AE8DC22B999B6E00528995 /* ShopCreationInputFactory.swift in Sources */,
 				A0EEFA5B2B97CA130088CA0F /* MenuItemInputViewController.swift in Sources */,
 				A0EFC4D62B940E4600F94ECF /* Area.swift in Sources */,
@@ -784,6 +798,7 @@
 				A0AE8DC42B99A04900528995 /* ShopCreationInputViewModel.swift in Sources */,
 				A02EAFC12B9724AB00C466EF /* Booking.swift in Sources */,
 				A000674D2B9B55D3002CA195 /* ShopInfor.swift in Sources */,
+				A06DF27A2B9A8C43004E62BE /* InputCatViewModel.swift in Sources */,
 				A00067522B9B68B7002CA195 /* EditShopDetailsViewModel.swift in Sources */,
 				A0CA420D2B91ED2700BED8FF /* AccountInputFactory.swift in Sources */,
 				A06452732B92C85F00148032 /* ProfileFactory.swift in Sources */,
@@ -794,6 +809,7 @@
 				A0CA42182B91F7D900BED8FF /* AuthenticationResponse.swift in Sources */,
 				A06834282B8D90280086CE59 /* StaffAccountFactory.swift in Sources */,
 				A0CBF4F52B8CDBD9008CFAD3 /* UIScreen+Extension.swift in Sources */,
+				A06DF2762B9A82BB004E62BE /* CatFactory.swift in Sources */,
 				A06834242B8D87180086CE59 /* StaffAccountViewController.swift in Sources */,
 				A06452712B92C7EA00148032 /* ProfileViewModel.swift in Sources */,
 				A00067502B9B57FC002CA195 /* ShopManagerViewModel.swift in Sources */,

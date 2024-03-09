@@ -36,6 +36,9 @@ struct APIConstants {
         static let updateMenuItem = baseURL + "menu/update"
         static let deleteMenuItem = baseURL + "menu/delete"
         
+        static let catList = baseURL + "cat/list"
+        static let createCat = baseURL + "cat/create"
+        
         static let shopProfile = baseURL + "shop/profile"
         static let updateProfile = baseURL + "owner/shop/update"
     }
@@ -76,9 +79,9 @@ class APIManager {
     private init() {}
     
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
-        let userSignIn = UserSignIn(email: email, password: password)
+        //        let userSignIn = UserSignIn(email: email, password: password)
         
-        //        let userSignIn = UserSignIn(email: "gen@gmail.com", password: "an123456")
+        let userSignIn = UserSignIn(email: "tin@gmail.com", password: "an123456")
         
         let apiUrl = APIConstants.Auth.login
         
@@ -451,6 +454,58 @@ class APIManager {
                 return error as Error
             })
             .map { _ in}
+            .eraseToAnyPublisher()
+    }
+    
+    func getCatList(_ accessToken: String) -> AnyPublisher<CatListResponse, Error> {
+        guard let url = URL(string: APIConstants.Owner.catList) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .get, headers: headers)
+            .publishDecodable(type: CatListResponse.self)
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                
+                return try response.result.get()
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    func createCat(with model: CatCreateionModel, accessToken: String) -> AnyPublisher<CreateCatResponse, Error> {
+        guard let url = URL(string: APIConstants.Owner.createCat) else {
+            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": "Bearer \(accessToken)",
+            "Content-Type": "application/json"
+        ]
+        
+        return AF.request(url, method: .post, parameters: model, encoder: JSONParameterEncoder.default, headers: headers)
+            .publishDecodable(type: CreateCatResponse.self)
+            .tryMap { response in
+                guard let statusCode = response.response?.statusCode else {
+                    throw APIError.failedToGetData
+                }
+                
+                guard statusCode == 200 else {
+                    throw URLError(.badServerResponse)
+                }
+                
+                return try response.result.get()
+            }
             .eraseToAnyPublisher()
     }
     

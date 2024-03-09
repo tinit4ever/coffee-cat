@@ -9,52 +9,36 @@ import Foundation
 import Combine
 
 protocol CatViewModelProtocol {
-    var date: String? {get set}
-    var areaList: [Area]? {get set}
-    var dataUpdatedPublisher: PassthroughSubject<Void, Never> {get set}
-    func setAreasParam(shopId: Int, date: String)
+    var areaList: [AreaCat] {get set}
+    
+    var isGetDataSubject: PassthroughSubject<Result<Void, Error>, Never> {get set}
+    func getCatList()
 }
 
 class CatViewModel: CatViewModelProtocol {
-    var date: String?
+    var areaList: [AreaCat] = []
     
-    var areaList: [Area]?
+    var isGetDataSubject = PassthroughSubject<Result<Void, Error>, Never>()
     
-    var dataUpdatedPublisher = PassthroughSubject<Void, Never>()
+    // MARK: - Local variable
+    var cancellables: Set<AnyCancellable> = []
     
-    private var cancellables: Set<AnyCancellable> = []
-    private var getAreasSubject = CurrentValueSubject<(Int, String), Never>((0, ""))
-    
-    init() {
-        setupAreasPublisher()
-    }
-    
-    func setAreasParam(shopId: Int, date: String) {
-        getAreasSubject.send((shopId, date))
-    }
-    
-    func setupAreasPublisher() {
-        getAreasSubject
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] shopId, date in
-                self?.getAreas(shopId: shopId, date: date)
-            }
-            .store(in: &cancellables)
-    }
-    
-    func getAreas(shopId: Int, date: String) {
-        APIManager.shared.getAreaListByShopId(shopId: shopId, date: date)
+    func getCatList() {
+        guard let accessToken = UserSessionManager.shared.getAccessToken() else {
+            return
+        }
+        
+        APIManager.shared.getCatList(accessToken)
             .sink { completion in
                 switch completion {
                 case .finished:
                     break
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    self.isGetDataSubject.send(.failure(error))
                 }
-            } receiveValue: { [weak self] areaList in
-                self?.areaList = areaList.areaResponseList
-                self?.dataUpdatedPublisher.send()
-                print(areaList)
+            } receiveValue: { catListResponse in
+                self.areaList = catListResponse.area
+                self.isGetDataSubject.send(.success(()))
             }
             .store(in: &cancellables)
     }
