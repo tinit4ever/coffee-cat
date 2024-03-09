@@ -205,7 +205,7 @@ public class CcpApplication {
                         .email("an@gmail.com")
                         .name("Mr An")
                         .password(passwordEncoder.encode("an123456"))
-                        .phone("090909090909")
+                        .phone(generateRandomPhoneNumber())
                         .status(accountStatusRepo.findByStatus("active"))
                         .role(Role.CUSTOMER)
                         .build();
@@ -215,7 +215,7 @@ public class CcpApplication {
                         .email("tin@gmail.com")
                         .name("Mr Tin")
                         .password(passwordEncoder.encode("an123456"))
-                        .phone("090909090909")
+                        .phone(generateRandomPhoneNumber())
                         .status(accountStatusRepo.findByStatus("active"))
                         .role(Role.OWNER)
                         .build();
@@ -225,7 +225,7 @@ public class CcpApplication {
                         .email("tina@gmail.com")
                         .name("Ms Tina")
                         .password(passwordEncoder.encode("an123456"))
-                        .phone("090909090909")
+                        .phone(generateRandomPhoneNumber())
                         .status(accountStatusRepo.findByStatus("active"))
                         .role(Role.STAFF)
                         .build();
@@ -519,10 +519,13 @@ public class CcpApplication {
             // Method to generate a random 10-digit phone number
             private String generateRandomPhoneNumber() {
                 Random random = new Random();
-                StringBuilder phoneNumber = new StringBuilder("09");
+                StringBuilder phoneNumber = new StringBuilder("0");
+                phoneNumber.append(1 + random.nextInt(9)); // Ensures the second digit is between 1 and 9
+
                 for (int i = 0; i < 8; i++) {
                     phoneNumber.append(random.nextInt(10));
                 }
+
                 return phoneNumber.toString();
             }
 
