@@ -83,8 +83,8 @@ class ShopManagerViewController: UIViewController, ShopManagerFactory {
         
         NSLayoutConstraint.activate([
             shopInforStackView.topAnchor.constraint(equalTo: animationView.bottomAnchor, constant: heightScaler(70)),
-            shopInforStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(60)),
-            shopInforStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(60)),
+            shopInforStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(40)),
+            shopInforStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -widthScaler(30)),
         ])
         
         shopInforStackView.addArrangedSubview(shopNameLabel)
@@ -106,7 +106,7 @@ class ShopManagerViewController: UIViewController, ShopManagerFactory {
         shopAddressLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
         shopAddressLabel.textColor = .black
         NSLayoutConstraint.activate([
-            shopAddressLabel.heightAnchor.constraint(equalToConstant: heightScaler(30))
+            shopAddressLabel.heightAnchor.constraint(equalToConstant: heightScaler(60))
         ])
         
         shopInforStackView.addArrangedSubview(openTimeLabel)

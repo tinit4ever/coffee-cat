@@ -208,7 +208,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         shopInforStackView.addArrangedSubview(shopAddressLabel)
         shopAddressLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(28))
         NSLayoutConstraint.activate([
-            shopAddressLabel.heightAnchor.constraint(equalToConstant: heightScaler(28))
+            shopAddressLabel.heightAnchor.constraint(equalToConstant: heightScaler(56))
         ])
         
         shopInforStackView.addArrangedSubview(openTimeLabel)

@@ -48,7 +48,7 @@ class HomeViewController: UIViewController, UIFactory {
     lazy var topView = makeView()
     lazy var topViewLabel = makeLabel()
     lazy var coffeeAnimationView = makeLottieAnimationView(animationName: "coffee")
-    lazy var accountImageButton = makeImageView(imageName: "person.circle", size: CGSize(width: sizeScaler(60), height: sizeScaler(60)))
+    lazy var accountAnimationButton = makeLottieAnimationView(animationName: "person")
     
     lazy var hookLabel = makeLabel()
     
@@ -166,7 +166,7 @@ class HomeViewController: UIViewController, UIFactory {
         topView.addSubview(topViewLabel)
         configTopViewLabel()
         
-        topView.addSubview(accountImageButton)
+        topView.addSubview(accountAnimationButton)
         configAccountImageButton()
     }
     
@@ -189,11 +189,13 @@ class HomeViewController: UIViewController, UIFactory {
     }
     
     private func configAccountImageButton() {
-        accountImageButton.image = accountImageButton.image?.withRenderingMode(.alwaysTemplate)
-        accountImageButton.tintColor = .customBlack
+        accountAnimationButton.contentMode = .scaleAspectFit
+        accountAnimationButton.play()
         NSLayoutConstraint.activate([
-            accountImageButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor),
-            accountImageButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor)
+            accountAnimationButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor),
+            accountAnimationButton.widthAnchor.constraint(equalToConstant: sizeScaler(110)),
+            accountAnimationButton.heightAnchor.constraint(equalTo: topView.heightAnchor),
+            accountAnimationButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor)
         ])
     }
     
@@ -294,14 +296,14 @@ class HomeViewController: UIViewController, UIFactory {
     
     // -MARK: Setup Action
     private func setupAction() {
-        let accountImageButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountImageButtonTapped))
-        self.accountImageButton.addGestureRecognizer(accountImageButtonGesture)
-        self.accountImageButton.isUserInteractionEnabled = true
+        let accountAnimationButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountAnimationButtonTapped))
+        self.accountAnimationButton.addGestureRecognizer(accountAnimationButtonGesture)
+        self.accountAnimationButton.isUserInteractionEnabled = true
     }
     
     // -MARK: Catch Action
     @objc
-    private func accountImageButtonTapped() {
+    private func accountAnimationButtonTapped() {
         let navigationController = UINavigationController(rootViewController: ProfileViewController())
         self.present(navigationController, animated: true)
     }
@@ -509,7 +511,7 @@ extension HomeViewController: UISearchBarDelegate {
         
         if let cancelButton = searchBar.value(forKey: "cancelButton") as? UIButton {
             cancelButton.setTitleColor(.customPink, for: .normal)
-            cancelButton.titleLabel?.font = UIFont(name: FontNames.avenir, size: sizeScaler(32))
+            cancelButton.titleLabel?.font = UIFont(name: FontNames.avenir, size: sizeScaler(22))
         }
     }
     
@@ -551,7 +553,7 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightScaler(120)
+        return heightScaler(150)
     }
 }
 

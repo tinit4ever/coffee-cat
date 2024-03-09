@@ -29,6 +29,7 @@
 		A05C506F2B6737A400A42F33 /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A05C506E2B6737A400A42F33 /* UIFont+Extension.swift */; };
 		A060C86E2B942A43005FAE2B /* UIFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060C86D2B942A43005FAE2B /* UIFactory.swift */; };
 		A068342A2B8DB16C0086CE59 /* profile.json in Resources */ = {isa = PBXBuildFile; fileRef = A06834292B8DB16C0086CE59 /* profile.json */; };
+		A06A5A772B9C9D41005F673C /* person.json in Resources */ = {isa = PBXBuildFile; fileRef = A06A5A762B9C9D41005F673C /* person.json */; };
 		A06DEB212B90E7F400AE3B1E /* BookingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06DEB202B90E7F400AE3B1E /* BookingViewModel.swift */; };
 		A07051D22B7F4E7900DFC2F0 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07051D12B7F4E7900DFC2F0 /* SignInViewModel.swift */; };
 		A073C5F52B7ED534002263DB /* AuthenticationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A073C5F42B7ED534002263DB /* AuthenticationModel.swift */; };
@@ -100,6 +101,7 @@
 		A05C506E2B6737A400A42F33 /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		A060C86D2B942A43005FAE2B /* UIFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFactory.swift; sourceTree = "<group>"; };
 		A06834292B8DB16C0086CE59 /* profile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = profile.json; sourceTree = "<group>"; };
+		A06A5A762B9C9D41005F673C /* person.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = person.json; sourceTree = "<group>"; };
 		A06DEB202B90E7F400AE3B1E /* BookingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewModel.swift; sourceTree = "<group>"; };
 		A07051D12B7F4E7900DFC2F0 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		A073C5F42B7ED534002263DB /* AuthenticationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationModel.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 		A05BE70B2B6A09790030000D /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				A06A5A762B9C9D41005F673C /* person.json */,
 				A06834292B8DB16C0086CE59 /* profile.json */,
 				A05A7DBA2B82E7B700DCEAF6 /* loading.json */,
 				A0D1D58C2B6B4C0A00CB1ED3 /* coffee.json */,
@@ -536,6 +539,7 @@
 				A05BE70F2B6A0F190030000D /* 404.json in Resources */,
 				A05BE7112B6A123A0030000D /* cat-coffee.json in Resources */,
 				A0F3EAA92B653BDD0057860A /* LaunchScreen.storyboard in Resources */,
+				A06A5A772B9C9D41005F673C /* person.json in Resources */,
 				A0D1D58D2B6B4C0A00CB1ED3 /* coffee.json in Resources */,
 				A05A7DBB2B82E7B700DCEAF6 /* loading.json in Resources */,
 				A068342A2B8DB16C0086CE59 /* profile.json in Resources */,
