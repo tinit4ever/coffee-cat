@@ -21,7 +21,7 @@ class AdminViewController: UIViewController, AdminFactory  {
     lazy var topView = makeView()
     lazy var topViewLabel = makeLabel()
     lazy var coffeeAnimationView = makeLottieAnimationView(animationName: "coffee")
-    lazy var accountImageButton = makeImageView(imageName: "person.circle", size: CGSize(width: sizeScaler(60), height: sizeScaler(60)))
+    lazy var accountAnimationButton = makeLottieAnimationView(animationName: "person")
     
     lazy var accountTableContainer = makeView()
     lazy var accountTableView = makeTableView()
@@ -61,8 +61,8 @@ class AdminViewController: UIViewController, AdminFactory  {
         topView.addSubview(topViewLabel)
         configTopViewLabel()
         
-        topView.addSubview(accountImageButton)
-        configAccountImageButton()
+        topView.addSubview(accountAnimationButton)
+        configAAccountAnimationButton()
     }
     
     private func configCoffeeAnimationView() {
@@ -87,12 +87,14 @@ class AdminViewController: UIViewController, AdminFactory  {
         ])
     }
     
-    private func configAccountImageButton() {
-        accountImageButton.image = accountImageButton.image?.withRenderingMode(.alwaysTemplate)
-        accountImageButton.tintColor = .customBlack
+    private func configAAccountAnimationButton() {
+        accountAnimationButton.contentMode = .scaleAspectFit
+        accountAnimationButton.play()
         NSLayoutConstraint.activate([
-            accountImageButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor),
-            accountImageButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor)
+            accountAnimationButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor),
+            accountAnimationButton.widthAnchor.constraint(equalToConstant: sizeScaler(110)),
+            accountAnimationButton.heightAnchor.constraint(equalTo: topView.heightAnchor),
+            accountAnimationButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor)
         ])
     }
     
@@ -162,14 +164,14 @@ class AdminViewController: UIViewController, AdminFactory  {
     private func setupAction() {
         self.addAccountButton.addTarget(self, action: #selector(addAccountButtonTapped), for: .touchUpInside)
         
-        let accountImageButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountImageButtonTapped))
-        self.accountImageButton.addGestureRecognizer(accountImageButtonGesture)
-        self.accountImageButton.isUserInteractionEnabled = true
+        let accountAnimationButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountAnimationButtonTapped))
+        self.accountAnimationButton.addGestureRecognizer(accountAnimationButtonGesture)
+        self.accountAnimationButton.isUserInteractionEnabled = true
     }
     
     // -MARK: Catch Action
     @objc
-    private func accountImageButtonTapped() {
+    private func accountAnimationButtonTapped() {
         let navigationController = UINavigationController(rootViewController: ProfileViewController())
         self.present(navigationController, animated: true)
     }

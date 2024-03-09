@@ -29,7 +29,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         
         imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "NA-Image")
+        imageView.image = UIImage(named: "food")
         imageView.contentMode = .scaleAspectFit
         
         imageView.translatesAutoresizingMaskIntoConstraints = false

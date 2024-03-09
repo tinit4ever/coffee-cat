@@ -23,7 +23,7 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
     lazy var header = makeView()
     lazy var headerLabel = makeLabel()
     lazy var coffeeAnimationView = makeLottieAnimationView(animationName: "coffee")
-    lazy var accountImageButton = makeImageView(imageName: "person.circle", size: CGSize(width: sizeScaler(60), height: sizeScaler(60)))
+    lazy var accountAnimationButton = makeLottieAnimationView(animationName: "person")
     
     lazy var shopNameLabel = makeLabel()
     
@@ -99,8 +99,8 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
         header.addSubview(headerLabel)
         configHeaderLabel()
         
-        header.addSubview(accountImageButton)
-        configAccountImageButton()
+        header.addSubview(accountAnimationButton)
+        configAccountAnimationButton()
     }
     
     private func configCoffeeAnimationView() {
@@ -125,12 +125,14 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
         ])
     }
     
-    private func configAccountImageButton() {
-        accountImageButton.image = accountImageButton.image?.withRenderingMode(.alwaysTemplate)
-        accountImageButton.tintColor = .customBlack
+    private func configAccountAnimationButton() {
+        accountAnimationButton.contentMode = .scaleAspectFit
+        accountAnimationButton.play()
         NSLayoutConstraint.activate([
-            accountImageButton.trailingAnchor.constraint(equalTo: header.trailingAnchor),
-            accountImageButton.centerYAnchor.constraint(equalTo: header.centerYAnchor)
+            accountAnimationButton.trailingAnchor.constraint(equalTo: header.trailingAnchor),
+            accountAnimationButton.widthAnchor.constraint(equalToConstant: sizeScaler(110)),
+            accountAnimationButton.heightAnchor.constraint(equalTo: header.heightAnchor),
+            accountAnimationButton.centerYAnchor.constraint(equalTo: header.centerYAnchor)
         ])
     }
     
@@ -247,9 +249,9 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
     
     // -MARK: Setup Action
     private func setupAction() {
-        let accountImageButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountImageButtonTapped))
-        self.accountImageButton.addGestureRecognizer(accountImageButtonGesture)
-        self.accountImageButton.isUserInteractionEnabled = true
+        let accountAnimationButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountAnimationButtonTapped))
+        self.accountAnimationButton.addGestureRecognizer(accountAnimationButtonGesture)
+        self.accountAnimationButton.isUserInteractionEnabled = true
         
         self.segmentedControl.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
         
@@ -259,7 +261,7 @@ class BookingManagerViewController: UIViewController, BookingManagerFactory {
     
     // -MARK: Catch Action
     @objc
-    private func accountImageButtonTapped() {
+    private func accountAnimationButtonTapped() {
         let navigationController = UINavigationController(rootViewController: ProfileViewController())
         self.present(navigationController, animated: true)
     }

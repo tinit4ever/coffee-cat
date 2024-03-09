@@ -80,10 +80,7 @@ class APIManager {
     private init() {}
     
     func signIn(email: String, password: String, completion: @escaping (Result<AuthenticationResponse, Error>) -> Void) {
-        //        let userSignIn = UserSignIn(email: email, password: password)
-        
-        let userSignIn = UserSignIn(email: "null@null.null", password: "null")
-//        let userSignIn = UserSignIn(email: "tin@gmail.com", password: "an123456")
+        let userSignIn = UserSignIn(email: email, password: password)
         
         let apiUrl = APIConstants.Auth.login
         
@@ -672,9 +669,9 @@ class APIManager {
     }
     
     func createShopOwner(with shopCreationModel: ShopCreationModel, accessToken: String) -> AnyPublisher<ShopCreationResponse, Error> {
-//        guard let url = URL(string: APIConstants.Admin.createShop) else {
-//            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
-//        }
+        //        guard let url = URL(string: APIConstants.Admin.createShop) else {
+        //            return Fail(error: APIError.badUrl).eraseToAnyPublisher()
+        //        }
         
         guard let url = URL(string: "https://189e-14-191-196-47.ngrok-free.app/shop/create") else {
             return Fail(error: APIError.badUrl).eraseToAnyPublisher()
