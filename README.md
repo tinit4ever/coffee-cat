@@ -8,7 +8,10 @@ Chào mừng đến với ứng dụng Coffee Cat - Nơi gặp gỡ những quá
 
 ## Ảnh Màn Hình
 
-[![Watch the video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://github.com/tinit4ever/coffee-cat/blob/main/demo/booking-mamager.mp4)
+<video controls>
+  <source src="https://github.com/tinit4ever/coffee-cat/raw/main/demo/booking-mamager.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ### Màn hình Sign In
 
