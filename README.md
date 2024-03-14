@@ -8,11 +8,11 @@ Chào mừng đến với ứng dụng Coffee Cat - Nơi gặp gỡ những quá
 
 ## Ảnh Màn Hình
 
-<video controls>
-  <source src="https://github.com/tinit4ever/coffee-cat/raw/main/demo/booking-mamager.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+### Demo
 
+Check out a demo of the booking manager in action:
+
+[![Booking Manager Demo](https://example.com/demo-thumbnail.png)](https://github.com/tinit4ever/coffee-cat/blob/main/demo/booking-manager.mp4)
 ### Màn hình Sign In
 
 <div style="display: flex; justify-content: space-between;">
