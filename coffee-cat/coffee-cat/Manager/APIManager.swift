@@ -10,8 +10,8 @@ import Alamofire
 import Combine
 
 struct APIConstants {
-    static let baseURL = "http://localhost:8080/"
-    //    static let baseURL = "http://192.168.1.10:8080/"
+    //    static let baseURL = "http://localhost:8080/"
+    static let baseURL = "http://192.168.1.25:8080/"
     //    static let baseURL = "http://172.20.10.2:8080/"
     
     struct Auth {
@@ -95,11 +95,11 @@ class APIManager {
         }
         
         let parameters: [String: Any] = [
-            "date": date,
-            "shopId": shopId
+            "shopId": shopId,
+            "date": date
         ]
         
-        return AF.request(url, method: .get, parameters: parameters)
+        return AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default)
             .publishDecodable(type: AreaList.self)
             .value()
             .mapError { error in
@@ -229,7 +229,7 @@ class APIManager {
         }
     }
     
-    func cancelBooking(bookingID: Int, accessToken: String) -> AnyPublisher<Bool, Error> {
+    func cancelBooking(bookingId: Int, accessToken: String) -> AnyPublisher<Bool, Error> {
         let url = APIConstants.Booking.cancel
         
         let headers: HTTPHeaders = [
@@ -237,7 +237,7 @@ class APIManager {
             "Content-Type": "application/json"
         ]
         
-        let parameters = CancelBookingBody(bookingID: bookingID)
+        let parameters = CancelBookingBody(bookingId: bookingId)
         
         return AF.request(url, method: .post, parameters: parameters, encoder: JSONParameterEncoder.default, headers: headers)
             .publishData()

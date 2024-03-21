@@ -8,9 +8,9 @@
 import Foundation
 
 enum BookingStatus: String, Codable {
-    case pending = "Pending"
-    case confirmed = "Confirmed"
-    case cancelled = "Cancelled"
+    case pending = "pending"
+    case confirmed = "confirmed"
+    case cancelled = "cancelled"
 }
 
 struct BookingResponse: Codable {
@@ -21,10 +21,18 @@ struct BookingResponse: Codable {
 }
 
 struct BookingDetail: Codable {
-    var bookingID: Int
+    var bookingId: Int
     var shopName: String?
+    var seatName: String?
+    var areaName: String?
     var totalPrice: Double
     var bookingDate: String
     var status: BookingStatus
+    var itemResponseList: [Item]
 }
 
+struct Item: Codable {
+    var itemName: String
+    var itemPrice: Int
+    var quantity: Int
+}

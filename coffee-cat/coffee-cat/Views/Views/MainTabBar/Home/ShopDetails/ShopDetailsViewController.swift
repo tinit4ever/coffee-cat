@@ -208,7 +208,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         shopInforStackView.addArrangedSubview(shopAddressLabel)
         shopAddressLabel.font = UIFont(name: FontNames.avenir, size: sizeScaler(28))
         NSLayoutConstraint.activate([
-            shopAddressLabel.heightAnchor.constraint(equalToConstant: heightScaler(28))
+            shopAddressLabel.heightAnchor.constraint(equalToConstant: heightScaler(56))
         ])
         
         shopInforStackView.addArrangedSubview(openTimeLabel)
@@ -245,6 +245,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         bookingButton.cornerRadius(cornerRadius: heightScaler(30))
         bookingButton.setTitle(title: "Book", fontName: FontNames.avenir, size: sizeScaler(40), color: .systemGray5)
         bookingButton.backgroundColor = .customPink
+        bookingButton.setTitleColor(.systemBackground, for: .normal)
         
         NSLayoutConstraint.activate([
             bookingButton.topAnchor.constraint(equalTo: shopInforStackView.bottomAnchor, constant: heightScaler(40)),
@@ -315,7 +316,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
             if submit != nil {
                 if let params = submit {
                     let (seat, date) = params
-                    self?.addChoosen(seatID: seat.id ?? 1, date: date)
+                    self?.addChoosen(seatId: seat.id ?? 1, date: date)
                 }
             } else {
                 self?.removeChoosen()
@@ -421,10 +422,10 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    private func addChoosen(seatID: Int, date: String) {
+    private func addChoosen(seatId: Int, date: String) {
         self.chooseTableButton.setTitle("Selected Table", for: .normal)
         self.chooseTableButton.backgroundColor = .systemBrown
-        self.viewModel.booking.seatID = seatID
+        self.viewModel.booking.seatId = seatId
         self.viewModel.booking.bookingDate = date
         self.viewModel.booking.extraContant = ""
         self.isChoosenTable = true
@@ -434,7 +435,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         self.chooseTableButton.setTitle("Choose Table", for: .normal)
         self.chooseTableButton.backgroundColor = .customPink
         self.isChoosenTable = false
-        self.viewModel.booking.seatID = nil
+        self.viewModel.booking.seatId = nil
         self.viewModel.booking.bookingDate = nil
     }
     
@@ -462,7 +463,7 @@ class ShopDetailsViewController: UIViewController, UIFactory {
         
         for booking in bookings {
             // Find the corresponding MenuItem for the given itemID
-            if let menuItem = items.first(where: { $0.id == booking.itemID }) {
+            if let menuItem = items.first(where: { $0.id == booking.itemId }) {
                 let itemPrice = menuItem.price ?? 0.0
                 let totalPriceForBooking = Double(booking.quantity) * itemPrice
                 

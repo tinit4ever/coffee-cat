@@ -6,6 +6,11 @@ Chào mừng đến với ứng dụng Coffee Cat - Nơi gặp gỡ những quá
 
 Ứng dụng Coffee Cat giúp các chủ quán cà phê đăng ký quán của mình và cho phép người yêu mèo khám phá, đánh giá và tìm kiếm những quán cà phê tuyệt vời.
 
+<video width="320" height="240" controls>
+  <source src="https://github.com/tinit4ever/coffee-cat/blob/main/demo/booking-mamager.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 ## Ảnh Màn Hình
 
 ### Màn hình Sign In

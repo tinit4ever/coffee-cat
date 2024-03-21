@@ -7,17 +7,21 @@
 
 import UIKit
 import SwiftUI
+import Combine
 
 class AdminViewController: UIViewController, AdminFactory  {
     let heightScaler = UIScreen.scalableHeight
     let widthScaler = UIScreen.scalableWidth
     let sizeScaler = UIScreen.scalableSize
     
+    var viewModel: AdminViewModelProtocol = AdminViewModel()
+    var cancellables: Set<AnyCancellable> = []
+    
     // -MARK: Create UI Components
     lazy var topView = makeView()
     lazy var topViewLabel = makeLabel()
     lazy var coffeeAnimationView = makeLottieAnimationView(animationName: "coffee")
-    lazy var accountImageButton = makeImageView(imageName: "person.circle", size: CGSize(width: sizeScaler(60), height: sizeScaler(60)))
+    lazy var accountAnimationButton = makeLottieAnimationView(animationName: "person")
     
     lazy var accountTableContainer = makeView()
     lazy var accountTableView = makeTableView()
@@ -26,6 +30,9 @@ class AdminViewController: UIViewController, AdminFactory  {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupAction()
+        setupData()
+        setupAsync()
     }
     
     // -MARK: SetupUI
@@ -54,8 +61,8 @@ class AdminViewController: UIViewController, AdminFactory  {
         topView.addSubview(topViewLabel)
         configTopViewLabel()
         
-        topView.addSubview(accountImageButton)
-        configAccountImageButton()
+        topView.addSubview(accountAnimationButton)
+        configAAccountAnimationButton()
     }
     
     private func configCoffeeAnimationView() {
@@ -69,19 +76,25 @@ class AdminViewController: UIViewController, AdminFactory  {
     }
     
     private func configTopViewLabel() {
-        topViewLabel.setupTitle(text: "Hello!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
+        if let username = UserSessionManager.shared.authenticationResponse?.accountResponse?.name {
+            topViewLabel.setupTitle(text: "Hello \(String(describing: username))!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
+        } else {
+            topViewLabel.setupTitle(text: "Hello!", fontName: FontNames.avenir, size: sizeScaler(45), textColor: .customBlack)
+        }
         NSLayoutConstraint.activate([
             topViewLabel.leadingAnchor.constraint(equalTo: coffeeAnimationView.trailingAnchor, constant: sizeScaler(20)),
             topViewLabel.bottomAnchor.constraint(equalTo: topView.bottomAnchor)
         ])
     }
     
-    private func configAccountImageButton() {
-        accountImageButton.image = accountImageButton.image?.withRenderingMode(.alwaysTemplate)
-        accountImageButton.tintColor = .customBlack
+    private func configAAccountAnimationButton() {
+        accountAnimationButton.contentMode = .scaleAspectFit
+        accountAnimationButton.play()
         NSLayoutConstraint.activate([
-            accountImageButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor),
-            accountImageButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor)
+            accountAnimationButton.trailingAnchor.constraint(equalTo: topView.trailingAnchor),
+            accountAnimationButton.widthAnchor.constraint(equalToConstant: sizeScaler(110)),
+            accountAnimationButton.heightAnchor.constraint(equalTo: topView.heightAnchor),
+            accountAnimationButton.centerYAnchor.constraint(equalTo: topView.centerYAnchor)
         ])
     }
     
@@ -116,24 +129,104 @@ class AdminViewController: UIViewController, AdminFactory  {
             addAccountButton.bottomAnchor.constraint(equalTo: accountTableContainer.bottomAnchor)
         ])
     }
+    
+    // -MARK: Setup Data
+    private func setupData() {
+        self.viewModel.getAllAccont()
+    }
+    
+    private func setupAsync() {
+        self.viewModel.isGetAccountSubject
+            .receive(on: DispatchQueue.main)
+            .sink { result in
+                switch result {
+                case .success():
+                    self.accountTableView.reloadData()
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                }
+            }
+            .store(in: &cancellables)
+        
+        self.viewModel.isChangeStatusSubject
+            .sink { result in
+                switch result {
+                case .success:
+                    self.viewModel.getAllAccont()
+                case .failure(let error):
+                    self.displayErrorAlert(message: "Error: \(error.localizedDescription)")
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    // -MARK: Setup Action
+    private func setupAction() {
+        self.addAccountButton.addTarget(self, action: #selector(addAccountButtonTapped), for: .touchUpInside)
+        
+        let accountAnimationButtonGesture = UITapGestureRecognizer(target: self, action: #selector(accountAnimationButtonTapped))
+        self.accountAnimationButton.addGestureRecognizer(accountAnimationButtonGesture)
+        self.accountAnimationButton.isUserInteractionEnabled = true
+    }
+    
+    // -MARK: Catch Action
+    @objc
+    private func accountAnimationButtonTapped() {
+        let navigationController = UINavigationController(rootViewController: ProfileViewController())
+        self.present(navigationController, animated: true)
+    }
+    
+    @objc
+    private func addAccountButtonTapped() {
+        let viewController = ShopCreationInputViewController()
+        
+        viewController.dismissCompletion = { [weak self] in
+            DispatchQueue.main.async {
+                self?.setupData()
+            }
+        }
+        let navigationController = UINavigationController(rootViewController: viewController)
+        self.present(navigationController, animated: true)
+    }
+    
+    // -MARK: Utilities
+    private func banAccount(indexPath: IndexPath) {
+        self.viewModel.attachObjectId = self.viewModel.accountList[indexPath.row].id
+        self.viewModel.banAccount()
+    }
+    
+    private func unbanAccount(indexPath: IndexPath) {
+        self.viewModel.attachObjectId = self.viewModel.accountList[indexPath.row].id
+        self.viewModel.unbanAccount()
+    }
+    
+    private func displayErrorAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+
 }
 
 extension AdminViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        30
+        self.viewModel.accountList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: AccountTableViewCell.identifier, for: indexPath) as? AccountTableViewCell else {
             return UITableViewCell()
         }
+        let account = self.viewModel.accountList[indexPath.row]
+        cell.config(account: account)
         
         cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightScaler(60)
+        return heightScaler(120)
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -143,26 +236,24 @@ extension AdminViewController: UITableViewDataSource {
 
 extension AdminViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
-            // Delete loddgic here
-            completionHandler(true)
+        let accountStatus = self.viewModel.accountList[indexPath.row].status
+        if accountStatus == .active {
+            let banAction = UIContextualAction(style: .destructive, title: "Deactive") { _, _, completionHandler in
+                self.banAccount(indexPath: indexPath)
+                completionHandler(true)
+            }
+            let configuration = UISwipeActionsConfiguration(actions: [banAction])
+            return configuration
+        } else {
+            let unBanAction = UIContextualAction(style: .normal, title: "Active") { _, _, completionHandler in
+                self.unbanAccount(indexPath: indexPath)
+                completionHandler(true)
+            }
+            unBanAction.backgroundColor = .systemGreen
+            let configuration = UISwipeActionsConfiguration(actions: [unBanAction])
+            return configuration
         }
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-        return configuration
     }
-
-    
-    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let updateAction = UIContextualAction(style: .normal, title: "Update") { _, _, completionHandler in
-            // Update logic here
-            completionHandler(true)
-        }
-        
-        updateAction.backgroundColor = UIColor.systemBrown
-        let configuration = UISwipeActionsConfiguration(actions: [updateAction])
-        return configuration
-    }
-
 }
 
 // -MARK: Preview

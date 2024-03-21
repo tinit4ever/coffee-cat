@@ -1,8 +1,8 @@
 //
-//  GettingStartedFactory.swift
-//  coffee cat
+//  UIFactory.swift
+//  coffee-cat
 //
-//  Created by Tin on 16/01/2024.
+//  Created by Tin on 03/03/2024.
 //
 
 import UIKit
@@ -26,6 +26,8 @@ protocol UIFactory {
     func makeScrollViewContainer() -> UIScrollView
     func makeTableView() -> UITableView
     func makeCollectionView(space: CGFloat, size: CGSize) -> UICollectionView
+    func makePopupView(frame: CGRect) -> UIView
+    func makeBlurView(frame: CGRect, effect: UIBlurEffect) -> UIVisualEffectView
 }
 
 extension UIFactory {
@@ -215,5 +217,21 @@ extension UIFactory {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
+    }
+    
+    func makePopupView(frame: CGRect) -> UIView {
+        let view = UIView(frame: frame)
+        view.backgroundColor = UIColor.systemBackground
+        view.layer.cornerRadius = 10
+        view.alpha = 0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }
+    
+    func makeBlurView(frame: CGRect, effect: UIBlurEffect) -> UIVisualEffectView {
+        let blurView = UIVisualEffectView(effect: effect)
+        blurView.frame = frame
+        blurView.alpha = 0
+        return blurView
     }
 }

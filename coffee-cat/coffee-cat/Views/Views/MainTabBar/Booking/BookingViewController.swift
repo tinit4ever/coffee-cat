@@ -30,6 +30,20 @@ class BookingViewController: UIViewController, UIFactory {
     lazy var bookingTableViewContainer = makeView()
     lazy var bookingTableView = makeTableView()
     
+    private let refreshControl = UIRefreshControl()
+    
+    
+    lazy var popupView = makePopupView(frame: CGRect(x: 200, y: 400, width: widthScaler(500), height: heightScaler(175)))
+    lazy var blurView = makeBlurView(frame: view.bounds, effect: UIBlurEffect(style: .systemUltraThinMaterial))
+    
+    lazy var menuItemListLabel = makeLabel()
+    
+    lazy var menuItems: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = true
+        return textView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configUI()
@@ -47,8 +61,10 @@ class BookingViewController: UIViewController, UIFactory {
     
     private func loadData() {
         self.viewModel.getBookingHistories(accessToken: UserSessionManager.shared.getAccessToken() ?? "") {
+            self.segmentedControl.selectedSegmentIndex = 0
             self.reloadData()
         }
+        self.refreshControl.endRefreshing()
     }
     
     // MARK: Config UI
@@ -60,6 +76,10 @@ class BookingViewController: UIViewController, UIFactory {
         
         view.addSubview(bookingTableViewContainer)
         configBookingTableViewContainer()
+        
+        view.addSubview(blurView)
+        view.addSubview(popupView)
+        configPopupView()
     }
     
     private func configAppearance() {
@@ -122,11 +142,32 @@ class BookingViewController: UIViewController, UIFactory {
             self.bookingTableView.trailingAnchor.constraint(equalTo: bookingTableViewContainer.trailingAnchor),
             self.bookingTableView.bottomAnchor.constraint(equalTo: bookingTableViewContainer.bottomAnchor, constant: heightScaler(-15)),
         ])
+        
+        self.bookingTableView.addSubview(refreshControl)
+        self.refreshControl.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
     }
+    
+    private func configPopupView() {
+        let viewWidth: CGFloat = view.frame.size.width - widthScaler (100)
+        let viewHeight: CGFloat = heightScaler(400)
+
+        let centerX = view.frame.size.width / 2.0
+        let centerY = view.frame.size.height / 2.0
+        
+        popupView.frame = CGRect(x: centerX - (viewWidth / 2.0), y: centerY / 2, width: viewWidth, height: viewHeight)
+
+        popupView.addSubview(menuItems)
+        menuItems.frame = CGRect(x: widthScaler(40), y: heightScaler(10), width: popupView.frame.width - widthScaler(80) , height: popupView.frame.height - heightScaler(20))
+        menuItems.font = UIFont(name: FontNames.avenir, size: sizeScaler(30))
+    }
+    
     
     // MARK: Setup Action
     private func setupAction() {
         self.segmentedControl.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissPopup))
+        blurView.addGestureRecognizer(tapGesture)
     }
     
     // MARK: Catch Action
@@ -148,7 +189,23 @@ class BookingViewController: UIViewController, UIFactory {
             print("No segment is selected")
         }
         
-        reloadData()
+        self.reloadData()
+    }
+    
+    @objc
+    private func pullToRefresh() {
+        self.refreshControl.beginRefreshing()
+        DispatchQueue.main.async {
+            self.loadData()
+        }
+    }
+    
+    @objc
+    func dismissPopup() {
+        UIView.animate(withDuration: 0.3) {
+            self.popupView.alpha = 0
+            self.blurView.alpha = 0
+        }
     }
     
     // MARK: Utilities
@@ -158,9 +215,42 @@ class BookingViewController: UIViewController, UIFactory {
         }
     }
     
+    private func generateMenuList(bookingDetails: BookingDetail) {
+        let itemList = bookingDetails.itemResponseList
+        var menuDetails: String = ""
+        
+        if let seatName = bookingDetails.seatName,
+           let areaName = bookingDetails.areaName {
+            menuDetails += "Your table is booked:\n" + seatName + " in " + areaName + "\n\n" + "Your food has been ordered:\n"
+        }
+        for (index, item) in itemList.enumerated() {
+            if index != itemList.count - 1 {
+                menuDetails += item.itemName + ": " + String(describing: item.quantity) + "\n\n"
+            } else {
+                menuDetails += item.itemName + ": " + String(describing: item.quantity) + "\n"
+            }
+        }
+        
+        let totalPrice = bookingDetails.totalPrice
+        menuDetails = menuDetails + "_______________________________\nTotal Price: \(totalPrice)$"
+        
+        self.menuItems.text = menuDetails
+    }
+    
+    private func showPopupView() {
+        UIView.animate(withDuration: 0.3) {
+            self.popupView.alpha = 1 - self.popupView.alpha
+            self.blurView.alpha = 1 - self.blurView.alpha
+        }
+    }
+    
+    private func cancelBookingTapped(indexPath: IndexPath) {
+        self.displayRemind(title: "Confirm", message: "Are you sure you want to cancel your booking?", indexPath: indexPath)
+    }
+    
     private func cancelBooking(indexPath: IndexPath) {
-        if let bookingID = self.viewModel.currentList?[indexPath.row].bookingID {
-            self.viewModel.cancelBooking(bookingID: bookingID, accessToken: UserSessionManager.shared.getAccessToken() ?? "")
+        if let bookingId = self.viewModel.currentList?[indexPath.row].bookingId {
+            self.viewModel.cancelBooking(bookingId: bookingId, accessToken: UserSessionManager.shared.getAccessToken() ?? "")
                 .sink { [weak self] completion in
                     switch completion {
                     case .finished:
@@ -169,7 +259,7 @@ class BookingViewController: UIViewController, UIFactory {
                         self?.displayArlet(title: "Error", message: error.localizedDescription)
                     }
                 } receiveValue: { success in
-                    self.displayArlet(title: "Success", message: "Success")
+                    self.displayArlet(title: "Success", message: "Your booking has been placed by Cancelled\nApologize for the service quality")
                     self.loadData()
                 }
                 .store(in: &cancellables)
@@ -183,6 +273,22 @@ class BookingViewController: UIViewController, UIFactory {
             self.dismiss(animated: true)
         }
         
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    private func displayRemind(title: String, message: String, indexPath: IndexPath) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { action in
+            self.cancelBooking(indexPath: indexPath)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive) { action in
+            self.dismiss(animated: true)
+        }
+        
+        alertController.addAction(cancelAction)
         alertController.addAction(okAction)
         self.present(alertController, animated: true, completion: nil)
     }
@@ -230,17 +336,25 @@ extension BookingViewController: UITableViewDataSource {
 }
 
 extension BookingViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let bookingList = self.viewModel.currentList {
+            let bookingDetails = bookingList[indexPath.row]
+            self.generateMenuList(bookingDetails: bookingDetails)
+            showPopupView()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return heightScaler(160)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if segmentedControl.selectedSegmentIndex == 2 {
+        if segmentedControl.selectedSegmentIndex == 2 || segmentedControl.selectedSegmentIndex == 1 {
             return UISwipeActionsConfiguration(actions: [])
         }
         
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
-            self.cancelBooking(indexPath: indexPath)
+        let deleteAction = UIContextualAction(style: .destructive, title: "Cancel") { _, _, completionHandler in
+            self.cancelBookingTapped(indexPath: indexPath)
             completionHandler(true)
         }
         let image = UIImage(systemName: "trash.fill")?.withTintColor(.customPink, renderingMode: .alwaysOriginal).resized(to: CGSize(width: heightScaler(40), height: heightScaler(45)))

@@ -15,25 +15,6 @@ class SeatCollectionViewCell: UICollectionViewCell {
     let sizeScaler = UIScreen.scalableSize
     
     private var cancellables: Set<AnyCancellable> = []
-    private var isSelectedSubject = PassthroughSubject<Bool, Never>()
-    
-    override var isSelected: Bool {
-        didSet {
-            isSelectedSubject.send(isSelected)
-        }
-        
-        willSet {
-            if self.contentView.layer.borderWidth == 0 {
-                self.beforeSelectedState = false
-            } else {
-                self.beforeSelectedState = true
-            }
-        }
-    }
-    
-    lazy var status: Bool = false
-    
-    lazy var beforeSelectedState: Bool = false
     
     // MARK: - Create UIComponents
     private lazy var imageView: UIImageView = {
@@ -61,6 +42,33 @@ class SeatCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var capacityStack: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.axis = .horizontal
+        stackView.spacing = widthScaler(10)
+        stackView.distribution = .fillEqually
+        stackView.alignment = .leading
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private lazy var personImage: UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(systemName: "person")?.withTintColor(.systemGray6, renderingMode: .alwaysOriginal)
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
+    private lazy var capacityLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.contentView.backgroundColor = .systemGray3
@@ -79,7 +87,7 @@ class SeatCollectionViewCell: UICollectionViewCell {
             imageView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: heightScaler(10)),
             imageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: heightScaler(10)),
             imageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -heightScaler(10)),
-            imageView.heightAnchor.constraint(equalToConstant: self.contentView.bounds.height - heightScaler(40)),
+            imageView.heightAnchor.constraint(equalToConstant: heightScaler(60)),
             imageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
         ])
         
@@ -93,38 +101,36 @@ class SeatCollectionViewCell: UICollectionViewCell {
             titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: heightScaler(10)),
             titleLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -heightScaler(10)),
-            titleLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -heightScaler(10))
+            titleLabel.heightAnchor.constraint(equalToConstant: heightScaler(40))
         ])
         
-        isSelectedSubject
-            .sink { [weak self] isSelected in
-                self?.updateBorder(isSelected)
-            }
-            .store(in: &cancellables)
+        capacityLabel.setupTitle(text: "8", fontName: FontNames.avenir, size: sizeScaler(25), textColor: .systemGray6)
+        capacityLabel.textAlignment = .left
+        contentView.addSubview(capacityStack)
+        NSLayoutConstraint.activate([
+            capacityStack.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            capacityStack.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: widthScaler(15)),
+            capacityStack.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -widthScaler(20)),
+            capacityStack.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -heightScaler(10))
+        ])
+        capacityStack.addArrangedSubview(personImage)
+        capacityStack.addArrangedSubview(capacityLabel)
     }
-    
-    private func updateBorder(_ isSelected: Bool) {
-        if status {
-            if isSelected {
-                if self.contentView.layer.borderWidth == widthScaler(0) {
-                    self.contentView.layer.borderWidth = widthScaler(7)
-                } else {
-                    self.contentView.layer.borderWidth = widthScaler(0)
-                }
-            }
-        }
-    }
-    
+
     func configure(_ seat: Seat) {
         self.titleLabel.text = seat.name
         guard let status = seat.status else {
             return
         }
-        self.status = status
+        
         if status {
             self.contentView.backgroundColor = .systemBlue
         } else {
             self.contentView.backgroundColor = .systemGray3
+        }
+        
+        if let capacity = seat.capacity {
+            self.capacityLabel.text = String(describing: capacity)
         }
     }
 }

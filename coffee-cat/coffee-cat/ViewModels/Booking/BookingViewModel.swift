@@ -21,7 +21,7 @@ protocol BookingViewModelProtocol {
     
     func updateCurrentList(currentStatus: BookingStatus)
     
-    func cancelBooking(bookingID: Int, accessToken: String) -> AnyPublisher<Bool, Error>
+    func cancelBooking(bookingId: Int, accessToken: String) -> AnyPublisher<Bool, Error>
 }
 
 class BookingViewModel: BookingViewModelProtocol {
@@ -85,7 +85,7 @@ class BookingViewModel: BookingViewModelProtocol {
         self.currentList = pendingList
     }
     
-    func cancelBooking(bookingID: Int, accessToken: String) -> AnyPublisher<Bool, Error> {
-        return APIManager.shared.cancelBooking(bookingID: bookingID, accessToken: accessToken)
+    func cancelBooking(bookingId: Int, accessToken: String) -> AnyPublisher<Bool, Error> {
+        return APIManager.shared.cancelBooking(bookingId: bookingId, accessToken: accessToken)
     }
 }

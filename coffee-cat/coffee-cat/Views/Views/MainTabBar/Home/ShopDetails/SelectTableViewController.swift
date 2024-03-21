@@ -15,7 +15,6 @@ class SelectTableViewController: UIViewController, UIFactory {
     let sizeScaler = UIScreen.scalableSize
     
     var didSendData: (((Seat, String)?) -> Void)?
-    var availableToSubmit: Int = 0
     
     var viewModel: SelectTableViewModelProtocol = SelectTableViewModel()
     
@@ -30,11 +29,7 @@ class SelectTableViewController: UIViewController, UIFactory {
     }()
     
     lazy var noteStack = makeVerticalStackView()
-    
-    lazy var selectStack = makeHorizontalStackView()
-    lazy var selectView = makeView()
-    lazy var select = makeLabel()
-    
+
     lazy var notSelectStack = makeHorizontalStackView()
     lazy var notSelectView = makeView()
     lazy var notSelect = makeLabel()
@@ -42,8 +37,6 @@ class SelectTableViewController: UIViewController, UIFactory {
     lazy var disableStack = makeHorizontalStackView()
     lazy var disableView = makeView()
     lazy var disable = makeLabel()
-    
-    lazy var noteLabel = makeLabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,16 +70,11 @@ class SelectTableViewController: UIViewController, UIFactory {
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(cancelButtonTapped))
         cancelButton.tintColor = .customPink
         
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped))
-        doneButton.tintColor = .customPink
-        
         let datePicker = UIBarButtonItem(customView: datePicker)
         configDatePicker()
-        let space = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        space.width = widthScaler(100)
         
-        self.navigationItem.leftBarButtonItems = [cancelButton, space, datePicker]
-        self.navigationItem.rightBarButtonItem = doneButton
+        self.navigationItem.leftBarButtonItems = [cancelButton]
+        self.navigationItem.rightBarButtonItem = datePicker
     }
     
     private func configDatePicker() {
@@ -97,16 +85,6 @@ class SelectTableViewController: UIViewController, UIFactory {
     }
     
     private func setupStackData() {
-        selectView.widthAnchor.constraint(equalToConstant: widthScaler(60)).isActive = true
-        selectView.heightAnchor.constraint(equalToConstant: widthScaler(60)).isActive = true
-        selectView.layer.cornerRadius = sizeScaler(10)
-        selectView.backgroundColor = .systemBlue
-        selectView.layer.borderColor = UIColor(resource: .customBlack).cgColor
-        selectView.layer.borderWidth = widthScaler(4)
-        
-        select.setupTitle(text: "Currently selected location", fontName: FontNames.avenir, size: sizeScaler(28), textColor: .customBlack)
-        select.textAlignment = .left
-        
         notSelectView.widthAnchor.constraint(equalToConstant: widthScaler(60)).isActive = true
         notSelectView.heightAnchor.constraint(equalToConstant: widthScaler(60)).isActive = true
         notSelectView.layer.cornerRadius = sizeScaler(10)
@@ -122,10 +100,6 @@ class SelectTableViewController: UIViewController, UIFactory {
         
         disable.setupTitle(text: "Position is not available", fontName: FontNames.avenir, size: sizeScaler(28), textColor: .customBlack)
         disable.textAlignment = .left
-        
-        noteLabel.setupTitle(text: "The app only allows booking one table\nSorry for the inconvenience", fontName: FontNames.avenir, size: sizeScaler(28), textColor: .systemRed)
-        noteLabel.setBoldText()
-        noteLabel.textAlignment = .left
     }
     
     private func configNoteStack() {
@@ -135,12 +109,6 @@ class SelectTableViewController: UIViewController, UIFactory {
             noteStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: widthScaler(80)),
             noteStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: widthScaler(-80)),
         ])
-        
-        noteStack.addArrangedSubview(selectStack)
-        selectStack.spacing = widthScaler(30)
-        selectStack.addArrangedSubview(selectView)
-        selectStack.addArrangedSubview(select)
-        
         noteStack.addArrangedSubview(notSelectStack)
         notSelectStack.spacing = widthScaler(30)
         notSelectStack.addArrangedSubview(notSelectView)
@@ -150,8 +118,6 @@ class SelectTableViewController: UIViewController, UIFactory {
         disableStack.spacing = widthScaler(30)
         disableStack.addArrangedSubview(disableView)
         disableStack.addArrangedSubview(disable)
-        
-        noteStack.addArrangedSubview(noteLabel)
     }
     
     private func configAreaTableView() {
@@ -180,23 +146,6 @@ class SelectTableViewController: UIViewController, UIFactory {
         self.didSendData?(nil)
     }
     
-    @objc 
-    private func doneButtonTapped() {
-        if availableToSubmit != 0 {
-            self.viewModel.submitDate = self.getStringDateFormatter(date: self.datePicker.date)
-//            self.viewModel?.submitSeat
-            print(self.viewModel.submitDate as Any)
-            print(self.viewModel.submitSeat as Any)
-            if let seat = self.viewModel.submitSeat,
-               let date = self.viewModel.submitDate {
-                self.didSendData?((seat, date))
-            }
-            self.dismiss(animated: true)
-        } else {
-            self.displayErrorAlert()
-        }
-    }
-    
     @objc
     private func dateChange(_ datePicker: UIDatePicker) {
         loadData(date: self.getStringDateFormatter(date: datePicker.date))
@@ -208,12 +157,6 @@ class SelectTableViewController: UIViewController, UIFactory {
     }
     
     // MARK: - Utitlities
-    private func displayErrorAlert() {
-        let alertController = UIAlertController(title: "Error", message: "Please choose table to submit\nYou can close without submit by click close button", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        
-        self.present(alertController, animated: true, completion: nil)
-    }
     
     private func getStringDateFormatter(date: Date) -> String {
         let dateFormatter = DateFormatter()
@@ -230,11 +173,22 @@ class SelectTableViewController: UIViewController, UIFactory {
             }
             .store(in: &cancellables)
     }
+    
+    private func submitSeat(areaIndex: IndexPath, seatIndex: IndexPath) {
+        if let areaList = self.viewModel.areaList {
+            if let seatList = areaList[areaIndex.section].seatList {
+                let seat = seatList[seatIndex.row]
+                let date = self.getStringDateFormatter(date: self.datePicker.date)
+                self.didSendData?((seat, date))
+                self.dismiss(animated: true)
+            }
+        }
+    }
 }
 
 extension SelectTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightScaler(240)
+        return heightScaler(370)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -242,12 +196,10 @@ extension SelectTableViewController: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-//        self.areaList.count
         return self.viewModel.areaList?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        self.areaList[section].name
         self.viewModel.areaList?[section].name
     }
     
@@ -256,30 +208,18 @@ extension SelectTableViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-//        if let seatList = self.viewModel.areaList?[indexPath.section].seatList {
-//            cell.configure(seatList: seatList)
-//        }
-        
         if let areaList = self.viewModel.areaList, indexPath.section < areaList.count {
             if let seatList = areaList[indexPath.section].seatList {
-                cell.configure(seatList: seatList)
+                cell.configure(seatList: seatList, indexPath: indexPath)
             }
         } else {
             print("Invalid section index: \(indexPath.section)")
         }
         
-        cell.didSelectSeat = { [weak self] selectedSeat, availableToSubmit in
-//            self?.submitSeat = selectedSeat
-            self?.viewModel.submitSeat = selectedSeat
-            if availableToSubmit {
-                self?.availableToSubmit += 1
-                print(self?.availableToSubmit as Any)
-            } else {
-                self?.availableToSubmit -= 1
-                print(self?.availableToSubmit as Any)
-            }
+        cell.sendSelectedTableIndex = { [weak self] selectedAreaIndex, selectedSeatIndex in
+            self?.submitSeat(areaIndex: selectedAreaIndex, seatIndex: selectedSeatIndex)
         }
-        
+
         return cell
     }
 }

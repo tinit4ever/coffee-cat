@@ -35,7 +35,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         
         imageView.contentMode = .scaleAspectFill
-        imageView.image = UIImage(named: "NA-Image")
+        imageView.image = UIImage(named: "food")
         imageView.contentMode = .scaleAspectFit
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +79,7 @@ class MenuCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.contentView.backgroundColor = .systemGray3
+        self.contentView.backgroundColor = .systemYellow
         self.contentView.layer.cornerRadius = 10
         self.contentView.layer.masksToBounds = true
         setupUI()

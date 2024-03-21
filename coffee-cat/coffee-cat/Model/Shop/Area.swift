@@ -22,6 +22,7 @@ struct Area: Codable {
 struct Cat: Codable {
     var id: Int?
     var type: String?
+    var name: String?
     var description: String
     var imgLink: String?
 }
@@ -30,4 +31,5 @@ struct Seat: Codable {
     var id : Int?
     var name: String?
     var status: Bool?
+    var capacity: Int?
 }

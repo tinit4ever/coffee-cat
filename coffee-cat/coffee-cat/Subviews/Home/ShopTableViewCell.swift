@@ -15,10 +15,19 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
     
     lazy var shopImageView: UIImageView = {
         let imageView = UIImageView()
-        //        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "NA-Image")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
+    }()
+    
+    lazy var shopAddress: UILabel = {
+        let label = UILabel()
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        label.textColor = .systemGray4
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     lazy var shopName: UILabel = {
@@ -47,7 +56,7 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: widthScaler(30), left: widthScaler(30), bottom: 0, right: widthScaler(30)))
     }
     
@@ -57,6 +66,9 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
         contentView.backgroundColor = .systemGray6
         contentView.layer.cornerRadius = sizeScaler(10)
         contentView.layer.masksToBounds = true
+        
+        contentView.layer.borderWidth = widthScaler(4)
+        contentView.layer.borderColor = UIColor.systemGray.cgColor
         
         NSLayoutConstraint.activate([
             shopImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -74,12 +86,24 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
             shopName.topAnchor.constraint(equalTo: shopImageView.topAnchor, constant: heightScaler(10)),
             shopName.leadingAnchor.constraint(equalTo: shopImageView.trailingAnchor, constant: widthScaler(40)),
             shopName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthScaler(20)),
-            shopName.heightAnchor.constraint(equalToConstant: heightScaler(40))
+            shopName.heightAnchor.constraint(equalToConstant: heightScaler(30))
+        ])
+        
+        contentView.addSubview(shopAddress)
+        self.shopAddress.setupTitle(text: "Shop Name", fontName: FontNames.avenir, size: sizeScaler(20), textColor: .systemGray)
+        self.shopAddress.textAlignment = .left
+        self.shopAddress.setBoldText()
+        
+        NSLayoutConstraint.activate([
+            shopAddress.topAnchor.constraint(equalTo: shopName.bottomAnchor, constant: heightScaler(10)),
+            shopAddress.leadingAnchor.constraint(equalTo: shopImageView.trailingAnchor, constant: widthScaler(40)),
+            shopAddress.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthScaler(20)),
+            shopAddress.heightAnchor.constraint(equalToConstant: heightScaler(40))
         ])
         
         contentView.addSubview(starRatingView)
         NSLayoutConstraint.activate([
-            starRatingView.topAnchor.constraint(equalTo: shopName.bottomAnchor, constant: heightScaler(10)),
+            starRatingView.topAnchor.constraint(equalTo: shopAddress.bottomAnchor, constant: heightScaler(10)),
             starRatingView.leadingAnchor.constraint(equalTo: shopName.leadingAnchor),
             starRatingView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthScaler(20)),
             starRatingView.heightAnchor.constraint(equalToConstant: heightScaler(24))
@@ -99,10 +123,14 @@ class ShopTableViewCell: UITableViewCell, UIFactory {
         if let shopName = shop.name {
             self.setupShopName(shopName)
         }
+        
+        if let shopAddress = shop.address {
+            self.shopAddress.text = shopAddress
+        }
     }
     
     private func setupShopName(_ shopName: String) {
-        self.shopName.setupTitle(text: shopName, fontName: FontNames.avenir, size: 22, textColor: .customBlack)
+        self.shopName.setupTitle(text: shopName, fontName: FontNames.avenir, size: sizeScaler(28), textColor: .customBlack)
         self.shopName.textAlignment = .left
         self.shopName.setBoldText()
     }
